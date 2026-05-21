@@ -1,0 +1,18 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-slate-50 text-slate-900 dark:bg-slate-900 dark:text-slate-100 antialiased;
+  }
+}
+
+@layer components {
+  .btn-primary {
+    @apply bg-medical-600 hover:bg-medical-700 text-white font-medium py-3 px-6 rounded-xl transition-colors disabled:opacity-50;
+  }
+  .card {
+    @apply bg-white dark:bg-slate-800 rounded-2xl shadow-lg border border-slate-200 dark:border-slate-700 p-6;
+  }
+}

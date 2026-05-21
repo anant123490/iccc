@@ -1,0 +1,39 @@
+version: "3.9"
+
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.backend
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./models:/app/models:ro
+    environment:
+      - MODEL_PATH=/app/models/best.keras
+      - ICDAS_CLASSES=7
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/api/v1/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  frontend:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.frontend
+    ports:
+      - "3000:80"
+    depends_on:
+      - backend
+
+  ml-train:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.ml
+    volumes:
+      - ./dataset:/app/dataset
+      - ./models:/app/models
+    profiles:
+      - train
+    command: ["python", "train.py", "--config", "configs/default.yaml"]

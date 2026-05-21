@@ -1,0 +1,58 @@
+name: CI
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main]
+
+jobs:
+  ml-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install ML dependencies
+        run: pip install -r ml/requirements.txt pytest
+      - name: Run ML tests
+        run: cd ml && pytest tests/ -v --tb=short
+
+  backend-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install backend dependencies
+        run: pip install -r backend/requirements.txt pytest httpx
+      - name: Run backend tests
+        run: cd backend && pytest tests/ -v --tb=short
+
+  frontend-build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
+      - name: Install and build
+        run: |
+          cd frontend
+          npm ci
+          npm run build
+      - name: Lint
+        run: cd frontend && npm run lint
+
+  docker-build:
+    runs-on: ubuntu-latest
+    needs: [ml-tests, backend-tests, frontend-build]
+    if: github.ref == 'refs/heads/main'
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build backend image
+        run: docker build -f docker/Dockerfile.backend -t icdas-backend .

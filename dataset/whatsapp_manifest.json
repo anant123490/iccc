@@ -1,0 +1,92 @@
+[
+  {
+    "short_name": "whatsapp_001.png",
+    "uuid": "f907cab9-cc86-40bd-87ca-e6fef6029031",
+    "split": "train",
+    "icdas_score": 6
+  },
+  {
+    "short_name": "whatsapp_002.png",
+    "uuid": "4f99e4ef-edb6-44c5-955d-344e99f57689",
+    "split": "train",
+    "icdas_score": 5
+  },
+  {
+    "short_name": "whatsapp_003.png",
+    "uuid": "434b7bb5-7304-41c0-9bfc-2b9dedc98825",
+    "split": "train",
+    "icdas_score": 5
+  },
+  {
+    "short_name": "whatsapp_004.png",
+    "uuid": "f4ef9d42-a356-4804-a8db-bd444d138562",
+    "split": "train",
+    "icdas_score": 5
+  },
+  {
+    "short_name": "whatsapp_005.png",
+    "uuid": "d6c6ca13-f4d5-4d50-ad9f-c75f1db62c85",
+    "split": "train",
+    "icdas_score": 5
+  },
+  {
+    "short_name": "whatsapp_006.png",
+    "uuid": "bf5441fd-34cc-4ca8-a4d9-2e7c9b9fa108",
+    "split": "train",
+    "icdas_score": 6
+  },
+  {
+    "short_name": "whatsapp_007.png",
+    "uuid": "ce89b518-7752-4947-8e82-6f4aee199822",
+    "split": "train",
+    "icdas_score": 5
+  },
+  {
+    "short_name": "whatsapp_008.png",
+    "uuid": "4c8ed055-0505-4a40-a5a1-9db08ba03102",
+    "split": "train",
+    "icdas_score": 5
+  },
+  {
+    "short_name": "whatsapp_009.png",
+    "uuid": "0cfeb970-adce-4f5f-a0a9-5c1346854a2d",
+    "split": "train",
+    "icdas_score": 5
+  },
+  {
+    "short_name": "whatsapp_010.png",
+    "uuid": "adfec5d3-c421-4a5c-95d5-b1cd053217f6",
+    "split": "train",
+    "icdas_score": 5
+  },
+  {
+    "short_name": "whatsapp_011.png",
+    "uuid": "0f7720b8-47e8-4e05-83a8-a9352df3f014",
+    "split": "val",
+    "icdas_score": 5
+  },
+  {
+    "short_name": "whatsapp_012.png",
+    "uuid": "b185d7e5-b13b-4e8b-86a7-84e747d928c8",
+    "split": "val",
+    "icdas_score": 5
+  },
+  {
+    "short_name": "whatsapp_013.png",
+    "uuid": "25a3ec3a-ca66-45d5-894a-5a50ef6bcb22",
+    "split": "val",
+    "icdas_score": 5
+  },
+  {
+    "short_name": "whatsapp_014.png",
+    "uuid": "d757e9ab-e17d-4538-8b9f-9c7f88b341db",
+    "split": "test",
+    "icdas_score": 5
+  },
+  {
+    "short_name": "whatsapp_015.png",
+    "uuid": "5cf66728-f797-4f54-ad82-94614135d907",
+    "split": "test",
+    "icdas_score": 5
+  }
+]

@@ -1,0 +1,59 @@
+# ICDAS Dental Caries Detection - Training Configuration
+
+# Classes: 7 for ICDAS 0-6, 5 for ICDAS 0-4
+num_classes: 7
+ordinal_regression: true
+
+# Model
+backbone: mobilenet_v3_small
+use_attention: cbam  # cbam | se | none
+use_segmentation: false
+dropout: 0.3
+
+# Data
+image_size: 224
+batch_size: 32
+dataset_root: ../dataset
+annotations_file: annotations.csv
+
+# Preprocessing
+use_roi_detection: true
+use_clahe: true
+use_specular_reduction: true
+color_normalize: true
+
+# Augmentation
+augmentation:
+  rotation_limit: 15
+  brightness_limit: 0.2
+  contrast_limit: 0.2
+  gaussian_noise: 0.01
+  blur_limit: 3
+  shadow: true
+  perspective: true
+
+# Training
+epochs: 100
+learning_rate: 0.001
+weight_decay: 0.0001
+mixed_precision: true
+early_stopping_patience: 15
+k_folds: 5
+class_weights: true
+loss: focal  # focal | weighted_ce | ordinal
+
+# Focal loss
+focal_gamma: 2.0
+focal_alpha: 0.25
+
+# Scheduler
+scheduler: cosine
+warmup_epochs: 5
+
+# Export
+quantize: true
+target_model_size_mb: 20
+
+# Paths
+output_dir: ../models
+experiment_name: icdas_mobilenet_cbam

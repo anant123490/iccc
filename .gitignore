@@ -1,0 +1,52 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+.env
+*.keras
+*.h5
+*.tflite
+*.onnx
+
+# Node
+node_modules/
+dist/
+build/
+*.local
+
+# Models (large)
+models/*.keras
+models/*.h5
+models/tfjs_model/
+models/tflite/
+!models/.gitkeep
+
+# Cursor-uploaded source (junction); images live in dataset/
+assets/
+
+# Dataset (large external downloads — keep whatsapp clinical set)
+dataset/raw/
+*.zip
+# Uncomment below to exclude all training images from git:
+# dataset/train/
+# dataset/val/
+# dataset/test/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+logs/
+*.log
+wandb/
+
+# Docker
+.docker/

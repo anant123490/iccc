@@ -1,0 +1,16 @@
+filename,icdas_score,split
+train/5/whatsapp_002.png,5,train
+train/5/whatsapp_003.png,5,train
+train/5/whatsapp_004.png,5,train
+train/5/whatsapp_005.png,5,train
+train/5/whatsapp_007.png,5,train
+train/5/whatsapp_008.png,5,train
+train/5/whatsapp_009.png,5,train
+train/5/whatsapp_010.png,5,train
+train/6/whatsapp_001.png,6,train
+train/6/whatsapp_006.png,6,train
+val/5/whatsapp_011.png,5,val
+val/5/whatsapp_012.png,5,val
+val/5/whatsapp_013.png,5,val
+test/5/whatsapp_014.png,5,test
+test/5/whatsapp_015.png,5,test

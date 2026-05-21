@@ -1,0 +1,12 @@
+{
+  "checkpoint": "../models/best.keras",
+  "deploy_size_mb": 5.020587921142578,
+  "tflite_size_mb": null,
+  "benchmark": {
+    "mean_ms": 110.67079799482599,
+    "p95_ms": 145.7649950927589,
+    "min_ms": 92.04299992416054,
+    "max_ms": 164.57240004092455
+  },
+  "target_met": true
+}

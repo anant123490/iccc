@@ -1,0 +1,107 @@
+"""
+FastAPI backend for ICDAS dental caries detection.
+"""
+
+from fastapi import FastAPI, File, UploadFile, HTTPException
+from fastapi.middleware.cors import CORSMiddleware
+
+from .config import get_settings
+from .schemas import HealthResponse, ModelInfoResponse, PredictionResponse
+from .inference import InferenceEngine
+from .icdas_actions import get_clinical_action
+
+settings = get_settings()
+
+app = FastAPI(
+    title="ICDAS Dental Caries Detection API",
+    description="Offline-capable AI inference for ICDAS classification with Grad-CAM explainability.",
+    version="1.0.0",
+)
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=settings.cors_origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+engine: InferenceEngine | None = None
+
+
+@app.on_event("startup")
+async def startup():
+    global engine
+    model_path = settings.deploy_model_path
+    import os
+    if not os.path.exists(model_path):
+        model_path = settings.model_path
+    engine = InferenceEngine.get_instance(
+        model_path=model_path,
+        num_classes=settings.num_classes,
+        image_size=settings.image_size,
+    )
+
+
+@app.get("/api/v1/health", response_model=HealthResponse)
+async def health():
+    return HealthResponse(
+        status="healthy",
+        model_loaded=engine is not None and engine.model is not None,
+    )
+
+
+@app.get("/api/v1/model/info", response_model=ModelInfoResponse)
+async def model_info():
+    return ModelInfoResponse(
+        name="icdas_mobilenet_cbam",
+        num_classes=settings.num_classes,
+        icdas_mode=settings.icdas_mode,
+        image_size=settings.image_size,
+    )
+
+
+@app.post("/api/v1/predict", response_model=PredictionResponse)
+async def predict(
+    file: UploadFile = File(...),
+    include_explainability: bool = True,
+):
+    """
+    Upload intraoral image for ICDAS prediction.
+    Returns grade, confidence, clinical action, and optional Grad-CAM overlays.
+    """
+    if engine is None:
+        raise HTTPException(503, "Inference engine not initialized")
+
+    content = await file.read()
+    max_bytes = settings.max_upload_mb * 1024 * 1024
+    if len(content) > max_bytes:
+        raise HTTPException(413, f"File exceeds {settings.max_upload_mb}MB limit")
+
+    try:
+        original, processed = engine.preprocess_upload(content)
+        result = engine.predict(processed)
+        action = get_clinical_action(result["icdas_grade"])
+
+        response = PredictionResponse(
+            icdas_grade=result["icdas_grade"],
+            confidence=result["confidence"],
+            label=action["label"],
+            action=action["action"],
+            description=action["description"],
+            finding=action["finding"],
+            recommendation=action["recommendation"],
+            urgency=action["urgency"],
+            probabilities=result["probabilities"],
+        )
+
+        if include_explainability:
+            explain = engine.explain(processed, original, result["icdas_grade"])
+            response.heatmap_base64 = explain["heatmap"]
+            response.overlay_base64 = explain["overlay"]
+            response.contour_base64 = explain["contour"]
+
+        return response
+
+    except Exception as e:
+        raise HTTPException(400, f"Prediction failed: {str(e)}")
