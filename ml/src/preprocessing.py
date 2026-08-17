@@ -95,9 +95,11 @@ def preprocess_image(
         image = cv2.cvtColor(image, cv2.COLOR_GRAY2BGR)
     elif image.shape[2] == 4:
         image = cv2.cvtColor(image, cv2.COLOR_BGRA2BGR)
-
     if use_roi:
-        image = crop_mouth(image)
+        cropped = crop_mouth(image)
+        if cropped.size > 0 and cropped.shape[0] > 0 and cropped.shape[1] > 0:
+            image = cropped
+        # else: degenerate ROI crop (zero width/height) — keep full image instead
     if use_specular:
         image = reduce_specular_reflection(image)
     if use_clahe:
@@ -105,6 +107,8 @@ def preprocess_image(
     if color_norm:
         image = color_normalize(image)
 
+    if image.size == 0 or image.shape[0] == 0 or image.shape[1] == 0:
+        raise ValueError("Preprocessing produced an empty image; check the uploaded photo.")
     image = cv2.resize(image, (target_size, target_size), interpolation=cv2.INTER_AREA)
     image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
     return image.astype(np.float32) / 255.0

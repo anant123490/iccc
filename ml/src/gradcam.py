@@ -21,46 +21,32 @@ class GradCAM:
         self.grad_model = self._build_grad_model()
 
     def _find_target_layer(self) -> str:
-        """Locate last convolutional layer in MobileNetV3 backbone."""
-        conv_layers = [
-            l.name
-            for l in self.model.layers
-            if isinstance(l, layers.Conv2D) or "conv" in l.name.lower()
-        ]
-        # Prefer deep features from backbone
+        """Locate last convolutional layer in the model."""
         for layer in reversed(self.model.layers):
-            if "mobilenet" in layer.name.lower() and hasattr(layer, "layers"):
-                sub_convs = [
-                    sl.name
-                    for sl in layer.layers
-                    if isinstance(sl, keras.layers.Conv2D)
-                ]
-                if sub_convs:
-                    return f"{layer.name}/{sub_convs[-1]}"
-        if conv_layers:
-            return conv_layers[-1]
+            if isinstance(layer, layers.Conv2D):
+                return layer.name
         return self.model.layers[-4].name
 
     def _build_grad_model(self) -> keras.Model:
-        """Model that outputs conv feature maps and predictions."""
-        # Use intermediate backbone output
-        backbone = None
-        for layer in self.model.layers:
-            if "mobilenet" in layer.name.lower():
-                backbone = layer
+        """Model that outputs last conv feature maps and predictions."""
+        target_layer = None
+        for layer in reversed(self.model.layers):
+            if isinstance(layer, layers.Conv2D):
+                target_layer = layer
                 break
 
-        if backbone is None:
-            raise ValueError("Could not find MobileNet backbone in model")
+        if target_layer is None:
+            raise ValueError("Could not find a Conv2D layer in model")
+
+        class_output = (
+            self.model.output["class"]
+            if isinstance(self.model.output, dict)
+            else self.model.output
+        )
 
         grad_model = keras.Model(
             inputs=self.model.input,
-            outputs=[
-                backbone.output,
-                self.model.output["class"]
-                if isinstance(self.model.output, dict)
-                else self.model.output,
-            ],
+            outputs=[target_layer.output, class_output],
         )
         return grad_model
 

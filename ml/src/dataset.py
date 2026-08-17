@@ -29,15 +29,15 @@ def load_annotations(csv_path: str, split: Optional[str] = None) -> pd.DataFrame
         df = df[df["split"] == split]
     return df
 
-
 def discover_images_from_folders(root: str) -> pd.DataFrame:
     """
     Build annotation DataFrame from folder structure:
     dataset/train/0/, dataset/train/1/, ... or flat with labels in filename
     """
     records = []
+    root_path = Path(root)
     for split in ["train", "val", "test"]:
-        split_dir = Path(root) / split
+        split_dir = root_path / split
         if not split_dir.exists():
             continue
         # Class subfolders
@@ -48,7 +48,9 @@ def discover_images_from_folders(root: str) -> pd.DataFrame:
                     if img_path.suffix.lower() in {".jpg", ".jpeg", ".png", ".bmp"}:
                         records.append(
                             {
-                                "filename": str(img_path),
+                                # Store relative to root (e.g. "train/2/img.jpg"),
+                                # not the full path — _load_sample re-joins with root.
+                                "filename": str(img_path.relative_to(root_path)),
                                 "icdas_score": label,
                                 "split": split,
                             }

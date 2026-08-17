@@ -3,7 +3,6 @@ Data augmentation simulating real smartphone capture conditions.
 """
 
 import albumentations as A
-from albumentations.pytorch import ToTensorV2  # noqa: F401 — optional PyTorch bridge
 
 
 def get_train_augmentation(image_size: int = 224) -> A.Compose:
