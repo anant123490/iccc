@@ -8,7 +8,8 @@ class HealthResponse(BaseModel):
     status: str
     model_loaded: bool
     disclaimer: str = (
-        "This tool is for clinical decision support and is not a substitute for professional diagnosis."
+        "This tool is for clinical decision support and is not "
+        "a substitute for professional diagnosis."
     )
 
 
@@ -39,5 +40,19 @@ class PredictionResponse(BaseModel):
     overlay_base64: Optional[str] = None
     contour_base64: Optional[str] = None
     disclaimer: str = (
-        "This tool is for clinical decision support and is not a substitute for professional diagnosis."
+        "This tool is for clinical decision support and is not "
+        "a substitute for professional diagnosis."
     )
+
+
+# ---------------------------------------------------------
+# AI REPORT SCHEMAS
+# ---------------------------------------------------------
+
+class ReportRequest(BaseModel):
+    icdas_grade: int = Field(..., ge=0, le=6)
+    confidence: float = Field(..., ge=0.0, le=1.0)
+
+
+class ReportResponse(BaseModel):
+    report: str
