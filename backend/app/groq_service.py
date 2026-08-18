@@ -85,6 +85,7 @@ Important rules:
                     "You are an AI dental report generation "
                     "assistant. Generate clear, concise, "
                     "professional clinical-support reports."
+                    "generate clear, concise, professional clinical-support reports."
                 ),
             },
             {
