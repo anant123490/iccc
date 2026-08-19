@@ -1,8 +1,0 @@
-{
-  "format": "layers-model",
-  "generatedBy": "ICDAS Export Pipeline",
-  "convertedBy": "TensorFlow.js Converter",
-  "note": "Replace with exported model from: python ml/export.py --checkpoint ../models/best.keras",
-  "modelTopology": null,
-  "weightsManifest": []
-}

@@ -48,11 +48,14 @@ class PredictionResponse(BaseModel):
 # ---------------------------------------------------------
 # AI REPORT SCHEMAS
 # ---------------------------------------------------------
-
 class ReportRequest(BaseModel):
     icdas_grade: int = Field(..., ge=0, le=6)
-    confidence: float = Field(..., ge=0.0, le=1.0)
+    confidence: float = Field(..., ge=0, le=100)
 
 
 class ReportResponse(BaseModel):
-    report: str
+    icdas_grade: int
+    confidence: float
+    finding: str
+    recommendation: str
+    urgency: str
