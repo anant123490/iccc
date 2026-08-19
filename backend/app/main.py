@@ -20,8 +20,16 @@ from .icdas_actions import get_clinical_action
 from .groq_service import generate_report
 
 
+# =========================================================
+# SETTINGS
+# =========================================================
+
 settings = get_settings()
 
+
+# =========================================================
+# FASTAPI APP
+# =========================================================
 
 app = FastAPI(
     title="ICDAS Dental Caries Detection API",
@@ -33,9 +41,9 @@ app = FastAPI(
 )
 
 
-# ---------------------------------------------------------
+# =========================================================
 # CORS
-# ---------------------------------------------------------
+# =========================================================
 
 app.add_middleware(
     CORSMiddleware,
@@ -46,27 +54,36 @@ app.add_middleware(
 )
 
 
-# ---------------------------------------------------------
-# Inference engine
-# ---------------------------------------------------------
+# =========================================================
+# INFERENCE ENGINE
+# =========================================================
 
 engine: InferenceEngine | None = None
 
 
-# ---------------------------------------------------------
-# Startup
-# ---------------------------------------------------------
+# =========================================================
+# STARTUP
+# =========================================================
 
 @app.on_event("startup")
 async def startup():
+
     global engine
 
     model_path = settings.deploy_model_path
 
     import os
 
+    # Prefer deploy model
     if not os.path.exists(model_path):
         model_path = settings.model_path
+
+    if not os.path.exists(model_path):
+        raise RuntimeError(
+            f"Model file not found. "
+            f"Checked: {settings.deploy_model_path} "
+            f"and {settings.model_path}"
+        )
 
     engine = InferenceEngine.get_instance(
         model_path=model_path,
@@ -75,9 +92,23 @@ async def startup():
     )
 
 
-# ---------------------------------------------------------
-# Health
-# ---------------------------------------------------------
+# =========================================================
+# ROOT
+# =========================================================
+
+@app.get("/")
+async def root():
+
+    return {
+        "message": "ICDAS Dental Caries Detection API",
+        "status": "running",
+        "version": "1.0.0",
+    }
+
+
+# =========================================================
+# HEALTH
+# =========================================================
 
 @app.get(
     "/api/v1/health",
@@ -94,9 +125,9 @@ async def health():
     )
 
 
-# ---------------------------------------------------------
-# Model information
-# ---------------------------------------------------------
+# =========================================================
+# MODEL INFORMATION
+# =========================================================
 
 @app.get(
     "/api/v1/model/info",
@@ -112,9 +143,9 @@ async def model_info():
     )
 
 
-# ---------------------------------------------------------
-# ICDAS prediction
-# ---------------------------------------------------------
+# =========================================================
+# ICDAS PREDICTION
+# =========================================================
 
 @app.post(
     "/api/v1/predict",
@@ -125,28 +156,49 @@ async def predict(
     include_explainability: bool = True,
 ):
     """
-    Upload intraoral image for ICDAS prediction.
+    Upload an intraoral image for ICDAS prediction.
 
     Returns:
+
     - ICDAS grade
     - confidence
     - clinical action
-    - optional Grad-CAM overlays
+    - finding
+    - recommendation
+    - urgency
+    - probabilities
+    - optional Grad-CAM results
     """
 
+    # -----------------------------------------------------
+    # Check model
+    # -----------------------------------------------------
+
     if engine is None:
+
         raise HTTPException(
             status_code=503,
             detail="Inference engine not initialized",
         )
 
+
+    # -----------------------------------------------------
+    # Read uploaded file
+    # -----------------------------------------------------
+
     content = await file.read()
+
+
+    # -----------------------------------------------------
+    # Validate file size
+    # -----------------------------------------------------
 
     max_bytes = (
         settings.max_upload_mb * 1024 * 1024
     )
 
     if len(content) > max_bytes:
+
         raise HTTPException(
             status_code=413,
             detail=(
@@ -155,31 +207,73 @@ async def predict(
             ),
         )
 
+
+    # -----------------------------------------------------
+    # Validate empty file
+    # -----------------------------------------------------
+
+    if len(content) == 0:
+
+        raise HTTPException(
+            status_code=400,
+            detail="Uploaded file is empty",
+        )
+
+
+    # -----------------------------------------------------
+    # Prediction
+    # -----------------------------------------------------
+
     try:
 
-        original, processed = engine.preprocess_upload(
-            content
+        # Preprocess uploaded image
+        original, processed = (
+            engine.preprocess_upload(content)
         )
 
-        result = engine.predict(
-            processed
-        )
+
+        # Run model prediction
+        result = engine.predict(processed)
+
+
+        # -------------------------------------------------
+        # Get ICDAS clinical information
+        # -------------------------------------------------
 
         action = get_clinical_action(
             result["icdas_grade"]
         )
 
+
+        # -------------------------------------------------
+        # Build response
+        # -------------------------------------------------
+
         response = PredictionResponse(
+
             icdas_grade=result["icdas_grade"],
+
             confidence=result["confidence"],
+
             label=action["label"],
+
             action=action["action"],
+
             description=action["description"],
+
             finding=action["finding"],
+
             recommendation=action["recommendation"],
+
             urgency=action["urgency"],
+
             probabilities=result["probabilities"],
         )
+
+
+        # -------------------------------------------------
+        # Grad-CAM
+        # -------------------------------------------------
 
         if include_explainability:
 
@@ -189,11 +283,21 @@ async def predict(
                 result["icdas_grade"],
             )
 
-            response.heatmap_base64 = explain["heatmap"]
-            response.overlay_base64 = explain["overlay"]
-            response.contour_base64 = explain["contour"]
+            response.heatmap_base64 = (
+                explain["heatmap"]
+            )
+
+            response.overlay_base64 = (
+                explain["overlay"]
+            )
+
+            response.contour_base64 = (
+                explain["contour"]
+            )
+
 
         return response
+
 
     except Exception as e:
 
@@ -203,9 +307,9 @@ async def predict(
         )
 
 
-# ---------------------------------------------------------
+# =========================================================
 # AI REPORT GENERATION
-# ---------------------------------------------------------
+# =========================================================
 
 @app.post(
     "/api/v1/report",
@@ -215,26 +319,55 @@ async def create_report(
     data: ReportRequest,
 ):
     """
-    Generate an AI-assisted dental report using Groq.
+    Generate structured AI-assisted dental information.
 
-    The ICDAS grade and confidence are provided by the
-    existing machine-learning prediction system.
+    Important:
+
+    Groq returns structured information only.
+
+    The frontend is responsible for creating
+    the visual AI suggestion card.
     """
 
     try:
 
-        report = generate_report(
+        # -------------------------------------------------
+        # Ask Groq for structured information
+        # -------------------------------------------------
+
+        ai_result = generate_report(
+
             icdas_grade=data.icdas_grade,
+
             confidence=data.confidence,
         )
 
+
+        # -------------------------------------------------
+        # Return structured response
+        # -------------------------------------------------
+
         return ReportResponse(
-            report=report
+
+            icdas_grade=data.icdas_grade,
+
+            confidence=data.confidence,
+
+            finding=ai_result["finding"],
+
+            recommendation=(
+                ai_result["recommendation"]
+            ),
+
+            urgency=ai_result["urgency"],
         )
+
 
     except Exception as e:
 
         raise HTTPException(
             status_code=500,
-            detail=f"Report generation failed: {str(e)}",
+            detail=(
+                f"Report generation failed: {str(e)}"
+            ),
         )

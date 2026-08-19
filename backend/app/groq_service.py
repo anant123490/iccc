@@ -1,117 +1,344 @@
-"""Groq service for AI-assisted dental report generation."""
+import os
+import json
 
+from dotenv import load_dotenv
 from groq import Groq
 
-from .config import get_settings
+
+# ---------------------------------------------------------
+# ENVIRONMENT
+# ---------------------------------------------------------
+
+load_dotenv()
+
+GROQ_API_KEY = os.getenv("GROQ_API_KEY")
+
+if not GROQ_API_KEY:
+    raise RuntimeError(
+        "GROQ_API_KEY is not configured"
+    )
 
 
 # ---------------------------------------------------------
-# Load application settings
-# ---------------------------------------------------------
-
-settings = get_settings()
-
-
-# ---------------------------------------------------------
-# Create Groq client
+# GROQ CLIENT
 # ---------------------------------------------------------
 
 client = Groq(
-    api_key=settings.groq_api_key
+    api_key=GROQ_API_KEY
 )
 
 
 # ---------------------------------------------------------
-# Generate dental report
+# MODEL
+# ---------------------------------------------------------
+
+MODEL_NAME = "openai/gpt-oss-20b"
+
+
+# ---------------------------------------------------------
+# DEFAULT FINDINGS
+# ---------------------------------------------------------
+
+def get_default_finding(icdas_grade: int) -> str:
+
+    findings = {
+        0: "No visible evidence of dental caries",
+
+        1: "Initial visual change in enamel",
+
+        2: "Distinct visual change in enamel",
+
+        3: "Localized enamel breakdown without visible dentin",
+
+        4: "Underlying dark shadow indicating possible dentin involvement",
+
+        5: "Distinct cavity with visible dentin",
+
+        6: "Extensive distinct cavity with visible dentin",
+    }
+
+    return findings.get(
+        icdas_grade,
+        "Dental finding could not be determined",
+    )
+
+
+# ---------------------------------------------------------
+# DEFAULT RECOMMENDATIONS
+# ---------------------------------------------------------
+
+def get_default_recommendation(
+    icdas_grade: int,
+) -> str:
+
+    recommendations = {
+
+        0:
+        "Continue routine oral hygiene and preventive dental care",
+
+        1:
+        "Preventive dental care and monitoring are recommended",
+
+        2:
+        "Dental evaluation and preventive management are recommended",
+
+        3:
+        "Dental evaluation is recommended for appropriate management",
+
+        4:
+        "Dental evaluation is recommended to assess dentin involvement",
+
+        5:
+        "Prompt restorative treatment by a dentist",
+
+        6:
+        "Urgent dental evaluation and restorative treatment",
+    }
+
+    return recommendations.get(
+        icdas_grade,
+        "Consult a dentist for further evaluation",
+    )
+
+
+# ---------------------------------------------------------
+# DEFAULT URGENCY
+# ---------------------------------------------------------
+
+def get_default_urgency(
+    icdas_grade: int,
+) -> str:
+
+    if icdas_grade <= 1:
+        return "LOW"
+
+    elif icdas_grade == 2:
+        return "MODERATE"
+
+    elif icdas_grade in [3, 4]:
+        return "HIGH"
+
+    else:
+        return "CRITICAL"
+
+
+# ---------------------------------------------------------
+# GENERATE REPORT
 # ---------------------------------------------------------
 
 def generate_report(
     icdas_grade: int,
     confidence: float,
-) -> str:
-    """
-    Generate an AI-assisted dental clinical-support report.
-
-    The ICDAS grade and confidence come from the existing
-    machine-learning model. Groq only generates the readable
-    clinical-support report.
-    """
+) -> dict:
 
     prompt = f"""
-You are an AI assistant that generates dental
-clinical-support reports.
+You are an AI dental assistant.
 
-A machine learning model has already analyzed
-a dental image.
+An ICDAS machine-learning model produced this prediction:
 
-The model produced:
+ICDAS grade: {icdas_grade}
+Confidence: {confidence:.1f}%
 
-ICDAS Grade: {icdas_grade}
-Confidence: {confidence:.2f}
+Provide a concise clinical summary.
 
-Generate a concise and professional dental
-clinical-support report.
+Return ONLY valid JSON.
 
-Include:
+Do NOT return:
+- HTML
+- CSS
+- Markdown
+- code blocks
+- <div>
+- <p>
+- <style>
+- explanations outside JSON
 
-1. ICDAS Grade
-2. Severity interpretation
-3. Clinical finding
-4. Recommended next step
-5. Clinical disclaimer
+Return exactly:
 
-Important rules:
+{{
+    "finding": "...",
+    "recommendation": "...",
+    "urgency": "..."
+}}
 
-- Do NOT change the ICDAS grade provided by
-  the machine learning model.
-- Do NOT change the confidence value.
-- Do NOT invent image findings that were not
-  provided by the system.
-- Do NOT claim that you personally examined
-  the patient.
-- Do NOT provide a definitive diagnosis.
-- Clearly state that the report is AI-assisted.
-- Clearly state that the report does not replace
-  examination by a qualified dental professional.
-- Keep the report concise and professional.
+Urgency must be exactly one of:
+
+LOW
+MODERATE
+HIGH
+CRITICAL
+
+ICDAS reference:
+
+Grade 0:
+No visible evidence of caries.
+
+Grade 1:
+Initial change in enamel.
+
+Grade 2:
+Distinct visual change in enamel.
+
+Grade 3:
+Localized enamel breakdown without visible dentin.
+
+Grade 4:
+Underlying dark shadow indicating dentin involvement.
+
+Grade 5:
+Distinct cavity with visible dentin.
+
+Grade 6:
+Extensive distinct cavity with visible dentin.
+
+Keep the response concise.
+
+Do not make a diagnosis beyond the provided ICDAS classification.
 """
 
-    response = client.chat.completions.create(
-        model="openai/gpt-oss-20b",
-        messages=[
-            {
-                "role": "system",
-                "content": (
-                    "You are an AI dental report generation "
-                    "assistant. Generate clear, concise, "
-                    "professional clinical-support reports."
-                    "generate clear, concise, professional clinical-support reports."
+
+    try:
+
+        response = client.chat.completions.create(
+
+            model=MODEL_NAME,
+
+            messages=[
+                {
+                    "role": "system",
+                    "content": (
+                        "You are a dental AI assistant. "
+                        "Return only valid JSON."
+                    ),
+                },
+
+                {
+                    "role": "user",
+                    "content": prompt,
+                },
+            ],
+
+            temperature=0.2,
+
+            max_tokens=300,
+        )
+
+
+        content = (
+            response
+            .choices[0]
+            .message
+            .content
+            .strip()
+        )
+
+
+        # -------------------------------------------------
+        # Remove accidental markdown fences
+        # -------------------------------------------------
+
+        if content.startswith("```"):
+
+            content = content.replace(
+                "```json",
+                "",
+            )
+
+            content = content.replace(
+                "```",
+                "",
+            )
+
+            content = content.strip()
+
+
+        # -------------------------------------------------
+        # Convert JSON string → Python dictionary
+        # -------------------------------------------------
+
+        data = json.loads(content)
+
+
+        # -------------------------------------------------
+        # Validate fields
+        # -------------------------------------------------
+
+        finding = str(
+            data.get(
+                "finding",
+                get_default_finding(icdas_grade),
+            )
+        )
+
+        recommendation = str(
+            data.get(
+                "recommendation",
+                get_default_recommendation(
+                    icdas_grade
                 ),
-            },
-            {
-                "role": "user",
-                "content": prompt,
-            },
-        ],
-        temperature=0.2,
-    )
+            )
+        )
 
-    return response.choices[0].message.content
+        urgency = str(
+            data.get(
+                "urgency",
+                get_default_urgency(icdas_grade),
+            )
+        ).upper()
 
 
-# ---------------------------------------------------------
-# Test Groq independently
-# ---------------------------------------------------------
+        # -------------------------------------------------
+        # Validate urgency
+        # -------------------------------------------------
 
-if __name__ == "__main__":
+        valid_urgencies = {
+            "LOW",
+            "MODERATE",
+            "HIGH",
+            "CRITICAL",
+        }
 
-    report = generate_report(
-        icdas_grade=6,
-        confidence=0.94,
-    )
+        if urgency not in valid_urgencies:
 
-    print("\n==============================")
-    print("AI DENTAL REPORT")
-    print("==============================\n")
+            urgency = get_default_urgency(
+                icdas_grade
+            )
 
-    print(report)
+
+        return {
+
+            "finding": finding,
+
+            "recommendation": recommendation,
+
+            "urgency": urgency,
+        }
+
+
+    except Exception as e:
+
+        print(
+            f"Groq report generation failed: {e}"
+        )
+
+
+        # -------------------------------------------------
+        # Safe fallback
+        # -------------------------------------------------
+
+        return {
+
+            "finding": get_default_finding(
+                icdas_grade
+            ),
+
+            "recommendation":
+                get_default_recommendation(
+                    icdas_grade
+                ),
+
+            "urgency":
+                get_default_urgency(
+                    icdas_grade
+                ),
+        }

@@ -1,153 +1,331 @@
 """
-Dataset loading with CSV annotation support and TensorFlow data pipeline.
+ICDAS dataset loading and TensorFlow pipeline.
 """
 
 from __future__ import annotations
 
 import os
 from pathlib import Path
-from typing import Dict, List, Optional, Tuple
+from typing import Dict, Optional, Tuple
 
+import cv2
 import numpy as np
 import pandas as pd
 import tensorflow as tf
-import cv2
 
 from .preprocessing import preprocess_image
 from .augmentation import get_train_augmentation, get_val_augmentation
 
 
-def load_annotations(csv_path: str, split: Optional[str] = None) -> pd.DataFrame:
-    """
-    Load annotations.csv with columns: filename, icdas_score, split (optional)
-    """
-    df = pd.read_csv(csv_path)
-    required = {"filename", "icdas_score"}
-    if not required.issubset(df.columns):
-        raise ValueError(f"CSV must contain columns: {required}")
-    if split and "split" in df.columns:
-        df = df[df["split"] == split]
-    return df
+VALID_EXTENSIONS = {".jpg", ".jpeg", ".png", ".bmp", ".webp"}
+
 
 def discover_images_from_folders(root: str) -> pd.DataFrame:
     """
-    Build annotation DataFrame from folder structure:
-    dataset/train/0/, dataset/train/1/, ... or flat with labels in filename
+    Discover images from:
+
+        dataset/
+            train/
+                0/
+                1/
+                ...
+                6/
+            val/
+                0/
+                ...
+                6/
+            test/
+                0/
+                ...
+                6/
+
+    Returns:
+        DataFrame with filename, icdas_score and split.
     """
+
     records = []
     root_path = Path(root)
+
     for split in ["train", "val", "test"]:
+
         split_dir = root_path / split
+
         if not split_dir.exists():
             continue
-        # Class subfolders
+
         for class_dir in sorted(split_dir.iterdir()):
-            if class_dir.is_dir() and class_dir.name.isdigit():
-                label = int(class_dir.name)
-                for img_path in class_dir.glob("*"):
-                    if img_path.suffix.lower() in {".jpg", ".jpeg", ".png", ".bmp"}:
-                        records.append(
-                            {
-                                # Store relative to root (e.g. "train/2/img.jpg"),
-                                # not the full path — _load_sample re-joins with root.
-                                "filename": str(img_path.relative_to(root_path)),
-                                "icdas_score": label,
-                                "split": split,
-                            }
-                        )
+
+            if not class_dir.is_dir():
+                continue
+
+            if not class_dir.name.isdigit():
+                continue
+
+            label = int(class_dir.name)
+
+            if label < 0 or label > 6:
+                raise ValueError(
+                    f"Invalid ICDAS class {label} in {class_dir}"
+                )
+
+            for image_path in class_dir.iterdir():
+
+                if image_path.suffix.lower() not in VALID_EXTENSIONS:
+                    continue
+
+                records.append(
+                    {
+                        "filename": str(
+                            image_path.relative_to(root_path)
+                        ),
+                        "icdas_score": label,
+                        "split": split,
+                    }
+                )
+
     return pd.DataFrame(records)
 
 
 class DentalCariesDataset:
-    """TensorFlow dataset wrapper for ICDAS training."""
+    """TensorFlow dataset wrapper for ICDAS."""
 
     def __init__(
         self,
         root: str,
         split: str,
         image_size: int = 224,
-        batch_size: int = 32,
+        batch_size: int = 16,
         augment: bool = False,
         preprocess_cfg: Optional[Dict] = None,
-        annotations_file: str = "annotations.csv",
     ):
+
         self.root = Path(root)
         self.split = split
         self.image_size = image_size
         self.batch_size = batch_size
         self.augment = augment
         self.preprocess_cfg = preprocess_cfg or {}
-        self.aug = get_train_augmentation(image_size) if augment else get_val_augmentation(image_size)
 
-        csv_path = self.root / annotations_file
-        folder_df = discover_images_from_folders(str(self.root))
-        if split and len(folder_df):
-            folder_df = folder_df[folder_df["split"] == split]
-
-        if csv_path.exists():
-            csv_df = load_annotations(str(csv_path), split=split)
-            # Prefer folders when CSV is stale (e.g. new images copied without updating CSV)
-            if len(folder_df) > len(csv_df):
-                print(
-                    f"Warning: {len(folder_df)} images in folders vs {len(csv_df)} in "
-                    f"{annotations_file} for split '{split}'. Using folder paths. "
-                    "Run: python ml/scripts/sync_annotations.py"
-                )
-                self.df = folder_df
-            else:
-                self.df = csv_df
+        if augment:
+            self.aug = get_train_augmentation(image_size)
         else:
-            self.df = folder_df
+            self.aug = get_val_augmentation(image_size)
 
-        if len(self.df) == 0:
+        all_data = discover_images_from_folders(str(self.root))
+
+        if len(all_data) == 0:
             raise FileNotFoundError(
-                f"No images found for split '{split}' in {root}. "
-                "Run: python ml/scripts/setup_dataset.py"
+                f"No images found inside {self.root}"
             )
 
-    def _load_sample(self, row) -> Tuple[np.ndarray, int]:
-        path = row["filename"]
-        if not os.path.isabs(path):
-            rel = Path(path)
-            if rel.parts and rel.parts[0] in ("train", "val", "test"):
-                path = str(self.root / rel)
-            else:
-                path = str(self.root / self.split / rel)
-        image = cv2.imread(path)
+        self.df = all_data[
+            all_data["split"] == split
+        ].copy()
+
+        self.df.reset_index(drop=True, inplace=True)
+
+        if len(self.df) == 0:
+            raise ValueError(
+                f"No images found for split '{split}'."
+            )
+
+    def validate_classes(self, num_classes: int = 7):
+        """
+        Ensure every ICDAS class exists.
+        """
+
+        counts = self.df["icdas_score"].value_counts()
+
+        missing = [
+            c for c in range(num_classes)
+            if counts.get(c, 0) == 0
+        ]
+
+        if missing:
+            raise ValueError(
+                f"Missing classes in {self.split}: {missing}\n"
+                f"Class counts:\n{counts.sort_index()}"
+            )
+
+    def class_distribution(self) -> Dict[int, int]:
+        """
+        Return class counts.
+        """
+
+        counts = self.df["icdas_score"].value_counts()
+
+        return {
+            int(c): int(counts.get(c, 0))
+            for c in sorted(counts.index)
+        }
+
+    def _load_sample(
+        self,
+        row,
+    ) -> Tuple[np.ndarray, int]:
+
+        path = Path(row["filename"])
+
+        if not path.is_absolute():
+            path = self.root / path
+
+        image = cv2.imread(str(path))
+
         if image is None:
-            raise ValueError(f"Failed to load: {path}")
-        image = (preprocess_image(image, target_size=self.image_size, **self.preprocess_cfg) * 255).astype(
-            np.uint8
+            raise ValueError(
+                f"Failed to load image: {path}"
+            )
+
+        # Existing preprocessing pipeline
+        image = preprocess_image(
+            image,
+            target_size=self.image_size,
+            **self.preprocess_cfg,
         )
+
+        # preprocess_image is expected to return [0,1]
+        image = np.clip(image, 0.0, 1.0)
+
+        # Albumentations expects uint8
+        image_uint8 = (
+            image * 255.0
+        ).astype(np.uint8)
+
         if self.augment:
-            augmented = self.aug(image=image)
-            image = augmented["image"]
+            augmented = self.aug(
+                image=image_uint8
+            )
+
+            image_uint8 = augmented["image"]
+
+        image = (
+            image_uint8.astype(np.float32)
+            / 255.0
+        )
+
         label = int(row["icdas_score"])
-        return image.astype(np.float32) / 255.0, label
 
-    def as_tf_dataset(self, shuffle: bool = True) -> tf.data.Dataset:
-        """Convert to tf.data.Dataset."""
-        images, labels = [], []
+        return image, label
+
+    def as_tf_dataset(
+        self,
+        shuffle: bool = True,
+    ) -> tf.data.Dataset:
+
+        images = []
+        labels = []
+
         for _, row in self.df.iterrows():
-            try:
-                img, lbl = self._load_sample(row)
-                images.append(img)
-                labels.append(lbl)
-            except Exception as e:
-                print(f"Warning: skip {row.get('filename')}: {e}")
 
-        ds = tf.data.Dataset.from_tensor_slices((np.array(images), np.array(labels)))
+            try:
+
+                image, label = self._load_sample(row)
+
+                images.append(image)
+                labels.append(label)
+
+            except Exception as e:
+
+                print(
+                    f"WARNING: skipping "
+                    f"{row['filename']}: {e}"
+                )
+
+        if len(images) == 0:
+            raise RuntimeError(
+                f"No valid images found in {self.split}"
+            )
+
+        images = np.asarray(
+            images,
+            dtype=np.float32
+        )
+
+        labels = np.asarray(
+            labels,
+            dtype=np.int32
+        )
+
+        ds = tf.data.Dataset.from_tensor_slices(
+            (images, labels)
+        )
+
         if shuffle:
-            ds = ds.shuffle(min(len(labels), 1000), seed=42)
-        ds = ds.batch(self.batch_size).prefetch(tf.data.AUTOTUNE)
+            ds = ds.shuffle(
+                buffer_size=len(labels),
+                seed=42,
+                reshuffle_each_iteration=True,
+            )
+
+        ds = ds.batch(
+            self.batch_size
+        )
+
+        ds = ds.prefetch(
+            tf.data.AUTOTUNE
+        )
+
         return ds
 
-    def get_class_weights(self, num_classes: int) -> Dict[int, float]:
-        """Compute inverse frequency class weights."""
-        counts = self.df["icdas_score"].value_counts()
+    def get_class_weights(
+        self,
+        num_classes: int,
+    ) -> Dict[int, float]:
+
+        counts = self.df[
+            "icdas_score"
+        ].value_counts()
+
         total = len(self.df)
+
         weights = {}
+
         for c in range(num_classes):
-            n = counts.get(c, 1)
-            weights[c] = total / (num_classes * n)
+
+            count = int(counts.get(c, 0))
+
+            if count == 0:
+                raise ValueError(
+                    f"Cannot calculate class weight: "
+                    f"class {c} has zero images."
+                )
+
+            weights[c] = (
+                total
+                / (num_classes * count)
+            )
+
         return weights
+
+    def print_distribution(
+        self,
+        num_classes: int = 7,
+    ):
+
+        counts = self.df[
+            "icdas_score"
+        ].value_counts()
+
+        print(
+            f"\n{self.split.upper()} DATASET"
+        )
+
+        total = len(self.df)
+
+        for c in range(num_classes):
+
+            count = int(counts.get(c, 0))
+
+            percentage = (
+                count / total * 100
+                if total > 0
+                else 0
+            )
+
+            print(
+                f"Grade {c}: "
+                f"{count:4d} "
+                f"({percentage:5.1f}%)"
+            )
+
+        print(f"Total: {total}\n")

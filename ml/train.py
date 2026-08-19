@@ -1,262 +1,831 @@
 #!/usr/bin/env python3
+
 """
-ICDAS model training script with stratified K-Fold, mixed precision, and early stopping.
-Usage: python train.py --config configs/default.yaml
+ICDAS training pipeline.
+
+Stage 1:
+    Train classifier head with frozen MobileNetV3.
+
+Stage 2:
+    Fine-tune top MobileNet layers.
+
+Stage 3:
+    Evaluate on untouched test set.
+
+Supports:
+    - ICDAS 0-6
+    - Ordinal regression
+    - MobileNetV3-Small
+    - CBAM
+    - Data augmentation
+    - Early stopping
+    - Learning-rate reduction
+    - Confusion matrix
 """
+
+from __future__ import annotations
 
 import argparse
 import json
 import os
 import sys
+
 from pathlib import Path
 
 import numpy as np
 import tensorflow as tf
 import yaml
-from sklearn.model_selection import StratifiedKFold
+
 from tensorflow import keras
 
-# Add ml directory to path
-sys.path.insert(0, str(Path(__file__).parent))
 
-from src.model import build_model, get_custom_objects, ordinal_to_class
-from src.dataset import DentalCariesDataset
-from src.losses import get_loss_function, ordinal_loss, focal_loss
-from src.metrics import save_evaluation_report, compute_metrics
+# ============================================================
+# PATH
+# ============================================================
+
+ML_DIR = Path(
+    __file__
+).resolve().parent
+
+sys.path.insert(
+    0,
+    str(ML_DIR),
+)
 
 
-def load_config(path: str) -> dict:
-    with open(path) as f:
+# ============================================================
+# IMPORTS
+# ============================================================
+
+from src.model import (
+    build_model,
+    unfreeze_top_layers,
+    get_custom_objects,
+)
+
+from src.dataset import (
+    DentalCariesDataset,
+)
+
+from src.losses import (
+    focal_loss,
+    ordinal_loss,
+    ordinal_predict,
+)
+
+
+# ============================================================
+# CONFIG
+# ============================================================
+
+def load_config(
+    path: str,
+):
+
+    with open(
+        path,
+        "r",
+    ) as f:
+
         return yaml.safe_load(f)
 
 
-def create_callbacks(output_dir: str, patience: int) -> list:
-    return [
-        keras.callbacks.EarlyStopping(
-            monitor="val_loss", patience=patience, restore_best_weights=True
-        ),
-        keras.callbacks.ModelCheckpoint(
-            os.path.join(output_dir, "best.keras"),
-            monitor="val_loss",
-            save_best_only=True,
-        ),
-        keras.callbacks.TensorBoard(log_dir=os.path.join(output_dir, "logs")),
-        keras.callbacks.CSVLogger(os.path.join(output_dir, "history.csv")),
-    ]
+# ============================================================
+# COMPILE MODEL
+# ============================================================
 
+def compile_model(
+    model,
+    config,
+    learning_rate,
+):
 
-def get_lr_scheduler(config: dict, total_steps: int):
-    """Cosine decay with optional warmup."""
-    lr = config["learning_rate"]
-    warmup = config.get("warmup_epochs", 5) * (total_steps // config["epochs"])
-
-    def schedule(step):
-        if step < warmup:
-            return lr * (step / max(warmup, 1))
-        progress = (step - warmup) / max(total_steps - warmup, 1)
-        return lr * 0.5 * (1 + np.cos(np.pi * progress))
-
-    return keras.callbacks.LearningRateScheduler(
-        lambda epoch, lr_val: float(schedule(epoch)), verbose=0
+    ordinal_regression = config.get(
+        "ordinal_regression",
+        True,
     )
 
+    loss_name = config.get(
+        "loss",
+        "ordinal",
+    )
 
-def compile_model(model, config, class_weights=None):
-    """Compile with appropriate losses for multi-output model."""
-    num_classes = config["num_classes"]
-    losses = {}
-    loss_weights = {}
-    metrics = {}
+    # --------------------------------------------------------
+    # LOSS
+    # --------------------------------------------------------
 
-    if config.get("ordinal_regression") and "ordinal" in model.output_names:
-        losses["ordinal"] = ordinal_loss(num_classes)
-        loss_weights["ordinal"] = 1.0
-        metrics["ordinal"] = "accuracy"
-    if "class" in model.output_names:
-        if config["loss"] == "focal":
-            losses["class"] = focal_loss(
-                config.get("focal_gamma", 2.0), config.get("focal_alpha", 0.25)
-            )
-        else:
-            losses["class"] = keras.losses.SparseCategoricalCrossentropy()
-        loss_weights["class"] = 0.5 if "ordinal" in losses else 1.0
-        metrics["class"] = "accuracy"
+    if ordinal_regression:
+
+        loss = ordinal_loss(
+            config["num_classes"]
+        )
+
+        print(
+            "\nLOSS: ORDINAL REGRESSION"
+        )
+
+    elif loss_name == "focal":
+
+        loss = focal_loss(
+            gamma=config.get(
+                "focal_gamma",
+                2.0,
+            ),
+            alpha=config.get(
+                "focal_alpha",
+                0.25,
+            ),
+        )
+
+        print(
+            "\nLOSS: FOCAL"
+        )
+
+    else:
+
+        loss = (
+            keras.losses
+            .SparseCategoricalCrossentropy()
+        )
+
+        print(
+            "\nLOSS: "
+            "SPARSE CATEGORICAL "
+            "CROSS ENTROPY"
+        )
+
+    # --------------------------------------------------------
+    # OPTIMIZER
+    # --------------------------------------------------------
 
     optimizer = keras.optimizers.AdamW(
-        learning_rate=config["learning_rate"],
-        weight_decay=config.get("weight_decay", 1e-4),
+        learning_rate=learning_rate,
+        weight_decay=config.get(
+            "weight_decay",
+            1e-4,
+        ),
     )
 
-    model.compile(optimizer=optimizer, loss=losses, loss_weights=loss_weights, metrics=metrics)
+    # --------------------------------------------------------
+    # COMPILE
+    # --------------------------------------------------------
+
+    model.compile(
+        optimizer=optimizer,
+        loss=loss,
+    )
+
     return model
 
 
-def _multi_output_labels(ds, output_names):
-    """Map scalar labels to a dict for multi-head models."""
-    return ds.map(lambda x, y: (x, {name: y for name in output_names}))
+# ============================================================
+# CALLBACKS
+# ============================================================
+
+def get_callbacks(
+    output_dir,
+):
+
+    os.makedirs(
+        output_dir,
+        exist_ok=True,
+    )
+
+    return [
+
+        # ----------------------------------------------------
+        # Save best model
+        # ----------------------------------------------------
+
+        keras.callbacks.ModelCheckpoint(
+            filepath=os.path.join(
+                output_dir,
+                "best.keras",
+            ),
+            monitor="val_loss",
+            mode="min",
+            save_best_only=True,
+            verbose=1,
+        ),
+
+        # ----------------------------------------------------
+        # Early stopping
+        # ----------------------------------------------------
+
+        keras.callbacks.EarlyStopping(
+            monitor="val_loss",
+            mode="min",
+            patience=12,
+            restore_best_weights=True,
+            verbose=1,
+        ),
+
+        # ----------------------------------------------------
+        # Reduce learning rate
+        # ----------------------------------------------------
+
+        keras.callbacks.ReduceLROnPlateau(
+            monitor="val_loss",
+            factor=0.3,
+            patience=4,
+            min_lr=1e-7,
+            verbose=1,
+        ),
+
+        # ----------------------------------------------------
+        # Save training history
+        # ----------------------------------------------------
+
+        keras.callbacks.CSVLogger(
+            os.path.join(
+                output_dir,
+                "history.csv",
+            )
+        ),
+    ]
 
 
-def run_training_fold(model, train_ds, val_ds, config, output_dir, fold: int = 0):
-    """Train a single cross-validation fold."""
-    fold_dir = os.path.join(output_dir, f"fold_{fold}")
-    os.makedirs(fold_dir, exist_ok=True)
+# ============================================================
+# ORDINAL EVALUATION
+# ============================================================
 
-    callbacks = create_callbacks(fold_dir, config["early_stopping_patience"])
+def evaluate_model(
+    model,
+    dataset,
+    num_classes,
+):
 
-    if config.get("mixed_precision"):
-        tf.keras.mixed_precision.set_global_policy("mixed_float16")
+    y_true = []
 
-    output_names = list(model.output_names)
-    if len(output_names) > 1:
-        train_ds = _multi_output_labels(train_ds, output_names)
-        val_ds = _multi_output_labels(val_ds, output_names)
+    y_pred = []
 
-    history = model.fit(
+    y_prob = []
+
+    # --------------------------------------------------------
+    # PREDICTION
+    # --------------------------------------------------------
+
+    for images, labels in dataset:
+
+        probabilities = model.predict(
+            images,
+            verbose=0,
+        )
+
+        predictions = (
+            ordinal_predict(
+                tf.convert_to_tensor(
+                    probabilities
+                )
+            )
+            .numpy()
+        )
+
+        y_true.extend(
+            labels.numpy()
+        )
+
+        y_pred.extend(
+            predictions
+        )
+
+        y_prob.extend(
+            probabilities
+        )
+
+    # --------------------------------------------------------
+    # NUMPY
+    # --------------------------------------------------------
+
+    y_true = np.asarray(
+        y_true
+    )
+
+    y_pred = np.asarray(
+        y_pred
+    )
+
+    y_prob = np.asarray(
+        y_prob
+    )
+
+    # --------------------------------------------------------
+    # ACCURACY
+    # --------------------------------------------------------
+
+    accuracy = np.mean(
+        y_true == y_pred
+    )
+
+    print(
+        "\n=============================="
+    )
+
+    print(
+        "TEST ACCURACY:",
+        f"{accuracy * 100:.2f}%"
+    )
+
+    print(
+        "==============================\n"
+    )
+
+    # --------------------------------------------------------
+    # PER CLASS
+    # --------------------------------------------------------
+
+    print(
+        "PER CLASS RESULTS:"
+    )
+
+    for c in range(
+        num_classes
+    ):
+
+        mask = (
+            y_true == c
+        )
+
+        count = np.sum(
+            mask
+        )
+
+        if count == 0:
+
+            continue
+
+        class_acc = np.mean(
+            y_pred[mask] == c
+        )
+
+        print(
+            f"Grade {c}: "
+            f"{class_acc * 100:.2f}% "
+            f"({count} samples)"
+        )
+
+    # --------------------------------------------------------
+    # CONFUSION MATRIX
+    # --------------------------------------------------------
+
+    print(
+        "\nCONFUSION MATRIX:"
+    )
+
+    cm = (
+        tf.math.confusion_matrix(
+            y_true,
+            y_pred,
+            num_classes=num_classes,
+        )
+        .numpy()
+    )
+
+    print(cm)
+
+    return {
+
+        "accuracy": float(
+            accuracy
+        ),
+
+        "confusion_matrix":
+            cm.tolist(),
+    }
+
+
+# ============================================================
+# MAIN
+# ============================================================
+
+def main():
+
+    # --------------------------------------------------------
+    # ARGUMENTS
+    # --------------------------------------------------------
+
+    parser = argparse.ArgumentParser()
+
+    parser.add_argument(
+        "--config",
+        default=(
+            "ml/configs/default.yaml"
+        ),
+    )
+
+    args = parser.parse_args()
+
+    # --------------------------------------------------------
+    # LOAD CONFIG
+    # --------------------------------------------------------
+
+    config = load_config(
+        args.config
+    )
+
+    # --------------------------------------------------------
+    # PATHS
+    # --------------------------------------------------------
+
+    project_root = (
+        Path(__file__)
+        .resolve()
+        .parent
+        .parent
+    )
+
+    dataset_root = (
+        project_root
+        / "dataset"
+    )
+
+    output_dir = (
+        project_root
+        / "models"
+        / config.get(
+            "experiment_name",
+            "icdas_model",
+        )
+    )
+
+    output_dir.mkdir(
+        parents=True,
+        exist_ok=True,
+    )
+
+    print(
+        "\nDataset:",
+        dataset_root,
+    )
+
+    print(
+        "Output:",
+        output_dir,
+    )
+
+    # --------------------------------------------------------
+    # PREPROCESSING
+    # --------------------------------------------------------
+
+    preprocess_cfg = {
+
+        "use_roi": config.get(
+            "use_roi_detection",
+            True,
+        ),
+
+        "use_clahe": config.get(
+            "use_clahe",
+            True,
+        ),
+
+        "use_specular":
+            config.get(
+                "use_specular_reduction",
+                True,
+            ),
+
+        "color_norm":
+            config.get(
+                "color_normalize",
+                True,
+            ),
+    }
+
+    # --------------------------------------------------------
+    # DATASETS
+    # --------------------------------------------------------
+
+    train_data = DentalCariesDataset(
+        str(dataset_root),
+        "train",
+        image_size=config[
+            "image_size"
+        ],
+        batch_size=config[
+            "batch_size"
+        ],
+        augment=True,
+        preprocess_cfg=preprocess_cfg,
+    )
+
+    val_data = DentalCariesDataset(
+        str(dataset_root),
+        "val",
+        image_size=config[
+            "image_size"
+        ],
+        batch_size=config[
+            "batch_size"
+        ],
+        augment=False,
+        preprocess_cfg=preprocess_cfg,
+    )
+
+    test_data = DentalCariesDataset(
+        str(dataset_root),
+        "test",
+        image_size=config[
+            "image_size"
+        ],
+        batch_size=config[
+            "batch_size"
+        ],
+        augment=False,
+        preprocess_cfg=preprocess_cfg,
+    )
+
+    # --------------------------------------------------------
+    # VALIDATE CLASSES
+    # --------------------------------------------------------
+
+    num_classes = config[
+        "num_classes"
+    ]
+
+    train_data.validate_classes(
+        num_classes
+    )
+
+    val_data.validate_classes(
+        num_classes
+    )
+
+    test_data.validate_classes(
+        num_classes
+    )
+
+    # --------------------------------------------------------
+    # PRINT DISTRIBUTION
+    # --------------------------------------------------------
+
+    print(
+        "\nTRAIN DISTRIBUTION:"
+    )
+
+    train_data.print_distribution(
+        num_classes
+    )
+
+    print(
+        "\nVALIDATION DISTRIBUTION:"
+    )
+
+    val_data.print_distribution(
+        num_classes
+    )
+
+    print(
+        "\nTEST DISTRIBUTION:"
+    )
+
+    test_data.print_distribution(
+        num_classes
+    )
+
+    # --------------------------------------------------------
+    # TF DATASETS
+    # --------------------------------------------------------
+
+    train_ds = (
+        train_data
+        .as_tf_dataset(
+            shuffle=True
+        )
+    )
+
+    val_ds = (
+        val_data
+        .as_tf_dataset(
+            shuffle=False
+        )
+    )
+
+    test_ds = (
+        test_data
+        .as_tf_dataset(
+            shuffle=False
+        )
+    )
+
+    # ========================================================
+    # STAGE 1
+    # ========================================================
+
+    print(
+        "\n================================"
+    )
+
+    print(
+        "STAGE 1: TRAIN CLASSIFIER"
+    )
+
+    print(
+        "================================\n"
+    )
+
+    model = build_model(
+        num_classes=num_classes,
+        image_size=config[
+            "image_size"
+        ],
+        attention_type=config.get(
+            "use_attention",
+            "cbam",
+        ),
+        dropout=config.get(
+            "dropout",
+            0.3,
+        ),
+        pretrained=True,
+        ordinal_regression=config.get(
+            "ordinal_regression",
+            True,
+        ),
+    )
+
+    # --------------------------------------------------------
+    # SHOW MODEL
+    # --------------------------------------------------------
+
+    model.summary()
+
+    # --------------------------------------------------------
+    # COMPILE
+    # --------------------------------------------------------
+
+    model = compile_model(
+        model,
+        config,
+        learning_rate=config.get(
+            "learning_rate",
+            1e-4,
+        ),
+    )
+
+    # --------------------------------------------------------
+    # CALLBACKS
+    # --------------------------------------------------------
+
+    callbacks = get_callbacks(
+        output_dir
+    )
+
+    # --------------------------------------------------------
+    # TRAIN
+    # --------------------------------------------------------
+
+    model.fit(
         train_ds,
         validation_data=val_ds,
-        epochs=config["epochs"],
+        epochs=config.get(
+            "head_epochs",
+            20,
+        ),
         callbacks=callbacks,
         verbose=1,
     )
-    return history, os.path.join(fold_dir, "best.keras")
 
+    # ========================================================
+    # LOAD BEST STAGE 1
+    # ========================================================
 
-def predict_classes(model, dataset, config) -> tuple:
-    """Run inference and return y_true, y_pred, y_prob."""
-    y_true, y_pred, y_prob = [], [], []
-    for images, labels in dataset:
-        preds = model.predict(images, verbose=0)
-        if isinstance(preds, dict):
-            if "ordinal" in preds:
-                pred_cls = ordinal_to_class(preds["ordinal"]).numpy()
-            else:
-                pred_cls = np.argmax(preds["class"], axis=-1)
-            prob = preds.get("class", preds["ordinal"])
-        else:
-            pred_cls = np.argmax(preds, axis=-1)
-            prob = preds
-        y_true.extend(labels.numpy())
-        y_pred.extend(pred_cls)
-        y_prob.extend(prob)
-    return np.array(y_true), np.array(y_pred), np.array(y_prob)
-
-
-def main():
-    parser = argparse.ArgumentParser(description="Train ICDAS caries detection model")
-    parser.add_argument("--config", default="configs/default.yaml")
-    parser.add_argument("--fold", type=int, default=None, help="Single fold only")
-    args = parser.parse_args()
-
-    config = load_config(args.config)
-    output_dir = os.path.join(config["output_dir"], config["experiment_name"])
-    os.makedirs(output_dir, exist_ok=True)
-
-    with open(os.path.join(output_dir, "config.json"), "w") as f:
-        json.dump(config, f, indent=2)
-
-    preprocess_cfg = {
-        "use_roi": config.get("use_roi_detection", True),
-        "use_clahe": config.get("use_clahe", True),
-        "use_specular": config.get("use_specular_reduction", True),
-        "color_norm": config.get("color_normalize", True),
-    }
-
-    # Load all training labels for stratified split
-    train_data = DentalCariesDataset(
-        config["dataset_root"],
-        "train",
-        image_size=config["image_size"],
-        batch_size=config["batch_size"],
-        augment=False,
-        preprocess_cfg=preprocess_cfg,
-        annotations_file=config.get("annotations_file", "annotations.csv"),
+    best_path = (
+        output_dir
+        / "best.keras"
     )
-    labels = train_data.df["icdas_score"].values
-    filenames = train_data.df["filename"].values
 
-    k = config.get("k_folds", 5)
-    min_class = int(train_data.df["icdas_score"].value_counts().min())
-    if k > min_class:
-        print(f"Warning: k_folds={k} exceeds smallest class ({min_class}); using k_folds={min_class}")
-        k = max(min_class, 2)
-    skf = StratifiedKFold(n_splits=k, shuffle=True, random_state=42)
-    best_models = []
+    model = keras.models.load_model(
+        best_path,
+        compile=False,
+        custom_objects=
+            get_custom_objects(),
+    )
 
-    splits = list(skf.split(filenames, labels))
-    if args.fold is not None:
-        splits = [splits[args.fold]]
+    # ========================================================
+    # STAGE 2
+    # ========================================================
 
-    for fold_idx, (train_idx, val_idx) in enumerate(splits):
-        print(f"\n{'='*50}\nFold {fold_idx + 1}/{k}\n{'='*50}")
+    print(
+        "\n================================"
+    )
 
-        # Subset dataframes for this fold
-        train_df = train_data.df.iloc[train_idx].copy()
-        val_df = train_data.df.iloc[val_idx].copy()
+    print(
+        "STAGE 2: FINE TUNING"
+    )
 
-        # Build datasets (simplified: reuse full loader with filtered df)
-        train_split = DentalCariesDataset(
-            config["dataset_root"], "train",
-            image_size=config["image_size"], batch_size=config["batch_size"],
-            augment=True, preprocess_cfg=preprocess_cfg,
+    print(
+        "================================\n"
+    )
+
+    unfreeze_top_layers(
+        model,
+        num_layers=config.get(
+            "fine_tune_layers",
+            30,
+        ),
+    )
+
+    # --------------------------------------------------------
+    # RECOMPILE
+    # --------------------------------------------------------
+
+    model = compile_model(
+        model,
+        config,
+        learning_rate=config.get(
+            "fine_tune_learning_rate",
+            1e-5,
+        ),
+    )
+
+    # --------------------------------------------------------
+    # CALLBACKS
+    # --------------------------------------------------------
+
+    callbacks = get_callbacks(
+        output_dir
+    )
+
+    # --------------------------------------------------------
+    # FINE-TUNE
+    # --------------------------------------------------------
+
+    model.fit(
+        train_ds,
+        validation_data=val_ds,
+        epochs=config.get(
+            "fine_tune_epochs",
+            30,
+        ),
+        callbacks=callbacks,
+        verbose=1,
+    )
+
+    # ========================================================
+    # FINAL MODEL
+    # ========================================================
+
+    model = keras.models.load_model(
+        best_path,
+        compile=False,
+        custom_objects=
+            get_custom_objects(),
+    )
+
+    final_path = (
+        project_root
+        / "models"
+        / "deploy.keras"
+    )
+
+    model.save(
+        final_path
+    )
+
+    print(
+        "\nFINAL MODEL:"
+    )
+
+    print(
+        final_path
+    )
+
+    # ========================================================
+    # TEST
+    # ========================================================
+
+    results = evaluate_model(
+        model,
+        test_ds,
+        num_classes,
+    )
+
+    # --------------------------------------------------------
+    # SAVE RESULTS
+    # --------------------------------------------------------
+
+    with open(
+        output_dir
+        / "test_results.json",
+        "w",
+    ) as f:
+
+        json.dump(
+            results,
+            f,
+            indent=2,
         )
-        train_split.df = train_df
-        val_split = DentalCariesDataset(
-            config["dataset_root"], "train",
-            image_size=config["image_size"], batch_size=config["batch_size"],
-            augment=False, preprocess_cfg=preprocess_cfg,
-        )
-        val_split.df = val_df
 
-        model = build_model(
-            num_classes=config["num_classes"],
-            image_size=config["image_size"],
-            attention_type=config.get("use_attention", "cbam"),
-            ordinal=config.get("ordinal_regression", True),
-            dropout=config.get("dropout", 0.3),
-            use_segmentation=config.get("use_segmentation", False),
-        )
-        class_weights = None
-        if config.get("class_weights"):
-            class_weights = train_split.get_class_weights(config["num_classes"])
+    print(
+        "\nTraining complete."
+    )
 
-        model = compile_model(model, config, class_weights)
-        print(model.summary())
 
-        history, model_path = run_training_fold(
-            model,
-            train_split.as_tf_dataset(),
-            val_split.as_tf_dataset(shuffle=False),
-            config,
-            output_dir,
-            fold_idx,
-        )
-        best_models.append(model_path)
-
-    # Final model: copy best fold to main output
-    import shutil
-    final_path = os.path.join(config["output_dir"], "best.keras")
-    shutil.copy(best_models[-1], final_path)
-    print(f"\nBest model saved to: {final_path}")
-
-    # Evaluate on test set if available
-    try:
-        test_data = DentalCariesDataset(
-            config["dataset_root"], "test",
-            image_size=config["image_size"], batch_size=config["batch_size"],
-            augment=False, preprocess_cfg=preprocess_cfg,
-        )
-        model = keras.models.load_model(
-            final_path, compile=False, custom_objects=get_custom_objects()
-        )
-        y_true, y_pred, y_prob = predict_classes(model, test_data.as_tf_dataset(shuffle=False), config)
-        metrics = save_evaluation_report(
-            y_true, y_pred, y_prob, config["num_classes"],
-            os.path.join(output_dir, "test_evaluation"),
-        )
-        print(f"\nTest metrics: {json.dumps({k: v for k, v in metrics.items() if k != 'confusion_matrix'}, indent=2)}")
-    except FileNotFoundError:
-        print("No test split found — skipping test evaluation.")
-
+# ============================================================
+# ENTRY POINT
+# ============================================================
 
 if __name__ == "__main__":
+
     main()
