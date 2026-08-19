@@ -93,20 +93,17 @@ class GradCAM:
 
         model_output = self.model.output
 
-        if isinstance(
-            model_output,
-            dict,
-        ):
-
-            if "class" not in model_output:
+        if isinstance(model_output, dict):
+            if "ordinal" in model_output:
+                class_output = model_output["ordinal"]
+            elif "class" in model_output:
+                class_output = model_output["class"]
+            else:
                 raise ValueError(
-                    "Model output dictionary does not contain 'class'."
+                    "Model output dictionary must contain 'ordinal' or 'class'. "
+                    f"Available: {list(model_output.keys())}"
                 )
-
-            class_output = model_output["class"]
-
         else:
-
             class_output = model_output
 
         # ----------------------------------------------------
@@ -224,28 +221,41 @@ class GradCAM:
             # Determine target class
             # ------------------------------------------------
 
+            n_outputs = int(predictions.shape[-1])
+            is_ordinal = n_outputs == 4 or (
+                hasattr(self.model, "output_names")
+                and "ordinal" in list(self.model.output_names)
+            )
+
             if class_idx is None:
-
-                class_idx = int(
-                    tf.argmax(
-                        predictions[0]
-                    ).numpy()
-                )
-
+                if is_ordinal:
+                    class_idx = int(
+                        tf.reduce_sum(
+                            tf.cast(predictions[0] >= 0.5, tf.int32)
+                        ).numpy()
+                    )
+                else:
+                    class_idx = int(tf.argmax(predictions[0]).numpy())
             else:
+                class_idx = int(class_idx)
 
-                class_idx = int(
-                    class_idx
-                )
-
-            # ------------------------------------------------
-            # Select class score
-            # ------------------------------------------------
-
-            loss = predictions[
-                :,
-                class_idx,
-            ]
+            # Class score used for Grad-CAM.
+            # Softmax: the selected class logit/probability.
+            # Ordinal (K-1 thresholds): differentiable score for class k
+            #   k = 0     -> 1 - P(y > 0)
+            #   0 < k < K -> P(y > k-1) - P(y > k)  (last class: P(y > K-2))
+            if is_ordinal:
+                k = class_idx
+                last = n_outputs - 1
+                if k <= 0:
+                    loss = 1.0 - predictions[:, 0]
+                elif k >= n_outputs:
+                    loss = predictions[:, last]
+                else:
+                    loss = predictions[:, k - 1] - predictions[:, k]
+            else:
+                safe_idx = min(max(class_idx, 0), n_outputs - 1)
+                loss = predictions[:, safe_idx]
 
         # ----------------------------------------------------
         # Calculate gradients

@@ -32,15 +32,16 @@ from src.gradcam import GradCAM  # noqa: E402
 
 class InferenceEngine:
     """
-    Singleton inference engine for ICDAS classification.
+    Singleton inference engine for ICDAS 0–4 classification.
 
-    The deployed model returns a single softmax output:
+    The trained model uses ordinal regression:
 
-        (batch_size, 7)
+        output shape = (batch_size, 4)
+        output name  = ordinal
+        output[k]    = P(y > k)
 
-    representing ICDAS classes:
-
-        0, 1, 2, 3, 4, 5, 6
+    Class probabilities are reconstructed from those thresholds.
+    A 7-class checkpoint is incompatible and must not be used.
     """
 
     _instance: Optional["InferenceEngine"] = None
@@ -48,11 +49,15 @@ class InferenceEngine:
     def __init__(
         self,
         model_path: str,
-        num_classes: int = 7,
+        num_classes: int = 5,
         image_size: int = 224,
+        ordinal_regression: bool = True,
+        confidence_threshold: float = 0.55,
     ):
         self.num_classes = num_classes
         self.image_size = image_size
+        self.ordinal_regression = ordinal_regression
+        self.confidence_threshold = confidence_threshold
         self.model = None
         self.gradcam = None
         self.model_path = model_path
@@ -80,6 +85,7 @@ class InferenceEngine:
             self.model = build_model(
                 num_classes=self.num_classes,
                 image_size=self.image_size,
+                ordinal_regression=self.ordinal_regression,
             )
 
         else:
@@ -107,6 +113,18 @@ class InferenceEngine:
                     f"Model output shape: "
                     f"{self.model.output_shape}"
                 )
+
+                out_dim = int(self.model.output_shape[-1])
+                expected_ordinal = self.num_classes - 1
+                if self.ordinal_regression and out_dim not in {
+                    expected_ordinal,
+                    self.num_classes,
+                }:
+                    raise RuntimeError(
+                        f"Incompatible checkpoint output size {out_dim}. "
+                        f"Expected {expected_ordinal} ordinal thresholds "
+                        f"(ICDAS 0–4). Do not use a 7-class model."
+                    )
 
             except Exception as e:
 
@@ -335,197 +353,98 @@ class InferenceEngine:
         processed: np.ndarray,
     ) -> dict:
         """
-        Run ICDAS classification.
+        Run ICDAS 0–4 classification.
 
-        IMPORTANT:
-
-        deploy.keras was inspected and confirmed to return:
-
-            output shape = (None, 7)
-            output name  = ['class']
-
-        Therefore this method treats the model as a
-        standard 7-class softmax classifier.
-
-        ICDAS prediction:
-
-            grade = argmax(class probabilities)
+        Ordinal models return 4 sigmoid thresholds. Softmax models return
+        5 class probabilities. 7-class checkpoints are rejected.
         """
-
-        # ----------------------------------------------------
-        # Validate input
-        # ----------------------------------------------------
+        from src.losses import ordinal_to_class_probabilities
 
         if processed is None:
+            raise ValueError("Processed image is None.")
 
-            raise ValueError(
-                "Processed image is None."
-            )
-
-        if not isinstance(
-            processed,
-            np.ndarray,
-        ):
-
-            processed = np.asarray(
-                processed,
-                dtype=np.float32,
-            )
+        if not isinstance(processed, np.ndarray):
+            processed = np.asarray(processed, dtype=np.float32)
 
         if processed.ndim != 3:
-
             raise ValueError(
                 f"Expected processed image with 3 dimensions "
                 f"(H, W, C), got {processed.shape}."
             )
 
-        expected_shape = (
-            self.image_size,
-            self.image_size,
-            3,
-        )
-
+        expected_shape = (self.image_size, self.image_size, 3)
         if processed.shape != expected_shape:
-
             raise ValueError(
-                f"Expected processed image shape "
-                f"{expected_shape}, "
+                f"Expected processed image shape {expected_shape}, "
                 f"got {processed.shape}."
             )
 
-        # ----------------------------------------------------
-        # Prepare batch
-        # ----------------------------------------------------
-
-        batch = np.expand_dims(
-            processed,
-            axis=0,
-        ).astype(
-            np.float32,
-        )
-
-        # ----------------------------------------------------
-        # Run model
-        # ----------------------------------------------------
+        batch = np.expand_dims(processed, axis=0).astype(np.float32)
 
         try:
-
-            outputs = self.model.predict(
-                batch,
-                verbose=0,
-            )
-
+            outputs = self.model.predict(batch, verbose=0)
         except Exception as e:
-
-            raise RuntimeError(
-                f"Model prediction failed: {e}"
-            ) from e
-
-        # ----------------------------------------------------
-        # Extract class probabilities
-        # ----------------------------------------------------
+            raise RuntimeError(f"Model prediction failed: {e}") from e
 
         if isinstance(outputs, dict):
-
-            if "class" not in outputs:
-
+            if "ordinal" in outputs:
+                raw = np.asarray(outputs["ordinal"][0], dtype=np.float32)
+                is_ordinal = True
+            elif "class" in outputs:
+                raw = np.asarray(outputs["class"][0], dtype=np.float32)
+                is_ordinal = False
+            else:
                 raise ValueError(
-                    "Model returned dictionary output, "
-                    "but 'class' output was not found. "
-                    f"Available outputs: "
-                    f"{list(outputs.keys())}"
+                    "Model returned dictionary output without 'ordinal' or 'class'. "
+                    f"Available outputs: {list(outputs.keys())}"
                 )
-
-            probs = np.asarray(
-                outputs["class"][0],
-                dtype=np.float32,
-            )
-
         else:
+            raw = np.asarray(outputs[0], dtype=np.float32)
+            is_ordinal = raw.shape[-1] == (self.num_classes - 1)
 
-            # Current deploy.keras uses this path.
-            #
-            # outputs shape:
-            #
-            # (1, 7)
-            #
-            probs = np.asarray(
-                outputs[0],
-                dtype=np.float32,
-            )
+        if raw.ndim != 1:
+            raw = raw.reshape(-1)
 
-        # ----------------------------------------------------
-        # Validate probabilities
-        # ----------------------------------------------------
+        if not np.isfinite(raw).all():
+            raise ValueError("Model returned NaN or infinite values.")
 
-        if probs.ndim != 1:
+        if is_ordinal:
+            if raw.shape[0] != self.num_classes - 1:
+                raise ValueError(
+                    f"Ordinal model returned {raw.shape[0]} thresholds, "
+                    f"expected {self.num_classes - 1} for ICDAS 0–4."
+                )
+            probs = ordinal_to_class_probabilities(raw)[0]
+            grade = int(np.argmax(probs))
+        else:
+            if raw.shape[0] != self.num_classes:
+                raise ValueError(
+                    f"Model returned {raw.shape[0]} class probabilities, "
+                    f"but expected {self.num_classes} (ICDAS 0–4). "
+                    "A previous 7-class checkpoint cannot be used."
+                )
+            probs = np.clip(raw, 0.0, 1.0)
+            total = float(np.sum(probs))
+            if total > 0:
+                probs = probs / total
+            grade = int(np.argmax(probs))
 
-            probs = probs.reshape(-1)
-
-        if probs.shape[0] != self.num_classes:
-
-            raise ValueError(
-                f"Model returned {probs.shape[0]} "
-                f"class probabilities, but expected "
-                f"{self.num_classes}."
-            )
-
-        if not np.isfinite(probs).all():
-
-            raise ValueError(
-                "Model returned NaN or infinite probabilities."
-            )
-
-        # ----------------------------------------------------
-        # Normalize probabilities if necessary
-        # ----------------------------------------------------
-
-        probs = np.clip(
-            probs,
-            0.0,
-            1.0,
-        )
-
-        probability_sum = float(
-            np.sum(probs)
-        )
-
-        if probability_sum > 0:
-
-            probs = probs / probability_sum
-
-        # ----------------------------------------------------
-        # ICDAS prediction
-        # ----------------------------------------------------
-
-        grade = int(
-            np.argmax(probs)
-        )
-
-        confidence = float(
-            probs[grade]
-        )
-
-        # ----------------------------------------------------
-        # Return result
-        # ----------------------------------------------------
+        grade = int(np.clip(grade, 0, self.num_classes - 1))
+        confidence = float(probs[grade])
+        low_confidence = confidence < self.confidence_threshold
 
         return {
             "icdas_grade": grade,
-
-            # Percentage
-            "confidence": round(
-                confidence * 100,
-                2,
+            "confidence": round(confidence * 100, 2),
+            "probabilities": {
+                str(i): round(float(probs[i]), 6) for i in range(self.num_classes)
+            },
+            "low_confidence": low_confidence,
+            "low_confidence_message": (
+                "Low confidence prediction. Professional examination recommended."
+                if low_confidence
+                else None
             ),
-
-            "probabilities": [
-                round(
-                    float(p),
-                    6,
-                )
-                for p in probs
-            ],
         }
 
     # ========================================================
