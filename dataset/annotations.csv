@@ -1,16 +1,29 @@
 filename,icdas_score,split
-train/5/whatsapp_002.png,5,train
-train/5/whatsapp_003.png,5,train
-train/5/whatsapp_004.png,5,train
-train/5/whatsapp_005.png,5,train
-train/5/whatsapp_007.png,5,train
-train/5/whatsapp_008.png,5,train
-train/5/whatsapp_009.png,5,train
-train/5/whatsapp_010.png,5,train
-train/6/whatsapp_001.png,6,train
-train/6/whatsapp_006.png,6,train
-val/5/whatsapp_011.png,5,val
-val/5/whatsapp_012.png,5,val
-val/5/whatsapp_013.png,5,val
-test/5/whatsapp_014.png,5,test
-test/5/whatsapp_015.png,5,test
+train\0\image 3.png,0,train
+train\0\image 4 (1).png,0,train
+train\1\image 1.png,1,train
+train\1\image 4.png,1,train
+train\1\image 5.png,1,train
+train\1\image3 (1).png,1,train
+train\1\image3.png,1,train
+train\2\2t.jpeg,2,train
+train\2\dental_12.jpg.jpeg,2,train
+train\3\3 .jpeg,3,train
+train\3\3 t.jpeg,3,train
+train\3\3 tt.jpeg,3,train
+train\3\dental_26.jpg.jpeg,3,train
+train\3\dental_4.jpg.jpeg,3,train
+train\3\dental_9.jpg.jpeg,3,train
+train\4\4 t.jpeg,4,train
+train\4\dental_18.jpg.jpeg,4,train
+train\4\dental_30.jpg.jpeg,4,train
+val\0\image 1 (1).png,0,val
+val\1\image 6.png,1,val
+val\2\dental_20.jpg.jpeg,2,val
+val\3\dental_5.jpg.jpeg,3,val
+val\4\dental_29.jpg.jpeg,4,val
+test\0\image 2 (1).png,0,test
+test\1\image 2.png,1,test
+test\2\dental_24.jpg.jpeg,2,test
+test\3\dental_8.jpg.jpeg,3,test
+test\4\4.jpeg,4,test

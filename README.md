@@ -1,177 +1,184 @@
-# Offline AI-Based Dental Caries Detection (ICDAS Classification)
+# AI-Based Dental Caries Detection and ICDAS Severity Classification
 
-Production-grade Progressive Web App for **offline** dental caries severity detection from intraoral smartphone photos using Edge AI and ICDAS grading.
+Research prototype for **ICDAS 0–4** caries severity classification from intraoral photographs.
 
-> **Disclaimer:** This tool is for clinical decision support and is not a substitute for professional diagnosis.
+> **Disclaimer:** This is an AI decision-support / research prototype. It is **not** a replacement for professional dental diagnosis.
 
-## Features
+## Supported classes
 
-| Feature | Description |
-|---------|-------------|
-| **Offline PWA** | Full inference after install — no internet required |
-| **ICDAS 0–6** | Ordinal regression with confidence scores |
-| **Explainability** | Grad-CAM heatmaps + lesion contour overlays |
-| **Edge AI** | MobileNetV3-Small + CBAM, TFLite/TF.js export (<20MB target) |
-| **Privacy** | Local-only storage, AES encryption, consent screen |
-| **History** | IndexedDB patient scan history & progression tracking |
-
-## Architecture
-
-```
-┌─────────────────┐     ┌──────────────────┐     ┌─────────────────┐
-│  React PWA      │────▶│  TensorFlow.js   │     │  IndexedDB      │
-│  (Camera/UI)    │     │  (Edge Inference)│     │  (History)      │
-└────────┬────────┘     └──────────────────┘     └─────────────────┘
-         │ optional online
-         ▼
-┌─────────────────┐     ┌──────────────────┐
-│  FastAPI        │────▶│  Keras / TFLite  │
-│  Backend        │     │  + Grad-CAM      │
-└─────────────────┘     └──────────────────┘
-         ▲
-         │ train / export
-┌─────────────────┐
-│  ML Pipeline    │
-│  (MobileNetV3)  │
-└─────────────────┘
+```text
+ICDAS 0–4
 ```
 
-## Project Structure
+The previous 7-class (ICDAS 0–6) output head is incompatible and is not used.
+ICDAS 5 and 6 images are **not** remapped to ICDAS 4.
 
+## ML architecture
+
+```text
+MobileNetV3-Small
++
+CBAM
++
+Ordinal Regression
++
+Grad-CAM
 ```
-icdas-project/
-├── frontend/          # React + TypeScript PWA
-├── backend/           # FastAPI inference API
-├── ml/                # Training, preprocessing, export
-├── dataset/           # train/val/test + annotations.csv
-├── models/            # Exported weights (gitignored)
-├── docker/            # Dockerfiles
-├── docs/              # Guides, paper draft, slides
-├── scripts/           # Dataset download utilities
-└── .github/workflows/ # CI/CD
+
+Five classes use **four** ordinal thresholds. The CNN assigns the ICDAS grade; Groq only writes an explanation.
+
+## Backend
+
+```text
+FastAPI
+PostgreSQL (or SQLite locally)
+SQLAlchemy
 ```
 
-## Quick Start
+JWT authentication is not enabled in this inference API. Secrets stay in `.env`.
 
-### Prerequisites
+## AI
 
-- Python 3.10+
-- Node.js 18+
-- (Optional) Docker
+```text
+Groq API
+```
 
-### 1. Dataset Setup
+Groq never overrides the model’s ICDAS grade.
 
-**15 WhatsApp clinical images are already imported** into `dataset/` (train/val/test).
+## Frontend
+
+```text
+Streamlit
+```
+
+## Pipeline
+
+```text
+Image
+ ↓
+Preprocessing
+ ↓
+MobileNetV3-Small
+ ↓
+CBAM
+ ↓
+Ordinal Regression
+ ↓
+ICDAS 0–4
+ ↓
+Grad-CAM
+ ↓
+Groq Report
+ ↓
+Frontend
+```
+
+## Project structure
+
+```text
+iccc/
+├── backend/          FastAPI inference, history, Groq reports
+├── ml/               Training, model, dataset, Grad-CAM
+├── dataset/          train/val/test folders for classes 0–4
+├── models/           best.keras, deploy.keras (5-class)
+├── fronted/          Streamlit app
+└── docs/
+```
+
+## Quick start
+
+### 1. Environment
 
 ```bash
-# Re-import or add more images from assets/
-python scripts/import_whatsapp_images.py
-
-# Create empty folder structure for additional data
-python ml/scripts/setup_dataset.py
-
-# Download public datasets (see docs/DATASETS.md)
-python scripts/download_datasets.py --dataset dental_caries
-```
-
-See `dataset/README.md` for label details and split info.
-
-### 2. Train Model
-
-```bash
-cd ml
+cd iccc
+python -m venv .venv
+.venv\Scripts\activate   # Windows
 pip install -r requirements.txt
-python train.py --config configs/default.yaml
-python export.py --checkpoint ../models/best.keras --quantize
+copy backend\.env.example backend\.env
 ```
 
-### 3. Copy Model to PWA
+Put `GROQ_API_KEY` in `backend/.env`. Never commit `.env`.
+
+Optional PostgreSQL:
+
+```env
+DATABASE_URL=postgresql+psycopg2://user:password@localhost:5432/icdas
+```
+
+If `DATABASE_URL` is omitted, SQLite `icdas_predictions.db` is used.
+
+### 2. Dataset (ICDAS 0–4)
 
 ```bash
-cp models/tfjs_model/* frontend/public/models/
+python ml/scripts/setup_dataset.py
+python ml/scripts/split_dataset.py   # 70/15/15, excludes 5/6 without remapping
+python ml/scripts/sync_annotations.py
+python ml/scripts/validate_dataset.py
 ```
 
-### 4. Run Frontend (Offline PWA)
+Expected layout:
+
+```text
+dataset/train/{0,1,2,3,4}
+dataset/val/{0,1,2,3,4}
+dataset/test/{0,1,2,3,4}
+```
+
+Augmentation is applied **only** during training.
+
+### 3. Train a fresh 5-class model
 
 ```bash
-cd frontend
-npm install
-npm run dev        # Development
-npm run build      # Production PWA
+python ml/train.py --config ml/configs/default.yaml
 ```
 
-### 5. Run Backend (Optional)
+Writes `models/best.keras` and `models/deploy.keras`. Do not reuse a 7-class checkpoint.
+
+### 4. Backend
 
 ```bash
 cd backend
-pip install -r requirements.txt
 uvicorn app.main:app --reload --port 8000
 ```
 
-### 6. Docker
+### 5. Frontend
 
 ```bash
-docker compose up --build
+streamlit run fronted/streamlit_app.py
 ```
-
-## ICDAS Classes
-
-| Grade | Description | Suggested Action |
-|-------|-------------|------------------|
-| 0 | Sound tooth | Monitor |
-| 1 | Initial lesion | Monitor + fluoride |
-| 2 | Distinct visual change | Fluoride treatment |
-| 3 | Localized enamel breakdown | Restoration needed |
-| 4 | Underlying dentin | Restoration needed |
-| 5 | Distinct cavity with dentin | Restoration needed |
-| 6 | Extensive distinct cavity | Restoration needed |
 
 ## Configuration
 
-Edit `ml/configs/default.yaml`:
+`ml/configs/default.yaml`:
 
 ```yaml
-num_classes: 7          # ICDAS 0-6 (set to 5 for 0-4)
-use_attention: cbam     # cbam | se | none
+num_classes: 5
 ordinal_regression: true
 image_size: 224
+backbone: mobilenet_v3_small
+use_attention: cbam
 ```
 
-## API Documentation
-
-With backend running: http://localhost:8000/docs
+## API
 
 | Endpoint | Method | Description |
 |----------|--------|-------------|
-| `/api/v1/predict` | POST | Image → ICDAS + heatmap |
-| `/api/v1/health` | GET | Health check |
+| `/api/v1/predict` or `/predict` | POST | Image → ICDAS 0–4 + Grad-CAM + report |
+| `/api/v1/report` | POST | Groq explanation for a **model** grade |
+| `/api/v1/history` | GET | Stored predictions |
+| `/api/v1/stats` | GET | Dashboard analytics |
+| `/api/v1/health` | GET | API / model / database / Groq status |
 | `/api/v1/model/info` | GET | Model metadata |
 
 ## Testing
 
 ```bash
-# ML unit tests
 cd ml && pytest tests/ -v
-
-# Backend tests
 cd backend && pytest tests/ -v
-
-# Frontend tests
-cd frontend && npm test
+python -c "from ml.src.model import build_model; m=build_model(num_classes=5, image_size=224, attention_type='cbam', ordinal_regression=True); print(m.output_shape)"
+python ml/scripts/validate_dataset.py
 ```
-
-## Performance Targets
-
-| Metric | Target |
-|--------|--------|
-| Inference latency | <1s (mobile) |
-| Model size | <20MB |
-| Offline | 100% after PWA install |
 
 ## License
 
 MIT — See LICENSE. Dataset licenses vary; see `docs/DATASETS.md`.
-
-## Citation
-
-If you use this project in research, see `docs/RESEARCH_PAPER_DRAFT.md`.

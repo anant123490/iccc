@@ -6,7 +6,7 @@ Edit `ml/configs/default.yaml`:
 
 | Parameter | Default | Description |
 |-----------|---------|-------------|
-| `num_classes` | 7 | ICDAS 0-6 (use 5 for 0-4) |
+| `num_classes` | 5 | ICDAS 0–4 (4 ordinal thresholds) |
 | `use_attention` | cbam | cbam / se / none |
 | `ordinal_regression` | true | Cumulative link model |
 | `k_folds` | 5 | Stratified K-Fold CV |

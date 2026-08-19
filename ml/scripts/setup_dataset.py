@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
-"""Create dataset folder structure and sample annotations.csv."""
+"""Create ICDAS 0–4 dataset folder structure and sample annotations.csv."""
 
-import os
 from pathlib import Path
 
 DATASET_ROOT = Path(__file__).resolve().parents[2] / "dataset"
@@ -13,14 +12,13 @@ dataset/
 │   ├── 1/
 │   ├── 2/
 │   ├── 3/
-│   ├── 4/
-│   ├── 5/
-│   └── 6/
+│   └── 4/   # ICDAS 4 - underlying dentin shadow
 ├── val/
-│   ├── 0/ ... 6/
+│   ├── 0/ ... 4/
 ├── test/
-│   ├── 0/ ... 6/
-├── raw/          # Unprocessed downloads
+│   ├── 0/ ... 4/
+├── excluded/     # ICDAS 5/6 originals (never remapped to 4)
+├── raw/
 └── annotations.csv
 """
 
@@ -30,11 +28,12 @@ train/0/example.jpg,0,train,P001,sound tooth
 
 
 def main():
-    print("Creating ICDAS dataset structure...")
+    print("Creating ICDAS 0–4 dataset structure...")
     for split in ["train", "val", "test"]:
-        for grade in range(7):
+        for grade in range(5):
             (DATASET_ROOT / split / str(grade)).mkdir(parents=True, exist_ok=True)
     (DATASET_ROOT / "raw").mkdir(parents=True, exist_ok=True)
+    (DATASET_ROOT / "excluded").mkdir(parents=True, exist_ok=True)
 
     ann_path = DATASET_ROOT / "annotations.csv"
     if not ann_path.exists():
@@ -44,14 +43,16 @@ def main():
     readme = DATASET_ROOT / "README.md"
     readme.write_text(
         "# Dataset Directory\n\n"
-        "Place intraoral images in class subfolders (0-6) or update annotations.csv.\n\n"
+        "Place intraoral images in class subfolders (0–4).\n\n"
+        "ICDAS 5 and 6 images must **not** be copied into class 4. "
+        "Keep them under `excluded/` if they are retained for reference.\n\n"
         f"```\n{STRUCTURE}\n```\n",
         encoding="utf-8",
     )
     print(f"Dataset root: {DATASET_ROOT}")
-    print("Done. Add images to train/val/test/0..6/, then run:")
+    print("Done. Add images to train/val/test/0..4/, then run:")
     print("  python ml/scripts/sync_annotations.py")
-    print("  python scripts/download_datasets.py  # optional public data")
+    print("  python ml/scripts/validate_dataset.py")
 
 
 if __name__ == "__main__":

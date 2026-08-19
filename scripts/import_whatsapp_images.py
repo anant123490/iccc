@@ -158,7 +158,15 @@ def main():
             # Raw archive (original copy)
             shutil.copy2(src, raw_dir / short_name)
 
-            # Organized by split/class
+            # ICDAS 5/6 are out of scope and must not be remapped to 4.
+            if score < 0 or score > 4:
+                dest_dir = DATASET_ROOT / "excluded" / str(score)
+                dest_dir.mkdir(parents=True, exist_ok=True)
+                dest_path = dest_dir / short_name
+                shutil.copy2(src, dest_path)
+                print(f"  [excluded] ICDAS {score} <- {short_name} (not remapped to 4)")
+                continue
+
             dest_dir = DATASET_ROOT / split / str(score)
             dest_dir.mkdir(parents=True, exist_ok=True)
             dest_path = dest_dir / short_name

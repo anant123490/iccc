@@ -48,6 +48,9 @@ Thumbs.db
 logs/
 *.log
 wandb/
+backend/uploads/
+backend/*.db
+*.db
 
 # Docker
 .docker/

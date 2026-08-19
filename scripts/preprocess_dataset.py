@@ -46,6 +46,17 @@ def main():
         print("No images found.")
         return
 
+    unsupported = [r for r in records if int(r["label"]) < 0 or int(r["label"]) > 4]
+    if unsupported:
+        print(
+            f"Refusing {len(unsupported)} images with ICDAS labels outside 0–4. "
+            "They are not remapped to class 4."
+        )
+        records = [r for r in records if 0 <= int(r["label"]) <= 4]
+    if not records:
+        print("No ICDAS 0–4 images found.")
+        return
+
     paths = [r["path"] for r in records]
     labels = [r["label"] for r in records]
 
