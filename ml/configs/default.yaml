@@ -2,16 +2,20 @@
 # ICDAS DENTAL CARIES DETECTION
 # ============================================================
 
-# Classes: ICDAS 0, 1, 2, 3, 4  (5 classes)
-# Previous versions used ICDAS 0–6 (7 classes). That output head
-# is incompatible and must not be reused.
+# Supported classes: ICDAS 0, 1, 2, 3, 4
+# ICDAS 5 and 6 are NOT supported.
 
 num_classes: 5
 
-# IMPORTANT
-ordinal_regression: true
 
-loss: ordinal
+# ============================================================
+# CLASSIFICATION
+# ============================================================
+
+# Standard 5-class classification
+ordinal_regression: false
+
+loss: sparse_categorical_crossentropy
 
 
 # ============================================================
@@ -24,7 +28,7 @@ use_attention: cbam
 
 image_size: 224
 
-dropout: 0.3
+dropout: 0.4
 
 
 # ============================================================
@@ -33,15 +37,15 @@ dropout: 0.3
 
 batch_size: 8
 
-learning_rate: 0.0001
+learning_rate: 0.0003
 
 fine_tune_learning_rate: 0.00001
 
 weight_decay: 0.0001
 
-head_epochs: 20
+head_epochs: 30
 
-fine_tune_epochs: 30
+fine_tune_epochs: 40
 
 fine_tune_layers: 30
 
@@ -50,15 +54,12 @@ fine_tune_layers: 30
 # INFERENCE
 # ============================================================
 
-confidence_threshold: 0.55
+confidence_threshold: 0.50
 
 
 # ============================================================
 # AUGMENTATION
 # ============================================================
-
-# Applied to the training split only. Validation and test images
-# are never augmented, which avoids leakage of augmented copies.
 
 augmentation: true
 
@@ -80,4 +81,4 @@ color_normalize: true
 # EXPERIMENT
 # ============================================================
 
-experiment_name: icdas_mobilenet_cbam_ordinal
+experiment_name: icdas_mobilenet_cbam_5class_weighted
