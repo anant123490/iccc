@@ -5,6 +5,7 @@ __pycache__/
 .pytest_cache/
 .venv/
 venv/
+.py_embed/
 .env
 *.keras
 *.h5
@@ -30,10 +31,24 @@ assets/
 # Dataset (large external downloads — keep whatsapp clinical set)
 dataset/raw/
 *.zip
-# Uncomment below to exclude all training images from git:
-# dataset/train/
-# dataset/val/
-# dataset/test/
+raw_dataset/
+
+# Generated crops / labels / reports (do not add the large dataset)
+cropped_teeth/images/*
+!cropped_teeth/images/.gitkeep
+cropped_teeth/crops.csv
+labels/labels.csv
+reports/dataset_quality_report.csv
+reports/split_manifest.csv
+
+# Training images (keep class folders via .gitkeep)
+dataset/train/**
+dataset/val/**
+dataset/test/**
+!dataset/train/**/
+!dataset/val/**/
+!dataset/test/**/
+!dataset/**/.gitkeep
 
 # IDE
 .idea/
@@ -43,6 +58,14 @@ dataset/raw/
 # OS
 .DS_Store
 Thumbs.db
+
+# Toolkit self-test fixtures
+tools/_tmp_fixture/
+tools/_tmp_crops/
+tools/_tmp_dataset/
+tools/_tmp_labels.csv
+tools/_tmp_streamlit_out.txt
+tools/_tmp_streamlit_err.txt
 
 # Logs
 logs/
