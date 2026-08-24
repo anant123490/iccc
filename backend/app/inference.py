@@ -1,27 +1,68 @@
 """
-ICDAS 0-4 inference engine.
+Production ICDAS 0-4 inference engine.
 
-Production configuration:
-    - 5 ICDAS classes: 0, 1, 2, 3, 4
-    - MobileNetV3Small + CBAM
-    - 224x224 RGB input
-    - 5-class softmax output
-    - Optional Grad-CAM
-    - Confidence threshold support
+MODEL CONTRACT
+--------------
 
-Expected model output:
-    (None, 5)
+Production model:
+    models/deploy.keras
 
-Class mapping:
+Expected model:
+    Input  : (None, 224, 224, 3)
+    Output : (None, 5)
+
+Classes:
     0 -> ICDAS 0
     1 -> ICDAS 1
     2 -> ICDAS 2
     3 -> ICDAS 3
     4 -> ICDAS 4
+
+IMPORTANT INPUT SCALE
+---------------------
+
+The MobileNetV3Small model is built with:
+
+    include_preprocessing=True
+
+and ImageNet pretrained weights.
+
+Therefore the model expects image pixels in:
+
+    [0, 255]
+
+NOT:
+
+    [0, 1]
+
+Training pipeline:
+    image
+       ↓
+    RGB [0,1]
+       ↓
+    * 255
+       ↓
+    MobileNetV3
+       ↓
+    softmax
+
+Inference pipeline:
+    upload
+       ↓
+    RGB
+       ↓
+    resize 224x224
+       ↓
+    float32 [0,255]
+       ↓
+    MobileNetV3
+       ↓
+    softmax
 """
 
 from __future__ import annotations
 
+import base64
 import logging
 import sys
 from pathlib import Path
@@ -37,9 +78,17 @@ from tensorflow import keras
 # PATHS
 # ============================================================
 
-BACKEND_DIR = Path(__file__).resolve().parents[1]
-PROJECT_ROOT = BACKEND_DIR.parent
-ML_DIR = PROJECT_ROOT / "ml"
+BACKEND_DIR = (
+    Path(__file__).resolve().parents[1]
+)
+
+PROJECT_ROOT = (
+    BACKEND_DIR.parent
+)
+
+ML_DIR = (
+    PROJECT_ROOT / "ml"
+)
 
 if str(ML_DIR) not in sys.path:
     sys.path.insert(0, str(ML_DIR))
@@ -49,7 +98,9 @@ if str(ML_DIR) not in sys.path:
 # LOGGING
 # ============================================================
 
-logger = logging.getLogger("icdas.inference")
+logger = logging.getLogger(
+    "icdas.api"
+)
 
 
 # ============================================================
@@ -57,9 +108,8 @@ logger = logging.getLogger("icdas.inference")
 # ============================================================
 
 NUM_CLASSES = 5
-IMAGE_SIZE = 224
 
-VALID_GRADES = (0, 1, 2, 3, 4)
+IMAGE_SIZE = 224
 
 CLASS_NAMES = {
     0: "ICDAS 0",
@@ -76,18 +126,12 @@ CLASS_NAMES = {
 
 class InferenceEngine:
     """
-    Inference engine for ICDAS 0-4 classification.
-
-    The current production model is a 5-class softmax model.
-
-    Input:
-        (1, 224, 224, 3)
-
-    Output:
-        (1, 5)
+    Production ICDAS 0-4 inference engine.
     """
 
-    _instance: Optional["InferenceEngine"] = None
+    _instance: Optional[
+        "InferenceEngine"
+    ] = None
 
     def __init__(
         self,
@@ -102,11 +146,21 @@ class InferenceEngine:
         color_norm: bool = False,
         **kwargs,
     ):
+        # ----------------------------------------------------
+        # Configuration
+        # ----------------------------------------------------
 
-        self.model_path = str(model_path)
+        self.model_path = str(
+            model_path
+        )
 
-        self.num_classes = int(num_classes)
-        self.image_size = int(image_size)
+        self.num_classes = int(
+            num_classes
+        )
+
+        self.image_size = int(
+            image_size
+        )
 
         self.ordinal_regression = bool(
             ordinal_regression
@@ -116,127 +170,191 @@ class InferenceEngine:
             confidence_threshold
         )
 
-        self.use_roi = bool(use_roi)
-        self.use_clahe = bool(use_clahe)
-        self.use_specular = bool(use_specular)
-        self.color_norm = bool(color_norm)
+        # IMPORTANT:
+        # These are OFF because training config uses them OFF.
+        self.use_roi = bool(
+            use_roi
+        )
+
+        self.use_clahe = bool(
+            use_clahe
+        )
+
+        self.use_specular = bool(
+            use_specular
+        )
+
+        self.color_norm = bool(
+            color_norm
+        )
 
         self.model = None
-        self.gradcam = None
+
+        self.detected_ordinal = False
 
         # ----------------------------------------------------
-        # VALIDATION
+        # Validate
         # ----------------------------------------------------
 
         if self.num_classes != 5:
             raise ValueError(
-                "ICDAS inference supports exactly 5 classes: "
-                "ICDAS 0-4."
+                "This project supports "
+                "ICDAS 0-4 only."
             )
 
-        if self.image_size <= 0:
+        if self.image_size != 224:
             raise ValueError(
-                f"Invalid image size: {self.image_size}"
+                "Production model expects "
+                "image_size=224."
             )
 
-        if not 0.0 <= self.confidence_threshold <= 1.0:
+        if not (
+            0.0
+            <= self.confidence_threshold
+            <= 1.0
+        ):
             raise ValueError(
-                "confidence_threshold must be between 0 and 1."
+                "confidence_threshold must "
+                "be between 0 and 1."
             )
 
         # ----------------------------------------------------
-        # LOAD MODEL
+        # Load model
         # ----------------------------------------------------
 
-        self._load_model(self.model_path)
+        self._load_model(
+            self.model_path
+        )
 
         logger.info(
-            "=============================================="
+            "========================================"
         )
+
         logger.info(
             "ICDAS INFERENCE ENGINE INITIALIZED"
         )
+
         logger.info(
-            "Model: %s",
+            "Model       : %s",
             self.model_path,
         )
+
         logger.info(
-            "Classes: ICDAS 0-4"
+            "Input       : %s",
+            self.model.input_shape,
         )
+
         logger.info(
-            "Input size: %dx%d",
-            self.image_size,
-            self.image_size,
+            "Output      : %s",
+            self.model.output_shape,
         )
+
         logger.info(
-            "Ordinal regression config: %s",
-            self.ordinal_regression,
+            "Classes     : 5 (ICDAS 0-4)"
         )
+
         logger.info(
-            "Confidence threshold: %.2f",
-            self.confidence_threshold,
+            "Input range : [0,255]"
         )
+
         logger.info(
-            "Color normalization: %s",
+            "ROI         : %s",
+            self.use_roi,
+        )
+
+        logger.info(
+            "CLAHE       : %s",
+            self.use_clahe,
+        )
+
+        logger.info(
+            "Specular    : %s",
+            self.use_specular,
+        )
+
+        logger.info(
+            "Color norm  : %s",
             self.color_norm,
         )
+
         logger.info(
-            "=============================================="
+            "Confidence  : %.2f",
+            self.confidence_threshold,
         )
+
+        logger.info(
+            "========================================"
+        )
+
 
     # ========================================================
     # MODEL LOADING
     # ========================================================
 
-    def _load_model(self, path: str):
+    def _load_model(
+        self,
+        path: str,
+    ) -> None:
 
-        model_path = Path(path)
+        model_path = Path(
+            path
+        )
 
         if not model_path.exists():
             raise FileNotFoundError(
-                f"ICDAS model not found:\n{model_path}"
+                f"ICDAS model not found: "
+                f"{model_path}"
             )
 
         logger.info(
-            "Loading trained ICDAS model from %s",
+            "Loading model from %s",
             model_path,
         )
 
         # ----------------------------------------------------
-        # CUSTOM OBJECTS
+        # Explicitly register CBAM
         # ----------------------------------------------------
 
         custom_objects = {}
 
         try:
-
-            from src.model import get_custom_objects
-
-            custom_objects.update(
-                get_custom_objects()
+            from src.attention import (
+                CBAM,
+                ChannelAttention,
+                SpatialAttention,
+                SEBlock,
             )
 
-            logger.info(
-                "Custom model objects loaded."
+            custom_objects.update(
+                {
+                    "CBAM": CBAM,
+                    "ChannelAttention":
+                        ChannelAttention,
+                    "SpatialAttention":
+                        SpatialAttention,
+                    "SEBlock":
+                        SEBlock,
+                }
             )
 
         except Exception as exc:
-
-            logger.warning(
-                "Could not load custom objects: %s",
-                exc,
-            )
+            raise RuntimeError(
+                "Unable to import CBAM "
+                "custom objects: "
+                f"{exc}"
+            ) from exc
 
         # ----------------------------------------------------
-        # LOAD KERAS MODEL
+        # Load model
         # ----------------------------------------------------
 
         try:
-
-            self.model = tf.keras.models.load_model(
-                str(model_path),
-                compile=False,
-                custom_objects=custom_objects,
+            self.model = (
+                tf.keras.models.load_model(
+                    str(model_path),
+                    compile=False,
+                    custom_objects=custom_objects,
+                )
             )
 
         except Exception as exc:
@@ -246,56 +364,52 @@ class InferenceEngine:
             )
 
             raise RuntimeError(
-                f"Unable to load ICDAS model:\n"
-                f"{model_path}\n\n"
-                f"Error: {exc}"
+                f"Unable to load model "
+                f"{model_path}: {exc}"
             ) from exc
 
         # ----------------------------------------------------
-        # VALIDATE OUTPUT
+        # Input validation
         # ----------------------------------------------------
 
-        output_shape = self.model.output_shape
-
-        logger.info(
-            "Loaded model output shape: %s",
-            output_shape,
+        input_shape = (
+            self.model.input_shape
         )
 
-        if isinstance(output_shape, list):
-
+        if input_shape != (
+            None,
+            224,
+            224,
+            3,
+        ):
             raise ValueError(
-                "Multi-output models are not supported "
-                "by the current production inference pipeline."
+                "Unexpected model input shape: "
+                f"{input_shape}. "
+                "Expected "
+                "(None, 224, 224, 3)."
             )
-
-        if not isinstance(output_shape, tuple):
-
-            raise ValueError(
-                f"Unsupported model output shape: "
-                f"{output_shape}"
-            )
-
-        if len(output_shape) < 2:
-
-            raise ValueError(
-                f"Invalid model output shape: "
-                f"{output_shape}"
-            )
-
-        output_units = output_shape[-1]
-
-        if output_units is None:
-
-            raise ValueError(
-                "Model output dimension is undefined."
-            )
-
-        output_units = int(output_units)
 
         # ----------------------------------------------------
-        # 5 CLASS SOFTMAX
+        # Output validation
         # ----------------------------------------------------
+
+        output_shape = (
+            self.model.output_shape
+        )
+
+        if isinstance(
+            output_shape,
+            list,
+        ):
+            raise ValueError(
+                "Production model must have "
+                "one output. "
+                f"Got: {output_shape}"
+            )
+
+        output_units = int(
+            output_shape[-1]
+        )
 
         if output_units == 5:
 
@@ -305,52 +419,33 @@ class InferenceEngine:
                 "Detected 5-class softmax model."
             )
 
-        # ----------------------------------------------------
-        # ORDINAL MODEL
-        # ----------------------------------------------------
-
         elif output_units == 4:
 
+            # We can detect it, but we deliberately
+            # do not use it as the production model.
             self.detected_ordinal = True
 
-            logger.info(
-                "Detected 4-threshold ordinal model."
+            logger.warning(
+                "Loaded 4-output ordinal model. "
+                "Current production configuration "
+                "expects a 5-output softmax model."
             )
-
-        # ----------------------------------------------------
-        # OLD 7 CLASS MODEL
-        # ----------------------------------------------------
 
         elif output_units == 7:
 
             raise ValueError(
-                "A 7-class ICDAS model was loaded.\n"
-                "This project supports ICDAS 0-4 only.\n"
-                "Use a trained 5-class model."
+                "7-output ICDAS model detected. "
+                "ICDAS 5 and 6 are unsupported."
             )
 
         else:
 
             raise ValueError(
-                f"Unsupported model output dimension: "
-                f"{output_units}.\n"
-                f"Expected 5-class softmax output."
+                f"Unsupported model output size: "
+                f"{output_units}. "
+                "Expected 5."
             )
 
-        # ----------------------------------------------------
-        # VALIDATE INPUT
-        # ----------------------------------------------------
-
-        input_shape = self.model.input_shape
-
-        logger.info(
-            "Loaded model input shape: %s",
-            input_shape,
-        )
-
-        logger.info(
-            "Model successfully loaded."
-        )
 
     # ========================================================
     # SINGLETON
@@ -372,17 +467,84 @@ class InferenceEngine:
 
         return cls._instance
 
-    # ========================================================
-    # RESET
-    # ========================================================
 
     @classmethod
-    def reset_instance(cls):
+    def reset_instance(
+        cls,
+    ) -> None:
 
         cls._instance = None
 
+
     # ========================================================
-    # LOAD IMAGE
+    # IMAGE DECODING
+    # ========================================================
+
+    def _decode_image_bytes(
+        self,
+        content: bytes,
+    ) -> np.ndarray:
+
+        if not content:
+            raise ValueError(
+                "Image content is empty."
+            )
+
+        array = np.frombuffer(
+            content,
+            dtype=np.uint8,
+        )
+
+        image = cv2.imdecode(
+            array,
+            cv2.IMREAD_COLOR,
+        )
+
+        if image is None:
+            raise ValueError(
+                "Could not decode uploaded image."
+            )
+
+        return image
+
+
+    # ========================================================
+    # PREPROCESS UPLOAD
+    # ========================================================
+
+    def preprocess_upload(
+        self,
+        content: bytes,
+    ):
+        """
+        Decode uploaded bytes and preprocess.
+
+        Returns:
+
+            original_rgb
+            processed
+
+        processed is float32 [0,255].
+        """
+
+        image_bgr = (
+            self._decode_image_bytes(
+                content
+            )
+        )
+
+        image_rgb = cv2.cvtColor(
+            image_bgr,
+            cv2.COLOR_BGR2RGB,
+        )
+
+        return self.preprocess_image(
+            image_rgb
+        )
+
+
+    # ========================================================
+    # LOAD IMAGE FILE
     # ========================================================
 
     def load_image(
@@ -390,30 +552,30 @@ class InferenceEngine:
         image_path: str | Path,
     ) -> np.ndarray:
 
-        image_path = Path(image_path)
+        path = Path(
+            image_path
+        )
 
-        if not image_path.exists():
-
+        if not path.exists():
             raise FileNotFoundError(
-                f"Image not found: {image_path}"
+                f"Image not found: {path}"
             )
 
         image = cv2.imread(
-            str(image_path)
+            str(path),
+            cv2.IMREAD_COLOR,
         )
 
         if image is None:
-
             raise ValueError(
-                f"Unable to read image: {image_path}"
+                f"Unable to read image: {path}"
             )
 
-        image = cv2.cvtColor(
+        return cv2.cvtColor(
             image,
             cv2.COLOR_BGR2RGB,
         )
 
-        return image
 
     # ========================================================
     # RESIZE
@@ -425,12 +587,19 @@ class InferenceEngine:
     ) -> np.ndarray:
 
         if image is None:
-            raise ValueError("Image is None.")
+            raise ValueError(
+                "Image is None."
+            )
 
         if image.ndim != 3:
             raise ValueError(
-                f"Expected H,W,C image. "
-                f"Received {image.shape}"
+                f"Expected HWC image. "
+                f"Got {image.shape}"
+            )
+
+        if image.shape[-1] != 3:
+            raise ValueError(
+                "Expected 3-channel image."
             )
 
         return cv2.resize(
@@ -441,6 +610,41 @@ class InferenceEngine:
             ),
             interpolation=cv2.INTER_AREA,
         )
+
+
+    # ========================================================
+    # OPTIONAL ROI
+    # ========================================================
+
+    def apply_roi(
+        self,
+        image: np.ndarray,
+    ) -> np.ndarray:
+
+        height, width = (
+            image.shape[:2]
+        )
+
+        margin_x = int(
+            width * 0.05
+        )
+
+        margin_y = int(
+            height * 0.05
+        )
+
+        cropped = image[
+            margin_y:
+            height - margin_y,
+            margin_x:
+            width - margin_x,
+        ]
+
+        if cropped.size == 0:
+            return image
+
+        return cropped
+
 
     # ========================================================
     # CLAHE
@@ -456,7 +660,7 @@ class InferenceEngine:
             cv2.COLOR_RGB2LAB,
         )
 
-        l_channel, a_channel, b_channel = cv2.split(
+        l, a, b = cv2.split(
             lab
         )
 
@@ -465,27 +669,22 @@ class InferenceEngine:
             tileGridSize=(8, 8),
         )
 
-        l_channel = clahe.apply(
-            l_channel
+        l = clahe.apply(
+            l
         )
 
         result = cv2.merge(
-            (
-                l_channel,
-                a_channel,
-                b_channel,
-            )
+            [l, a, b]
         )
 
-        result = cv2.cvtColor(
+        return cv2.cvtColor(
             result,
             cv2.COLOR_LAB2RGB,
         )
 
-        return result
 
     # ========================================================
-    # SPECULAR REDUCTION
+    # SPECULAR
     # ========================================================
 
     def reduce_specular(
@@ -493,27 +692,32 @@ class InferenceEngine:
         image: np.ndarray,
     ) -> np.ndarray:
 
-        img = image.copy()
-
         gray = cv2.cvtColor(
-            img,
+            image,
             cv2.COLOR_RGB2GRAY,
         )
 
-        mask = gray > 245
+        mask = (
+            gray > 245
+        )
 
         if not np.any(mask):
-            return img
+            return image
 
         blurred = cv2.GaussianBlur(
-            img,
+            image,
             (5, 5),
             0,
         )
 
-        img[mask] = blurred[mask]
+        result = image.copy()
 
-        return img
+        result[mask] = (
+            blurred[mask]
+        )
+
+        return result
+
 
     # ========================================================
     # COLOR NORMALIZATION
@@ -524,18 +728,18 @@ class InferenceEngine:
         image: np.ndarray,
     ) -> np.ndarray:
 
-        img = image.astype(
-            np.float32
+        image_float = (
+            image.astype(
+                np.float32
+            )
         )
 
-        mean = np.mean(
-            img,
+        mean = image_float.mean(
             axis=(0, 1),
             keepdims=True,
         )
 
-        std = np.std(
-            img,
+        std = image_float.std(
             axis=(0, 1),
             keepdims=True,
         )
@@ -546,157 +750,162 @@ class InferenceEngine:
         )
 
         normalized = (
-            img - mean
-        ) / std
-
-        normalized = (
-            normalized * 32.0
+            (
+                image_float
+                - mean
+            )
+            / std
+            * 32.0
             + 128.0
         )
 
-        normalized = np.clip(
+        return np.clip(
             normalized,
             0,
             255,
-        )
-
-        return normalized.astype(
+        ).astype(
             np.uint8
         )
 
-    # ========================================================
-    # ROI
-    # ========================================================
-
-    def apply_roi(
-        self,
-        image: np.ndarray,
-    ) -> np.ndarray:
-
-        height, width = image.shape[:2]
-
-        margin_y = int(
-            height * 0.05
-        )
-
-        margin_x = int(
-            width * 0.05
-        )
-
-        cropped = image[
-            margin_y:height - margin_y,
-            margin_x:width - margin_x,
-        ]
-
-        if cropped.size == 0:
-            return image
-
-        return cropped
 
     # ========================================================
-    # PREPROCESS IMAGE
+    # COMPLETE PREPROCESSING
     # ========================================================
 
     def preprocess_image(
         self,
         image: np.ndarray,
     ):
+        """
+        Prepare image for MobileNetV3.
+
+        IMPORTANT:
+            final output = float32 [0,255]
+        """
 
         if image is None:
             raise ValueError(
                 "Input image is None."
             )
 
-        if not isinstance(
-            image,
-            np.ndarray,
-        ):
-
-            image = np.asarray(image)
+        image = np.asarray(
+            image
+        )
 
         if image.ndim != 3:
-
             raise ValueError(
-                f"Expected image shape (H,W,C), "
+                f"Expected image with "
+                f"shape (H,W,3), "
                 f"got {image.shape}"
             )
 
-        if image.shape[2] != 3:
-
+        if image.shape[-1] != 3:
             raise ValueError(
-                f"Expected 3-channel RGB image, "
+                f"Expected 3 channels, "
                 f"got {image.shape}"
             )
+
+        # ----------------------------------------------------
+        # Convert to uint8
+        # ----------------------------------------------------
 
         if image.dtype != np.uint8:
 
+            image = np.asarray(
+                image,
+                dtype=np.float32,
+            )
+
+            # If image is normalized.
+            if (
+                image.max() <= 1.0
+                and image.min() >= 0.0
+            ):
+                image *= 255.0
+
             image = np.clip(
                 image,
-                0,
-                255,
+                0.0,
+                255.0,
             ).astype(
                 np.uint8
             )
 
-        original_rgb = image.copy()
+        original_rgb = (
+            image.copy()
+        )
 
-        processed = image.copy()
-
-        # ----------------------------------------------------
-        # OPTIONAL PREPROCESSING
-        # ----------------------------------------------------
-
-        if self.use_roi:
-
-            processed = self.apply_roi(
-                processed
-            )
-
-        if self.use_clahe:
-
-            processed = self.apply_clahe(
-                processed
-            )
-
-        if self.use_specular:
-
-            processed = self.reduce_specular(
-                processed
-            )
-
-        # ----------------------------------------------------
-        # RESIZE
-        # ----------------------------------------------------
-
-        processed = self.resize_image(
-            processed
+        processed = (
+            image.copy()
         )
 
         # ----------------------------------------------------
-        # COLOR NORMALIZATION
+        # Optional preprocessing
         # ----------------------------------------------------
 
-        if self.color_norm:
+        if self.use_roi:
+            processed = (
+                self.apply_roi(
+                    processed
+                )
+            )
 
-            processed = self.normalize_color(
-                processed
+        if self.use_specular:
+            processed = (
+                self.reduce_specular(
+                    processed
+                )
+            )
+
+        if self.use_clahe:
+            processed = (
+                self.apply_clahe(
+                    processed
+                )
+            )
+
+        if self.color_norm:
+            processed = (
+                self.normalize_color(
+                    processed
+                )
             )
 
         # ----------------------------------------------------
-        # FLOAT NORMALIZATION
+        # Resize
+        # ----------------------------------------------------
+
+        processed = (
+            self.resize_image(
+                processed
+            )
+        )
+
+        # ----------------------------------------------------
+        # CRITICAL:
+        #
+        # DO NOT divide by 255 here.
+        #
+        # Model expects [0,255].
         # ----------------------------------------------------
 
         processed = (
             processed.astype(
                 np.float32
             )
-            / 255.0
         )
 
         processed = np.clip(
             processed,
             0.0,
-            1.0,
+            255.0,
+        )
+
+        processed = (
+            np.ascontiguousarray(
+                processed,
+                dtype=np.float32,
+            )
         )
 
         expected_shape = (
@@ -705,180 +914,79 @@ class InferenceEngine:
             3,
         )
 
-        if processed.shape != expected_shape:
-
-            raise ValueError(
-                f"Final image shape is "
-                f"{processed.shape}.\n"
-                f"Expected {expected_shape}."
-            )
-
-        return original_rgb, processed
-
-    # ========================================================
-    # ORDINAL CONVERSION
-    # ========================================================
-
-    def _ordinal_to_probabilities(
-        self,
-        raw: np.ndarray,
-    ) -> np.ndarray:
-
-        raw = np.asarray(
-            raw,
-            dtype=np.float32,
-        ).reshape(-1)
-
-        if raw.shape[0] != 4:
-
-            raise ValueError(
-                "Ordinal model must return "
-                "exactly 4 threshold values."
-            )
-
-        if np.any(raw < 0.0) or np.any(raw > 1.0):
-
-            raw = 1.0 / (
-                1.0 + np.exp(-raw)
-            )
-
-        raw = np.clip(
-            raw,
-            0.0,
-            1.0,
-        )
-
-        cumulative = np.maximum.accumulate(
-            raw[::-1]
-        )[::-1]
-
-        p0 = 1.0 - cumulative[0]
-
-        p1 = (
-            cumulative[0]
-            - cumulative[1]
-        )
-
-        p2 = (
-            cumulative[1]
-            - cumulative[2]
-        )
-
-        p3 = (
-            cumulative[2]
-            - cumulative[3]
-        )
-
-        p4 = cumulative[3]
-
-        probs = np.array(
-            [
-                p0,
-                p1,
-                p2,
-                p3,
-                p4,
-            ],
-            dtype=np.float32,
-        )
-
-        probs = np.clip(
-            probs,
-            0.0,
-            1.0,
-        )
-
-        total = float(
-            np.sum(probs)
-        )
-
-        if total <= 0:
-
-            return np.ones(
-                5,
-                dtype=np.float32,
-            ) / 5.0
-
-        return probs / total
-
-    # ========================================================
-    # SOFTMAX
-    # ========================================================
-
-    def _softmax_probabilities(
-        self,
-        raw: np.ndarray,
-    ) -> np.ndarray:
-
-        raw = np.asarray(
-            raw,
-            dtype=np.float32,
-        ).reshape(-1)
-
-        if raw.shape[0] != self.num_classes:
-
-            raise ValueError(
-                f"Model returned {raw.shape[0]} outputs. "
-                f"Expected {self.num_classes}."
-            )
-
-        if not np.isfinite(raw).all():
-
-            raise ValueError(
-                "Model returned NaN or infinite values."
-            )
-
-        # Already probabilities
-        if (
-            np.all(raw >= 0.0)
-            and np.all(raw <= 1.0)
-            and abs(
-                float(np.sum(raw)) - 1.0
-            ) < 0.05
+        if processed.shape != (
+            expected_shape
         ):
 
-            probs = raw.copy()
-
-        else:
-
-            shifted = (
-                raw
-                - np.max(raw)
+            raise ValueError(
+                f"Unexpected processed "
+                f"shape: {processed.shape}; "
+                f"expected {expected_shape}"
             )
 
-            exp_values = np.exp(
-                shifted
+        return (
+            original_rgb,
+            processed,
+        )
+
+
+    # ========================================================
+    # SOFTMAX PROBABILITIES
+    # ========================================================
+
+    def _get_probabilities(
+        self,
+        raw: np.ndarray,
+    ) -> np.ndarray:
+
+        raw = np.asarray(
+            raw,
+            dtype=np.float32,
+        ).reshape(-1)
+
+        if raw.shape[0] != 5:
+
+            raise ValueError(
+                f"Expected 5 class outputs. "
+                f"Received {raw.shape[0]}."
             )
 
-            total = float(
-                np.sum(exp_values)
+        if not np.isfinite(
+            raw
+        ).all():
+
+            raise ValueError(
+                "Model returned NaN "
+                "or infinite values."
             )
 
-            if total <= 0:
+        # Because model output layer is:
+        #
+        # Dense(5, activation="softmax")
+        #
+        # raw should already be probabilities.
 
-                raise ValueError(
-                    "Invalid model output."
-                )
-
-            probs = (
-                exp_values / total
-            )
+        clipped = np.clip(
+            raw,
+            0.0,
+            1.0,
+        )
 
         total = float(
-            np.sum(probs)
+            clipped.sum()
         )
 
         if total <= 0:
-
             raise ValueError(
                 "Probability sum is zero."
             )
 
-        probs = probs / total
-
-        return probs.astype(
+        return (
+            clipped / total
+        ).astype(
             np.float32
         )
+
 
     # ========================================================
     # PREDICT
@@ -888,9 +996,11 @@ class InferenceEngine:
         self,
         processed: np.ndarray,
     ) -> dict:
+        """
+        Predict ICDAS 0-4.
+        """
 
         if processed is None:
-
             raise ValueError(
                 "Processed image is None."
             )
@@ -906,27 +1016,71 @@ class InferenceEngine:
             3,
         )
 
-        if processed.shape != expected_shape:
+        if processed.shape != (
+            expected_shape
+        ):
 
             raise ValueError(
-                f"Expected {expected_shape}, "
+                f"Expected processed "
+                f"shape {expected_shape}; "
                 f"got {processed.shape}"
             )
+
+        if not np.isfinite(
+            processed
+        ).all():
+
+            raise ValueError(
+                "Processed image contains "
+                "NaN or infinite values."
+            )
+
+        minimum = float(
+            processed.min()
+        )
+
+        maximum = float(
+            processed.max()
+        )
+
+        # ----------------------------------------------------
+        # CRITICAL RANGE CHECK
+        # ----------------------------------------------------
+
+        if (
+            minimum < 0.0
+            or maximum > 255.0
+        ):
+
+            raise ValueError(
+                "MobileNetV3 input must "
+                "be in [0,255]. "
+                f"Got min={minimum:.4f}, "
+                f"max={maximum:.4f}"
+            )
+
+        # ----------------------------------------------------
+        # Batch
+        # ----------------------------------------------------
 
         batch = np.expand_dims(
             processed,
             axis=0,
+        ).astype(
+            np.float32
         )
 
         # ----------------------------------------------------
-        # MODEL PREDICTION
+        # Model prediction
         # ----------------------------------------------------
 
         try:
 
-            outputs = self.model.predict(
-                batch,
-                verbose=0,
+            outputs = (
+                self.model.predict(
+                    batch,
+                    verbose=0,
+                )
             )
 
         except Exception as exc:
@@ -936,14 +1090,18 @@ class InferenceEngine:
             )
 
             raise RuntimeError(
-                f"Model prediction failed: {exc}"
+                f"Model prediction failed: "
+                f"{exc}"
             ) from exc
 
         # ----------------------------------------------------
-        # EXTRACT OUTPUT
+        # Extract output
         # ----------------------------------------------------
 
-        if isinstance(outputs, dict):
+        if isinstance(
+            outputs,
+            dict,
+        ):
 
             if "class" in outputs:
 
@@ -952,67 +1110,53 @@ class InferenceEngine:
                     dtype=np.float32,
                 )
 
-                detected_ordinal = False
-
-            elif "ordinal" in outputs:
-
-                raw = np.asarray(
-                    outputs["ordinal"][0],
-                    dtype=np.float32,
-                )
-
-                detected_ordinal = True
-
             else:
 
                 raise ValueError(
-                    "Unsupported dictionary model output."
+                    "Expected softmax "
+                    "'class' output."
                 )
 
         else:
 
-            outputs_array = np.asarray(
+            outputs = np.asarray(
                 outputs,
                 dtype=np.float32,
             )
 
-            if outputs_array.ndim == 1:
+            if outputs.ndim == 1:
 
-                raw = outputs_array
+                raw = outputs
+
+            elif outputs.ndim == 2:
+
+                raw = outputs[0]
 
             else:
 
-                raw = outputs_array[0]
-
-            raw = raw.reshape(-1)
-
-            detected_ordinal = (
-                raw.shape[0]
-                == self.num_classes - 1
-            )
+                raise ValueError(
+                    f"Unexpected output shape: "
+                    f"{outputs.shape}"
+                )
 
         # ----------------------------------------------------
-        # PROBABILITIES
+        # Probabilities
         # ----------------------------------------------------
 
-        if detected_ordinal:
-
-            probs = self._ordinal_to_probabilities(
+        probabilities = (
+            self._get_probabilities(
                 raw
             )
-
-        else:
-
-            probs = self._softmax_probabilities(
-                raw
-            )
+        )
 
         # ----------------------------------------------------
-        # CLASS
+        # Grade
         # ----------------------------------------------------
 
         grade = int(
-            np.argmax(probs)
+            np.argmax(
+                probabilities
+            )
         )
 
         grade = int(
@@ -1024,7 +1168,7 @@ class InferenceEngine:
         )
 
         confidence = float(
-            probs[grade]
+            probabilities[grade]
         )
 
         low_confidence = (
@@ -1032,43 +1176,52 @@ class InferenceEngine:
             < self.confidence_threshold
         )
 
-        # ----------------------------------------------------
-        # PROBABILITY DICTIONARY
-        # ----------------------------------------------------
-
-        probabilities = {
+        probability_dict = {
             str(i): round(
-                float(probs[i]),
+                float(
+                    probabilities[i]
+                ),
                 6,
             )
-            for i in range(NUM_CLASSES)
+            for i in range(5)
         }
 
-        class_name = CLASS_NAMES[grade]
-
         logger.info(
-            "Prediction=%s | confidence=%.2f%% | probabilities=%s",
-            class_name,
+            "Prediction: ICDAS %d | "
+            "confidence %.2f%% | "
+            "probabilities=%s",
+            grade,
             confidence * 100.0,
-            probabilities,
+            probability_dict,
         )
 
         return {
             "icdas_grade": grade,
-            "class_name": class_name,
+
+            "class_name": CLASS_NAMES[
+                grade
+            ],
+
             "confidence": round(
                 confidence * 100.0,
                 2,
             ),
-            "probabilities": probabilities,
-            "low_confidence": low_confidence,
+
+            "probabilities":
+                probability_dict,
+
+            "low_confidence":
+                low_confidence,
+
             "low_confidence_message": (
                 "Low confidence prediction. "
-                "Professional dental examination recommended."
+                "Professional dental "
+                "examination recommended."
                 if low_confidence
                 else None
             ),
         }
+
 
     # ========================================================
     # PREDICT IMAGE
@@ -1079,19 +1232,24 @@ class InferenceEngine:
         image: np.ndarray,
     ) -> dict:
 
-        original_rgb, processed = (
-            self.preprocess_image(image)
+        original, processed = (
+            self.preprocess_image(
+                image
+            )
         )
 
         result = self.predict(
             processed
         )
 
-        result["image_shape"] = list(
-            original_rgb.shape
+        result[
+            "image_shape"
+        ] = list(
+            original.shape
         )
 
         return result
+
 
     # ========================================================
     # PREDICT FILE
@@ -1102,53 +1260,84 @@ class InferenceEngine:
         image_path: str | Path,
     ) -> dict:
 
-        image = self.load_image(
-            image_path
+        image = (
+            self.load_image(
+                image_path
+            )
         )
 
         return self.predict_image(
             image
         )
 
+
     # ========================================================
     # MODEL INFO
     # ========================================================
 
-    def get_model_info(self) -> dict:
+    def get_model_info(
+        self,
+    ) -> dict:
 
         return {
-            "model_path": str(
-                self.model_path
-            ),
-            "model_exists": Path(
-                self.model_path
-            ).exists(),
-            "input_shape": str(
-                self.model.input_shape
-            ),
-            "output_shape": str(
-                self.model.output_shape
-            ),
-            "num_classes": self.num_classes,
-            "icdas_mode": "0-4",
-            "ordinal_regression_config": (
-                self.ordinal_regression
-            ),
-            "detected_ordinal": getattr(
-                self,
-                "detected_ordinal",
-                False,
-            ),
-            "image_size": self.image_size,
-            "confidence_threshold": (
-                self.confidence_threshold
-            ),
-            "use_roi": self.use_roi,
-            "use_clahe": self.use_clahe,
-            "use_specular": self.use_specular,
-            "color_norm": self.color_norm,
-            "class_names": CLASS_NAMES,
+            "model_path":
+                self.model_path,
+
+            "model_exists":
+                Path(
+                    self.model_path
+                ).exists(),
+
+            "input_shape":
+                str(
+                    self.model.input_shape
+                ),
+
+            "output_shape":
+                str(
+                    self.model.output_shape
+                ),
+
+            "num_classes":
+                5,
+
+            "icdas_mode":
+                "0-4",
+
+            "model_type":
+                (
+                    "ordinal"
+                    if self.detected_ordinal
+                    else "5-class softmax"
+                ),
+
+            "image_size":
+                224,
+
+            "confidence_threshold":
+                self.confidence_threshold,
+
+            "model_input_range":
+                "0-255",
+
+            "preprocessing": {
+                "roi":
+                    self.use_roi,
+
+                "clahe":
+                    self.use_clahe,
+
+                "specular_reduction":
+                    self.use_specular,
+
+                "color_normalization":
+                    self.color_norm,
+            },
+
+            "class_names":
+                CLASS_NAMES,
         }
+
 
     # ========================================================
     # GRAD-CAM
@@ -1159,25 +1348,22 @@ class InferenceEngine:
         processed: np.ndarray,
         layer_name: str | None = None,
     ) -> np.ndarray:
-
-        if processed is None:
-
-            raise ValueError(
-                "Processed image is None."
-            )
+        """
+        Generate Grad-CAM for the predicted class.
+        """
 
         processed = np.asarray(
             processed,
             dtype=np.float32,
         )
 
-        image = np.expand_dims(
+        batch = np.expand_dims(
             processed,
             axis=0,
         )
 
         # ----------------------------------------------------
-        # FIND TARGET LAYER
+        # Find target layer
         # ----------------------------------------------------
 
         target_layer = None
@@ -1186,53 +1372,57 @@ class InferenceEngine:
 
             try:
 
-                target_layer = self.model.get_layer(
-                    layer_name
+                target_layer = (
+                    self.model.get_layer(
+                        layer_name
+                    )
                 )
 
             except Exception as exc:
 
                 raise ValueError(
-                    f"Grad-CAM layer '{layer_name}' "
-                    f"was not found."
+                    f"Grad-CAM layer "
+                    f"'{layer_name}' "
+                    "not found."
                 ) from exc
 
         else:
 
+            # Prefer layers with 4D outputs.
             for layer in reversed(
                 self.model.layers
             ):
 
                 try:
 
-                    shape = layer.output.shape
+                    output_shape = (
+                        layer.output.shape
+                    )
 
                     if (
-                        len(shape) == 4
-                        and shape[1] is not None
-                        and shape[2] is not None
+                        len(output_shape)
+                        == 4
                     ):
 
-                        target_layer = layer
+                        target_layer = (
+                            layer
+                        )
+
                         break
 
                 except Exception:
+
                     continue
 
         if target_layer is None:
 
             raise RuntimeError(
-                "Could not find a suitable "
-                "4D convolutional layer for Grad-CAM."
+                "No suitable convolutional "
+                "layer found for Grad-CAM."
             )
 
-        logger.info(
-            "Grad-CAM target layer: %s",
-            target_layer.name,
-        )
-
         # ----------------------------------------------------
-        # GRADIENT MODEL
+        # Gradient model
         # ----------------------------------------------------
 
         grad_model = keras.Model(
@@ -1244,14 +1434,14 @@ class InferenceEngine:
         )
 
         # ----------------------------------------------------
-        # FORWARD PASS
+        # Forward + gradient
         # ----------------------------------------------------
 
         with tf.GradientTape() as tape:
 
             conv_outputs, predictions = (
                 grad_model(
-                    image,
+                    batch,
                     training=False,
                 )
             )
@@ -1261,45 +1451,27 @@ class InferenceEngine:
                 dict,
             ):
 
-                if "class" in predictions:
-
-                    predictions = predictions[
-                        "class"
-                    ]
-
-                elif "ordinal" in predictions:
-
-                    predictions = predictions[
-                        "ordinal"
-                    ]
-
-            predictions = tf.convert_to_tensor(
-                predictions
-            )
-
-            if (
-                len(predictions.shape) == 2
-                and predictions.shape[-1] == 5
-            ):
-
-                class_index = tf.argmax(
-                    predictions[0]
+                predictions = (
+                    predictions.get(
+                        "class",
+                        next(
+                            iter(
+                                predictions.values()
+                            )
+                        ),
+                    )
                 )
 
-                class_score = predictions[
+            class_index = tf.argmax(
+                predictions[0]
+            )
+
+            class_score = (
+                predictions[
                     0,
                     class_index,
                 ]
-
-            else:
-
-                class_score = tf.reduce_max(
-                    predictions[0]
-                )
-
-        # ----------------------------------------------------
-        # GRADIENTS
-        # ----------------------------------------------------
+            )
 
         gradients = tape.gradient(
             class_score,
@@ -1309,19 +1481,24 @@ class InferenceEngine:
         if gradients is None:
 
             raise RuntimeError(
-                "Could not calculate Grad-CAM gradients."
+                "Could not calculate "
+                "Grad-CAM gradients."
             )
 
         # ----------------------------------------------------
-        # GLOBAL AVERAGE POOLING
+        # Global average pooling
         # ----------------------------------------------------
 
-        pooled_gradients = tf.reduce_mean(
-            gradients,
-            axis=(0, 1, 2),
+        pooled_gradients = (
+            tf.reduce_mean(
+                gradients,
+                axis=(0, 1, 2),
+            )
         )
 
-        conv_outputs = conv_outputs[0]
+        conv_outputs = (
+            conv_outputs[0]
+        )
 
         heatmap = tf.reduce_sum(
             conv_outputs
@@ -1334,18 +1511,20 @@ class InferenceEngine:
             0,
         )
 
-        max_value = tf.reduce_max(
+        maximum = tf.reduce_max(
             heatmap
         )
 
-        if float(max_value) > 0:
+        if float(maximum) > 0:
 
             heatmap = (
                 heatmap
-                / max_value
+                / maximum
             )
 
-        heatmap = heatmap.numpy()
+        heatmap = (
+            heatmap.numpy()
+        )
 
         heatmap = cv2.resize(
             heatmap,
@@ -1362,6 +1541,7 @@ class InferenceEngine:
             1.0,
         )
 
+
     # ========================================================
     # GRAD-CAM OVERLAY
     # ========================================================
@@ -1373,28 +1553,22 @@ class InferenceEngine:
         alpha: float = 0.40,
     ) -> np.ndarray:
 
-        if original_rgb is None:
-            raise ValueError(
-                "Original image is None."
+        heatmap_uint8 = (
+            np.uint8(
+                np.clip(
+                    heatmap,
+                    0.0,
+                    1.0,
+                )
+                * 255
             )
-
-        if heatmap is None:
-            raise ValueError(
-                "Heatmap is None."
-            )
-
-        heatmap_uint8 = np.uint8(
-            np.clip(
-                heatmap,
-                0.0,
-                1.0,
-            )
-            * 255
         )
 
-        colored = cv2.applyColorMap(
-            heatmap_uint8,
-            cv2.COLORMAP_JET,
+        colored = (
+            cv2.applyColorMap(
+                heatmap_uint8,
+                cv2.COLORMAP_JET,
+            )
         )
 
         colored = cv2.cvtColor(
@@ -1411,7 +1585,7 @@ class InferenceEngine:
             interpolation=cv2.INTER_AREA,
         )
 
-        overlay = cv2.addWeighted(
+        return cv2.addWeighted(
             original,
             1.0 - alpha,
             colored,
@@ -1419,47 +1593,209 @@ class InferenceEngine:
             0,
         )
 
-        return overlay
 
     # ========================================================
-    # HEALTH CHECK
+    # EXPLAIN
     # ========================================================
 
-    def health_check(self) -> dict:
+    def explain(
+        self,
+        processed: np.ndarray,
+        original_rgb: np.ndarray,
+        predicted_grade: int,
+    ) -> dict:
+
+        heatmap = (
+            self.generate_gradcam(
+                processed
+            )
+        )
+
+        overlay = (
+            self.create_gradcam_overlay(
+                original_rgb,
+                heatmap,
+            )
+        )
+
+        # ----------------------------------------------------
+        # Heatmap image
+        # ----------------------------------------------------
+
+        heatmap_uint8 = (
+            np.uint8(
+                np.clip(
+                    heatmap,
+                    0.0,
+                    1.0,
+                )
+                * 255
+            )
+        )
+
+        heatmap_color = (
+            cv2.applyColorMap(
+                heatmap_uint8,
+                cv2.COLORMAP_JET,
+            )
+        )
+
+        # ----------------------------------------------------
+        # Contour
+        # ----------------------------------------------------
+
+        threshold_mask = (
+            np.uint8(
+                heatmap > 0.50
+            )
+            * 255
+        )
+
+        contours, _ = (
+            cv2.findContours(
+                threshold_mask,
+                cv2.RETR_EXTERNAL,
+                cv2.CHAIN_APPROX_SIMPLE,
+            )
+        )
+
+        contour_image = cv2.resize(
+            original_rgb,
+            (
+                self.image_size,
+                self.image_size,
+            ),
+            interpolation=cv2.INTER_AREA,
+        ).copy()
+
+        cv2.drawContours(
+            contour_image,
+            contours,
+            -1,
+            (255, 0, 0),
+            2,
+        )
+
+        # ----------------------------------------------------
+        # Encode images
+        # ----------------------------------------------------
+
+        _, heatmap_encoded = (
+            cv2.imencode(
+                ".png",
+                heatmap_color,
+            )
+        )
+
+        _, overlay_encoded = (
+            cv2.imencode(
+                ".png",
+                cv2.cvtColor(
+                    overlay,
+                    cv2.COLOR_RGB2BGR,
+                ),
+            )
+        )
+
+        _, contour_encoded = (
+            cv2.imencode(
+                ".png",
+                cv2.cvtColor(
+                    contour_image,
+                    cv2.COLOR_RGB2BGR,
+                ),
+            )
+        )
+
+        return {
+            "heatmap": (
+                base64.b64encode(
+                    heatmap_encoded
+                ).decode(
+                    "utf-8"
+                )
+            ),
+
+            "overlay": (
+                base64.b64encode(
+                    overlay_encoded
+                ).decode(
+                    "utf-8"
+                )
+            ),
+
+            "contour": (
+                base64.b64encode(
+                    contour_encoded
+                ).decode(
+                    "utf-8"
+                )
+            ),
+
+            "predicted_grade":
+                int(
+                    predicted_grade
+                ),
+        }
+
+
+    # ========================================================
+    # HEALTH
+    # ========================================================
+
+    def health_check(
+        self,
+    ) -> dict:
 
         loaded = (
             self.model is not None
         )
 
         return {
-            "status": (
-                "healthy"
-                if loaded
-                else "unhealthy"
-            ),
-            "model_loaded": loaded,
-            "model_path": str(
-                self.model_path
-            ),
-            "model_exists": Path(
-                self.model_path
-            ).exists(),
-            "num_classes": self.num_classes,
-            "icdas_mode": "0-4",
-            "input_shape": (
-                str(
-                    self.model.input_shape
-                )
-                if loaded
-                else None
-            ),
-            "output_shape": (
-                str(
-                    self.model.output_shape
-                )
-                if loaded
-                else None
-            ),
+            "status":
+                (
+                    "healthy"
+                    if loaded
+                    else "unhealthy"
+                ),
+
+            "model_loaded":
+                loaded,
+
+            "model_path":
+                self.model_path,
+
+            "model_exists":
+                Path(
+                    self.model_path
+                ).exists(),
+
+            "num_classes":
+                5,
+
+            "icdas_mode":
+                "0-4",
+
+            "input_shape":
+                (
+                    str(
+                        self.model.input_shape
+                    )
+                    if loaded
+                    else None
+                ),
+
+            "output_shape":
+                (
+                    str(
+                        self.model.output_shape
+                    )
+                    if loaded
+                    else None
+                ),
+
+            "model_input_range":
+                "0-255",
         }
 
 

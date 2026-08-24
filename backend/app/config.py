@@ -1,19 +1,28 @@
 """
-Application configuration for ICDAS 0–4 Dental Caries Detection Backend.
+Application configuration for ICDAS 0-4.
 """
 
 from functools import lru_cache
 from pathlib import Path
 
 from pydantic import Field
-from pydantic_settings import BaseSettings, SettingsConfigDict
+from pydantic_settings import (
+    BaseSettings,
+    SettingsConfigDict,
+)
+
 
 # ============================================================
-# PROJECT PATHS
+# PATHS
 # ============================================================
 
-BACKEND_DIR = Path(__file__).resolve().parents[1]
-PROJECT_ROOT = BACKEND_DIR.parent
+BACKEND_DIR = (
+    Path(__file__).resolve().parents[1]
+)
+
+PROJECT_ROOT = (
+    BACKEND_DIR.parent
+)
 
 
 # ============================================================
@@ -21,36 +30,56 @@ PROJECT_ROOT = BACKEND_DIR.parent
 # ============================================================
 
 class Settings(BaseSettings):
-    # --------------------------------------------------------
-    # MODEL CONFIGURATION
-    # --------------------------------------------------------
-
-    # Always use the deployment model for inference.
-    model_path: str = str(PROJECT_ROOT / "models" / "deploy.keras")
-    deploy_model_path: str = str(PROJECT_ROOT / "models" / "deploy.keras")
 
     # --------------------------------------------------------
-    # ICDAS CONFIGURATION
+    # MODEL
+    # --------------------------------------------------------
+
+    model_path: str = str(
+        PROJECT_ROOT
+        / "models"
+        / "deploy.keras"
+    )
+
+    deploy_model_path: str = str(
+        PROJECT_ROOT
+        / "models"
+        / "deploy.keras"
+    )
+
+    # --------------------------------------------------------
+    # ICDAS
     # --------------------------------------------------------
 
     num_classes: int = 5
+
     image_size: int = 224
+
     icdas_mode: str = "0-4"
 
-    # Your trained model is a 5-class SOFTMAX classifier.
     ordinal_regression: bool = False
 
-    confidence_threshold: float = 0.50
+    confidence_threshold: float = 0.55
 
     # --------------------------------------------------------
-    # CORS CONFIGURATION
+    # PREPROCESSING
+    # --------------------------------------------------------
+
+    use_roi_detection: bool = False
+
+    use_clahe: bool = False
+
+    use_specular_reduction: bool = False
+
+    color_normalize: bool = False
+
+    # --------------------------------------------------------
+    # CORS
     # --------------------------------------------------------
 
     cors_origins: list[str] = [
         "http://localhost:3000",
-        "http://127.0.0.1:3000",
         "http://localhost:5173",
-        "http://127.0.0.1:5173",
         "http://localhost:8501",
         "http://127.0.0.1:8501",
     ]
@@ -58,7 +87,7 @@ class Settings(BaseSettings):
     max_upload_mb: int = 10
 
     # --------------------------------------------------------
-    # GROQ CONFIGURATION
+    # GROQ
     # --------------------------------------------------------
 
     groq_api_key: str = Field(
@@ -72,11 +101,14 @@ class Settings(BaseSettings):
     )
 
     # --------------------------------------------------------
-    # DATABASE CONFIGURATION
+    # DATABASE
     # --------------------------------------------------------
 
     database_url: str = Field(
-        default=f"sqlite:///{(BACKEND_DIR / 'icdas_predictions.db').as_posix()}",
+        default=(
+            f"sqlite:///"
+            f"{(BACKEND_DIR / 'icdas_predictions.db').as_posix()}"
+        ),
         validation_alias="DATABASE_URL",
     )
 
@@ -86,7 +118,7 @@ class Settings(BaseSettings):
     )
 
     # --------------------------------------------------------
-    # PYDANTIC SETTINGS
+    # PYDANTIC
     # --------------------------------------------------------
 
     model_config = SettingsConfigDict(
@@ -101,16 +133,21 @@ class Settings(BaseSettings):
 
 
 # ============================================================
-# GLOBAL SETTINGS INSTANCE
+# SETTINGS FACTORY
 # ============================================================
 
 @lru_cache
 def get_settings() -> Settings:
-    """Return cached application settings."""
+
     return Settings()
 
 
-# Global settings object imported across the backend.
+# Global instance
 settings = get_settings()
 
-__all__ = ["Settings", "get_settings", "settings"]
+
+__all__ = [
+    "Settings",
+    "settings",
+    "get_settings",
+]
