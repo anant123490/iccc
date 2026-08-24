@@ -1,27 +1,28 @@
+
 """
-ICDAS Dental AI — Streamlit frontend.
+ICDAS Dental AI — Streamlit Frontend
 
-The frontend is UI-only.
+Architecture
+------------
+Streamlit
+    ↓
+FastAPI /api/v1/predict
+    ↓
+InferenceEngine
+    ↓
+MobileNetV3-Small + CBAM
+    ↓
+ICDAS 0-4
+    ↓
+Streamlit displays the exact backend result
 
-ALL classification is performed by the FastAPI backend:
+IMPORTANT
+---------
+The frontend NEVER calculates the ICDAS grade.
 
-    Streamlit
-        ↓
-    FastAPI /api/v1/predict
-        ↓
-    InferenceEngine
-        ↓
-    MobileNetV3-Small + CBAM
-        ↓
-    ICDAS 0-4
-        ↓
-    Streamlit displays the exact backend result
+It always uses:
 
-IMPORTANT:
-    The frontend NEVER calculates the ICDAS grade itself.
-    It always uses:
-
-        result["icdas_grade"]
+    result["icdas_grade"]
 
 returned by FastAPI.
 """
@@ -32,6 +33,7 @@ import base64
 import hashlib
 import io
 import json
+import random
 from datetime import datetime
 from pathlib import Path
 from typing import Any
@@ -46,9 +48,7 @@ from PIL import Image, UnidentifiedImageError
 # CONFIGURATION
 # ============================================================
 
-DEFAULT_BACKEND_URL = (
-    "http://127.0.0.1:8000"
-)
+DEFAULT_BACKEND_URL = "http://127.0.0.1:8000"
 
 ACCEPTED_UPLOAD_TYPES = [
     "jpg",
@@ -59,20 +59,14 @@ ACCEPTED_UPLOAD_TYPES = [
 ]
 
 LOW_CONFIDENCE_COPY = (
-    "Low confidence prediction. "
-    "Professional dental examination recommended."
+    "Low confidence prediction. Professional examination recommended."
 )
 
 DISCLAIMER = (
-    "AI-assisted screening tool. This application is intended "
-    "for educational, research, and screening purposes and should "
-    "not replace examination or diagnosis by a qualified dental professional."
+    "AI-assisted screening tool. This application is intended for "
+    "educational, research, and screening purposes and should not replace "
+    "examination or diagnosis by a qualified dental professional."
 )
-
-
-# ============================================================
-# PAGES
-# ============================================================
 
 PAGE_HOME = "Home"
 PAGE_DETECTION = "Detection"
@@ -99,10 +93,7 @@ SIDEBAR_NAV = [
     PAGE_ABOUT,
 ]
 
-
-# ============================================================
-# ICDAS GUIDE
-# ============================================================
+ICDAS_MODEL_GRADES = (0, 1, 2, 3, 4)
 
 ICDAS_GUIDE = {
     0: {
@@ -110,8 +101,7 @@ ICDAS_GUIDE = {
         "short": "Sound",
         "icon": "0",
         "description": (
-            "Sound tooth surface. No evidence of caries "
-            "after visual inspection."
+            "Sound tooth surface. No evidence of caries after visual inspection."
         ),
         "in_model": True,
     },
@@ -120,9 +110,8 @@ ICDAS_GUIDE = {
         "short": "First visual change",
         "icon": "1",
         "description": (
-            "First visual change in enamel. "
-            "Opacity or discoloration is typically visible "
-            "after air drying."
+            "First visual change in enamel. Opacity or discoloration "
+            "is typically visible after air drying."
         ),
         "in_model": True,
     },
@@ -131,9 +120,8 @@ ICDAS_GUIDE = {
         "short": "Distinct visual change",
         "icon": "2",
         "description": (
-            "Distinct visual change in enamel when wet. "
-            "Demineralization is more established but "
-            "remains non-cavitated."
+            "Distinct visual change in enamel. Demineralization is more "
+            "established but remains non-cavitated."
         ),
         "in_model": True,
     },
@@ -142,8 +130,7 @@ ICDAS_GUIDE = {
         "short": "Localized enamel breakdown",
         "icon": "3",
         "description": (
-            "Localized enamel breakdown due to caries, "
-            "without visible dentin."
+            "Localized enamel breakdown due to caries, without visible dentin."
         ),
         "in_model": True,
     },
@@ -152,8 +139,8 @@ ICDAS_GUIDE = {
         "short": "Underlying dark shadow",
         "icon": "4",
         "description": (
-            "Underlying dark shadow from dentin, "
-            "with or without localized enamel breakdown."
+            "Underlying dark shadow from dentin, with or without localized "
+            "enamel breakdown."
         ),
         "in_model": True,
     },
@@ -162,8 +149,7 @@ ICDAS_GUIDE = {
         "short": "Distinct cavity with visible dentin",
         "icon": "5",
         "description": (
-            "Reference only. ICDAS 5 is not predicted "
-            "by the current model."
+            "Reference only — not predicted by the current model."
         ),
         "in_model": False,
     },
@@ -172,26 +158,17 @@ ICDAS_GUIDE = {
         "short": "Extensive distinct cavity",
         "icon": "6",
         "description": (
-            "Reference only. ICDAS 6 is not predicted "
-            "by the current model."
+            "Reference only — not predicted by the current model."
         ),
         "in_model": False,
     },
 }
 
-ICDAS_MODEL_GRADES = (
-    0,
-    1,
-    2,
-    3,
-    4,
-)
-
 URGENCY_COLORS = {
     "LOW": "#19A7A8",
-    "MODERATE": "#d97706",
-    "HIGH": "#ef4444",
-    "CRITICAL": "#dc2626",
+    "MODERATE": "#D97706",
+    "HIGH": "#EF4444",
+    "CRITICAL": "#DC2626",
 }
 
 
@@ -212,7 +189,6 @@ st.set_page_config(
 # ============================================================
 
 def initialize_session_state() -> None:
-
     defaults = {
         "backend_url": DEFAULT_BACKEND_URL,
         "nav_page": PAGE_HOME,
@@ -226,416 +202,275 @@ def initialize_session_state() -> None:
     }
 
     for key, value in defaults.items():
-
         if key not in st.session_state:
-
             st.session_state[key] = value
 
 
 # ============================================================
-# BACKEND URL
+# BACKEND
 # ============================================================
 
 def backend_url() -> str:
-
-    value = (
+    return str(
         st.session_state.get(
             "backend_url",
             DEFAULT_BACKEND_URL,
         )
-    )
+    ).rstrip("/")
 
-    return str(value).rstrip("/")
+
+def api_get(path: str, timeout: int = 15):
+    try:
+        response = requests.get(
+            f"{backend_url()}{path}",
+            timeout=timeout,
+        )
+        response.raise_for_status()
+        return response.json(), None
+
+    except requests.exceptions.ConnectionError:
+        return (
+            None,
+            "Unable to connect to the AI backend. "
+            "Please start FastAPI first.",
+        )
+
+    except requests.exceptions.Timeout:
+        return (
+            None,
+            "The AI backend timed out. Please try again.",
+        )
+
+    except requests.exceptions.HTTPError as exc:
+        response = exc.response
+        if response is not None:
+            try:
+                payload = response.json()
+                detail = payload.get(
+                    "detail",
+                    payload,
+                )
+                if isinstance(detail, str):
+                    return None, detail
+            except Exception:
+                pass
+
+        return (
+            None,
+            "The AI backend returned an HTTP error.",
+        )
+
+    except Exception as exc:
+        return (
+            None,
+            f"Unexpected backend error: {exc}",
+        )
+
+
+def api_post(
+    path: str,
+    *,
+    files=None,
+    params=None,
+    timeout: int = 120,
+):
+    try:
+        response = requests.post(
+            f"{backend_url()}{path}",
+            files=files,
+            params=params,
+            timeout=timeout,
+        )
+        response.raise_for_status()
+        return response.json(), None
+
+    except requests.exceptions.ConnectionError:
+        return (
+            None,
+            "Unable to connect to the AI backend. "
+            "Please start FastAPI first.",
+        )
+
+    except requests.exceptions.Timeout:
+        return (
+            None,
+            "The prediction request timed out.",
+        )
+
+    except requests.exceptions.HTTPError as exc:
+        response = exc.response
+        if response is not None:
+            try:
+                payload = response.json()
+                detail = payload.get(
+                    "detail",
+                    payload,
+                )
+                if isinstance(detail, str):
+                    return None, detail
+            except Exception:
+                pass
+
+        return (
+            None,
+            "The prediction request failed.",
+        )
+
+    except Exception as exc:
+        return (
+            None,
+            f"Unexpected backend error: {exc}",
+        )
 
 
 # ============================================================
 # NAVIGATION
 # ============================================================
 
-def set_page(
-    page_name: str,
-) -> None:
-
-    st.session_state[
-        "_pending_nav_page"
-    ] = page_name
-
+def set_page(name: str) -> None:
+    st.session_state["_pending_nav_page"] = name
     st.rerun()
 
 
 # ============================================================
-# HTTP ERROR
+# IMAGE HELPERS
 # ============================================================
 
-def http_error_message(
-    exc: requests.exceptions.HTTPError,
-) -> str:
+def image_hash(data: bytes) -> str:
+    return hashlib.sha256(data).hexdigest()
 
-    response = exc.response
 
-    if response is None:
-
-        return (
-            "The AI backend returned an error."
-        )
+def open_image(data: bytes) -> Image.Image | None:
+    if not data:
+        st.error("No image was selected.")
+        return None
 
     try:
+        image = Image.open(io.BytesIO(data))
+        image.load()
+        return image.convert("RGB")
 
-        payload = response.json()
-
-        detail = payload.get(
-            "detail",
-            payload,
+    except UnidentifiedImageError:
+        st.error(
+            "Invalid image. Please use JPG, JPEG, PNG, BMP or WEBP."
         )
 
-        if isinstance(
-            detail,
-            str,
-        ):
-
-            return detail
-
-        return (
-            "The AI backend returned an error."
+    except OSError:
+        st.error(
+            "The image appears to be corrupt or incomplete."
         )
 
     except Exception:
-
-        text = (
-            response.text
-            or ""
-        ).strip()
-
-        if (
-            text
-            and len(text) < 280
-            and "Traceback" not in text
-        ):
-
-            return text
-
-        return (
-            "The AI backend returned an error."
+        st.error(
+            "Unable to read the selected image."
         )
 
+    return None
 
-# ============================================================
-# API GET
-# ============================================================
 
-def api_get(
-    path: str,
-    timeout: int = 15,
-):
+def b64_to_image(
+    b64_string: str | None,
+) -> Image.Image | None:
+    if not b64_string:
+        return None
 
     try:
+        raw = base64.b64decode(b64_string)
+        image = Image.open(io.BytesIO(raw))
+        image.load()
+        return image.convert("RGB")
 
-        response = requests.get(
-            f"{backend_url()}{path}",
-            timeout=timeout,
-        )
-
-        response.raise_for_status()
-
-        return response.json(), None
-
-    except requests.exceptions.ConnectionError:
-
-        return (
-            None,
-            "Unable to connect to the AI backend. "
-            "Start FastAPI first.",
-        )
-
-    except requests.exceptions.Timeout:
-
-        return (
-            None,
-            "The AI backend timed out.",
-        )
-
-    except requests.exceptions.HTTPError as exc:
-
-        return (
-            None,
-            http_error_message(exc),
-        )
-
-    except Exception as exc:
-
-        return (
-            None,
-            f"Unexpected backend error: {exc}",
-        )
-
-
-# ============================================================
-# API POST
-# ============================================================
-
-def api_post(
-    path: str,
-    timeout: int = 120,
-    **kwargs,
-):
-
-    try:
-
-        response = requests.post(
-            f"{backend_url()}{path}",
-            timeout=timeout,
-            **kwargs,
-        )
-
-        response.raise_for_status()
-
-        return response.json(), None
-
-    except requests.exceptions.ConnectionError:
-
-        return (
-            None,
-            "Unable to connect to the AI backend. "
-            "Start FastAPI first.",
-        )
-
-    except requests.exceptions.Timeout:
-
-        return (
-            None,
-            "The request timed out while contacting the AI backend.",
-        )
-
-    except requests.exceptions.HTTPError as exc:
-
-        return (
-            None,
-            http_error_message(exc),
-        )
-
-    except Exception as exc:
-
-        return (
-            None,
-            f"Unexpected backend error: {exc}",
-        )
+    except Exception:
+        return None
 
 
 # ============================================================
 # RESPONSE VALIDATION
 # ============================================================
 
-def validate_prediction_response(
-    result: Any,
-) -> dict:
+def normalize_prediction(result: Any) -> dict:
     """
-    Validate and normalize exactly what FastAPI returned.
+    Validate the exact FastAPI prediction.
 
-    IMPORTANT:
-        The frontend does NOT calculate the ICDAS grade.
+    The frontend NEVER calculates argmax.
 
-        It trusts only:
-            result["icdas_grade"]
+    The backend has already calculated:
 
+        icdas_grade
+
+    and this function only validates/displays it.
     """
 
-    if not isinstance(
-        result,
-        dict,
-    ):
-
+    if not isinstance(result, dict):
         raise ValueError(
             "Backend returned an invalid response."
         )
 
     if "icdas_grade" not in result:
-
         raise ValueError(
-            "Backend response does not contain "
-            "'icdas_grade'."
+            "Backend response does not contain icdas_grade."
         )
-
-    # --------------------------------------------------------
-    # EXACT BACKEND GRADE
-    # --------------------------------------------------------
 
     try:
-
-        grade = int(
-            result["icdas_grade"]
-        )
-
-    except (
-        TypeError,
-        ValueError,
-    ):
-
+        grade = int(result["icdas_grade"])
+    except (TypeError, ValueError) as exc:
         raise ValueError(
             "Backend returned an invalid ICDAS grade."
-        )
+        ) from exc
 
     if grade not in ICDAS_MODEL_GRADES:
-
         raise ValueError(
-            f"Backend returned ICDAS {grade}. "
-            "Only ICDAS 0-4 are supported."
+            f"Backend returned unsupported ICDAS grade {grade}."
         )
-
-    # --------------------------------------------------------
-    # CONFIDENCE
-    # --------------------------------------------------------
 
     try:
-
         confidence = float(
-            result.get(
-                "confidence",
-                0.0,
-            )
+            result.get("confidence", 0.0)
         )
-
-    except (
-        TypeError,
-        ValueError,
-    ):
-
+    except (TypeError, ValueError):
         confidence = 0.0
 
     confidence = max(
         0.0,
-        min(
-            100.0,
-            confidence,
-        ),
+        min(100.0, confidence),
     )
 
-    # --------------------------------------------------------
-    # PROBABILITIES
-    # --------------------------------------------------------
-
-    probabilities = (
-        result.get(
-            "probabilities",
-            {},
-        )
+    probabilities = result.get(
+        "probabilities",
+        {},
     )
 
-    if isinstance(
-        probabilities,
-        str,
-    ):
-
+    if isinstance(probabilities, str):
         try:
-
-            probabilities = json.loads(
-                probabilities
-            )
-
+            probabilities = json.loads(probabilities)
         except Exception:
-
             probabilities = {}
 
     normalized_probabilities = {}
 
-    if isinstance(
-        probabilities,
-        dict,
-    ):
-
-        for key, value in (
-            probabilities.items()
-        ):
+    if isinstance(probabilities, dict):
+        for class_id in ICDAS_MODEL_GRADES:
+            value = probabilities.get(
+                str(class_id),
+                probabilities.get(class_id, 0.0),
+            )
 
             try:
-
-                class_id = int(
-                    key
-                )
-
-                probability = float(
-                    value
-                )
-
-            except (
-                TypeError,
-                ValueError,
-            ):
-
-                continue
-
-            if class_id in ICDAS_MODEL_GRADES:
-
                 normalized_probabilities[
                     str(class_id)
-                ] = probability
+                ] = float(value)
+            except (TypeError, ValueError):
+                normalized_probabilities[
+                    str(class_id)
+                ] = 0.0
 
-    # --------------------------------------------------------
-    # RESULT
-    # --------------------------------------------------------
+    cleaned = dict(result)
 
-    normalized = dict(
-        result
-    )
+    cleaned["icdas_grade"] = grade
+    cleaned["confidence"] = confidence
+    cleaned["probabilities"] = normalized_probabilities
 
-    normalized[
-        "icdas_grade"
-    ] = grade
-
-    normalized[
-        "confidence"
-    ] = confidence
-
-    normalized[
-        "probabilities"
-    ] = normalized_probabilities
-
-    return normalized
-
-
-# ============================================================
-# BASE64 IMAGE
-# ============================================================
-
-def b64_to_image(
-    b64_string: str | None,
-) -> Image.Image | None:
-
-    if not b64_string:
-
-        return None
-
-    try:
-
-        data = base64.b64decode(
-            b64_string
-        )
-
-        image = Image.open(
-            io.BytesIO(data)
-        )
-
-        image.load()
-
-        return image.convert(
-            "RGB"
-        )
-
-    except Exception:
-
-        return None
-
-
-# ============================================================
-# HASH
-# ============================================================
-
-def image_hash(
-    data: bytes,
-) -> str:
-
-    return hashlib.sha256(
-        data
-    ).hexdigest()
+    return cleaned
 
 
 # ============================================================
@@ -648,102 +483,54 @@ def icdas_severity_copy(
 ) -> tuple[str, str]:
 
     try:
-
-        grade_int = int(
-            grade
-        )
-
-    except (
-        TypeError,
-        ValueError,
-    ):
-
+        grade_int = int(grade)
+    except (TypeError, ValueError):
         return (
             "Unknown",
             "The model did not return a valid ICDAS grade.",
         )
 
-    if result:
-
-        label = (
-            result.get(
-                "label"
-            )
-            or ICDAS_GUIDE.get(
-                grade_int,
-                {},
-            ).get(
-                "title",
-                "",
-            )
-        )
-
-        description = (
-            result.get(
-                "description"
-            )
-            or ICDAS_GUIDE.get(
-                grade_int,
-                {},
-            ).get(
-                "description",
-                "",
-            )
-        )
-
-        return (
-            str(label),
-            str(description),
-        )
-
     info = ICDAS_GUIDE.get(
-        grade_int
+        grade_int,
+        {},
     )
 
-    if info:
-
-        return (
-            info["title"],
-            info["description"],
-        )
-
-    return (
+    label = (
+        result.get("label")
+        if result
+        else None
+    ) or info.get(
+        "title",
         f"ICDAS {grade_int}",
+    )
+
+    description = (
+        result.get("description")
+        if result
+        else None
+    ) or info.get(
+        "description",
         "No description is available.",
     )
 
+    return (
+        str(label),
+        str(description),
+    )
 
-# ============================================================
-# PROBABILITY
-# ============================================================
 
-def probability_percent(
-    value: Any,
-) -> float:
-
+def probability_percent(value: Any) -> float:
     try:
-
-        number = float(
-            value
-        )
-
-    except (
-        TypeError,
-        ValueError,
-    ):
-
+        number = float(value)
+    except (TypeError, ValueError):
         return 0.0
 
     if number <= 1.0:
-
         number *= 100.0
 
     return max(
         0.0,
-        min(
-            100.0,
-            number,
-        ),
+        min(100.0, number),
     )
 
 
@@ -752,11 +539,9 @@ def probability_percent(
 # ============================================================
 
 def render_css() -> None:
-
     st.markdown(
         """
         <style>
-        @import url('https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;500;600;700;800&family=IBM+Plex+Sans:wght@500;600;700&display=swap');
 
         :root {
             --bg: #121c26;
@@ -767,13 +552,13 @@ def render_css() -> None:
             --text: #f5f7fa;
             --muted: #aab4be;
             --border: #2a3c4c;
-            --shadow: 0 8px 24px rgba(0, 0, 0, 0.22);
+            --shadow: 0 8px 24px rgba(0,0,0,0.22);
             --radius: 12px;
         }
 
-        html, body, [class*="css"], .stApp,
-        .stMarkdown, p, label, span {
-            font-family: 'Source Sans 3', sans-serif;
+        html, body, [class*="css"],
+        .stApp, .stMarkdown, p, label, span {
+            font-family: "Source Sans 3", sans-serif;
         }
 
         .stApp {
@@ -806,22 +591,196 @@ def render_css() -> None:
             color: var(--text) !important;
         }
 
-        [data-testid="stSidebar"] hr {
-            border-color: var(--border);
+        .hero-card,
+        .panel,
+        .feature-card,
+        .result-card,
+        .guide-card,
+        .privacy-card,
+        .input-card,
+        .step-card,
+        .site-footer {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
         }
 
-        .brand-mark {
-            font-family: 'IBM Plex Sans', sans-serif;
-            font-size: 1.28rem;
-            font-weight: 700;
+        .hero-card {
+            padding: 32px 30px 28px;
+            margin-bottom: 18px;
+            background: var(--bg-alt);
+        }
+
+        .hero-card h1 {
+            font-size: 2rem;
+            margin: 0 0 8px;
+            color: var(--text);
+            letter-spacing: -0.03em;
+        }
+
+        .hero-card .lede {
+            color: var(--text);
+            font-size: 1.05rem;
+            margin: 0 0 10px;
+        }
+
+        .hero-card p {
             margin: 0;
+            color: var(--muted);
+            line-height: 1.55;
+        }
+
+        .feature-card,
+        .guide-card,
+        .input-card,
+        .step-card {
+            padding: 18px;
+            height: 100%;
+        }
+
+        .feature-card h4,
+        .guide-card h4,
+        .input-card h3,
+        .step-card h4 {
+            margin: 0 0 8px;
             color: var(--text);
         }
 
-        .brand-sub {
-            margin: 2px 0 0 0;
+        .feature-card p,
+        .guide-card p,
+        .input-card p,
+        .step-card p {
             color: var(--muted);
-            font-size: 0.82rem;
+            line-height: 1.5;
+            font-size: 0.9rem;
+        }
+
+        .guide-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 8px;
+            background: #243544;
+            color: var(--secondary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            margin-bottom: 10px;
+        }
+
+        .page-title {
+            font-size: 1.55rem;
+            font-weight: 700;
+            margin-bottom: 4px;
+            color: var(--text);
+        }
+
+        .page-sub {
+            color: var(--muted);
+            margin-bottom: 18px;
+        }
+
+        .section-label {
+            font-size: 1.15rem;
+            font-weight: 700;
+            margin: 22px 0 12px;
+            color: var(--text);
+        }
+
+        .icdas-big {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #7db4ff;
+            margin: 6px 0;
+            text-align: center;
+        }
+
+        .severity-label {
+            text-align: center;
+            color: var(--muted);
+            font-weight: 600;
+            margin-bottom: 12px;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 999px;
+            font-size: 11px;
+            font-weight: 700;
+            color: white;
+        }
+
+        .chip {
+            display: inline-block;
+            background: #1a3344;
+            color: #9fd8d9;
+            border: 1px solid #2a5560;
+            border-radius: 999px;
+            padding: 3px 10px;
+            font-size: 11px;
+            font-weight: 700;
+        }
+
+        .privacy-card {
+            padding: 14px 16px;
+            background: #173038;
+            border-color: #2a5560;
+        }
+
+        .privacy-card p {
+            color: #9fd8d9 !important;
+        }
+
+        .disclaimer {
+            border: 1px solid #4a3d1f;
+            background: #2a2416;
+            color: #e7d7a8;
+            border-radius: 10px;
+            padding: 12px 14px;
+            font-size: 13px;
+            margin-top: 12px;
+        }
+
+        .workflow {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 18px;
+            text-align: center;
+            font-weight: 600;
+            color: var(--text);
+        }
+
+        .workflow span {
+            color: var(--secondary);
+            display: block;
+            margin: 6px 0;
+        }
+
+        .or-divider {
+            text-align: center;
+            color: var(--muted);
+            font-weight: 700;
+            padding-top: 72px;
+        }
+
+        .site-footer {
+            margin-top: 28px;
+            padding: 18px 20px;
+            background: var(--bg-alt);
+        }
+
+        .site-footer h4 {
+            margin: 0 0 4px;
+            color: var(--text);
+        }
+
+        .site-footer p {
+            color: var(--muted);
+            margin-bottom: 8px;
+            font-size: 0.88rem;
         }
 
         .status-pill {
@@ -850,279 +809,30 @@ def render_css() -> None:
             background: #f87171;
         }
 
-        .hero-card,
-        .panel,
-        .feature-card,
-        .result-card,
-        .guide-card,
-        .privacy-card,
-        .input-card,
-        .step-card,
-        .site-footer {
-            background: var(--card);
-            border: 1px solid var(--border);
-            border-radius: var(--radius);
-            box-shadow: var(--shadow);
-        }
-
-        .hero-card {
-            padding: 32px 30px 28px 30px;
-            margin-bottom: 18px;
-            background: var(--bg-alt);
-        }
-
-        .hero-card h1 {
-            font-family: 'IBM Plex Sans', sans-serif;
-            margin: 0 0 8px 0;
-            font-size: 2rem;
-            letter-spacing: -0.03em;
-            color: var(--text);
-        }
-
-        .hero-card .lede {
-            color: var(--text);
-            font-size: 1.05rem;
-            margin: 0 0 10px 0;
-        }
-
-        .hero-card p {
-            margin: 0;
-            color: var(--muted);
-            line-height: 1.55;
-        }
-
-        .feature-card,
-        .guide-card,
-        .input-card,
-        .step-card {
-            padding: 18px;
-            height: 100%;
-        }
-
-        .feature-card h4,
-        .guide-card h4,
-        .input-card h3,
-        .step-card h4 {
-            margin: 0 0 8px 0;
-            font-family: 'IBM Plex Sans', sans-serif;
-            color: var(--text);
-        }
-
-        .feature-card p,
-        .guide-card p,
-        .input-card p,
-        .step-card p {
-            margin: 0;
-            color: var(--muted);
-            font-size: 0.9rem;
-            line-height: 1.5;
-        }
-
-        .guide-icon {
-            width: 36px;
-            height: 36px;
-            border-radius: 8px;
-            background: #243544;
-            color: var(--secondary);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 800;
-            margin-bottom: 10px;
-        }
-
-        .page-title {
-            font-family: 'IBM Plex Sans', sans-serif;
-            font-size: 1.55rem;
-            font-weight: 700;
-            margin: 0 0 4px 0;
-            color: var(--text);
-        }
-
-        .page-sub {
-            color: var(--muted);
-            margin: 0 0 18px 0;
-        }
-
-        .section-label {
-            font-family: 'IBM Plex Sans', sans-serif;
-            font-size: 1.15rem;
-            font-weight: 700;
-            margin: 22px 0 12px 0;
-            color: var(--text);
-        }
-
-        .icdas-big {
-            font-family: 'IBM Plex Sans', sans-serif;
-            font-size: 2.5rem;
-            font-weight: 700;
-            color: #7db4ff;
-            margin: 6px 0;
-            text-align: center;
-        }
-
-        .severity-label {
-            text-align: center;
-            color: var(--muted);
-            font-weight: 600;
-            margin-bottom: 12px;
-        }
-
-        .badge {
-            display: inline-block;
-            padding: 4px 10px;
-            border-radius: 999px;
-            font-size: 11px;
-            font-weight: 700;
-            letter-spacing: 0.04em;
-            color: #fff;
-        }
-
-        .chip {
-            display: inline-block;
-            background: #1a3344;
-            color: #9fd8d9;
-            border: 1px solid #2a5560;
-            border-radius: 999px;
-            padding: 3px 10px;
-            font-size: 11px;
-            font-weight: 700;
-        }
-
-        .disclaimer {
-            border: 1px solid #4a3d1f;
-            background: #2a2416;
-            color: #e7d7a8;
-            border-radius: 10px;
-            padding: 12px 14px;
-            font-size: 13px;
-            margin-top: 12px;
-        }
-
-        .privacy-card {
-            padding: 14px 16px;
-            background: #173038;
-            border-color: #2a5560;
-        }
-
-        .privacy-card p {
-            color: #9fd8d9 !important;
-        }
-
-        .workflow {
-            background: var(--card);
-            border: 1px solid var(--border);
-            border-radius: var(--radius);
-            padding: 18px;
-            text-align: center;
-            font-weight: 600;
-            color: var(--text);
-        }
-
-        .workflow span {
-            color: var(--secondary);
-            display: block;
-            margin: 6px 0;
-        }
-
-        .or-divider {
-            text-align: center;
-            color: var(--muted);
-            font-weight: 700;
-            letter-spacing: 0.08em;
-            padding-top: 72px;
-        }
-
-        .site-footer {
-            margin-top: 28px;
-            padding: 18px 20px;
-            background: var(--bg-alt);
-        }
-
-        .site-footer h4 {
-            margin: 0 0 4px 0;
-            font-family: 'IBM Plex Sans', sans-serif;
-            color: var(--text);
-        }
-
-        .site-footer p {
-            color: var(--muted);
-            margin: 0 0 8px 0;
-            font-size: 0.88rem;
-        }
-
-        .site-footer .links {
-            color: var(--muted);
-            font-size: 0.85rem;
-        }
-
         .stButton > button {
             border-radius: 8px;
             font-weight: 650;
-            padding: 0.5rem 1rem;
             border: 1px solid var(--border);
             background: #243544;
             color: var(--text);
-        }
-
-        .stButton > button[kind="primary"] {
-            background: var(--primary);
-            border-color: var(--primary);
-            color: #fff;
         }
 
         [data-testid="stFileUploader"] {
             background: #16222c;
             border: 1px dashed #3b5568;
             border-radius: var(--radius);
-            padding: 8px 12px 16px 12px;
         }
 
         [data-testid="stMetric"] {
             background: var(--card);
             border: 1px solid var(--border);
             border-radius: 10px;
-            padding: 10px 12px;
-        }
-
-        [data-testid="stCaption"],
-        .stCaption,
-        small {
-            color: var(--muted) !important;
-        }
-
-        img {
-            border-radius: 8px;
-            max-width: 100%;
         }
 
         .stProgress > div > div {
             background: var(--secondary);
         }
 
-        [data-testid="stCameraInput"] {
-            background: #16222c;
-            border: 1px solid var(--border);
-            border-radius: var(--radius);
-            padding: 8px;
-        }
-
-        div[data-testid="stAlert"] {
-            background: var(--card);
-            border: 1px solid var(--border);
-            color: var(--text);
-        }
-
-        @media (max-width: 900px) {
-            .hero-card h1 {
-                font-size: 1.55rem;
-            }
-
-            .or-divider {
-                padding-top: 8px;
-                padding-bottom: 8px;
-            }
-        }
         </style>
         """,
         unsafe_allow_html=True,
@@ -1134,16 +844,10 @@ def render_css() -> None:
 # ============================================================
 
 def render_sidebar() -> None:
-
-    health, error = api_get(
-        "/api/v1/health"
-    )
+    health, error = api_get("/api/v1/health")
 
     model_loaded = bool(
-        health
-        and health.get(
-            "model_loaded"
-        )
+        health and health.get("model_loaded")
     )
 
     with st.sidebar:
@@ -1155,11 +859,16 @@ def render_sidebar() -> None:
 
         st.markdown(
             '<p class="brand-sub">'
-            'Offline AI-Based Dental Caries Detection'
-            '</p>',
+            "Offline AI-Based Dental Caries Detection"
+            "</p>",
             unsafe_allow_html=True,
         )
 
+        st.markdown("---")
+
+        # IMPORTANT:
+        # This widget itself controls nav_page.
+        # We do not mutate nav_page after creating it.
         st.radio(
             "Pages",
             SIDEBAR_NAV,
@@ -1169,9 +878,7 @@ def render_sidebar() -> None:
 
         st.markdown("---")
 
-        st.caption(
-            "AI Model Status"
-        )
+        st.caption("AI Model Status")
 
         if model_loaded:
 
@@ -1203,65 +910,48 @@ def render_sidebar() -> None:
                 unsafe_allow_html=True,
             )
 
-        with st.expander(
-            "Backend connection"
-        ):
+        with st.expander("Backend connection"):
 
-            st.session_state[
-                "backend_url"
-            ] = st.text_input(
-                "Backend URL",
-                value=backend_url(),
-                help=(
-                    "Local FastAPI inference server"
-                ),
-            )
-
-            if error:
-
-                st.caption(
-                    error
+            st.session_state["backend_url"] = (
+                st.text_input(
+                    "Backend URL",
+                    value=backend_url(),
+                    help="Local FastAPI inference server",
                 )
+            )
 
             if health:
 
                 st.caption(
-                    "API status: "
-                    f"{health.get('status', 'unknown')}"
+                    f"API status: {health.get('status', 'unknown')}"
                 )
 
                 st.caption(
                     "Database: "
                     + (
                         "ok"
-                        if health.get(
-                            "database_ok"
-                        )
+                        if health.get("database_ok")
                         else "unavailable"
                     )
                 )
 
-                groq = health.get(
-                    "groq_configured"
-                )
-
                 st.caption(
-                    (
-                        "Narrative reports: "
+                    "Narrative reports: "
+                    + (
                         "Groq configured"
-                        if groq
-                        else
-                        "Narrative reports: "
-                        "local fallback"
+                        if health.get("groq_configured")
+                        else "local fallback"
                     )
                 )
+
+            elif error:
+
+                st.caption(error)
 
         st.checkbox(
             "Backend debug",
             key="debug_backend",
-            help=(
-                "Show the exact JSON returned by FastAPI."
-            ),
+            help="Show the exact JSON returned by FastAPI.",
         )
 
 
@@ -1270,7 +960,6 @@ def render_sidebar() -> None:
 # ============================================================
 
 def render_top_header() -> None:
-
     brand, nav = st.columns(
         [1.35, 2]
     )
@@ -1307,7 +996,7 @@ def render_top_header() -> None:
 
             with col:
 
-                btn_type = (
+                button_type = (
                     "primary"
                     if current == name
                     else "secondary"
@@ -1315,16 +1004,13 @@ def render_top_header() -> None:
 
                 if st.button(
                     name,
-                    type=btn_type,
+                    type=button_type,
                     use_container_width=True,
                     key=f"topnav_{name}",
                 ):
 
                     if current != name:
-
-                        set_page(
-                            name
-                        )
+                        set_page(name)
 
     st.markdown(
         "<hr style='border-color:#2a3c4c;"
@@ -1334,48 +1020,17 @@ def render_top_header() -> None:
 
 
 # ============================================================
-# FOOTER
-# ============================================================
-
-def render_footer() -> None:
-
-    st.markdown(
-        """
-        <div class="site-footer">
-            <h4>Dental AI</h4>
-            <p>
-                Offline AI-Based Dental Caries Detection
-                using ICDAS Classification
-            </p>
-            <p class="links">
-                Home · Detection · ICDAS Guide · About
-            </p>
-            <p>
-                AI-assisted screening tool. This application is
-                intended for educational, research, and screening
-                purposes and should not replace examination or
-                diagnosis by a qualified dental professional.
-            </p>
-        </div>
-        """,
-        unsafe_allow_html=True,
-    )
-
-
-# ============================================================
-# PRIVACY
+# PRIVACY / DISCLAIMER / FOOTER
 # ============================================================
 
 def render_privacy_card() -> None:
-
     st.markdown(
         """
         <div class="privacy-card">
             <strong>Privacy First</strong>
             <p style="margin:6px 0 0 0;font-size:0.88rem;">
-            Images are sent only to the local FastAPI backend
-            when using this local application.
-            Optional narrative text may use Groq only when configured.
+                Images are processed by the local FastAPI backend.
+                Optional narrative text may use Groq only when configured.
             </p>
         </div>
         """,
@@ -1383,16 +1038,32 @@ def render_privacy_card() -> None:
     )
 
 
-# ============================================================
-# DISCLAIMER
-# ============================================================
-
 def render_disclaimer() -> None:
-
     st.markdown(
         f"""
         <div class="disclaimer">
             {DISCLAIMER}
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )
+
+
+def render_footer() -> None:
+    st.markdown(
+        """
+        <div class="site-footer">
+            <h4>Dental AI</h4>
+            <p>
+                Offline AI-Based Dental Caries Detection using ICDAS Classification.
+            </p>
+            <p>
+                Home · Detection · ICDAS Guide · About
+            </p>
+            <p>
+                AI-assisted screening tool for educational,
+                research and screening purposes.
+            </p>
         </div>
         """,
         unsafe_allow_html=True,
@@ -1404,7 +1075,6 @@ def render_disclaimer() -> None:
 # ============================================================
 
 def render_how_it_works() -> None:
-
     st.markdown(
         '<p class="section-label">How It Works</p>',
         unsafe_allow_html=True,
@@ -1419,7 +1089,7 @@ def render_how_it_works() -> None:
         (
             "2",
             "AI processing",
-            "The image is sent to the local FastAPI backend.",
+            "Image is sent to the local FastAPI backend.",
         ),
         (
             "3",
@@ -1433,27 +1103,20 @@ def render_how_it_works() -> None:
         ),
     ]
 
-    cols = st.columns(
-        4
-    )
+    cols = st.columns(4)
 
     for col, (
         number,
         title,
         body,
-    ) in zip(
-        cols,
-        steps,
-    ):
+    ) in zip(cols, steps):
 
         with col:
 
             st.markdown(
                 f"""
                 <div class="step-card">
-                    <div class="guide-icon">
-                        {number}
-                    </div>
+                    <div class="guide-icon">{number}</div>
                     <h4>{title}</h4>
                     <p>{body}</p>
                 </div>
@@ -1468,9 +1131,11 @@ def render_how_it_works() -> None:
 
 def render_dashboard() -> None:
 
+    # This MUST remain st.markdown with unsafe_allow_html.
     st.markdown(
         """
         <div class="hero-card">
+
             <h1>
                 AI-Powered Dental Caries Detection
             </h1>
@@ -1485,6 +1150,7 @@ def render_dashboard() -> None:
                 using your camera to receive an AI-assisted ICDAS
                 classification with confidence and explainability.
             </p>
+
         </div>
         """,
         unsafe_allow_html=True,
@@ -1494,10 +1160,7 @@ def render_dashboard() -> None:
         "Start Detection",
         type="primary",
     ):
-
-        set_page(
-            PAGE_DETECTION
-        )
+        set_page(PAGE_DETECTION)
 
     features = [
         (
@@ -1506,7 +1169,7 @@ def render_dashboard() -> None:
         ),
         (
             "Edge AI Detection",
-            "MobileNetV3-Small with CBAM attention for compact local inference.",
+            "MobileNetV3-Small with CBAM attention for compact inference.",
         ),
         (
             "Offline & Private",
@@ -1522,28 +1185,21 @@ def render_dashboard() -> None:
         ),
         (
             "Camera Compatible",
-            "Upload a photograph or capture one with the device camera.",
+            "Upload a photograph or capture one with your device camera.",
         ),
     ]
 
-    rows = [
+    for row in (
         features[:3],
         features[3:],
-    ]
+    ):
 
-    for row in rows:
-
-        cols = st.columns(
-            3
-        )
+        cols = st.columns(3)
 
         for col, (
             title,
             body,
-        ) in zip(
-            cols,
-            row,
-        ):
+        ) in zip(cols, row):
 
             with col:
 
@@ -1562,28 +1218,19 @@ def render_dashboard() -> None:
         unsafe_allow_html=True,
     )
 
-    stats, error = api_get(
-        "/api/v1/stats"
-    )
+    stats, error = api_get("/api/v1/stats")
 
     if error:
 
         st.info(
-            "Dashboard statistics will appear "
-            "when the backend is available."
+            "Dashboard statistics will appear when the backend is available."
         )
+        st.caption(error)
 
-        st.caption(
-            error
-        )
-
-    elif not stats or (
-        stats.get(
-            "total_analyses",
-            0,
-        )
-        == 0
-    ):
+    elif not stats or stats.get(
+        "total_analyses",
+        0,
+    ) == 0:
 
         st.info(
             "No scan data available yet."
@@ -1591,19 +1238,13 @@ def render_dashboard() -> None:
 
     else:
 
-        distribution = (
-            stats.get(
-                "grade_distribution"
-            )
-            or {}
-        )
+        dist = stats.get(
+            "grade_distribution",
+            {},
+        ) or {}
 
         healthy = int(
-            distribution.get(
-                "0",
-                0,
-            )
-            or 0
+            dist.get("0", 0) or 0
         )
 
         total = int(
@@ -1618,9 +1259,7 @@ def render_dashboard() -> None:
             total - healthy,
         )
 
-        c1, c2, c3, c4 = (
-            st.columns(4)
-        )
+        c1, c2, c3, c4 = st.columns(4)
 
         c1.metric(
             "Total Scans",
@@ -1645,7 +1284,6 @@ def render_dashboard() -> None:
     st.markdown("")
 
     render_privacy_card()
-
     render_disclaimer()
 
 
@@ -1665,57 +1303,40 @@ def render_probability_bars(
 
         return
 
-    st.markdown(
-        "**Prediction probability**"
-    )
+    st.markdown("**Prediction probability**")
 
     for grade in ICDAS_MODEL_GRADES:
 
-        value = probabilities.get(
-            str(grade),
-            0.0,
-        )
-
-        percentage = (
-            probability_percent(
-                value
+        pct = probability_percent(
+            probabilities.get(
+                str(grade),
+                0.0,
             )
         )
 
         st.caption(
-            f"ICDAS {grade} · "
-            f"{percentage:.1f}%"
+            f"ICDAS {grade} · {pct:.1f}%"
         )
 
         st.progress(
             min(
                 1.0,
-                percentage / 100.0,
+                pct / 100.0,
             )
         )
 
 
 # ============================================================
-# RESULT DISPLAY
+# RESULT
 # ============================================================
 
 def render_results(
     result: dict,
     original: Image.Image,
 ) -> None:
-    """
-    Display the EXACT result returned by FastAPI.
-
-    No grade calculation happens here.
-    """
 
     try:
-
-        result = (
-            validate_prediction_response(
-                result
-            )
-        )
+        result = normalize_prediction(result)
 
     except ValueError as exc:
 
@@ -1725,38 +1346,8 @@ def render_results(
 
         return
 
-    # ========================================================
-    # EXACT BACKEND RESULT
-    # ========================================================
-
-    grade = result[
-        "icdas_grade"
-    ]
-
-    confidence = result[
-        "confidence"
-    ]
-
-    # --------------------------------------------------------
-    # DEBUG
-    # --------------------------------------------------------
-
-    if st.session_state.get(
-        "debug_backend",
-        False,
-    ):
-
-        with st.expander(
-            "Backend response (debug)"
-        ):
-
-            st.json(
-                result
-            )
-
-    # --------------------------------------------------------
-    # DESCRIPTION
-    # --------------------------------------------------------
+    grade = result["icdas_grade"]
+    confidence = result["confidence"]
 
     label, description = (
         icdas_severity_copy(
@@ -1766,44 +1357,39 @@ def render_results(
     )
 
     urgency = str(
-        result.get(
-            "urgency",
-            "",
-        )
+        result.get("urgency", "")
         or ""
     ).upper()
 
-    urgency_color = (
-        URGENCY_COLORS.get(
-            urgency,
-            "#334155",
-        )
+    urgency_color = URGENCY_COLORS.get(
+        urgency,
+        "#334155",
     )
-
-    # ========================================================
-    # HEADER
-    # ========================================================
 
     st.markdown(
-        '<p class="section-label">'
-        "AI Analysis Result"
-        "</p>",
+        '<p class="section-label">AI Analysis Result</p>',
         unsafe_allow_html=True,
     )
+
+    if st.session_state.get(
+        "debug_backend",
+        False,
+    ):
+
+        with st.expander(
+            "Exact FastAPI response",
+        ):
+
+            st.json(result)
 
     left, right = st.columns(
         [1.15, 1.35]
     )
 
-    # ========================================================
-    # LEFT
-    # ========================================================
-
     with left:
 
         st.markdown(
-            '<div class="result-card" '
-            'style="padding:22px 18px;">',
+            '<div class="result-card" style="padding:22px 18px;">',
             unsafe_allow_html=True,
         )
 
@@ -1847,9 +1433,7 @@ def render_results(
 
         st.markdown("")
 
-        st.markdown(
-            "**Confidence**"
-        )
+        st.markdown("**Confidence**")
 
         st.progress(
             min(
@@ -1862,7 +1446,7 @@ def render_results(
         )
 
         st.markdown(
-            f"**{confidence:.1f}%**"
+            f"**{confidence:.2f}%**"
         )
 
         st.markdown(
@@ -1870,9 +1454,7 @@ def render_results(
             unsafe_allow_html=True,
         )
 
-        st.caption(
-            description
-        )
+        st.caption(description)
 
         if result.get(
             "low_confidence",
@@ -1881,14 +1463,10 @@ def render_results(
 
             st.warning(
                 result.get(
-                    "low_confidence_message"
+                    "low_confidence_message",
+                    LOW_CONFIDENCE_COPY,
                 )
-                or LOW_CONFIDENCE_COPY
             )
-
-    # ========================================================
-    # RIGHT
-    # ========================================================
 
     with right:
 
@@ -1899,46 +1477,27 @@ def render_results(
             )
         )
 
-        if result.get(
-            "finding"
-        ):
+        if result.get("finding"):
 
-            st.markdown(
-                "**Finding**"
-            )
+            st.markdown("**Finding**")
 
             st.write(
-                result[
-                    "finding"
-                ]
+                result["finding"]
             )
 
-        if result.get(
-            "recommendation"
-        ):
+        if result.get("recommendation"):
 
-            st.markdown(
-                "**Recommendation**"
-            )
+            st.markdown("**Recommendation**")
 
             st.write(
-                result[
-                    "recommendation"
-                ]
+                result["recommendation"]
             )
 
-        if result.get(
-            "action"
-        ):
+        if result.get("action"):
 
             st.caption(
-                "Suggested action: "
-                f"{result['action']}"
+                f"Suggested action: {result['action']}"
             )
-
-    # ========================================================
-    # EXPLAINABILITY
-    # ========================================================
 
     heatmap = b64_to_image(
         result.get(
@@ -1959,27 +1518,19 @@ def render_results(
     )
 
     st.markdown(
-        '<p class="section-label">'
-        "AI Explainability"
-        "</p>",
+        '<p class="section-label">AI Explainability</p>',
         unsafe_allow_html=True,
     )
 
     st.caption(
-        "Highlighted regions represent areas that "
-        "contributed to the model prediction. "
-        "Grad-CAM is an attention visualization, "
-        "not an exact clinical lesion boundary."
+        "Highlighted regions represent areas that contributed "
+        "to the model prediction. Grad-CAM is an attention "
+        "visualization, not an exact clinical lesion boundary."
     )
 
-    if (
-        heatmap is not None
-        or overlay is not None
-    ):
+    if heatmap or overlay or contour:
 
-        g1, g2, g3 = st.columns(
-            3
-        )
+        g1, g2, g3 = st.columns(3)
 
         with g1:
 
@@ -1992,15 +1543,14 @@ def render_results(
         with g2:
 
             st.image(
-                overlay
-                or heatmap,
+                overlay or heatmap,
                 caption="Grad-CAM Overlay",
                 use_container_width=True,
             )
 
         with g3:
 
-            if heatmap is not None:
+            if heatmap:
 
                 st.image(
                     heatmap,
@@ -2008,7 +1558,7 @@ def render_results(
                     use_container_width=True,
                 )
 
-            elif contour is not None:
+            elif contour:
 
                 st.image(
                     contour,
@@ -2025,25 +1575,17 @@ def render_results(
     else:
 
         st.info(
-            "Grad-CAM is unavailable."
+            "Grad-CAM is unavailable for this prediction."
         )
 
-    # ========================================================
-    # LOCALIZATION
-    # ========================================================
-
     st.markdown(
-        '<p class="section-label">'
-        "Lesion Localization"
-        "</p>",
+        '<p class="section-label">Lesion Localization</p>',
         unsafe_allow_html=True,
     )
 
-    if contour is not None:
+    if contour:
 
-        l1, l2, l3 = st.columns(
-            3
-        )
+        l1, l2, l3 = st.columns(3)
 
         with l1:
 
@@ -2063,14 +1605,12 @@ def render_results(
 
         with l3:
 
-            st.caption(
-                "Detected region"
-            )
+            st.caption("Detected region")
 
             st.write(
                 "Contours are derived from high-activation "
-                "Grad-CAM regions. They represent model "
-                "attention, not confirmed clinical boundaries."
+                "Grad-CAM regions. They represent model attention, "
+                "not confirmed clinical lesion boundaries."
             )
 
     else:
@@ -2079,100 +1619,21 @@ def render_results(
             "Lesion localization is unavailable."
         )
 
-    # ========================================================
-    # REPORT
-    # ========================================================
-
-    if result.get(
-        "report"
-    ):
+    if result.get("report"):
 
         with st.expander(
             "Narrative assessment"
         ):
 
             st.write(
-                result[
-                    "report"
-                ]
+                result["report"]
             )
 
     render_disclaimer()
 
 
 # ============================================================
-# OPEN IMAGE
-# ============================================================
-
-def open_image(
-    image_bytes: bytes,
-) -> Image.Image | None:
-
-    if not image_bytes:
-
-        st.error(
-            "No image selected."
-        )
-
-        return None
-
-    try:
-
-        image = Image.open(
-            io.BytesIO(
-                image_bytes
-            )
-        )
-
-        image.load()
-
-        return image.convert(
-            "RGB"
-        )
-
-    except UnidentifiedImageError:
-
-        st.error(
-            "Invalid image. "
-            "Please upload a JPG, JPEG, PNG, BMP or WEBP image."
-        )
-
-    except OSError:
-
-        st.error(
-            "The image appears to be corrupt."
-        )
-
-    except Exception:
-
-        st.error(
-            "Unable to read the selected image."
-        )
-
-    return None
-
-
-# ============================================================
-# CLEAR ANALYSIS
-# ============================================================
-
-def clear_analysis_state() -> None:
-
-    for key in [
-        "last_result",
-        "last_image",
-        "result_image_hash",
-        "active_source",
-    ]:
-
-        st.session_state.pop(
-            key,
-            None,
-        )
-
-
-# ============================================================
-# RUN PREDICTION
+# PREDICTION
 # ============================================================
 
 def run_prediction(
@@ -2182,18 +1643,9 @@ def run_prediction(
     include_explainability: bool,
     source: str,
 ) -> None:
-    """
-    Send image to FastAPI.
 
-    IMPORTANT:
-        We do not calculate ICDAS here.
-        The backend owns the prediction.
-    """
-
-    current_hash = (
-        image_hash(
-            image_bytes
-        )
+    current_hash = image_hash(
+        image_bytes
     )
 
     filename = getattr(
@@ -2202,14 +1654,11 @@ def run_prediction(
         f"{source}.jpg",
     )
 
-    mime_type = (
-        getattr(
-            image_file,
-            "type",
-            None,
-        )
-        or "image/jpeg"
-    )
+    mime_type = getattr(
+        image_file,
+        "type",
+        None,
+    ) or "image/jpeg"
 
     with st.status(
         "Analyzing image...",
@@ -2217,7 +1666,7 @@ def run_prediction(
     ) as status:
 
         st.write(
-            "Uploading image to local AI backend..."
+            "Uploading image to local FastAPI backend..."
         )
 
         result, error = api_post(
@@ -2245,27 +1694,14 @@ def run_prediction(
                 state="error",
             )
 
-            st.error(
-                error
-            )
+            st.error(error)
 
             return
 
-        st.write(
-            "FastAPI prediction received."
-        )
-
-        # ----------------------------------------------------
-        # VERY IMPORTANT:
-        # Validate backend response.
-        # ----------------------------------------------------
-
         try:
 
-            result = (
-                validate_prediction_response(
-                    result
-                )
+            result = normalize_prediction(
+                result
             )
 
         except ValueError as exc:
@@ -2280,34 +1716,18 @@ def run_prediction(
             )
 
             if st.session_state.get(
-                "debug_backend"
+                "debug_backend",
+                False,
             ):
 
-                st.json(
-                    result
-                )
+                st.json(result)
 
             return
 
-        # ----------------------------------------------------
-        # Store EXACT backend response.
-        # ----------------------------------------------------
-
-        st.session_state[
-            "last_result"
-        ] = result
-
-        st.session_state[
-            "last_image"
-        ] = original
-
-        st.session_state[
-            "result_image_hash"
-        ] = current_hash
-
-        st.session_state[
-            "active_source"
-        ] = source
+        st.session_state["last_result"] = result
+        st.session_state["last_image"] = original
+        st.session_state["result_image_hash"] = current_hash
+        st.session_state["active_source"] = source
 
         status.update(
             label=(
@@ -2317,26 +1737,20 @@ def run_prediction(
             state="complete",
         )
 
-    # --------------------------------------------------------
-    # DEBUG RESULT
-    # --------------------------------------------------------
-
     if st.session_state.get(
         "debug_backend",
         False,
     ):
 
         with st.expander(
-            "Exact backend response"
+            "Exact backend response",
         ):
 
-            st.json(
-                result
-            )
+            st.json(result)
 
 
 # ============================================================
-# IMAGE SOURCE PANEL
+# IMAGE PANEL
 # ============================================================
 
 def render_image_source_panel(
@@ -2349,25 +1763,19 @@ def render_image_source_panel(
 ) -> None:
 
     if image_file is None:
-
         return
 
-    image_bytes = (
-        image_file.getvalue()
-    )
+    image_bytes = image_file.getvalue()
 
     original = open_image(
         image_bytes
     )
 
     if original is None:
-
         return
 
-    current_hash = (
-        image_hash(
-            image_bytes
-        )
+    current_hash = image_hash(
+        image_bytes
     )
 
     st.markdown(
@@ -2384,65 +1792,58 @@ def render_image_source_panel(
         use_container_width=True,
     )
 
-    col1, col2 = st.columns(
-        2
-    )
+    c1, c2 = st.columns(2)
 
-    analyze = col1.button(
+    analyze = c1.button(
         analyze_label,
         type="primary",
-        key=f"analyze_{source}",
         use_container_width=True,
+        key=f"analyze_{source}",
     )
 
-    remove = col2.button(
+    remove = c2.button(
         remove_label,
-        key=f"remove_{source}",
         use_container_width=True,
+        key=f"remove_{source}",
     )
 
     if remove:
 
-        clear_analysis_state()
+        for key in (
+            "last_result",
+            "last_image",
+            "result_image_hash",
+            "active_source",
+        ):
+            st.session_state.pop(
+                key,
+                None,
+            )
 
         st.rerun()
 
     if analyze:
 
         run_prediction(
-            image_file,
-            image_bytes,
-            original,
-            include_explainability,
-            source,
+            image_file=image_file,
+            image_bytes=image_bytes,
+            original=original,
+            include_explainability=include_explainability,
+            source=source,
         )
 
-    # --------------------------------------------------------
-    # Show stored result only for this exact image.
-    # --------------------------------------------------------
-
-    stored_result = (
-        st.session_state.get(
-            "last_result"
-        )
-    )
-
-    stored_hash = (
-        st.session_state.get(
-            "result_image_hash"
-        )
-    )
-
-    stored_source = (
-        st.session_state.get(
-            "active_source"
-        )
+    stored_result = st.session_state.get(
+        "last_result"
     )
 
     if (
         stored_result
-        and stored_hash == current_hash
-        and stored_source == source
+        and st.session_state.get(
+            "result_image_hash"
+        ) == current_hash
+        and st.session_state.get(
+            "active_source"
+        ) == source
     ):
 
         render_results(
@@ -2455,22 +1856,20 @@ def render_image_source_panel(
 
 
 # ============================================================
-# DETECTION PAGE
+# DETECTION
 # ============================================================
 
 def render_detection() -> None:
 
     st.markdown(
-        '<p class="page-title">'
-        "Dental Caries Detection"
-        "</p>",
+        '<p class="page-title">Dental Caries Detection</p>',
         unsafe_allow_html=True,
     )
 
     st.markdown(
         '<p class="page-sub">'
-        "Upload an existing intraoral photograph "
-        "or capture one using your camera."
+        "Choose one method: upload an existing photograph "
+        "or capture a new image with your camera."
         "</p>",
         unsafe_allow_html=True,
     )
@@ -2480,7 +1879,7 @@ def render_detection() -> None:
         value=True,
     )
 
-    left, middle, right = st.columns(
+    left, mid, right = st.columns(
         [1, 0.12, 1]
     )
 
@@ -2490,13 +1889,9 @@ def render_detection() -> None:
             """
             <div class="input-card">
                 <h3>Upload Dental Photograph</h3>
-                <p>
-                    Select an existing intraoral photograph.
-                </p>
+                <p>Select an existing intraoral photograph.</p>
                 <p style="margin-top:10px;">
-                    <strong>Accepted formats</strong>
-                </p>
-                <p>
+                    <strong>Accepted formats:</strong>
                     JPG, JPEG, PNG, BMP, WEBP
                 </p>
             </div>
@@ -2508,9 +1903,6 @@ def render_detection() -> None:
             "Browse device",
             type=ACCEPTED_UPLOAD_TYPES,
             key="upload_photo_input",
-            help=(
-                "Upload an intraoral dental photograph."
-            ),
         )
 
         if uploaded is None:
@@ -2527,7 +1919,7 @@ def render_detection() -> None:
             remove_label="Remove Image",
         )
 
-    with middle:
+    with mid:
 
         st.markdown(
             '<div class="or-divider">OR</div>',
@@ -2540,15 +1932,7 @@ def render_detection() -> None:
             """
             <div class="input-card">
                 <h3>Capture Using Camera</h3>
-                <p>
-                    Capture a new intraoral photograph.
-                </p>
-                <p style="margin-top:10px;">
-                    <strong>Live Camera Capture</strong>
-                </p>
-                <p>
-                    Preview it, then analyze or retake.
-                </p>
+                <p>Use your device camera to capture an intraoral photograph.</p>
             </div>
             """,
             unsafe_allow_html=True,
@@ -2566,8 +1950,7 @@ def render_detection() -> None:
             camera = None
 
             st.error(
-                "Camera unavailable. "
-                "Please allow browser camera permission "
+                "Camera unavailable. Please allow browser camera permission "
                 "or use Upload Photo."
             )
 
@@ -2595,26 +1978,26 @@ def render_detection() -> None:
 def render_dataset_labeling() -> None:
 
     st.markdown(
-        '<p class="page-title">'
-        "Dataset Labeling"
-        "</p>",
+        '<p class="page-title">Dataset Labeling</p>',
         unsafe_allow_html=True,
     )
 
     st.markdown(
         '<p class="page-sub">'
-        "Upload tooth photographs and assign ICDAS grades 0-4."
+        "Upload cropped tooth images and assign ICDAS grades 0-4."
         "</p>",
         unsafe_allow_html=True,
     )
 
-    base = Path(
-        "dataset"
-    )
+    base = Path("dataset")
 
     uploaded_files = st.file_uploader(
         "Upload Tooth Images",
-        type=ACCEPTED_UPLOAD_TYPES,
+        type=[
+            "jpg",
+            "jpeg",
+            "png",
+        ],
         accept_multiple_files=True,
         key="dataset_label_uploader",
     )
@@ -2622,20 +2005,25 @@ def render_dataset_labeling() -> None:
     if not uploaded_files:
 
         st.info(
-            "Upload one or more images to begin labeling."
+            "Upload one or more cropped tooth images to begin labeling."
         )
 
         return
 
-    total = len(
-        uploaded_files
-    )
+    if "label_index" not in st.session_state:
+
+        st.session_state[
+            "label_index"
+        ] = 0
 
     index = int(
-        st.session_state.get(
-            "label_index",
-            0,
-        )
+        st.session_state[
+            "label_index"
+        ]
+    )
+
+    total = len(
+        uploaded_files
     )
 
     if index >= total:
@@ -2645,7 +2033,7 @@ def render_dataset_labeling() -> None:
         )
 
         if st.button(
-            "Start Again",
+            "Start Again"
         ):
 
             st.session_state[
@@ -2656,9 +2044,9 @@ def render_dataset_labeling() -> None:
 
         return
 
-    image_file = (
-        uploaded_files[index]
-    )
+    image_file = uploaded_files[
+        index
+    ]
 
     image = Image.open(
         image_file
@@ -2696,48 +2084,27 @@ def render_dataset_labeling() -> None:
         key=f"grade_{index}",
     )
 
-    col1, col2 = st.columns(
-        2
-    )
+    c1, c2 = st.columns(2)
 
-    with col1:
+    with c1:
 
         if st.button(
-            "Save & Next",
+            "💾 Save & Next",
             type="primary",
-            key=f"save_{index}",
             use_container_width=True,
+            key=f"save_{index}",
         ):
 
-            # ------------------------------------------------
-            # Deterministic split instead of random split.
-            #
-            # The labeler can change this later.
-            # ------------------------------------------------
+            # Random 70/15/15 split.
+            random_value = random.random()
 
-            total_existing = (
-                sum(
-                    1
-                    for _ in base.rglob(
-                        "*.*"
-                    )
-                )
-            )
-
-            remainder = (
-                total_existing % 10
-            )
-
-            if remainder < 7:
-
+            if random_value < 0.70:
                 split = "train"
 
-            elif remainder < 9:
-
+            elif random_value < 0.85:
                 split = "val"
 
             else:
-
                 split = "test"
 
             folder = (
@@ -2759,15 +2126,14 @@ def render_dataset_labeling() -> None:
             with open(
                 destination,
                 "wb",
-            ) as file:
+            ) as output:
 
-                file.write(
+                output.write(
                     image_file.getbuffer()
                 )
 
             st.success(
-                f"Saved → "
-                f"{split}/{grade}/{image_file.name}"
+                f"Saved → {split}/{grade}/{image_file.name}"
             )
 
             st.session_state[
@@ -2776,12 +2142,12 @@ def render_dataset_labeling() -> None:
 
             st.rerun()
 
-    with col2:
+    with c2:
 
         if st.button(
-            "Skip Image",
-            key=f"skip_{index}",
+            "⏭ Skip Image",
             use_container_width=True,
+            key=f"skip_{index}",
         ):
 
             st.session_state[
@@ -2790,24 +2156,16 @@ def render_dataset_labeling() -> None:
 
             st.rerun()
 
-    st.markdown(
-        "---"
-    )
+    st.markdown("---")
 
     st.subheader(
         "Dataset Summary"
     )
 
-    c1, c2, c3 = st.columns(
-        3
-    )
+    columns = st.columns(3)
 
     for column, split in zip(
-        [
-            c1,
-            c2,
-            c3,
-        ],
+        columns,
         [
             "train",
             "val",
@@ -2821,9 +2179,7 @@ def render_dataset_labeling() -> None:
                 f"#### {split.upper()}"
             )
 
-            for grade_id in range(
-                5
-            ):
+            for grade_id in range(5):
 
                 folder = (
                     base
@@ -2833,11 +2189,11 @@ def render_dataset_labeling() -> None:
 
                 count = (
                     len(
-                        list(
-                            folder.glob(
-                                "*"
-                            )
-                        )
+                        [
+                            p
+                            for p in folder.glob("*")
+                            if p.is_file()
+                        ]
                     )
                     if folder.exists()
                     else 0
@@ -2855,9 +2211,7 @@ def render_dataset_labeling() -> None:
 def render_analysis() -> None:
 
     st.markdown(
-        '<p class="page-title">'
-        "Analysis"
-        "</p>",
+        '<p class="page-title">Analysis</p>',
         unsafe_allow_html=True,
     )
 
@@ -2874,19 +2228,14 @@ def render_analysis() -> None:
 
     if error:
 
-        st.warning(
-            error
-        )
+        st.warning(error)
 
         return
 
-    if not stats or (
-        stats.get(
-            "total_analyses",
-            0,
-        )
-        == 0
-    ):
+    if not stats or stats.get(
+        "total_analyses",
+        0,
+    ) == 0:
 
         st.info(
             "No scan data available yet."
@@ -2894,19 +2243,12 @@ def render_analysis() -> None:
 
         return
 
-    distribution = (
+    dist = (
         stats.get(
-            "grade_distribution"
+            "grade_distribution",
+            {},
         )
         or {}
-    )
-
-    healthy = int(
-        distribution.get(
-            "0",
-            0,
-        )
-        or 0
     )
 
     total = int(
@@ -2916,9 +2258,15 @@ def render_analysis() -> None:
         )
     )
 
-    c1, c2, c3, c4 = (
-        st.columns(4)
+    healthy = int(
+        dist.get(
+            "0",
+            0,
+        )
+        or 0
     )
+
+    c1, c2, c3, c4 = st.columns(4)
 
     c1.metric(
         "Total Scans",
@@ -2940,12 +2288,10 @@ def render_analysis() -> None:
 
     c4.metric(
         "Average Confidence",
-        f"{stats.get('average_confidence', 0):.1f}%",
+        f"{float(stats.get('average_confidence', 0)):.1f}%",
     )
 
-    left, right = st.columns(
-        2
-    )
+    left, right = st.columns(2)
 
     with left:
 
@@ -2956,9 +2302,11 @@ def render_analysis() -> None:
         chart_data = pd.Series(
             {
                 f"ICDAS {grade}":
-                    distribution.get(
-                        str(grade),
-                        0,
+                    int(
+                        dist.get(
+                            str(grade),
+                            0,
+                        )
                     )
                 for grade in ICDAS_MODEL_GRADES
             }
@@ -2983,14 +2331,14 @@ def render_analysis() -> None:
             )
         )
 
-    common = stats.get(
+    most_common = stats.get(
         "most_common_grade"
     )
 
     st.caption(
         (
-            f"Most common grade: ICDAS {common}"
-            if common is not None
+            f"Most common grade: ICDAS {most_common}"
+            if most_common is not None
             else "Most common grade: —"
         )
     )
@@ -3005,9 +2353,7 @@ def render_analysis() -> None:
 def render_history() -> None:
 
     st.markdown(
-        '<p class="page-title">'
-        "Scan History"
-        "</p>",
+        '<p class="page-title">Scan History</p>',
         unsafe_allow_html=True,
     )
 
@@ -3024,9 +2370,7 @@ def render_history() -> None:
 
     if error:
 
-        st.warning(
-            error
-        )
+        st.warning(error)
 
         return
 
@@ -3051,13 +2395,15 @@ def render_history() -> None:
         horizontal=True,
     )
 
+    filtered_rows = list(rows)
+
     if selected_filter != "All":
 
         selected_grade = int(
             selected_filter.split()[-1]
         )
 
-        rows = [
+        filtered_rows = [
             row
             for row in rows
             if int(
@@ -3065,11 +2411,10 @@ def render_history() -> None:
                     "icdas_grade",
                     -1,
                 )
-            )
-            == selected_grade
+            ) == selected_grade
         ]
 
-        if not rows:
+        if not filtered_rows:
 
             st.info(
                 f"No stored scans for {selected_filter}."
@@ -3077,54 +2422,48 @@ def render_history() -> None:
 
             return
 
-    records = []
+    table_rows = []
 
-    for row in rows:
+    for row in filtered_rows:
 
         created = row.get(
             "created_at"
         )
 
-        formatted_date = ""
+        date_text = ""
 
         if created:
 
             try:
 
-                formatted_date = (
-                    datetime.fromisoformat(
-                        created.replace(
-                            "Z",
-                            "+00:00",
-                        )
-                    ).strftime(
-                        "%d %b %Y %H:%M"
+                date_text = datetime.fromisoformat(
+                    created.replace(
+                        "Z",
+                        "+00:00",
                     )
+                ).strftime(
+                    "%d %b %Y %H:%M"
                 )
 
             except Exception:
 
-                formatted_date = str(
+                date_text = str(
                     created
                 )
 
-        records.append(
+        table_rows.append(
             {
                 "Date":
-                    formatted_date,
-
+                    date_text,
                 "ICDAS Grade":
                     f"ICDAS {row.get('icdas_grade')}",
-
                 "Confidence":
                     f"{float(row.get('confidence', 0)):.1f}%",
-
                 "Status":
                     row.get(
                         "urgency",
                         "",
                     ),
-
                 "id":
                     row.get(
                         "id"
@@ -3133,7 +2472,7 @@ def render_history() -> None:
         )
 
     table = pd.DataFrame(
-        records
+        table_rows
     )
 
     st.dataframe(
@@ -3145,37 +2484,28 @@ def render_history() -> None:
     )
 
     ids = [
-        value
-        for value in table[
-            "id"
-        ].tolist()
-        if value is not None
+        row["id"]
+        for row in table_rows
+        if row["id"] is not None
     ]
 
     if not ids:
-
         return
 
-    selected = st.selectbox(
+    selected_id = st.selectbox(
         "Open record",
-        options=ids,
+        ids,
         format_func=lambda value:
             f"Scan #{value}",
     )
 
-    if selected is None:
-
-        return
-
     detail, error = api_get(
-        f"/api/v1/history/{selected}"
+        f"/api/v1/history/{selected_id}"
     )
 
     if error:
 
-        st.error(
-            error
-        )
+        st.error(error)
 
         return
 
@@ -3193,15 +2523,9 @@ def render_history() -> None:
                 224,
                 224,
             ),
-            color=(
-                28,
-                42,
-                54,
-            ),
+            color=(28, 42, 54),
         )
 
-    # IMPORTANT:
-    # Preserve the actual grade from backend history.
     payload = {
         **detail,
         "icdas_grade":
@@ -3213,6 +2537,10 @@ def render_history() -> None:
         "description":
             detail.get(
                 "finding"
+            ),
+        "probabilities":
+            detail.get(
+                "probabilities"
             ),
         "heatmap_base64":
             detail.get(
@@ -3226,18 +2554,12 @@ def render_history() -> None:
             detail.get(
                 "contour_base64"
             ),
-        "probabilities":
-            detail.get(
-                "probabilities"
-            ),
     }
 
     try:
 
-        payload = (
-            validate_prediction_response(
-                payload
-            )
+        payload = normalize_prediction(
+            payload
         )
 
     except ValueError as exc:
@@ -3261,50 +2583,40 @@ def render_history() -> None:
 def render_icdas_guide() -> None:
 
     st.markdown(
-        '<p class="page-title">'
-        "ICDAS Guide"
-        "</p>",
+        '<p class="page-title">ICDAS Guide</p>',
         unsafe_allow_html=True,
     )
 
     st.markdown(
         '<p class="page-sub">'
-        "ICDAS reference. The deployed model predicts ICDAS 0-4."
+        "The current AI model predicts ICDAS 0-4. "
+        "ICDAS 5-6 are shown as reference only."
         "</p>",
         unsafe_allow_html=True,
     )
 
-    columns = st.columns(
-        2
-    )
+    columns = st.columns(2)
 
-    for grade, info in (
-        ICDAS_GUIDE.items()
-    ):
+    for grade, info in ICDAS_GUIDE.items():
 
-        with columns[
-            grade % 2
-        ]:
+        with columns[grade % 2]:
 
             scope = (
                 "Classified by this model"
-                if info[
-                    "in_model"
-                ]
-                else
-                "Reference only"
+                if info["in_model"]
+                else "Reference only"
             )
 
             st.markdown(
                 f"""
                 <div class="guide-card">
+
                     <div class="guide-icon">
                         {info["icon"]}
                     </div>
 
                     <h4>
-                        ICDAS {grade}
-                        → {info["short"]}
+                        ICDAS {grade} → {info["short"]}
                     </h4>
 
                     <span class="chip">
@@ -3314,6 +2626,7 @@ def render_icdas_guide() -> None:
                     <p style="margin-top:8px">
                         {info["description"]}
                     </p>
+
                 </div>
                 """,
                 unsafe_allow_html=True,
@@ -3329,9 +2642,7 @@ def render_icdas_guide() -> None:
 def render_about() -> None:
 
     st.markdown(
-        '<p class="page-title">'
-        "About Dental AI"
-        "</p>",
+        '<p class="page-title">About Dental AI</p>',
         unsafe_allow_html=True,
     )
 
@@ -3347,21 +2658,19 @@ def render_about() -> None:
     )
 
     st.write(
-        "Dental caries is a progressive disease that "
-        "benefits from earlier visual detection. "
-        "ICDAS provides a standardized scale for "
-        "describing lesion severity."
+        "Dental caries is a progressive disease that benefits "
+        "from earlier visual detection. ICDAS provides a standardized "
+        "scale for describing lesion severity."
     )
 
     st.markdown(
-        "#### Purpose"
+        "#### Purpose of the application"
     )
 
     st.write(
-        "This project supports educational and research "
-        "screening of intraoral photographs. The current "
-        "model predicts ICDAS 0-4 and returns confidence, "
-        "probabilities, and optional Grad-CAM visualizations."
+        "This application supports educational and research screening "
+        "of intraoral photographs. The current model predicts ICDAS 0-4 "
+        "and returns confidence, class probabilities and explainability."
     )
 
     st.markdown(
@@ -3369,28 +2678,26 @@ def render_about() -> None:
     )
 
     st.write(
-        "MobileNetV3-Small with CBAM attention and a "
-        "five-class softmax output."
+        "MobileNetV3-Small with CBAM attention and a five-class "
+        "softmax output."
     )
 
     st.markdown(
-        "#### ICDAS scope"
+        "#### ICDAS classification"
     )
 
     st.write(
-        "The deployed model predicts ICDAS 0, 1, 2, 3, and 4. "
-        "ICDAS 5 and 6 are shown in the guide for reference "
-        "only and are not model outputs."
+        "The deployed model predicts ICDAS 0, 1, 2, 3 and 4. "
+        "ICDAS 5 and 6 are shown in the guide for reference only."
     )
 
     st.markdown(
-        "#### Local processing"
+        "#### Offline processing"
     )
 
     st.write(
-        "The Streamlit frontend communicates with the "
-        "local FastAPI backend. Image inference is performed "
-        "through the local TensorFlow model."
+        "When FastAPI and TensorFlow run locally, image inference "
+        "is performed by the local backend."
     )
 
     st.markdown(
@@ -3398,9 +2705,9 @@ def render_about() -> None:
     )
 
     st.write(
-        "Grad-CAM highlights regions that contributed to "
-        "the model's prediction. It should not be interpreted "
-        "as exact clinical segmentation."
+        "Grad-CAM highlights image regions that contributed to "
+        "the prediction. It is an attention visualization, not "
+        "clinical lesion segmentation."
     )
 
     st.markdown(
@@ -3410,7 +2717,7 @@ def render_about() -> None:
     st.markdown(
         """
         <div class="workflow">
-            Dental Image
+            Image
             <span>↓</span>
             Streamlit
             <span>↓</span>
@@ -3436,44 +2743,42 @@ def render_about() -> None:
 
     if error:
 
-        st.warning(
-            error
-        )
+        st.warning(error)
 
     elif info:
 
         st.write(
-            f"**Name:** "
-            f"{info.get('name', '—')}"
+            f"**Name:** {info.get('name', '—')}"
         )
 
         st.write(
-            f"**ICDAS mode:** "
-            f"{info.get('icdas_mode', '—')}"
+            f"**ICDAS mode:** {info.get('icdas_mode', '—')}"
         )
 
         st.write(
-            f"**Classes:** "
-            f"{info.get('num_classes', '—')}"
+            f"**Classes:** {info.get('num_classes', '—')}"
         )
 
         st.write(
             f"**Input size:** "
-            f"{info.get('image_size', '—')}×"
+            f"{info.get('image_size', '—')} × "
             f"{info.get('image_size', '—')}"
         )
 
         st.write(
             "**Ordinal regression:** "
-            f"{'yes' if info.get('ordinal_regression') else 'no'}"
+            + (
+                "yes"
+                if info.get("ordinal_regression")
+                else "no"
+            )
         )
 
         st.caption(
-            "These values come directly from the running FastAPI backend."
+            "These values come directly from the running backend."
         )
 
     render_privacy_card()
-
     render_disclaimer()
 
 
@@ -3485,30 +2790,19 @@ def main() -> None:
 
     initialize_session_state()
 
-    # --------------------------------------------------------
-    # Apply pending navigation BEFORE radio widget creation.
-    # --------------------------------------------------------
+    # Apply pending navigation BEFORE sidebar radio widget exists.
+    if st.session_state.get(
+        "_pending_nav_page"
+    ):
 
-    pending_page = (
-        st.session_state.get(
-            "_pending_nav_page"
+        st.session_state["nav_page"] = (
+            st.session_state.pop(
+                "_pending_nav_page"
+            )
         )
-    )
-
-    if pending_page:
-
-        st.session_state[
-            "nav_page"
-        ] = pending_page
-
-        st.session_state[
-            "_pending_nav_page"
-        ] = None
 
     render_css()
-
     render_sidebar()
-
     render_top_header()
 
     page = st.session_state.get(
@@ -3557,3 +2851,4 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
+
