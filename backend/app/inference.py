@@ -1,33 +1,23 @@
 """
 ICDAS 0-4 inference engine.
 
-Supports:
-    - ICDAS 0-4 only
-    - 5-class softmax models
-    - Optional ordinal models
-    - MobileNetV3 + CBAM custom models
-    - Image preprocessing
-    - Prediction probabilities
-    - Confidence score
-    - Low-confidence detection
-    - Grad-CAM support when available
+Production configuration:
+    - 5 ICDAS classes: 0, 1, 2, 3, 4
+    - MobileNetV3Small + CBAM
+    - 224x224 RGB input
+    - 5-class softmax output
+    - Optional Grad-CAM
+    - Confidence threshold support
 
-IMPORTANT:
-    The current production model is:
+Expected model output:
+    (None, 5)
 
-        models/deploy.keras
-
-    Expected output:
-
-        (None, 5)
-
-    Classes:
-
-        0 -> ICDAS 0
-        1 -> ICDAS 1
-        2 -> ICDAS 2
-        3 -> ICDAS 3
-        4 -> ICDAS 4
+Class mapping:
+    0 -> ICDAS 0
+    1 -> ICDAS 1
+    2 -> ICDAS 2
+    3 -> ICDAS 3
+    4 -> ICDAS 4
 """
 
 from __future__ import annotations
@@ -51,8 +41,6 @@ BACKEND_DIR = Path(__file__).resolve().parents[1]
 PROJECT_ROOT = BACKEND_DIR.parent
 ML_DIR = PROJECT_ROOT / "ml"
 
-
-# Make ml/src importable.
 if str(ML_DIR) not in sys.path:
     sys.path.insert(0, str(ML_DIR))
 
@@ -61,7 +49,7 @@ if str(ML_DIR) not in sys.path:
 # LOGGING
 # ============================================================
 
-logger = logging.getLogger("icdas.api")
+logger = logging.getLogger("icdas.inference")
 
 
 # ============================================================
@@ -88,10 +76,15 @@ CLASS_NAMES = {
 
 class InferenceEngine:
     """
-    Production inference engine for ICDAS 0-4.
+    Inference engine for ICDAS 0-4 classification.
 
-    The constructor intentionally accepts ordinal_regression
-    because main.py may pass this value from Settings.
+    The current production model is a 5-class softmax model.
+
+    Input:
+        (1, 224, 224, 3)
+
+    Output:
+        (1, 5)
     """
 
     _instance: Optional["InferenceEngine"] = None
@@ -102,50 +95,17 @@ class InferenceEngine:
         num_classes: int = NUM_CLASSES,
         image_size: int = IMAGE_SIZE,
         ordinal_regression: bool = False,
-        confidence_threshold: float = 0.50,
+        confidence_threshold: float = 0.55,
         use_roi: bool = False,
         use_clahe: bool = False,
         use_specular: bool = False,
-        color_norm: bool = True,
+        color_norm: bool = False,
         **kwargs,
     ):
-        """
-        Initialize inference engine.
-
-        Parameters
-        ----------
-        model_path:
-            Path to .keras model.
-
-        num_classes:
-            Must be 5 for ICDAS 0-4.
-
-        image_size:
-            Input image size. Current model uses 224.
-
-        ordinal_regression:
-            False for the current 5-class softmax model.
-
-        confidence_threshold:
-            Predictions below this probability are marked low confidence.
-
-        use_roi:
-            Optional ROI preprocessing.
-
-        use_clahe:
-            Optional CLAHE preprocessing.
-
-        use_specular:
-            Optional specular highlight reduction.
-
-        color_norm:
-            Optional color normalization.
-        """
 
         self.model_path = str(model_path)
 
         self.num_classes = int(num_classes)
-
         self.image_size = int(image_size)
 
         self.ordinal_regression = bool(
@@ -165,18 +125,18 @@ class InferenceEngine:
         self.gradcam = None
 
         # ----------------------------------------------------
-        # Validate configuration
+        # VALIDATION
         # ----------------------------------------------------
 
         if self.num_classes != 5:
             raise ValueError(
-                "This inference engine supports ICDAS 0-4 only. "
-                f"Received num_classes={self.num_classes}."
+                "ICDAS inference supports exactly 5 classes: "
+                "ICDAS 0-4."
             )
 
         if self.image_size <= 0:
             raise ValueError(
-                f"Invalid image_size={self.image_size}."
+                f"Invalid image size: {self.image_size}"
             )
 
         if not 0.0 <= self.confidence_threshold <= 1.0:
@@ -185,69 +145,71 @@ class InferenceEngine:
             )
 
         # ----------------------------------------------------
-        # Load model
+        # LOAD MODEL
         # ----------------------------------------------------
 
         self._load_model(self.model_path)
 
         logger.info(
-            "Inference engine initialized."
+            "=============================================="
         )
-
+        logger.info(
+            "ICDAS INFERENCE ENGINE INITIALIZED"
+        )
         logger.info(
             "Model: %s",
             self.model_path,
         )
-
         logger.info(
-            "Classes: %d (ICDAS 0-4)",
-            self.num_classes,
+            "Classes: ICDAS 0-4"
         )
-
         logger.info(
-            "Image size: %d",
+            "Input size: %dx%d",
+            self.image_size,
             self.image_size,
         )
-
         logger.info(
-            "Ordinal regression: %s",
+            "Ordinal regression config: %s",
             self.ordinal_regression,
+        )
+        logger.info(
+            "Confidence threshold: %.2f",
+            self.confidence_threshold,
+        )
+        logger.info(
+            "Color normalization: %s",
+            self.color_norm,
+        )
+        logger.info(
+            "=============================================="
         )
 
     # ========================================================
     # MODEL LOADING
     # ========================================================
 
-    def _load_model(
-        self,
-        path: str,
-    ):
-        """
-        Load trained Keras model.
-
-        The model must output exactly 5 values for
-        the current ICDAS 0-4 softmax configuration.
-        """
+    def _load_model(self, path: str):
 
         model_path = Path(path)
 
         if not model_path.exists():
             raise FileNotFoundError(
-                f"ICDAS model not found: {model_path}"
+                f"ICDAS model not found:\n{model_path}"
             )
 
         logger.info(
-            "Loading model from %s",
+            "Loading trained ICDAS model from %s",
             model_path,
         )
 
         # ----------------------------------------------------
-        # Import custom model objects
+        # CUSTOM OBJECTS
         # ----------------------------------------------------
 
         custom_objects = {}
 
         try:
+
             from src.model import get_custom_objects
 
             custom_objects.update(
@@ -255,20 +217,22 @@ class InferenceEngine:
             )
 
             logger.info(
-                "Loaded custom model objects from src.model."
+                "Custom model objects loaded."
             )
 
         except Exception as exc:
+
             logger.warning(
-                "Could not load custom objects from src.model: %s",
+                "Could not load custom objects: %s",
                 exc,
             )
 
         # ----------------------------------------------------
-        # Load Keras model
+        # LOAD KERAS MODEL
         # ----------------------------------------------------
 
         try:
+
             self.model = tf.keras.models.load_model(
                 str(model_path),
                 compile=False,
@@ -276,105 +240,116 @@ class InferenceEngine:
             )
 
         except Exception as exc:
+
             logger.exception(
                 "Failed to load ICDAS model."
             )
 
             raise RuntimeError(
-                f"Unable to load ICDAS model: {model_path}. "
+                f"Unable to load ICDAS model:\n"
+                f"{model_path}\n\n"
                 f"Error: {exc}"
             ) from exc
 
         # ----------------------------------------------------
-        # Validate model
+        # VALIDATE OUTPUT
         # ----------------------------------------------------
 
         output_shape = self.model.output_shape
 
         logger.info(
-            "Model output shape: %s",
+            "Loaded model output shape: %s",
             output_shape,
         )
 
+        if isinstance(output_shape, list):
+
+            raise ValueError(
+                "Multi-output models are not supported "
+                "by the current production inference pipeline."
+            )
+
+        if not isinstance(output_shape, tuple):
+
+            raise ValueError(
+                f"Unsupported model output shape: "
+                f"{output_shape}"
+            )
+
+        if len(output_shape) < 2:
+
+            raise ValueError(
+                f"Invalid model output shape: "
+                f"{output_shape}"
+            )
+
+        output_units = output_shape[-1]
+
+        if output_units is None:
+
+            raise ValueError(
+                "Model output dimension is undefined."
+            )
+
+        output_units = int(output_units)
+
         # ----------------------------------------------------
-        # Handle single-output model
+        # 5 CLASS SOFTMAX
         # ----------------------------------------------------
 
-        if isinstance(output_shape, tuple):
+        if output_units == 5:
 
-            if len(output_shape) < 2:
-                raise ValueError(
-                    f"Invalid model output shape: {output_shape}"
-                )
+            self.detected_ordinal = False
 
-            output_units = output_shape[-1]
+            logger.info(
+                "Detected 5-class softmax model."
+            )
 
-            if output_units is None:
-                raise ValueError(
-                    "Model output dimension is undefined."
-                )
+        # ----------------------------------------------------
+        # ORDINAL MODEL
+        # ----------------------------------------------------
 
-            output_units = int(output_units)
+        elif output_units == 4:
 
-            # ------------------------------------------------
-            # Current model = 5-class softmax
-            # ------------------------------------------------
+            self.detected_ordinal = True
 
-            if output_units == 5:
+            logger.info(
+                "Detected 4-threshold ordinal model."
+            )
 
-                logger.info(
-                    "Detected 5-class ICDAS softmax model."
-                )
+        # ----------------------------------------------------
+        # OLD 7 CLASS MODEL
+        # ----------------------------------------------------
 
-                self.detected_ordinal = False
+        elif output_units == 7:
 
-            # ------------------------------------------------
-            # Optional ordinal model = 4 thresholds
-            # ------------------------------------------------
-
-            elif output_units == 4:
-
-                logger.info(
-                    "Detected 4-threshold ordinal model."
-                )
-
-                self.detected_ordinal = True
-
-            # ------------------------------------------------
-            # Reject old 7-class model
-            # ------------------------------------------------
-
-            elif output_units == 7:
-
-                raise ValueError(
-                    "The loaded model is a 7-output model. "
-                    "This project now supports ICDAS 0-4 only. "
-                    "Use models/deploy.keras containing a 5-output model."
-                )
-
-            else:
-
-                raise ValueError(
-                    f"Unsupported model output dimension: "
-                    f"{output_units}. "
-                    "Expected 5 for ICDAS 0-4 softmax "
-                    "or 4 for ordinal regression."
-                )
+            raise ValueError(
+                "A 7-class ICDAS model was loaded.\n"
+                "This project supports ICDAS 0-4 only.\n"
+                "Use a trained 5-class model."
+            )
 
         else:
 
             raise ValueError(
-                f"Unsupported model output structure: "
-                f"{output_shape}"
+                f"Unsupported model output dimension: "
+                f"{output_units}.\n"
+                f"Expected 5-class softmax output."
             )
 
         # ----------------------------------------------------
-        # Print summary
+        # VALIDATE INPUT
         # ----------------------------------------------------
 
+        input_shape = self.model.input_shape
+
         logger.info(
-            "Final model output shape: %s",
-            self.model.output_shape,
+            "Loaded model input shape: %s",
+            input_shape,
+        )
+
+        logger.info(
+            "Model successfully loaded."
         )
 
     # ========================================================
@@ -387,15 +362,6 @@ class InferenceEngine:
         model_path: str,
         **kwargs,
     ) -> "InferenceEngine":
-        """
-        Return singleton inference engine.
-
-        This accepts **kwargs so main.py can safely pass:
-
-            ordinal_regression
-            confidence_threshold
-            preprocessing options
-        """
 
         if cls._instance is None:
 
@@ -407,38 +373,27 @@ class InferenceEngine:
         return cls._instance
 
     # ========================================================
-    # RESET SINGLETON
+    # RESET
     # ========================================================
 
     @classmethod
     def reset_instance(cls):
-        """
-        Reset the singleton.
-
-        Useful during development/testing.
-        """
 
         cls._instance = None
 
     # ========================================================
-    # IMAGE LOADING
+    # LOAD IMAGE
     # ========================================================
 
     def load_image(
         self,
         image_path: str | Path,
     ) -> np.ndarray:
-        """
-        Load image from disk.
-
-        Returns
-        -------
-        RGB uint8 image.
-        """
 
         image_path = Path(image_path)
 
         if not image_path.exists():
+
             raise FileNotFoundError(
                 f"Image not found: {image_path}"
             )
@@ -448,6 +403,7 @@ class InferenceEngine:
         )
 
         if image is None:
+
             raise ValueError(
                 f"Unable to read image: {image_path}"
             )
@@ -467,19 +423,14 @@ class InferenceEngine:
         self,
         image: np.ndarray,
     ) -> np.ndarray:
-        """
-        Resize image to model input size.
-        """
 
         if image is None:
-            raise ValueError(
-                "Image is None."
-            )
+            raise ValueError("Image is None.")
 
         if image.ndim != 3:
             raise ValueError(
-                f"Expected RGB image with 3 dimensions. "
-                f"Got {image.shape}."
+                f"Expected H,W,C image. "
+                f"Received {image.shape}"
             )
 
         return cv2.resize(
@@ -499,12 +450,6 @@ class InferenceEngine:
         self,
         image: np.ndarray,
     ) -> np.ndarray:
-        """
-        Apply CLAHE to luminance channel.
-
-        This is optional and disabled by default during
-        inference unless enabled in Settings.
-        """
 
         lab = cv2.cvtColor(
             image,
@@ -547,11 +492,6 @@ class InferenceEngine:
         self,
         image: np.ndarray,
     ) -> np.ndarray:
-        """
-        Reduce very bright specular highlights.
-
-        This is intentionally conservative.
-        """
 
         img = image.copy()
 
@@ -583,11 +523,6 @@ class InferenceEngine:
         self,
         image: np.ndarray,
     ) -> np.ndarray:
-        """
-        Normalize image values.
-
-        Keeps image in uint8 RGB format.
-        """
 
         img = image.astype(
             np.float32
@@ -637,16 +572,9 @@ class InferenceEngine:
         self,
         image: np.ndarray,
     ) -> np.ndarray:
-        """
-        Conservative central ROI.
-
-        Disabled by default because dental images can contain
-        important tooth information outside the center.
-        """
 
         height, width = image.shape[:2]
 
-        # Keep 90% of the image.
         margin_y = int(
             height * 0.05
         )
@@ -666,20 +594,13 @@ class InferenceEngine:
         return cropped
 
     # ========================================================
-    # PREPROCESS
+    # PREPROCESS IMAGE
     # ========================================================
 
     def preprocess_image(
         self,
         image: np.ndarray,
     ):
-        """
-        Preprocess image for model inference.
-
-        Returns
-        -------
-        original_rgb, processed_float32
-        """
 
         if image is None:
             raise ValueError(
@@ -690,25 +611,22 @@ class InferenceEngine:
             image,
             np.ndarray,
         ):
-            image = np.asarray(
-                image
-            )
+
+            image = np.asarray(image)
 
         if image.ndim != 3:
+
             raise ValueError(
                 f"Expected image shape (H,W,C), "
-                f"got {image.shape}."
+                f"got {image.shape}"
             )
 
         if image.shape[2] != 3:
+
             raise ValueError(
                 f"Expected 3-channel RGB image, "
-                f"got {image.shape}."
+                f"got {image.shape}"
             )
-
-        # ----------------------------------------------------
-        # Convert to uint8 if necessary
-        # ----------------------------------------------------
 
         if image.dtype != np.uint8:
 
@@ -725,7 +643,7 @@ class InferenceEngine:
         processed = image.copy()
 
         # ----------------------------------------------------
-        # Optional ROI
+        # OPTIONAL PREPROCESSING
         # ----------------------------------------------------
 
         if self.use_roi:
@@ -734,19 +652,11 @@ class InferenceEngine:
                 processed
             )
 
-        # ----------------------------------------------------
-        # Optional CLAHE
-        # ----------------------------------------------------
-
         if self.use_clahe:
 
             processed = self.apply_clahe(
                 processed
             )
-
-        # ----------------------------------------------------
-        # Optional specular reduction
-        # ----------------------------------------------------
 
         if self.use_specular:
 
@@ -755,7 +665,7 @@ class InferenceEngine:
             )
 
         # ----------------------------------------------------
-        # Resize
+        # RESIZE
         # ----------------------------------------------------
 
         processed = self.resize_image(
@@ -763,7 +673,7 @@ class InferenceEngine:
         )
 
         # ----------------------------------------------------
-        # Optional color normalization
+        # COLOR NORMALIZATION
         # ----------------------------------------------------
 
         if self.color_norm:
@@ -773,7 +683,7 @@ class InferenceEngine:
             )
 
         # ----------------------------------------------------
-        # Convert to float
+        # FLOAT NORMALIZATION
         # ----------------------------------------------------
 
         processed = (
@@ -782,10 +692,6 @@ class InferenceEngine:
             )
             / 255.0
         )
-
-        # ----------------------------------------------------
-        # Final safety checks
-        # ----------------------------------------------------
 
         processed = np.clip(
             processed,
@@ -802,8 +708,8 @@ class InferenceEngine:
         if processed.shape != expected_shape:
 
             raise ValueError(
-                f"Final processed image has wrong shape: "
-                f"{processed.shape}. "
+                f"Final image shape is "
+                f"{processed.shape}.\n"
                 f"Expected {expected_shape}."
             )
 
@@ -817,14 +723,6 @@ class InferenceEngine:
         self,
         raw: np.ndarray,
     ) -> np.ndarray:
-        """
-        Convert ordinal threshold probabilities to
-        5-class probabilities.
-
-        Expected raw shape:
-
-            (4,)
-        """
 
         raw = np.asarray(
             raw,
@@ -834,11 +732,10 @@ class InferenceEngine:
         if raw.shape[0] != 4:
 
             raise ValueError(
-                "Ordinal model must return exactly "
-                "4 threshold values for ICDAS 0-4."
+                "Ordinal model must return "
+                "exactly 4 threshold values."
             )
 
-        # Sigmoid if values are logits.
         if np.any(raw < 0.0) or np.any(raw > 1.0):
 
             raw = 1.0 / (
@@ -851,8 +748,6 @@ class InferenceEngine:
             1.0,
         )
 
-        # Ensure monotonically decreasing cumulative
-        # probabilities.
         cumulative = np.maximum.accumulate(
             raw[::-1]
         )[::-1]
@@ -907,16 +802,13 @@ class InferenceEngine:
         return probs / total
 
     # ========================================================
-    # SOFTMAX SAFETY
+    # SOFTMAX
     # ========================================================
 
     def _softmax_probabilities(
         self,
         raw: np.ndarray,
     ) -> np.ndarray:
-        """
-        Convert model output into stable 5-class probabilities.
-        """
 
         raw = np.asarray(
             raw,
@@ -926,9 +818,8 @@ class InferenceEngine:
         if raw.shape[0] != self.num_classes:
 
             raise ValueError(
-                f"Model returned {raw.shape[0]} outputs, "
-                f"but ICDAS 0-4 requires exactly "
-                f"{self.num_classes}."
+                f"Model returned {raw.shape[0]} outputs. "
+                f"Expected {self.num_classes}."
             )
 
         if not np.isfinite(raw).all():
@@ -937,10 +828,7 @@ class InferenceEngine:
                 "Model returned NaN or infinite values."
             )
 
-        # ----------------------------------------------------
-        # If already probabilities
-        # ----------------------------------------------------
-
+        # Already probabilities
         if (
             np.all(raw >= 0.0)
             and np.all(raw <= 1.0)
@@ -953,7 +841,6 @@ class InferenceEngine:
 
         else:
 
-            # Treat output as logits.
             shifted = (
                 raw
                 - np.max(raw)
@@ -970,14 +857,13 @@ class InferenceEngine:
             if total <= 0:
 
                 raise ValueError(
-                    "Invalid model probability output."
+                    "Invalid model output."
                 )
 
             probs = (
                 exp_values / total
             )
 
-        # Final normalization.
         total = float(
             np.sum(probs)
         )
@@ -995,27 +881,13 @@ class InferenceEngine:
         )
 
     # ========================================================
-    # PREDICTION
+    # PREDICT
     # ========================================================
 
     def predict(
         self,
         processed: np.ndarray,
     ) -> dict:
-        """
-        Run ICDAS 0-4 prediction.
-
-        Current production model:
-
-            Input  -> (1, 224, 224, 3)
-            Output -> (1, 5)
-
-        Therefore prediction uses:
-
-            np.argmax(probabilities)
-
-        for ICDAS 0-4.
-        """
 
         if processed is None:
 
@@ -1023,23 +895,10 @@ class InferenceEngine:
                 "Processed image is None."
             )
 
-        if not isinstance(
+        processed = np.asarray(
             processed,
-            np.ndarray,
-        ):
-
-            processed = np.asarray(
-                processed,
-                dtype=np.float32,
-            )
-
-        if processed.ndim != 3:
-
-            raise ValueError(
-                "Expected processed image with "
-                "3 dimensions (H,W,C). "
-                f"Got {processed.shape}."
-            )
+            dtype=np.float32,
+        )
 
         expected_shape = (
             self.image_size,
@@ -1050,24 +909,17 @@ class InferenceEngine:
         if processed.shape != expected_shape:
 
             raise ValueError(
-                f"Expected processed image shape "
-                f"{expected_shape}, "
-                f"got {processed.shape}."
+                f"Expected {expected_shape}, "
+                f"got {processed.shape}"
             )
-
-        # ----------------------------------------------------
-        # Prepare batch
-        # ----------------------------------------------------
 
         batch = np.expand_dims(
             processed,
             axis=0,
-        ).astype(
-            np.float32
         )
 
         # ----------------------------------------------------
-        # Predict
+        # MODEL PREDICTION
         # ----------------------------------------------------
 
         try:
@@ -1088,13 +940,10 @@ class InferenceEngine:
             ) from exc
 
         # ----------------------------------------------------
-        # Extract output
+        # EXTRACT OUTPUT
         # ----------------------------------------------------
 
-        if isinstance(
-            outputs,
-            dict,
-        ):
+        if isinstance(outputs, dict):
 
             if "class" in outputs:
 
@@ -1117,9 +966,7 @@ class InferenceEngine:
             else:
 
                 raise ValueError(
-                    "Model returned a dictionary but "
-                    "no 'class' or 'ordinal' output was found. "
-                    f"Outputs: {list(outputs.keys())}"
+                    "Unsupported dictionary model output."
                 )
 
         else:
@@ -1145,19 +992,7 @@ class InferenceEngine:
             )
 
         # ----------------------------------------------------
-        # Validate finite values
-        # ----------------------------------------------------
-
-        if not np.isfinite(
-            raw
-        ).all():
-
-            raise ValueError(
-                "Model returned NaN or infinite values."
-            )
-
-        # ----------------------------------------------------
-        # Convert output to probabilities
+        # PROBABILITIES
         # ----------------------------------------------------
 
         if detected_ordinal:
@@ -1173,20 +1008,18 @@ class InferenceEngine:
             )
 
         # ----------------------------------------------------
-        # Prediction
+        # CLASS
         # ----------------------------------------------------
 
         grade = int(
-            np.argmax(
-                probs
-            )
+            np.argmax(probs)
         )
 
         grade = int(
             np.clip(
                 grade,
                 0,
-                self.num_classes - 1,
+                4,
             )
         )
 
@@ -1200,7 +1033,7 @@ class InferenceEngine:
         )
 
         # ----------------------------------------------------
-        # Probability dictionary
+        # PROBABILITY DICTIONARY
         # ----------------------------------------------------
 
         probabilities = {
@@ -1208,34 +1041,17 @@ class InferenceEngine:
                 float(probs[i]),
                 6,
             )
-            for i in range(
-                self.num_classes
-            )
+            for i in range(NUM_CLASSES)
         }
 
-        # ----------------------------------------------------
-        # Human-readable class name
-        # ----------------------------------------------------
-
-        class_name = CLASS_NAMES.get(
-            grade,
-            f"ICDAS {grade}",
-        )
-
-        # ----------------------------------------------------
-        # Log prediction
-        # ----------------------------------------------------
+        class_name = CLASS_NAMES[grade]
 
         logger.info(
-            "Prediction: %s | confidence=%.2f%% | probabilities=%s",
+            "Prediction=%s | confidence=%.2f%% | probabilities=%s",
             class_name,
             confidence * 100.0,
             probabilities,
         )
-
-        # ----------------------------------------------------
-        # Return
-        # ----------------------------------------------------
 
         return {
             "icdas_grade": grade,
@@ -1255,36 +1071,22 @@ class InferenceEngine:
         }
 
     # ========================================================
-    # PREDICT FROM RGB IMAGE
+    # PREDICT IMAGE
     # ========================================================
 
     def predict_image(
         self,
         image: np.ndarray,
     ) -> dict:
-        """
-        Complete pipeline:
-
-            RGB image
-                ↓
-            preprocessing
-                ↓
-            model
-                ↓
-            ICDAS prediction
-        """
 
         original_rgb, processed = (
-            self.preprocess_image(
-                image
-            )
+            self.preprocess_image(image)
         )
 
         result = self.predict(
             processed
         )
 
-        # Include original image information.
         result["image_shape"] = list(
             original_rgb.shape
         )
@@ -1292,16 +1094,13 @@ class InferenceEngine:
         return result
 
     # ========================================================
-    # PREDICT FROM FILE
+    # PREDICT FILE
     # ========================================================
 
     def predict_file(
         self,
         image_path: str | Path,
     ) -> dict:
-        """
-        Load image from disk and predict.
-        """
 
         image = self.load_image(
             image_path
@@ -1312,13 +1111,10 @@ class InferenceEngine:
         )
 
     # ========================================================
-    # GET MODEL INFO
+    # MODEL INFO
     # ========================================================
 
     def get_model_info(self) -> dict:
-        """
-        Return model information for debugging/API.
-        """
 
         return {
             "model_path": str(
@@ -1341,12 +1137,16 @@ class InferenceEngine:
             "detected_ordinal": getattr(
                 self,
                 "detected_ordinal",
-                None,
+                False,
             ),
             "image_size": self.image_size,
             "confidence_threshold": (
                 self.confidence_threshold
             ),
+            "use_roi": self.use_roi,
+            "use_clahe": self.use_clahe,
+            "use_specular": self.use_specular,
+            "color_norm": self.color_norm,
             "class_names": CLASS_NAMES,
         }
 
@@ -1359,13 +1159,6 @@ class InferenceEngine:
         processed: np.ndarray,
         layer_name: str | None = None,
     ) -> np.ndarray:
-        """
-        Generate Grad-CAM heatmap.
-
-        This is optional. If the model architecture does not
-        expose a suitable convolutional layer, a clear error
-        is returned.
-        """
 
         if processed is None:
 
@@ -1373,15 +1166,18 @@ class InferenceEngine:
                 "Processed image is None."
             )
 
+        processed = np.asarray(
+            processed,
+            dtype=np.float32,
+        )
+
         image = np.expand_dims(
             processed,
             axis=0,
-        ).astype(
-            np.float32
         )
 
         # ----------------------------------------------------
-        # Find convolutional layer
+        # FIND TARGET LAYER
         # ----------------------------------------------------
 
         target_layer = None
@@ -1389,10 +1185,9 @@ class InferenceEngine:
         if layer_name:
 
             try:
-                target_layer = (
-                    self.model.get_layer(
-                        layer_name
-                    )
+
+                target_layer = self.model.get_layer(
+                    layer_name
                 )
 
             except Exception as exc:
@@ -1410,12 +1205,12 @@ class InferenceEngine:
 
                 try:
 
-                    output_shape = (
-                        layer.output.shape
-                    )
+                    shape = layer.output.shape
 
                     if (
-                        len(output_shape) == 4
+                        len(shape) == 4
+                        and shape[1] is not None
+                        and shape[2] is not None
                     ):
 
                         target_layer = layer
@@ -1427,12 +1222,17 @@ class InferenceEngine:
         if target_layer is None:
 
             raise RuntimeError(
-                "Could not find a suitable 4D "
-                "convolutional layer for Grad-CAM."
+                "Could not find a suitable "
+                "4D convolutional layer for Grad-CAM."
             )
 
+        logger.info(
+            "Grad-CAM target layer: %s",
+            target_layer.name,
+        )
+
         # ----------------------------------------------------
-        # Build Grad-CAM model
+        # GRADIENT MODEL
         # ----------------------------------------------------
 
         grad_model = keras.Model(
@@ -1444,7 +1244,7 @@ class InferenceEngine:
         )
 
         # ----------------------------------------------------
-        # Forward pass
+        # FORWARD PASS
         # ----------------------------------------------------
 
         with tf.GradientTape() as tape:
@@ -1463,27 +1263,23 @@ class InferenceEngine:
 
                 if "class" in predictions:
 
-                    predictions = (
-                        predictions["class"]
-                    )
+                    predictions = predictions[
+                        "class"
+                    ]
 
                 elif "ordinal" in predictions:
 
-                    predictions = (
-                        predictions["ordinal"]
-                    )
+                    predictions = predictions[
+                        "ordinal"
+                    ]
 
             predictions = tf.convert_to_tensor(
                 predictions
             )
 
-            # For softmax, select highest class.
             if (
-                len(
-                    predictions.shape
-                ) == 2
-                and predictions.shape[-1]
-                == self.num_classes
+                len(predictions.shape) == 2
+                and predictions.shape[-1] == 5
             ):
 
                 class_index = tf.argmax(
@@ -1502,7 +1298,7 @@ class InferenceEngine:
                 )
 
         # ----------------------------------------------------
-        # Gradients
+        # GRADIENTS
         # ----------------------------------------------------
 
         gradients = tape.gradient(
@@ -1517,7 +1313,7 @@ class InferenceEngine:
             )
 
         # ----------------------------------------------------
-        # Global average pooling
+        # GLOBAL AVERAGE POOLING
         # ----------------------------------------------------
 
         pooled_gradients = tf.reduce_mean(
@@ -1542,9 +1338,7 @@ class InferenceEngine:
             heatmap
         )
 
-        if float(
-            max_value
-        ) > 0:
+        if float(max_value) > 0:
 
             heatmap = (
                 heatmap
@@ -1559,18 +1353,17 @@ class InferenceEngine:
                 self.image_size,
                 self.image_size,
             ),
+            interpolation=cv2.INTER_LINEAR,
         )
 
-        heatmap = np.clip(
+        return np.clip(
             heatmap,
             0.0,
             1.0,
         )
 
-        return heatmap
-
     # ========================================================
-    # HEATMAP OVERLAY
+    # GRAD-CAM OVERLAY
     # ========================================================
 
     def create_gradcam_overlay(
@@ -1579,18 +1372,13 @@ class InferenceEngine:
         heatmap: np.ndarray,
         alpha: float = 0.40,
     ) -> np.ndarray:
-        """
-        Create RGB Grad-CAM overlay.
-        """
 
         if original_rgb is None:
-
             raise ValueError(
                 "Original image is None."
             )
 
         if heatmap is None:
-
             raise ValueError(
                 "Heatmap is None."
             )
@@ -1620,6 +1408,7 @@ class InferenceEngine:
                 colored.shape[1],
                 colored.shape[0],
             ),
+            interpolation=cv2.INTER_AREA,
         )
 
         overlay = cv2.addWeighted(
@@ -1637,9 +1426,6 @@ class InferenceEngine:
     # ========================================================
 
     def health_check(self) -> dict:
-        """
-        Check whether the model is loaded and usable.
-        """
 
         loaded = (
             self.model is not None
@@ -1678,7 +1464,7 @@ class InferenceEngine:
 
 
 # ============================================================
-# MODULE EXPORTS
+# EXPORTS
 # ============================================================
 
 __all__ = [
