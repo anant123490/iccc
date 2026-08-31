@@ -1,0 +1,53 @@
+{
+  "root": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\dataset",
+  "total_images": 16,
+  "annotation_sidecar_files": 2,
+  "class_or_folder_counts": {
+    "excluded/5": 11,
+    "excluded/6": 5
+  },
+  "corrupted_images": [],
+  "corrupted_count": 0,
+  "dimension_histogram": {
+    "1200x1600": 2,
+    "1448x1086": 2,
+    "1600x1200": 1,
+    "2668x2184": 1,
+    "2048x1640": 1,
+    "1976x1496": 1,
+    "1876x1464": 1,
+    "2076x1584": 1,
+    "1892x1452": 1,
+    "1800x1436": 1,
+    "1612x1308": 1,
+    "1535x1024": 1,
+    "1579x996": 1,
+    "1537x1023": 1
+  },
+  "duplicate_groups": 0,
+  "duplicate_examples": [],
+  "class_imbalance": {
+    "min": 5,
+    "max": 11,
+    "ratio_max_over_min": 2.2
+  },
+  "annotations_csv": {
+    "path": "dataset/annotations.csv",
+    "rows": 643,
+    "files_present": 0,
+    "files_missing": 643,
+    "icdas_or_class_counts": {
+      "0": 76,
+      "1": 145,
+      "2": 118,
+      "3": 121,
+      "4": 183
+    },
+    "split_counts": {
+      "train": 440,
+      "val": 110,
+      "test": 93
+    }
+  },
+  "note": "Folder names are not assumed to be ICDAS grades. CSV icdas_score values are reported as stored."
+}

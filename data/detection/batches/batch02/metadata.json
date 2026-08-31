@@ -1,0 +1,15 @@
+{
+  "batch": "02",
+  "created": "2026-08-27",
+  "task": "polygon_to_yolo_box_conversion_qc_only",
+  "trained": false,
+  "source_zip": "C:\\Users\\anant\\Downloads\\Intraoral Tooth Detection.v1i.yolov8.zip",
+  "source_extract": "C:\\Users\\anant\\AppData\\Local\\Temp\\icdas_inspect_intraoral_tooth_detection_v1i",
+  "license": "CC BY 4.0",
+  "class": {"id": 0, "name": "tooth"},
+  "converted_boxes": 48942,
+  "images": 2907,
+  "splits": {"train": 2541, "valid": 246, "test": 120},
+  "batch01_untouched": true,
+  "note": "Converted labels are AABB YOLO boxes. Original polygons remain in the extract only."
+}

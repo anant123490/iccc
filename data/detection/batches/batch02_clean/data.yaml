@@ -1,0 +1,9 @@
+# Batch 02 CLEAN — unique stems, KEEP only. Do not merge with Batch 01.
+# Original converted Batch 02 is unchanged at data/detection/batches/batch02/yolo_detection/
+path: C:/Users/anant/OneDrive/Desktop/icdas project/data/detection/batches/batch02_clean
+train: images/train
+val: images/valid
+test: images/test
+nc: 1
+names:
+  0: tooth

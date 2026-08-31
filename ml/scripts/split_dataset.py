@@ -110,7 +110,7 @@ def unique_dest(dest_dir: Path, name: str) -> Path:
 
 def main() -> int:
     parser = argparse.ArgumentParser()
-    parser.add_argument("--root", default=str(Path(__file__).resolve().parents[2] / "dataset"))
+    parser.add_argument("--root", default=str(Path(__file__).resolve().parents[2] / "data" / "icdas"))
     parser.add_argument("--seed", type=int, default=42)
     args = parser.parse_args()
 

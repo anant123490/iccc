@@ -1,0 +1,7 @@
+path: C:/Users/anant/OneDrive/Desktop/icdas project/fdi_detection_dataset/tooth_detector_batch01
+train: images/train
+val: images/val
+test: images/test
+nc: 1
+names:
+  0: tooth

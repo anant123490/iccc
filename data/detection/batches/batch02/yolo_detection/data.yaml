@@ -1,0 +1,10 @@
+# Batch 02 converted whole-tooth boxes (class 0 = tooth).
+# Original Roboflow polygons were NOT modified.
+# Images copied next to converted labels.
+path: C:/Users/anant/OneDrive/Desktop/icdas project/data/detection/batches/batch02/yolo_detection
+train: train/images
+val: valid/images
+test: test/images
+nc: 1
+names:
+  0: tooth

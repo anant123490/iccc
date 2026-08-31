@@ -42,9 +42,9 @@ def parse_args():
         description="Copy human-labeled crops into dataset/train|val|test/0-4."
     )
     parser.add_argument("--labels", default="labels/labels.csv")
-    parser.add_argument("--crops-dir", default="cropped_teeth/images")
-    parser.add_argument("--crops-csv", default="cropped_teeth/crops.csv")
-    parser.add_argument("--dataset", default="dataset", help="Existing dataset root (do not duplicate).")
+    parser.add_argument("--crops-dir", default="data/tooth_crops/generated/images")
+    parser.add_argument("--crops-csv", default="data/tooth_crops/generated/crops.csv")
+    parser.add_argument("--dataset", default="data/icdas", help="Existing dataset root (do not duplicate).")
     parser.add_argument("--seed", type=int, default=42)
     parser.add_argument("--train-ratio", type=float, default=0.70)
     parser.add_argument("--val-ratio", type=float, default=0.15)

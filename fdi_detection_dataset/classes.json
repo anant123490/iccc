@@ -1,0 +1,7 @@
+{
+  "nc": 1,
+  "names": {
+    "0": "tooth"
+  },
+  "note": "Single whole-tooth detection class. Not FDI. Not ICDAS. Not Zenodo d/D."
+}

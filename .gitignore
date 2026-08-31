@@ -1,12 +1,17 @@
 # Python
 __pycache__/
+**/__pycache__/
 *.py[cod]
 *.egg-info/
 .pytest_cache/
+**/.pytest_cache/
 .venv/
+.venv*/
 venv/
+**/venv/
 .py_embed/
 .env
+**/.env
 *.keras
 *.h5
 *.tflite
@@ -25,30 +30,37 @@ models/tfjs_model/
 models/tflite/
 !models/.gitkeep
 
-# Cursor-uploaded source (junction); images live in dataset/
+# Cursor-uploaded source (junction); images live in data/icdas/
 assets/
 
-# Dataset (large external downloads — keep whatsapp clinical set)
-dataset/raw/
+# Dataset (large external downloads)
+data/icdas/raw/
 *.zip
 raw_dataset/
+data_external/
 
 # Generated crops / labels / reports (do not add the large dataset)
-cropped_teeth/images/*
-!cropped_teeth/images/.gitkeep
-cropped_teeth/crops.csv
-labels/labels.csv
+data/tooth_crops/generated/images/*
+!data/tooth_crops/generated/images/.gitkeep
+data/tooth_crops/generated/crops.csv
+data/icdas/annotations/labeling_studio/labels.csv
 reports/dataset_quality_report.csv
 reports/split_manifest.csv
 
+data/icdas/labeling_v2/user_images/**
+data/icdas/labeling_v2/crops/**
+data/icdas/labeling_v2/final/**
+!data/icdas/labeling_v2/**/.gitkeep
+data_working/
+
 # Training images (keep class folders via .gitkeep)
-dataset/train/**
-dataset/val/**
-dataset/test/**
-!dataset/train/**/
-!dataset/val/**/
-!dataset/test/**/
-!dataset/**/.gitkeep
+data/icdas/train/**
+data/icdas/val/**
+data/icdas/test/**
+!data/icdas/train/**/
+!data/icdas/val/**/
+!data/icdas/test/**/
+!data/icdas/**/.gitkeep
 
 # IDE
 .idea/
@@ -71,9 +83,10 @@ tools/_tmp_streamlit_err.txt
 logs/
 *.log
 wandb/
-backend/uploads/
-backend/*.db
+app/backend/uploads/
+app/backend/*.db
 *.db
+!icdas_predictions.db
 
 # Docker
 .docker/

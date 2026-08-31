@@ -1,0 +1,33 @@
+{
+  "ok": true,
+  "nc": 1,
+  "names": {
+    "0": "tooth"
+  },
+  "splits": {
+    "train": {
+      "images": 46,
+      "labels": 46,
+      "boxes": 605
+    },
+    "val": {
+      "images": 6,
+      "labels": 6,
+      "boxes": 72
+    },
+    "test": {
+      "images": 8,
+      "labels": 8,
+      "boxes": 90
+    }
+  },
+  "total_boxes": 767,
+  "class_histogram": {
+    "0": 767
+  },
+  "data_yaml": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\fdi_detection_dataset\\tooth_detector_batch01\\data.yaml",
+  "forbidden_sources_not_used": [
+    "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\predictions",
+    "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\annotation_batches\\Batch_02\\yolo_candidate_labels"
+  ]
+}

@@ -18,7 +18,7 @@ def main() -> int:
     parser = argparse.ArgumentParser(description="Validate ICDAS 0–4 dataset folders")
     parser.add_argument(
         "--root",
-        default=str(Path(__file__).resolve().parents[2] / "dataset"),
+        default=str(Path(__file__).resolve().parents[2] / "data" / "icdas"),
     )
     parser.add_argument("--num-classes", type=int, default=NUM_CLASSES)
     parser.add_argument(

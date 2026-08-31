@@ -32,7 +32,7 @@ from common import (  # noqa: E402
 
 def parse_args():
     parser = argparse.ArgumentParser(description="Check ICDAS dataset layout, labels, and leakage.")
-    parser.add_argument("--dataset", default="dataset")
+    parser.add_argument("--dataset", default="data/icdas")
     parser.add_argument("--labels", default="labels/labels.csv")
     parser.add_argument("--manifest", default="reports/split_manifest.csv")
     parser.add_argument("--create-missing-dirs", action="store_true", default=True)

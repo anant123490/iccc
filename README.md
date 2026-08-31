@@ -1,184 +1,80 @@
-# AI-Based Dental Caries Detection and ICDAS Severity Classification
+# CCC AI Dentist Camera 2.0
 
-Research prototype for **ICDAS 0–4** caries severity classification from intraoral photographs.
+Research prototype: **ICDAS 0–4** caries severity from RGB intraoral photographs.
 
-> **Disclaimer:** This is an AI decision-support / research prototype. It is **not** a replacement for professional dental diagnosis.
+This is **not** a replacement for professional dental diagnosis.
 
-## Supported classes
+**FDI tooth numbering is out of scope.** Do not add FDI labels, models, or pipeline steps.
 
-```text
-ICDAS 0–4
-```
+## What is completed
 
-The previous 7-class (ICDAS 0–6) output head is incompatible and is not used.
-ICDAS 5 and 6 images are **not** remapped to ICDAS 4.
+- Patient-facing loop (concept): registration / visit → RGB photo → quality check → whole-tooth detection → crops → ICDAS → Grad-CAM → report
+- **Tooth detector (Batch 01):** YOLO11n, 46/6/8 images, **767** verified tooth boxes, weights at `models/detection/tooth_detector_batch01/weights/best.pt`
+- **420** original RGB intraoral photographs
+- **5,676** generated tooth crops (not ICDAS labels)
+- FastAPI (`app/backend/`) and Streamlit (`app/frontend/`)
+- MobileNetV3 + CBAM training code for **5-class softmax**
 
-## ML architecture
+Approximate Batch 01 held-out detection: Precision 0.700, Recall 0.726, F1 0.712, mAP50 0.718, mAP50-95 0.282 (tiny test set).
 
-```text
-MobileNetV3-Small
-+
-CBAM
-+
-Ordinal Regression
-+
-Grad-CAM
-```
+## What is currently blocked
 
-Five classes use **four** ordinal thresholds. The CNN assigns the ICDAS grade; Groq only writes an explanation.
+- ICDAS **pixels** for the 643-row annotation table are missing from `data/icdas/train|val|test`
+- **Do not train** a new ICDAS model yet
+- **Do not auto-label** the 5,676 crops
+- On-disk `deploy.keras` is **stale 4-output ordinal**, not the intended softmax production model
+- `models/icdas/current/` is empty — there is **no** valid production ICDAS classifier
 
-## Backend
+## Where things live
 
-```text
-FastAPI
-PostgreSQL (or SQLite locally)
-SQLAlchemy
-```
-
-JWT authentication is not enabled in this inference API. Secrets stay in `.env`.
-
-## AI
-
-```text
-Groq API
-```
-
-Groq never overrides the model’s ICDAS grade.
-
-## Frontend
-
-```text
-Streamlit
-```
-
-## Pipeline
-
-```text
-Image
- ↓
-Preprocessing
- ↓
-MobileNetV3-Small
- ↓
-CBAM
- ↓
-Ordinal Regression
- ↓
-ICDAS 0–4
- ↓
-Grad-CAM
- ↓
-Groq Report
- ↓
-Frontend
-```
-
-## Project structure
-
-```text
-iccc/
-├── backend/          FastAPI inference, history, Groq reports
-├── ml/               Training, model, dataset, Grad-CAM
-├── dataset/          train/val/test folders for classes 0–4
-├── models/           best.keras, deploy.keras (5-class)
-├── fronted/          Streamlit app
-└── docs/
-```
+| Question | Answer |
+|----------|--------|
+| Detection dataset (Batch 01) | `fdi_detection_dataset/` — **left in place** (code still uses this path). Historical name; **not** FDI labels |
+| New detection photos | `data/detection/raw_images/` |
+| New tooth boxes | `data/detection/annotations/` |
+| Generated tooth crops | `data/tooth_crops/generated/` |
+| New ICDAS tooth images | `data/icdas/raw/` then `data/icdas/train\|val\|test/0–4/` |
+| ICDAS labels | `data/icdas/annotations/annotations.csv` |
+| Valid detection model | `models/detection/tooth_detector_batch01/weights/best.pt` |
+| ICDAS models | Historical/stale: `models/icdas/historical/` — current: empty |
+| Out of scope | FDI (`archive/out_of_scope/fdi/`), ICDAS 5–6 (`data/icdas/excluded/`) |
+| How to add Batch 02 | See `data/detection/README.md` then `python tools/train_tooth_detector_new_batch.py --batch 02` |
+| How to add ICDAS data | See `data/icdas/README.md` — clinician-confirmed 0–4 only |
 
 ## Quick start
 
-### 1. Environment
-
 ```bash
-cd iccc
 python -m venv .venv
-.venv\Scripts\activate   # Windows
+.venv\Scripts\activate
 pip install -r requirements.txt
-copy backend\.env.example backend\.env
+copy app\backend\.env.example app\backend\.env
 ```
-
-Put `GROQ_API_KEY` in `backend/.env`. Never commit `.env`.
-
-Optional PostgreSQL:
-
-```env
-DATABASE_URL=postgresql+psycopg2://user:password@localhost:5432/icdas
-```
-
-If `DATABASE_URL` is omitted, SQLite `icdas_predictions.db` is used.
-
-### 2. Dataset (ICDAS 0–4)
 
 ```bash
-python ml/scripts/setup_dataset.py
-python ml/scripts/split_dataset.py   # 70/15/15, excludes 5/6 without remapping
-python ml/scripts/sync_annotations.py
-python ml/scripts/validate_dataset.py
+cd app/backend
+uvicorn app.main:app --reload --port 8000
 ```
 
-Expected layout:
-
-```text
-dataset/train/{0,1,2,3,4}
-dataset/val/{0,1,2,3,4}
-dataset/test/{0,1,2,3,4}
+```bash
+streamlit run app/frontend/streamlit_app.py
 ```
 
-Augmentation is applied **only** during training.
-
-### 3. Train a fresh 5-class model
+ICDAS training (only after labeled pixels exist):
 
 ```bash
 python ml/train.py --config ml/configs/default.yaml
 ```
 
-Writes `models/best.keras` and `models/deploy.keras`. Do not reuse a 7-class checkpoint.
-
-### 4. Backend
-
-```bash
-cd backend
-uvicorn app.main:app --reload --port 8000
-```
-
-### 5. Frontend
-
-```bash
-streamlit run fronted/streamlit_app.py
-```
-
-## Configuration
-
-`ml/configs/default.yaml`:
-
-```yaml
-num_classes: 5
-ordinal_regression: true
-image_size: 224
-backbone: mobilenet_v3_small
-use_attention: cbam
-```
-
-## API
-
-| Endpoint | Method | Description |
-|----------|--------|-------------|
-| `/api/v1/predict` or `/predict` | POST | Image → ICDAS 0–4 + Grad-CAM + report |
-| `/api/v1/report` | POST | Groq explanation for a **model** grade |
-| `/api/v1/history` | GET | Stored predictions |
-| `/api/v1/stats` | GET | Dashboard analytics |
-| `/api/v1/health` | GET | API / model / database / Groq status |
-| `/api/v1/model/info` | GET | Model metadata |
-
-## Testing
+## Tests
 
 ```bash
 cd ml && pytest tests/ -v
-cd backend && pytest tests/ -v
-python -c "from ml.src.model import build_model; m=build_model(num_classes=5, image_size=224, attention_type='cbam', ordinal_regression=True); print(m.output_shape)"
-python ml/scripts/validate_dataset.py
+cd app/backend && pytest tests/ -v
 ```
 
-## License
+## Docs
 
-MIT — See LICENSE. Dataset licenses vary; see `docs/DATASETS.md`.
+- `docs/PROJECT_STRUCTURE.md` — full tree
+- `docs/DATASET_WORKFLOW.md` — detection vs ICDAS
+- `docs/PROJECT_SCOPE.md` — what is in / out of scope
+- `reports/FINAL_REPOSITORY_ORGANIZATION_REPORT.md` — this reorganization

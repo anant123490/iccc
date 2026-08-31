@@ -1,0 +1,7 @@
+<View>
+  <Header value="Whole-tooth rectangle only. Do not label FDI. Do not label caries/ICDAS. Do not use Zenodo d/D lesions."/>
+  <Image name="image" value="$image"/>
+  <RectangleLabels name="label" toName="image">
+    <Label value="tooth" background="#E63946"/>
+  </RectangleLabels>
+</View>

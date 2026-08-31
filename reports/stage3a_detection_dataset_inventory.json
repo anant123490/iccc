@@ -1,0 +1,133 @@
+{
+  "stage": "3A",
+  "title": "RGB whole-tooth detection dataset construction",
+  "date": "2026-08-26",
+  "clinical_note": "No FDI generated. No tooth boxes generated. Lesion d/D unused. ICDAS unmodified.",
+  "source": {
+    "name": "Zenodo 10.5281/zenodo.14827784",
+    "title": "Annotated intraoral image dataset for dental caries detection",
+    "url": "https://zenodo.org/records/14827784",
+    "license": "CC BY 4.0",
+    "documented_in": "c:/Users/anant/OneDrive/Desktop/icdas project/data_external/detection/SOURCE.txt",
+    "image_root": "c:/Users/anant/OneDrive/Desktop/icdas project/data_external/detection/raw",
+    "annotation_root": "c:/Users/anant/OneDrive/Desktop/icdas project/data_external/detection/annotations"
+  },
+  "counts": {
+    "total_rgb_images_found": 6265,
+    "valid_readable": 6265,
+    "rgb": 6265,
+    "grayscale": 0,
+    "unreadable_or_corrupted": 0,
+    "selected": 420,
+    "review": 80,
+    "rejected_copied": 0,
+    "not_selected": 5765,
+    "xml_files": 2245,
+    "xml_object_count": 6782,
+    "xml_unique_labels": {
+      "D": 6228,
+      "d": 554
+    },
+    "tooth_annotations": 0,
+    "fdi_annotations": 0,
+    "yolo_placeholder_files": 420,
+    "coco_placeholder_created": true
+  },
+  "duplicates": {
+    "filename_collisions": 0,
+    "md5_extra_copies": 0,
+    "perceptual_extra_copies": 125,
+    "rows_not_unique_status": 238
+  },
+  "xml_inventory": {
+    "xml_files": 2245,
+    "xml_parse_errors": 0,
+    "object_count": 6782,
+    "files_with_objects": 2180,
+    "unique_labels": {
+      "D": 6228,
+      "d": 554
+    },
+    "mean_objects_per_xml": 3.0209,
+    "objects_per_file_histogram": {
+      "1": 495,
+      "0": 65,
+      "5": 243,
+      "3": 326,
+      "2": 420,
+      "4": 507,
+      "7": 36,
+      "6": 127,
+      "8": 22,
+      "9": 4
+    }
+  },
+  "quality_distribution_all": {
+    "HIGH QUALITY": 3921,
+    "MEDIUM QUALITY": 2337,
+    "LOW QUALITY": 7
+  },
+  "orientation_distribution_all": {
+    "Frontal": 1259,
+    "Left Buccal": 1249,
+    "Mandibular": 1251,
+    "Maxillary": 1254,
+    "Right Buccal": 1252
+  },
+  "view_folder_distribution_all": {
+    "Frontal": 1259,
+    "Left_Lateral": 1249,
+    "Mandibular": 1251,
+    "Maxillary_Occlusal": 1254,
+    "Right_Lateral": 1252
+  },
+  "protocol_distribution_all": {
+    "no_retractors": 2752,
+    "pilot": 760,
+    "retractors": 2753
+  },
+  "selected_view": {
+    "Frontal": 84,
+    "Left_Lateral": 84,
+    "Mandibular": 84,
+    "Maxillary_Occlusal": 84,
+    "Right_Lateral": 84
+  },
+  "selected_protocol": {
+    "retractors": 185,
+    "no_retractors": 185,
+    "pilot": 50
+  },
+  "selected_orientation": {
+    "Frontal": 84,
+    "Left Buccal": 84,
+    "Mandibular": 84,
+    "Maxillary": 84,
+    "Right Buccal": 84
+  },
+  "selected_quality": {
+    "HIGH QUALITY": 410,
+    "MEDIUM QUALITY": 10
+  },
+  "patients_with_parsed_id_all": 889,
+  "patients_with_parsed_id_selected": 370,
+  "average_width_valid": 1635.67,
+  "average_height_valid": 1177.65,
+  "average_visible_teeth_estimate_selected": 11.2,
+  "visible_teeth_estimate_is": "ESTIMATE from view type only; not per-image counts; not FDI",
+  "outputs": {
+    "dataset_root": "c:/Users/anant/OneDrive/Desktop/icdas project/fdi_detection_dataset",
+    "selected_images": "c:/Users/anant/OneDrive/Desktop/icdas project/fdi_detection_dataset/images/selected",
+    "coco": "c:/Users/anant/OneDrive/Desktop/icdas project/fdi_detection_dataset/annotations/coco/instances_placeholder.json",
+    "yolo": "c:/Users/anant/OneDrive/Desktop/icdas project/fdi_detection_dataset/annotations/yolo"
+  },
+  "decisions": {
+    "q1_ready_for_tooth_annotation": 420,
+    "q2_rejected": 0,
+    "q3_sufficient_for_detection_dataset": true,
+    "q4_icdas_modified": false,
+    "q5_fdi_generated": false,
+    "q6_tooth_boxes_generated": false,
+    "q7_next_stage": "Stage 3B \u2014 Whole-Tooth Bounding Box Annotation Preparation"
+  }
+}

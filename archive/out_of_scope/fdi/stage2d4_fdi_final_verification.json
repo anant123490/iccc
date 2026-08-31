@@ -1,0 +1,77 @@
+{
+  "stage": "2D-4",
+  "date": "2026-08-26",
+  "final_decision": "B. TECHNICALLY COMPATIBLE DATASET FOUND BUT ACCESS/COVERAGE LIMITATIONS REMAIN",
+  "architecture_unchanged": "RGB intraoral → whole-tooth detection → FDI numbering → tooth crop → ICDAS 0-4",
+  "clinical_note": "FDI = which tooth. ICDAS = caries severity. Never map FDI, d/D, F/D/N, or Black classes to ICDAS. Zenodo 14827784 remains lesion-only.",
+  "download_performed": false,
+  "cloudflare_bypass": false,
+  "credentials_used": false,
+  "best_candidate": "FDTooth (PhysioNet 1.0.0)",
+  "dentalmate": {
+    "status": "NOT A STRONG CANDIDATE",
+    "fdi_32_class_status": "UNVERIFIED",
+    "original_research_paper": "NONE FOUND",
+    "github": "NONE FOUND",
+    "zenodo_figshare_mendeley_mirror": "NONE FOUND",
+    "only_public_host": "Roboflow Universe workspace https://universe.roboflow.com/dentalmate6v",
+    "workspace_listing": {
+      "Intraoral Tooth Numbering FDI": "1.21k images, 32 classes (workspace index only)",
+      "Front / Upper / Lower Intraoral Tooth Numbering": "408 / 407 / 387 images (index only)",
+      "Intraoral Tooth Detection": "1.21k images (index only)",
+      "dentalmate-dataset 2": "3.49k images; indexed API classes caries, fractured-teeth, gingivitis, misaligned-teeth, multiple-tooth-loss — NOT FDI"
+    },
+    "rgb_intraoral": "UNVERIFIED",
+    "whole_tooth_annotation": "UNVERIFIED",
+    "fdi_numbering": "UNVERIFIED",
+    "public_source": "VERIFIED (Roboflow workspace exists)",
+    "license": "UNVERIFIED",
+    "access": "UNKNOWN",
+    "commercial_use": "UNKNOWN",
+    "redistribution": "UNKNOWN",
+    "notes": "No independent paper/repo/supplement. Project HTML Cloudflare-blocked; samples not inspected. Titles insufficient after Prime panoramic false positive."
+  },
+  "fdtooth": {
+    "status": "TECHNICALLY COMPATIBLE; PRACTICALLY RESEARCH/VALIDATION ONLY FOR ICCC CAMERA PIPELINE",
+    "fdtooth_special_decision": "B",
+    "original_source": "https://physionet.org/content/fdtooth/1.0.0/",
+    "doi": "10.13026/v9xk-dy61",
+    "paper": "10.1038/s41597-025-05348-3",
+    "n_images_intraoral": 241,
+    "n_cbct": 241,
+    "n_whole_tooth_boxes": 1800,
+    "n_tooth_level_csv_labels": 2892,
+    "exact_fdi_classes": "UNVERIFIED as exported numeric list. Source: 12 anterior teeth = fully erupted incisors and canines in both arches; CSV uses FDI two-digit numbering. Posterior teeth excluded.",
+    "annotation_format": "JPEG 5760x3840; CSV (patient ID, FDI tooth number, F/D/N); MakeSense JSON bounding boxes",
+    "rgb_intraoral": "VERIFIED",
+    "whole_tooth_annotation": "VERIFIED",
+    "fdi_numbering": "VERIFIED",
+    "public_source": "VERIFIED",
+    "license": "VERIFIED — PhysioNet Credentialed Health Data License 1.5.0",
+    "access": "CREDENTIALLED",
+    "access_details": "Free after PhysioNet credentialing; CITI Data or Specimens Only Research; sign DUA 1.5.0. No anonymous open download.",
+    "citi_required": true,
+    "dua_required": true,
+    "commercial_use": "NOT ALLOWED",
+    "commercial_use_basis": "License: LICENSEE will use the data for the sole purpose of lawful use in scientific research and no other.",
+    "redistribution": "NOT ALLOWED",
+    "redistribution_basis": "License/DUA: LICENSEE will not share access to PhysioNet restricted data with anyone else. PhysioNet FAQ: each user must obtain individual access.",
+    "technically_compatible": true,
+    "practically_suitable_for_full_iccc_camera_pipeline": false,
+    "practical_limitations": [
+      "Anterior-only (not 32-class full mouth)",
+      "Credentialed CITI+DUA",
+      "Research-only (not commercial product training without separate legal review)",
+      "No redistribution of files",
+      "JSON boxes described as FD vs no-FD visualisation; FDI is in CSV — not a YOLO 32-class pack",
+      "1800 boxes vs 2892 CSV teeth: full per-tooth box coverage UNVERIFIED without files"
+    ]
+  },
+  "related_alternatives_from_same_literature_only": [
+    {
+      "name": "SegmentAnyTooth",
+      "relation": "Same ICCC tooth+FDI RGB goal; not a DentalMate/FDTooth mirror",
+      "images_public": false
+    }
+  ]
+}

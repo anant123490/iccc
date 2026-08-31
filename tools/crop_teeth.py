@@ -58,7 +58,7 @@ def parse_args():
     )
     parser.add_argument(
         "--output",
-        default="cropped_teeth",
+        default="data/tooth_crops/generated",
         help="Output directory for crops.csv and images/ (relative to repo root or absolute).",
     )
     parser.add_argument(

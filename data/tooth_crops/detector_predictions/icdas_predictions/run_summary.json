@@ -1,0 +1,21 @@
+{
+  "model": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\models\\deploy.keras",
+  "crops_dir": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\cropped_teeth\\images",
+  "crops_on_disk": 5676,
+  "predictions": 5676,
+  "unreadable_or_failed": [],
+  "class_counts": {
+    "0": 2656,
+    "1": 0,
+    "2": 0,
+    "3": 0,
+    "4": 3020
+  },
+  "confidence_mean": 0.5076360916138125,
+  "confidence_median": 0.507304,
+  "confidence_min": 0.411863,
+  "confidence_max": 0.555565,
+  "confidence_stdev": 0.011549681389828335,
+  "preprocess": "training contract: PIL 224x224, BGR\u2192RGB, float32 [0,255], no ROI/CLAHE/specular/color-norm",
+  "note": "Auto-labels only. Not dentist ICDAS ground truth. No FDI. No Grad-CAM."
+}

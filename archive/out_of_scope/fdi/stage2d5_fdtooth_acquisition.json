@@ -1,0 +1,58 @@
+{
+  "stage": "2D-5",
+  "date": "2026-08-26",
+  "dataset_name": "FDTooth",
+  "official_source": "https://physionet.org/content/fdtooth/1.0.0/",
+  "version": "1.0.0",
+  "doi": "10.13026/v9xk-dy61",
+  "access_check_date": "2026-08-26",
+  "fdtooth_access": "USER ACTION REQUIRED",
+  "download": "NOT PERFORMED",
+  "local_path": null,
+  "http_files_probe": {
+    "https://physionet.org/files/fdtooth/1.0.0/": "403 Forbidden",
+    "https://physionet.org/content/fdtooth/1.0.0/files/": "403 Forbidden"
+  },
+  "project_credentials_found": false,
+  "bypass_attempted": false,
+  "published_page_claims_not_locally_verified": {
+    "n_jpeg": 241,
+    "n_boxes": 1800,
+    "n_csv_tooth_rows": 2892,
+    "fdi": "12 anterior teeth; exact unique labels UNKNOWN until CSV is opened"
+  },
+  "local_inspection": {
+    "n_jpeg": null,
+    "n_annotations": null,
+    "annotation_format": null,
+    "annotation_columns": null,
+    "exact_fdi_classes": "UNKNOWN",
+    "instances_per_fdi_class": null,
+    "image_dimensions": null,
+    "rgb_channels": null,
+    "bbox_coordinate_format": null,
+    "whole_tooth_visual_check": "NOT PERFORMED"
+  },
+  "license": "PhysioNet Credentialed Health Data License 1.5.0",
+  "dua": "PhysioNet Credentialed Health Data Use Agreement 1.5.0",
+  "required_training": "CITI Data or Specimens Only Research",
+  "permitted_use": "Lawful scientific research only (license text).",
+  "prohibited_redistribution": "Do not share access or dataset files with others; each user must credential individually.",
+  "commercial_use": "NOT ALLOWED under documented scientific-research-only terms.",
+  "citation": "Yang, Y., LI, X., Liu, K., & Elbatel, M. (2025). FDTooth: Intraoral Photographs and Cone-Beam Computed Tomography Images for Fenestration and Dehiscence Detection (version 1.0.0). PhysioNet. https://doi.org/10.13026/v9xk-dy61",
+  "iccc": {
+    "rgb_intraoral": "YES (source documentation; local files not present)",
+    "whole_tooth_detection": "YES (source documentation; local files not present)",
+    "fdi": "YES (source documentation; exact classes UNKNOWN locally)",
+    "32_permanent_teeth": "NO",
+    "anterior_only": "YES",
+    "suitable_auxiliary_research": "PENDING",
+    "suitable_complete_32_tooth_training": "NO"
+  },
+  "user_action_required": "Complete PhysioNet credentialing, submit CITI Data or Specimens Only Research, then sign the FDTooth DUA on the official project page. Re-run Stage 2D-5 after files are authorized for this user. Do not share credentials or dataset files.",
+  "icdas_data": "UNCHANGED",
+  "zenodo_lesion_data": "UNCHANGED",
+  "application_changes": false,
+  "model_changes": false,
+  "training": false
+}

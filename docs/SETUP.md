@@ -1,55 +1,60 @@
 # Setup Guide
 
-## 1. Clone & Environment
+## 1. Clone and environment
 
 ```bash
 cd "icdas project"
-
-# Python virtual environment
 python -m venv .venv
-.venv\Scripts\activate        # Windows
-pip install -r ml/requirements.txt
-pip install -r backend/requirements.txt
-
-# Node.js frontend
-cd frontend && npm install
+.venv\Scripts\activate
+pip install -r requirements.txt
+copy app\backend\.env.example app\backend\.env
 ```
 
-## 2. Dataset
+Put `GROQ_API_KEY` in `app/backend/.env`. Never commit `.env`.
+
+## 2. ICDAS images (when you have clinician labels)
 
 ```bash
 python ml/scripts/setup_dataset.py
-# Copy labeled images into dataset/train|val|test/0..6/
-python ml/scripts/sync_annotations.py   # required so annotations.csv matches folders
-python scripts/download_datasets.py --dataset dental_caries  # optional
-python scripts/preprocess_dataset.py --input dataset/raw --output dataset
+# Copy labeled tooth images into data/icdas/train|val|test/0..4/
+# Do not copy ICDAS 5 or 6 into class 4 (use data/icdas/excluded/).
+python ml/scripts/sync_annotations.py
+python ml/scripts/validate_dataset.py --allow-empty
 ```
 
-For ~2000 ICDAS-labeled images: place files under `train/`, `val/`, and `test/` class folders, then always run `sync_annotations.py` before training.
-
-## 3. Train
+Optional ingest:
 
 ```bash
-cd ml
-python train.py --config configs/default.yaml
-python export.py --checkpoint ../models/best.keras --quantize
-# If TF.js export succeeds:
-Copy-Item -Recurse ..\models\tfjs_model\* ..\frontend\public\models\
-# If TF.js export fails on Windows, use the backend API for real inference (see section 4).
+python tools/ingest/download_datasets.py --dataset dental_caries
+python tools/ingest/preprocess_dataset.py
 ```
 
-## 4. Run
+Training is **blocked** until real pixels exist. See `data/icdas/README.md`.
+
+## 3. Train ICDAS (later)
 
 ```bash
-# PWA (offline)
-cd frontend && npm run dev
-
-# API (optional)
-cd backend && uvicorn app.main:app --reload
+python ml/train.py --config ml/configs/default.yaml
 ```
 
-## 5. Install PWA on Mobile
+Writes under `models/icdas/current/<experiment>/`. Does not overwrite historical keras unless you set `overwrite_root_checkpoints: true`.
 
-1. Open `http://<your-ip>:5173` on Android/iPhone
-2. Chrome: Menu → "Install app" / Safari: Share → "Add to Home Screen"
-3. App works offline after first load
+## 4. Run apps (one venv)
+
+See `docs/WINDOWS_SETUP.md`. From repo root after `.\.venv\Scripts\Activate.ps1`:
+
+```powershell
+.\scripts\start_backend.ps1
+.\scripts\start_patient.ps1
+.\scripts\start_admin.ps1
+```
+
+- API: http://127.0.0.1:8000
+- Patient: http://127.0.0.1:8502
+- Admin: http://127.0.0.1:8503
+
+## 5. Tooth detector
+
+Batch 01 weights: `models/detection/tooth_detector_batch01/weights/best.pt`
+
+New data: `data/detection/README.md`.

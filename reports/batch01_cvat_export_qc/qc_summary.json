@@ -1,0 +1,29 @@
+{
+  "zip": "c:\\Users\\anant\\Downloads\\task_2546747_annotations_2026_08_26_20_27_14_ultralytics yolo detection 1.0.zip",
+  "zip_size_bytes": 46982,
+  "images_inside_zip": 0,
+  "annotation_txt_in_zip": 60,
+  "train_txt_image_refs": 60,
+  "batch01_expected": 60,
+  "label_stems_match_batch01": true,
+  "train_stems_match_batch01": true,
+  "missing_labels_vs_batch01": [],
+  "extra_labels_vs_batch01": [],
+  "data_yaml": "names:\n  0: tooth\npath: .\ntrain: train.txt\n",
+  "class_ids": {
+    "0": 767
+  },
+  "only_class_0_tooth": true,
+  "total_tooth_boxes": 767,
+  "zero_detection_files": 0,
+  "malformed_lines": 0,
+  "oob_normalized": 0,
+  "nonpositive_wh": 0,
+  "oob_pixels": 0,
+  "duplicate_identical_boxes": 0,
+  "tiny_boxes_lt_20px": 1,
+  "near_full_image_boxes": 0,
+  "issues_n": 0,
+  "issues_sample": [],
+  "originals_modified": false
+}

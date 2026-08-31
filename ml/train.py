@@ -348,19 +348,11 @@ def convert_dataset_to_mobilenet_range(
     dataset: tf.data.Dataset,
 ) -> tf.data.Dataset:
     """
-    Convert dataset images from [0,1] to [0,255].
+    Ensure dataset images are float32 [0, 255] for MobileNetV3.
 
-    DentalCariesDataset returns:
-
-        float32 [0,1]
-
-    MobileNetV3 with built-in preprocessing expects:
-
-        float32 [0,255]
-
-    Therefore:
-
-        image * 255.0
+    DentalCariesDataset now returns [0, 255]. Older [0, 1]
+    batches are scaled once. Values already in [0, 255]
+    are not multiplied again.
     """
 
     def transform(
@@ -373,15 +365,25 @@ def convert_dataset_to_mobilenet_range(
             tf.float32,
         )
 
-        images = tf.clip_by_value(
-            images,
-            0.0,
-            1.0,
-        )
+        max_value = tf.reduce_max(images)
 
-        images = (
-            images
-            * 255.0
+        def from_unit_interval():
+            return (
+                tf.clip_by_value(images, 0.0, 1.0)
+                * 255.0
+            )
+
+        def already_byte_range():
+            return tf.clip_by_value(
+                images,
+                0.0,
+                255.0,
+            )
+
+        images = tf.cond(
+            max_value <= 1.5,
+            from_unit_interval,
+            already_byte_range,
         )
 
         return (
@@ -1255,9 +1257,9 @@ def create_datasets(
     # ========================================================
 
     logger.info(
-        "Converting dataset images "
-        "from [0,1] to [0,255] "
-        "for MobileNetV3."
+        "Ensuring dataset images are "
+        "float32 [0,255] for MobileNetV3 "
+        "(no double scaling)."
     )
 
     train_ds = (
@@ -1365,12 +1367,14 @@ def main():
 
     dataset_root = (
         project_root
-        / "dataset"
+        / config.get("dataset_root", "data/icdas")
     )
 
     models_root = (
         project_root
         / "models"
+        / "icdas"
+        / "current"
     )
 
     experiment_name = config.get(
@@ -1382,6 +1386,8 @@ def main():
         models_root
         / experiment_name
     )
+    if config.get("output_dir"):
+        output_dir = project_root / str(config["output_dir"])
 
     output_dir.mkdir(
         parents=True,
@@ -1734,24 +1740,22 @@ def main():
     # SAVE DEPLOYMENT MODEL
     # ========================================================
 
+    overwrite_root = bool(
+        config.get("overwrite_root_checkpoints", False)
+    )
     deploy_path = (
-        models_root
-        / "deploy.keras"
+        output_dir
+        / "final.keras"
     )
-
-    root_best_path = (
-        models_root
-        / "best.keras"
-    )
-
     model.save(
         str(deploy_path)
     )
-
-    shutil.copy2(
-        best_path,
-        root_best_path,
-    )
+    root_best_path = None
+    if overwrite_root:
+        root_deploy = models_root / "deploy.keras"
+        root_best_path = models_root / "best.keras"
+        shutil.copy2(deploy_path, root_deploy)
+        shutil.copy2(best_path, root_best_path)
 
     logger.info(
         "========================================"

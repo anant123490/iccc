@@ -28,6 +28,13 @@ image_size: 224
 
 batch_size: 8
 
+# Folder layout: data/icdas/{train,val,test}/{0,1,2,3,4}
+dataset_root: "data/icdas"
+
+# Never copy a new checkpoint over models/icdas/current/deploy.keras
+# until a 5-class softmax model has been evaluated and approved.
+overwrite_root_checkpoints: false
+
 # ============================================================
 # MODEL
 # ============================================================
@@ -43,6 +50,9 @@ pretrained: true
 # ============================================================
 # CLASSIFICATION
 # ============================================================
+
+# Production head: 5-class softmax (ICDAS 0-4).
+# Ordinal regression remains implemented but is not the default.
 
 ordinal_regression: false
 

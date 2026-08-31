@@ -1,0 +1,23 @@
+{
+  "generated_at": "2026-08-26T15:27:06.544448+00:00",
+  "batch": "Batch_01",
+  "expected_images": 60,
+  "listed_images": 60,
+  "images_found": 60,
+  "annotation_format_observed": "YOLO placeholders (empty .txt) + Pascal VOC size-only XML; no COCO instances",
+  "human_verified_annotated_images": 0,
+  "human_verified_tooth_boxes": 0,
+  "empty_yolo_placeholders": 60,
+  "missing_yolo_files": 0,
+  "missing_images": 0,
+  "malformed_annotation_files": 0,
+  "class_ids_observed": [],
+  "non_tooth_class_present": false,
+  "only_valid_class_is_0_tooth": true,
+  "structural_qc_pass": false,
+  "stop_reason": "NO_HUMAN_VERIFIED_BATCH_01_BOXES_IN_WORKSPACE",
+  "progress_csv": "all Batch_01 rows still annotation_status=not_started",
+  "cvat_export_found": false,
+  "training_allowed": false,
+  "pseudo_labeling_allowed": false
+}

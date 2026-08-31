@@ -1,0 +1,81 @@
+{
+  "name": "v1",
+  "version_number": 1,
+  "split_seed": 42,
+  "eligible_fingerprint": "4bcf116e89c35662961e6f1bddb460f44ecd7c34eb6c41490ec54ef0810b4b02",
+  "split_fractions_target": {
+    "train": 0.7,
+    "val": 0.15,
+    "test": 0.15
+  },
+  "total_source_images_included": 1,
+  "total_tooth_crops_included": 7,
+  "class_counts_overall": {
+    "0": 2,
+    "1": 1,
+    "2": 2,
+    "3": 1,
+    "4": 1
+  },
+  "train_counts": {
+    "0": 2,
+    "1": 1,
+    "2": 2,
+    "3": 1,
+    "4": 1
+  },
+  "validation_counts": {
+    "0": 0,
+    "1": 0,
+    "2": 0,
+    "3": 0,
+    "4": 0
+  },
+  "test_counts": {
+    "0": 0,
+    "1": 0,
+    "2": 0,
+    "3": 0,
+    "4": 0
+  },
+  "n_train": 7,
+  "n_valid": 0,
+  "n_test": 0,
+  "n_source_train": 1,
+  "n_source_val": 0,
+  "n_source_test": 0,
+  "n_excluded_duplicate_rows": 0,
+  "imbalance_warning": false,
+  "disclaimer": "AI research/screening dataset. Not a clinical diagnosis. ICDAS 5\u20136 out of scope.",
+  "validation": {
+    "ok": false,
+    "issues": [
+      "Split val is empty",
+      "Split test is empty"
+    ],
+    "missing_classes_in_train": [],
+    "split_class_counts": {
+      "train": {
+        "0": 2,
+        "1": 1,
+        "2": 2,
+        "3": 1,
+        "4": 1
+      },
+      "val": {
+        "0": 0,
+        "1": 0,
+        "2": 0,
+        "3": 0,
+        "4": 0
+      },
+      "test": {
+        "0": 0,
+        "1": 0,
+        "2": 0,
+        "3": 0,
+        "4": 0
+      }
+    }
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "weights": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\models\\tooth_detector_batch01\\weights\\best.pt",
+  "source": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\fdi_detection_dataset\\images\\selected",
+  "images_processed": 420,
+  "total_tooth_crops": 5676,
+  "raw_detections_before_qc": 5676,
+  "skipped_invalid_or_tiny": 0,
+  "skip_reason_counts": {},
+  "average_teeth_per_image": 13.514285714285714,
+  "min_teeth_detected": 6,
+  "max_teeth_detected": 27,
+  "images_with_zero_kept_crops": 0,
+  "confidence_mean": 0.5557645701198026,
+  "confidence_median": 0.55915,
+  "confidence_min": 0.2502,
+  "confidence_max": 0.9103,
+  "confidence_stdev": 0.17092186109831808,
+  "note": "Crops are detector outputs, not ICDAS labels and not FDI numbers. dataset/ was not modified."
+}

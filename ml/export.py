@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 Export trained model to TFLite, TensorFlow.js, and ONNX with quantization benchmarks.
-Usage: python export.py --checkpoint ../models/best.keras --quantize
+Usage: python export.py --checkpoint ../models/icdas/current/<experiment>/best.keras --quantize
 """
 
 import argparse

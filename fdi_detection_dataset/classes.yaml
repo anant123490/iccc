@@ -1,0 +1,5 @@
+# Ultralytics / YOLO class list — whole-tooth detection only.
+# Do not add FDI numbers here.
+names:
+  0: tooth
+nc: 1

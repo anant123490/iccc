@@ -1,0 +1,2976 @@
+{
+  "verify": {
+    "ratings_keys": 100,
+    "catalog": 100,
+    "marks": {
+      "QUESTIONABLE": 26,
+      "GOOD": 57,
+      "BAD": 17
+    },
+    "missing_from_catalog": [],
+    "extra_not_in_catalog": [],
+    "unrated": [],
+    "all_100_rated": true
+  },
+  "notes_nonempty": 0,
+  "problem_counts": {
+    "anterior crowding": {
+      "QUESTIONABLE": 16,
+      "BAD": 8,
+      "Total": 24
+    },
+    "overlapping boxes": {
+      "QUESTIONABLE": 17,
+      "BAD": 12,
+      "Total": 29
+    },
+    "two teeth inside one box": {
+      "QUESTIONABLE": 3,
+      "BAD": 2,
+      "Total": 5
+    },
+    "oversized box": {
+      "QUESTIONABLE": 2,
+      "BAD": 3,
+      "Total": 5
+    },
+    "border-truncated tooth": {
+      "QUESTIONABLE": 5,
+      "BAD": 4,
+      "Total": 9
+    },
+    "source-image issue": {
+      "QUESTIONABLE": 0,
+      "BAD": 2,
+      "Total": 2
+    },
+    "polygon-to-rectangle conversion issue": {
+      "QUESTIONABLE": 2,
+      "BAD": 0,
+      "Total": 2
+    },
+    "duplicate boxes": {
+      "QUESTIONABLE": 0,
+      "BAD": 1,
+      "Total": 1
+    }
+  },
+  "questionable": [
+    {
+      "name": "OHI_datasetIMG_1845_JPG.rf.25750cf398d9b2588d8be216571aaaec.jpg",
+      "split": "train",
+      "n_boxes": 27,
+      "select_reason": "anterior_crowded",
+      "tags": [
+        "anterior crowding",
+        "overlapping boxes"
+      ],
+      "recorded_reason": "no free-text note | sample=anterior_crowded | maxIoU=0.6409 IoU50=1 IoU70=0 antOv=7 border=0 large=0 extreme=0 | tags: anterior crowding; overlapping boxes"
+    },
+    {
+      "name": "OHI_datasetIMG_23351_jpg.rf.778fd3654d07738fb96338d8f69d9230.jpg",
+      "split": "train",
+      "n_boxes": 26,
+      "select_reason": "extreme_aspect",
+      "tags": [
+        "border-truncated tooth",
+        "polygon-to-rectangle conversion issue"
+      ],
+      "recorded_reason": "no free-text note | sample=extreme_aspect | maxIoU=0.4273 IoU50=0 IoU70=0 antOv=0 border=3 large=0 extreme=1 | tags: border-truncated tooth; polygon-to-rectangle conversion issue"
+    },
+    {
+      "name": "OHI_datasetIMG_2335_JPG.rf.05072b41528cfa37c9fb8e61dafdf36e.jpg",
+      "split": "train",
+      "n_boxes": 25,
+      "select_reason": "overlap_pairs",
+      "tags": [
+        "overlapping boxes"
+      ],
+      "recorded_reason": "no free-text note | sample=overlap_pairs | maxIoU=0.5438 IoU50=2 IoU70=0 antOv=0 border=0 large=0 extreme=0 | tags: overlapping boxes"
+    },
+    {
+      "name": "OHI_datasetIMG_3048_JPG.rf.7b9f3c892b6240761127e844e35719ad.jpg",
+      "split": "train",
+      "n_boxes": 23,
+      "select_reason": "anterior_crowded",
+      "tags": [
+        "anterior crowding",
+        "overlapping boxes"
+      ],
+      "recorded_reason": "no free-text note | sample=anterior_crowded | maxIoU=0.5204 IoU50=1 IoU70=0 antOv=11 border=0 large=0 extreme=0 | tags: anterior crowding; overlapping boxes"
+    },
+    {
+      "name": "OHI_datasetIMG_3131_JPG.rf.125dc3548f629d163c07441d33da6c7a.jpg",
+      "split": "train",
+      "n_boxes": 24,
+      "select_reason": "overlap_pairs",
+      "tags": [
+        "anterior crowding",
+        "overlapping boxes"
+      ],
+      "recorded_reason": "no free-text note | sample=overlap_pairs | maxIoU=0.5638 IoU50=4 IoU70=0 antOv=6 border=0 large=0 extreme=0 | tags: anterior crowding; overlapping boxes"
+    },
+    {
+      "name": "OHI_datasetIMG_3400_JPG.rf.1e3930e2946f55768da1d48ed45822f6.jpg",
+      "split": "train",
+      "n_boxes": 11,
+      "select_reason": "border_touching",
+      "tags": [
+        "border-truncated tooth"
+      ],
+      "recorded_reason": "no free-text note | sample=border_touching | maxIoU=0.2559 IoU50=0 IoU70=0 antOv=0 border=3 large=0 extreme=0 | tags: border-truncated tooth"
+    },
+    {
+      "name": "OHI_datasetIMG_3448_jpg.rf.4d43e9bf5dbeaae842ed22062ce0a15c.jpg",
+      "split": "train",
+      "n_boxes": 13,
+      "select_reason": "border_touching",
+      "tags": [
+        "border-truncated tooth"
+      ],
+      "recorded_reason": "no free-text note | sample=border_touching | maxIoU=0.3717 IoU50=0 IoU70=0 antOv=0 border=5 large=0 extreme=0 | tags: border-truncated tooth"
+    },
+    {
+      "name": "OHI_datasetIMG_3942_JPG.rf.4e60403ee40365b985552a6211fe3751.jpg",
+      "split": "train",
+      "n_boxes": 24,
+      "select_reason": "extreme_aspect",
+      "tags": [
+        "polygon-to-rectangle conversion issue"
+      ],
+      "recorded_reason": "no free-text note | sample=extreme_aspect | maxIoU=0.3462 IoU50=0 IoU70=0 antOv=0 border=0 large=0 extreme=1 | tags: polygon-to-rectangle conversion issue"
+    },
+    {
+      "name": "OHI_datasetIMG_3993_JPG.rf.0a9b22bdc50782debaed048af8ae395d.jpg",
+      "split": "train",
+      "n_boxes": 23,
+      "select_reason": "overlap_pairs",
+      "tags": [
+        "anterior crowding",
+        "overlapping boxes"
+      ],
+      "recorded_reason": "no free-text note | sample=overlap_pairs | maxIoU=0.5954 IoU50=2 IoU70=0 antOv=7 border=0 large=0 extreme=0 | tags: anterior crowding; overlapping boxes"
+    },
+    {
+      "name": "OHI_datasetIMG_4233_JPG.rf.1765b214d5e4bf783c13f2eb615cd91e.jpg",
+      "split": "train",
+      "n_boxes": 23,
+      "select_reason": "anterior_crowded",
+      "tags": [
+        "anterior crowding",
+        "overlapping boxes"
+      ],
+      "recorded_reason": "no free-text note | sample=anterior_crowded | maxIoU=0.564 IoU50=1 IoU70=0 antOv=7 border=0 large=0 extreme=0 | tags: anterior crowding; overlapping boxes"
+    },
+    {
+      "name": "OHI_datasetIMG_4648_JPG.rf.1d1708baf3978d5dd5d3a3ccb914ab60.jpg",
+      "split": "train",
+      "n_boxes": 25,
+      "select_reason": "overlap_pairs",
+      "tags": [
+        "anterior crowding",
+        "overlapping boxes"
+      ],
+      "recorded_reason": "no free-text note | sample=overlap_pairs | maxIoU=0.5934 IoU50=2 IoU70=0 antOv=6 border=0 large=0 extreme=0 | tags: anterior crowding; overlapping boxes"
+    },
+    {
+      "name": "OHI_datasetIMG_4753_JPG.rf.067ea770a01fad5a4a84dc00c04fc3ed.jpg",
+      "split": "train",
+      "n_boxes": 32,
+      "select_reason": "overlap_pairs",
+      "tags": [
+        "anterior crowding",
+        "overlapping boxes"
+      ],
+      "recorded_reason": "no free-text note | sample=overlap_pairs | maxIoU=0.606 IoU50=3 IoU70=0 antOv=16 border=0 large=0 extreme=0 | tags: anterior crowding; overlapping boxes"
+    },
+    {
+      "name": "OHI_datasetIMG_4802_JPG.rf.2ee847e527da236cab8b718803678354.jpg",
+      "split": "train",
+      "n_boxes": 31,
+      "select_reason": "many_detections",
+      "tags": [
+        "overlapping boxes"
+      ],
+      "recorded_reason": "no free-text note | sample=many_detections | maxIoU=0.5008 IoU50=1 IoU70=0 antOv=1 border=0 large=0 extreme=0 | tags: overlapping boxes"
+    },
+    {
+      "name": "OHI_datasetIMG_4809_JPG.rf.361917e6c7549e6f57afb66929d8640a.jpg",
+      "split": "train",
+      "n_boxes": 28,
+      "select_reason": "anterior_crowded",
+      "tags": [
+        "oversized box",
+        "anterior crowding",
+        "overlapping boxes"
+      ],
+      "recorded_reason": "no free-text note | sample=anterior_crowded | maxIoU=0.508 IoU50=1 IoU70=0 antOv=8 border=0 large=2 extreme=0 | tags: oversized box; anterior crowding; overlapping boxes"
+    },
+    {
+      "name": "OHI_datasetIMG_4935_JPG.rf.9d8c2d158f77d03737fd136ca8fa549f.jpg",
+      "split": "train",
+      "n_boxes": 30,
+      "select_reason": "anterior_crowded",
+      "tags": [
+        "anterior crowding"
+      ],
+      "recorded_reason": "no free-text note | sample=anterior_crowded | maxIoU=0.4616 IoU50=0 IoU70=0 antOv=7 border=0 large=0 extreme=0 | tags: anterior crowding"
+    },
+    {
+      "name": "OHI_datasetIMG_4986_JPG.rf.d8ff496c3e5ee6b4e47efc6beb7a4c06.jpg",
+      "split": "train",
+      "n_boxes": 22,
+      "select_reason": "overlap_pairs",
+      "tags": [
+        "anterior crowding",
+        "overlapping boxes"
+      ],
+      "recorded_reason": "no free-text note | sample=overlap_pairs | maxIoU=0.5777 IoU50=2 IoU70=0 antOv=4 border=0 large=0 extreme=0 | tags: anterior crowding; overlapping boxes"
+    },
+    {
+      "name": "OHI_datasetIMG_5009_JPG.rf.6c18a412e43ac49f63f221ec0a0e5b51.jpg",
+      "split": "train",
+      "n_boxes": 23,
+      "select_reason": "overlap_pairs",
+      "tags": [
+        "anterior crowding",
+        "overlapping boxes"
+      ],
+      "recorded_reason": "no free-text note | sample=overlap_pairs | maxIoU=0.5417 IoU50=2 IoU70=0 antOv=8 border=0 large=0 extreme=0 | tags: anterior crowding; overlapping boxes"
+    },
+    {
+      "name": "OHI_datasetIMG_5055_JPG.rf.540dbe22c0d79b06d9c82e851b18def9.jpg",
+      "split": "train",
+      "n_boxes": 31,
+      "select_reason": "anterior_crowded",
+      "tags": [
+        "oversized box",
+        "anterior crowding",
+        "overlapping boxes"
+      ],
+      "recorded_reason": "no free-text note | sample=anterior_crowded | maxIoU=0.5796 IoU50=1 IoU70=0 antOv=16 border=0 large=1 extreme=0 | tags: oversized box; anterior crowding; overlapping boxes"
+    },
+    {
+      "name": "OHI_datasetIMG_5122_JPG.rf.25247f38a098e2bdbf5aa24a4125666a.jpg",
+      "split": "train",
+      "n_boxes": 27,
+      "select_reason": "oversized_vs_neighbors",
+      "tags": [
+        "two teeth inside one box",
+        "anterior crowding"
+      ],
+      "recorded_reason": "no free-text note | sample=oversized_vs_neighbors | maxIoU=0.4962 IoU50=0 IoU70=0 antOv=3 border=0 large=2 extreme=0 | tags: two teeth inside one box; anterior crowding"
+    },
+    {
+      "name": "OHI_datasetIMG_5188_JPG.rf.532920bdd622b9534c18834deafa5e19.jpg",
+      "split": "train",
+      "n_boxes": 31,
+      "select_reason": "many_detections",
+      "tags": [
+        "two teeth inside one box",
+        "overlapping boxes"
+      ],
+      "recorded_reason": "no free-text note | sample=many_detections | maxIoU=0.5006 IoU50=1 IoU70=0 antOv=1 border=0 large=2 extreme=0 | tags: two teeth inside one box; overlapping boxes"
+    },
+    {
+      "name": "OHI_datasetIMG_5192_JPG.rf.465a47a66317a2d29dad0d12aa891191.jpg",
+      "split": "train",
+      "n_boxes": 30,
+      "select_reason": "many_detections",
+      "tags": [
+        "anterior crowding"
+      ],
+      "recorded_reason": "no free-text note | sample=many_detections | maxIoU=0.474 IoU50=0 IoU70=0 antOv=5 border=0 large=0 extreme=0 | tags: anterior crowding"
+    },
+    {
+      "name": "OHI_datasetIMG_5201_JPG.rf.1dbeefdf555b186d9bc7764871df04cc.jpg",
+      "split": "train",
+      "n_boxes": 25,
+      "select_reason": "tiny_packed",
+      "tags": [
+        "anterior crowding",
+        "overlapping boxes"
+      ],
+      "recorded_reason": "no free-text note | sample=tiny_packed | maxIoU=0.5502 IoU50=1 IoU70=0 antOv=3 border=0 large=0 extreme=0 | tags: anterior crowding; overlapping boxes"
+    },
+    {
+      "name": "OHI_datasetIMG_5296_JPG.rf.71a266c3369a94c72e6b7bf4cd3aca32.jpg",
+      "split": "train",
+      "n_boxes": 24,
+      "select_reason": "anterior_crowded",
+      "tags": [
+        "anterior crowding",
+        "overlapping boxes"
+      ],
+      "recorded_reason": "no free-text note | sample=anterior_crowded | maxIoU=0.5041 IoU50=1 IoU70=0 antOv=8 border=0 large=0 extreme=0 | tags: anterior crowding; overlapping boxes"
+    },
+    {
+      "name": "OHI_datasetIMG_5702_JPG.rf.34ac7be26abb30e7687ab484bf47fe0e.jpg",
+      "split": "train",
+      "n_boxes": 30,
+      "select_reason": "overlap_pairs",
+      "tags": [
+        "two teeth inside one box",
+        "overlapping boxes"
+      ],
+      "recorded_reason": "no free-text note | sample=overlap_pairs | maxIoU=0.5729 IoU50=3 IoU70=0 antOv=1 border=0 large=2 extreme=0 | tags: two teeth inside one box; overlapping boxes"
+    },
+    {
+      "name": "OHI_datasetIMG_5834_JPG.rf.197c43f1a99ef1b241b1332b3a9bfdef.jpg",
+      "split": "train",
+      "n_boxes": 16,
+      "select_reason": "border_touching",
+      "tags": [
+        "border-truncated tooth"
+      ],
+      "recorded_reason": "no free-text note | sample=border_touching | maxIoU=0.2714 IoU50=0 IoU70=0 antOv=0 border=4 large=0 extreme=0 | tags: border-truncated tooth"
+    },
+    {
+      "name": "OHI_datasetIMG_6566_JPG.rf.0c32d811b9dd9233d4d286db7bce668f.jpg",
+      "split": "train",
+      "n_boxes": 14,
+      "select_reason": "border_touching",
+      "tags": [
+        "border-truncated tooth"
+      ],
+      "recorded_reason": "no free-text note | sample=border_touching | maxIoU=0.2429 IoU50=0 IoU70=0 antOv=0 border=4 large=0 extreme=0 | tags: border-truncated tooth"
+    }
+  ],
+  "bad": [
+    {
+      "name": "OHI_datasetIMG_1771_JPG.rf.348aea523c987ae759539a3062ade4bf.jpg",
+      "split": "train",
+      "n_boxes": 28,
+      "select_reason": "max_iou_fill",
+      "tags": [
+        "overlapping boxes"
+      ],
+      "recorded_reason": "no free-text note | sample=max_iou_fill | maxIoU=0.5999 IoU50=1 IoU70=0 antOv=1 border=0 large=0 extreme=0 | tags: overlapping boxes"
+    },
+    {
+      "name": "OHI_datasetIMG_2493_JPG.rf.129942024559016717f74909772bc8ef.jpg",
+      "split": "train",
+      "n_boxes": 28,
+      "select_reason": "overlap_pairs",
+      "tags": [
+        "anterior crowding",
+        "overlapping boxes"
+      ],
+      "recorded_reason": "no free-text note | sample=overlap_pairs | maxIoU=0.591 IoU50=2 IoU70=0 antOv=8 border=0 large=0 extreme=0 | tags: anterior crowding; overlapping boxes"
+    },
+    {
+      "name": "OHI_datasetIMG_3103_JPG.rf.5a75b8c86f3731c1e22d75ee55df2500.jpg",
+      "split": "train",
+      "n_boxes": 15,
+      "select_reason": "border_touching",
+      "tags": [
+        "border-truncated tooth"
+      ],
+      "recorded_reason": "no free-text note | sample=border_touching | maxIoU=0.2301 IoU50=0 IoU70=0 antOv=0 border=3 large=0 extreme=0 | tags: border-truncated tooth"
+    },
+    {
+      "name": "OHI_datasetIMG_3146_JPG.rf.1f20cd371f0c4f3dafef9b61c1964e94.jpg",
+      "split": "train",
+      "n_boxes": 23,
+      "select_reason": "border_touching",
+      "tags": [
+        "border-truncated tooth",
+        "overlapping boxes"
+      ],
+      "recorded_reason": "no free-text note | sample=border_touching | maxIoU=0.5166 IoU50=1 IoU70=0 antOv=0 border=3 large=0 extreme=0 | tags: border-truncated tooth; overlapping boxes"
+    },
+    {
+      "name": "OHI_datasetIMG_3542_jpg.rf.171eeea429785b1497aba5eec2c9f3cf.jpg",
+      "split": "train",
+      "n_boxes": 26,
+      "select_reason": "overlap_pairs",
+      "tags": [
+        "anterior crowding",
+        "overlapping boxes"
+      ],
+      "recorded_reason": "no free-text note | sample=overlap_pairs | maxIoU=0.5675 IoU50=3 IoU70=0 antOv=4 border=0 large=0 extreme=0 | tags: anterior crowding; overlapping boxes"
+    },
+    {
+      "name": "OHI_datasetIMG_4455_JPG.rf.26c09664707f4daa885c56a7b6f13659.jpg",
+      "split": "train",
+      "n_boxes": 24,
+      "select_reason": "oversized_vs_neighbors",
+      "tags": [
+        "oversized box"
+      ],
+      "recorded_reason": "no free-text note | sample=oversized_vs_neighbors | maxIoU=0.4591 IoU50=0 IoU70=0 antOv=1 border=0 large=2 extreme=0 | tags: oversized box"
+    },
+    {
+      "name": "OHI_datasetIMG_4697_JPG.rf.9616c0adb320cec4ae0b5b51b39bc64c.jpg",
+      "split": "train",
+      "n_boxes": 26,
+      "select_reason": "anterior_crowded",
+      "tags": [
+        "anterior crowding",
+        "overlapping boxes"
+      ],
+      "recorded_reason": "no free-text note | sample=anterior_crowded | maxIoU=0.5873 IoU50=1 IoU70=0 antOv=7 border=0 large=0 extreme=0 | tags: anterior crowding; overlapping boxes"
+    },
+    {
+      "name": "OHI_datasetIMG_4994_JPG.rf.7024d7ee59d6814505f09c8fad9ce09e.jpg",
+      "split": "train",
+      "n_boxes": 31,
+      "select_reason": "anterior_crowded",
+      "tags": [
+        "anterior crowding",
+        "overlapping boxes"
+      ],
+      "recorded_reason": "no free-text note | sample=anterior_crowded | maxIoU=0.5264 IoU50=1 IoU70=0 antOv=15 border=0 large=0 extreme=0 | tags: anterior crowding; overlapping boxes"
+    },
+    {
+      "name": "OHI_datasetIMG_5147_JPG.rf.6fec0ef1e4115e984dfcdb999b4b9858.jpg",
+      "split": "train",
+      "n_boxes": 29,
+      "select_reason": "oversized_vs_neighbors",
+      "tags": [
+        "oversized box",
+        "anterior crowding"
+      ],
+      "recorded_reason": "no free-text note | sample=oversized_vs_neighbors | maxIoU=0.4602 IoU50=0 IoU70=0 antOv=4 border=0 large=2 extreme=0 | tags: oversized box; anterior crowding"
+    },
+    {
+      "name": "OHI_datasetIMG_5264_JPG.rf.bd06dc1b69bc857b62cece2cf72244d0.jpg",
+      "split": "train",
+      "n_boxes": 31,
+      "select_reason": "many_detections",
+      "tags": [
+        "two teeth inside one box"
+      ],
+      "recorded_reason": "no free-text note | sample=many_detections | maxIoU=0.4438 IoU50=0 IoU70=0 antOv=2 border=0 large=1 extreme=0 | tags: two teeth inside one box"
+    },
+    {
+      "name": "OHI_datasetIMG_5673_JPG.rf.4174895ce3952b2962d94e1eeb63dfc6.jpg",
+      "split": "train",
+      "n_boxes": 26,
+      "select_reason": "overlap_pairs",
+      "tags": [
+        "two teeth inside one box",
+        "overlapping boxes"
+      ],
+      "recorded_reason": "no free-text note | sample=overlap_pairs | maxIoU=0.5401 IoU50=2 IoU70=0 antOv=0 border=0 large=3 extreme=0 | tags: two teeth inside one box; overlapping boxes"
+    },
+    {
+      "name": "OHI_datasetIMG_6064_JPG.rf.09a2a17f72d931a7d60838a9d033f523.jpg",
+      "split": "train",
+      "n_boxes": 19,
+      "select_reason": "max_iou_fill",
+      "tags": [
+        "overlapping boxes"
+      ],
+      "recorded_reason": "no free-text note | sample=max_iou_fill | maxIoU=0.6157 IoU50=1 IoU70=0 antOv=1 border=0 large=0 extreme=0 | tags: overlapping boxes"
+    },
+    {
+      "name": "OHI_datasetIMG_6630_JPG.rf.2d9a6068e169603c26d9e6b32575d940.jpg",
+      "split": "train",
+      "n_boxes": 26,
+      "select_reason": "high_iou_duplicate",
+      "tags": [
+        "duplicate boxes",
+        "anterior crowding",
+        "overlapping boxes"
+      ],
+      "recorded_reason": "no free-text note | sample=high_iou_duplicate | maxIoU=0.7077 IoU50=3 IoU70=1 antOv=3 border=0 large=0 extreme=0 | tags: duplicate boxes; anterior crowding; overlapping boxes"
+    },
+    {
+      "name": "OHI_datasetIMG_6652_JPG.rf.363d6a2e583506ba1888c25c961529de.jpg",
+      "split": "train",
+      "n_boxes": 22,
+      "select_reason": "overlap_pairs",
+      "tags": [
+        "overlapping boxes"
+      ],
+      "recorded_reason": "no free-text note | sample=overlap_pairs | maxIoU=0.5564 IoU50=2 IoU70=0 antOv=2 border=0 large=0 extreme=0 | tags: overlapping boxes"
+    },
+    {
+      "name": "OHI_dataset_MG_3852_JPG.rf.2d94f42f28f1452dc8f4033c9ad58563.jpg",
+      "split": "train",
+      "n_boxes": 26,
+      "select_reason": "oversized_vs_neighbors",
+      "tags": [
+        "oversized box",
+        "anterior crowding",
+        "overlapping boxes"
+      ],
+      "recorded_reason": "no free-text note | sample=oversized_vs_neighbors | maxIoU=0.5481 IoU50=1 IoU70=0 antOv=4 border=0 large=1 extreme=0 | tags: oversized box; anterior crowding; overlapping boxes"
+    },
+    {
+      "name": "OHI_datasetcrop_open_jpg.rf.2a01a46fb015a4d8f1626af2fad8b137.jpg",
+      "split": "train",
+      "n_boxes": 28,
+      "select_reason": "anterior_crowded",
+      "tags": [
+        "border-truncated tooth",
+        "anterior crowding",
+        "overlapping boxes",
+        "source-image issue"
+      ],
+      "recorded_reason": "no free-text note | sample=anterior_crowded | maxIoU=0.508 IoU50=1 IoU70=0 antOv=5 border=4 large=0 extreme=0 | tags: border-truncated tooth; anterior crowding; overlapping boxes; source-image issue"
+    },
+    {
+      "name": "OHI_datasetflip_IMG_2188_jpg.rf.6c9a71c0e9aaf424c68bb7addc2af3c8.jpg",
+      "split": "train",
+      "n_boxes": 13,
+      "select_reason": "border_touching",
+      "tags": [
+        "border-truncated tooth",
+        "source-image issue"
+      ],
+      "recorded_reason": "no free-text note | sample=border_touching | maxIoU=0.2984 IoU50=0 IoU70=0 antOv=0 border=4 large=0 extreme=0 | tags: border-truncated tooth; source-image issue"
+    }
+  ],
+  "good": {
+    "n_images": 57,
+    "n_boxes": 1415,
+    "copied": 57,
+    "invalid_label_files": 0,
+    "splits": {
+      "train": 44,
+      "test": 4,
+      "valid": 9
+    },
+    "suspicious_images": [
+      {
+        "name": "OHI_datasetIMG_1111_JPG.rf.c942055271ddc43953098ef41b84b5f5.jpg",
+        "split": "valid",
+        "mark": "GOOD",
+        "n_boxes": 27,
+        "note": "",
+        "select_reason": "tiny_packed",
+        "tags": [
+          "oversized box"
+        ],
+        "recorded_reason": "no free-text note | sample=tiny_packed | maxIoU=0.3091 IoU50=0 IoU70=0 antOv=0 border=0 large=2 extreme=0 | tags: oversized box",
+        "geometry": {
+          "n_boxes": 27,
+          "max_iou": 0.3091,
+          "n_iou50": 0,
+          "n_iou70": 0,
+          "n_anterior_overlap": 0,
+          "n_border": 0,
+          "n_extreme": 0,
+          "n_tiny": 6,
+          "n_large_vs_median": 2,
+          "max_area": 0.0079
+        },
+        "label_errors": [],
+        "image_exists": true,
+        "label_exists": true,
+        "src_image": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\data\\detection\\batches\\batch02_clean\\images\\valid\\OHI_datasetIMG_1111_JPG.rf.c942055271ddc43953098ef41b84b5f5.jpg",
+        "src_label": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\data\\detection\\batches\\batch02_clean\\labels\\valid\\OHI_datasetIMG_1111_JPG.rf.c942055271ddc43953098ef41b84b5f5.txt",
+        "suspicious": [
+          "oversized_vs_median"
+        ]
+      },
+      {
+        "name": "OHI_dataset_MG_3889_JPG.rf.1e21792e6e4a29ef6d3f5596f5591a22.jpg",
+        "split": "train",
+        "mark": "GOOD",
+        "n_boxes": 27,
+        "note": "",
+        "select_reason": "tiny_packed",
+        "tags": [
+          "oversized box"
+        ],
+        "recorded_reason": "no free-text note | sample=tiny_packed | maxIoU=0.4213 IoU50=0 IoU70=0 antOv=1 border=0 large=1 extreme=0 | tags: oversized box",
+        "geometry": {
+          "n_boxes": 27,
+          "max_iou": 0.4213,
+          "n_iou50": 0,
+          "n_iou70": 0,
+          "n_anterior_overlap": 1,
+          "n_border": 0,
+          "n_extreme": 0,
+          "n_tiny": 1,
+          "n_large_vs_median": 1,
+          "max_area": 0.012
+        },
+        "label_errors": [],
+        "image_exists": true,
+        "label_exists": true,
+        "src_image": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\data\\detection\\batches\\batch02_clean\\images\\train\\OHI_dataset_MG_3889_JPG.rf.1e21792e6e4a29ef6d3f5596f5591a22.jpg",
+        "src_label": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\data\\detection\\batches\\batch02_clean\\labels\\train\\OHI_dataset_MG_3889_JPG.rf.1e21792e6e4a29ef6d3f5596f5591a22.txt",
+        "suspicious": [
+          "oversized_vs_median"
+        ]
+      },
+      {
+        "name": "OHI_datasetIMG_3773_jpg.rf.2d6bb88efe9142daecc81253e57392b7.jpg",
+        "split": "train",
+        "mark": "GOOD",
+        "n_boxes": 22,
+        "note": "",
+        "select_reason": "tiny_packed",
+        "tags": [
+          "oversized box"
+        ],
+        "recorded_reason": "no free-text note | sample=tiny_packed | maxIoU=0.2271 IoU50=0 IoU70=0 antOv=0 border=0 large=2 extreme=0 | tags: oversized box",
+        "geometry": {
+          "n_boxes": 22,
+          "max_iou": 0.2271,
+          "n_iou50": 0,
+          "n_iou70": 0,
+          "n_anterior_overlap": 0,
+          "n_border": 0,
+          "n_extreme": 0,
+          "n_tiny": 1,
+          "n_large_vs_median": 2,
+          "max_area": 0.0365
+        },
+        "label_errors": [],
+        "image_exists": true,
+        "label_exists": true,
+        "src_image": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\data\\detection\\batches\\batch02_clean\\images\\train\\OHI_datasetIMG_3773_jpg.rf.2d6bb88efe9142daecc81253e57392b7.jpg",
+        "src_label": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\data\\detection\\batches\\batch02_clean\\labels\\train\\OHI_datasetIMG_3773_jpg.rf.2d6bb88efe9142daecc81253e57392b7.txt",
+        "suspicious": [
+          "oversized_vs_median"
+        ]
+      },
+      {
+        "name": "OHI_datasetIMG_3883_JPG.rf.3654a52a2a3d0768f68a46a55972752c.jpg",
+        "split": "train",
+        "mark": "GOOD",
+        "n_boxes": 32,
+        "note": "",
+        "select_reason": "tiny_packed",
+        "tags": [
+          "oversized box"
+        ],
+        "recorded_reason": "no free-text note | sample=tiny_packed | maxIoU=0.3952 IoU50=0 IoU70=0 antOv=0 border=0 large=2 extreme=0 | tags: oversized box",
+        "geometry": {
+          "n_boxes": 32,
+          "max_iou": 0.3952,
+          "n_iou50": 0,
+          "n_iou70": 0,
+          "n_anterior_overlap": 0,
+          "n_border": 0,
+          "n_extreme": 0,
+          "n_tiny": 1,
+          "n_large_vs_median": 2,
+          "max_area": 0.0174
+        },
+        "label_errors": [],
+        "image_exists": true,
+        "label_exists": true,
+        "src_image": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\data\\detection\\batches\\batch02_clean\\images\\train\\OHI_datasetIMG_3883_JPG.rf.3654a52a2a3d0768f68a46a55972752c.jpg",
+        "src_label": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\data\\detection\\batches\\batch02_clean\\labels\\train\\OHI_datasetIMG_3883_JPG.rf.3654a52a2a3d0768f68a46a55972752c.txt",
+        "suspicious": [
+          "oversized_vs_median"
+        ]
+      },
+      {
+        "name": "OHI_datasetIMG_0281_JPG.rf.5246fd1b8883ddac184f832c9e67915d.jpg",
+        "split": "valid",
+        "mark": "GOOD",
+        "n_boxes": 25,
+        "note": "",
+        "select_reason": "tiny_packed",
+        "tags": [
+          "oversized box"
+        ],
+        "recorded_reason": "no free-text note | sample=tiny_packed | maxIoU=0.2972 IoU50=0 IoU70=0 antOv=0 border=0 large=3 extreme=0 | tags: oversized box",
+        "geometry": {
+          "n_boxes": 25,
+          "max_iou": 0.2972,
+          "n_iou50": 0,
+          "n_iou70": 0,
+          "n_anterior_overlap": 0,
+          "n_border": 0,
+          "n_extreme": 0,
+          "n_tiny": 1,
+          "n_large_vs_median": 3,
+          "max_area": 0.0172
+        },
+        "label_errors": [],
+        "image_exists": true,
+        "label_exists": true,
+        "src_image": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\data\\detection\\batches\\batch02_clean\\images\\valid\\OHI_datasetIMG_0281_JPG.rf.5246fd1b8883ddac184f832c9e67915d.jpg",
+        "src_label": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\data\\detection\\batches\\batch02_clean\\labels\\valid\\OHI_datasetIMG_0281_JPG.rf.5246fd1b8883ddac184f832c9e67915d.txt",
+        "suspicious": [
+          "oversized_vs_median"
+        ]
+      },
+      {
+        "name": "OHI_datasetIMG_5150_JPG.rf.ecd0d45a0aa581f1d310e941438a87ee.jpg",
+        "split": "test",
+        "mark": "GOOD",
+        "n_boxes": 28,
+        "note": "",
+        "select_reason": "tiny_packed",
+        "tags": [
+          "polygon-to-rectangle conversion issue"
+        ],
+        "recorded_reason": "no free-text note | sample=tiny_packed | maxIoU=0.4686 IoU50=0 IoU70=0 antOv=2 border=0 large=0 extreme=2 | tags: polygon-to-rectangle conversion issue",
+        "geometry": {
+          "n_boxes": 28,
+          "max_iou": 0.4686,
+          "n_iou50": 0,
+          "n_iou70": 0,
+          "n_anterior_overlap": 2,
+          "n_border": 0,
+          "n_extreme": 2,
+          "n_tiny": 1,
+          "n_large_vs_median": 0,
+          "max_area": 0.0142
+        },
+        "label_errors": [],
+        "image_exists": true,
+        "label_exists": true,
+        "src_image": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\data\\detection\\batches\\batch02_clean\\images\\test\\OHI_datasetIMG_5150_JPG.rf.ecd0d45a0aa581f1d310e941438a87ee.jpg",
+        "src_label": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\data\\detection\\batches\\batch02_clean\\labels\\test\\OHI_datasetIMG_5150_JPG.rf.ecd0d45a0aa581f1d310e941438a87ee.txt",
+        "suspicious": [
+          "extreme_aspect"
+        ]
+      },
+      {
+        "name": "OHI_datasetIMG_5884_JPG.rf.6095d76b8f785e4575c9db5bad87e9b8.jpg",
+        "split": "train",
+        "mark": "GOOD",
+        "n_boxes": 32,
+        "note": "",
+        "select_reason": "many_detections",
+        "tags": [
+          "oversized box"
+        ],
+        "recorded_reason": "no free-text note | sample=many_detections | maxIoU=0.38 IoU50=0 IoU70=0 antOv=0 border=0 large=2 extreme=0 | tags: oversized box",
+        "geometry": {
+          "n_boxes": 32,
+          "max_iou": 0.38,
+          "n_iou50": 0,
+          "n_iou70": 0,
+          "n_anterior_overlap": 0,
+          "n_border": 0,
+          "n_extreme": 0,
+          "n_tiny": 0,
+          "n_large_vs_median": 2,
+          "max_area": 0.0319
+        },
+        "label_errors": [],
+        "image_exists": true,
+        "label_exists": true,
+        "src_image": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\data\\detection\\batches\\batch02_clean\\images\\train\\OHI_datasetIMG_5884_JPG.rf.6095d76b8f785e4575c9db5bad87e9b8.jpg",
+        "src_label": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\data\\detection\\batches\\batch02_clean\\labels\\train\\OHI_datasetIMG_5884_JPG.rf.6095d76b8f785e4575c9db5bad87e9b8.txt",
+        "suspicious": [
+          "oversized_vs_median"
+        ]
+      },
+      {
+        "name": "OHI_datasetIMG_6158_JPG.rf.4b57c01bfae347ae38d6ae9b79438c4e.jpg",
+        "split": "valid",
+        "mark": "GOOD",
+        "n_boxes": 32,
+        "note": "",
+        "select_reason": "many_detections",
+        "tags": [
+          "oversized box"
+        ],
+        "recorded_reason": "no free-text note | sample=many_detections | maxIoU=0.364 IoU50=0 IoU70=0 antOv=0 border=0 large=2 extreme=0 | tags: oversized box",
+        "geometry": {
+          "n_boxes": 32,
+          "max_iou": 0.364,
+          "n_iou50": 0,
+          "n_iou70": 0,
+          "n_anterior_overlap": 0,
+          "n_border": 0,
+          "n_extreme": 0,
+          "n_tiny": 0,
+          "n_large_vs_median": 2,
+          "max_area": 0.0376
+        },
+        "label_errors": [],
+        "image_exists": true,
+        "label_exists": true,
+        "src_image": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\data\\detection\\batches\\batch02_clean\\images\\valid\\OHI_datasetIMG_6158_JPG.rf.4b57c01bfae347ae38d6ae9b79438c4e.jpg",
+        "src_label": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\data\\detection\\batches\\batch02_clean\\labels\\valid\\OHI_datasetIMG_6158_JPG.rf.4b57c01bfae347ae38d6ae9b79438c4e.txt",
+        "suspicious": [
+          "oversized_vs_median"
+        ]
+      },
+      {
+        "name": "OHI_datasetIMG_3643_JPG.rf.b662b3d313159a24623fbbc3d1f79086.jpg",
+        "split": "train",
+        "mark": "GOOD",
+        "n_boxes": 30,
+        "note": "",
+        "select_reason": "many_detections",
+        "tags": [
+          "oversized box",
+          "anterior crowding"
+        ],
+        "recorded_reason": "no free-text note | sample=many_detections | maxIoU=0.4036 IoU50=0 IoU70=0 antOv=3 border=0 large=1 extreme=0 | tags: oversized box; anterior crowding",
+        "geometry": {
+          "n_boxes": 30,
+          "max_iou": 0.4036,
+          "n_iou50": 0,
+          "n_iou70": 0,
+          "n_anterior_overlap": 3,
+          "n_border": 0,
+          "n_extreme": 0,
+          "n_tiny": 0,
+          "n_large_vs_median": 1,
+          "max_area": 0.0153
+        },
+        "label_errors": [],
+        "image_exists": true,
+        "label_exists": true,
+        "src_image": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\data\\detection\\batches\\batch02_clean\\images\\train\\OHI_datasetIMG_3643_JPG.rf.b662b3d313159a24623fbbc3d1f79086.jpg",
+        "src_label": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\data\\detection\\batches\\batch02_clean\\labels\\train\\OHI_datasetIMG_3643_JPG.rf.b662b3d313159a24623fbbc3d1f79086.txt",
+        "suspicious": [
+          "oversized_vs_median"
+        ]
+      },
+      {
+        "name": "OHI_datasetIMG_3937_JPG.rf.6e5e97f84ad85035fc407f442c187685.jpg",
+        "split": "train",
+        "mark": "GOOD",
+        "n_boxes": 30,
+        "note": "",
+        "select_reason": "many_detections",
+        "tags": [
+          "oversized box",
+          "excessive gum/palate/background",
+          "polygon-to-rectangle conversion issue"
+        ],
+        "recorded_reason": "no free-text note | sample=many_detections | maxIoU=0.4012 IoU50=0 IoU70=0 antOv=0 border=0 large=2 extreme=1 | tags: oversized box; excessive gum/palate/background; polygon-to-rectangle conversion issue",
+        "geometry": {
+          "n_boxes": 30,
+          "max_iou": 0.4012,
+          "n_iou50": 0,
+          "n_iou70": 0,
+          "n_anterior_overlap": 0,
+          "n_border": 0,
+          "n_extreme": 1,
+          "n_tiny": 0,
+          "n_large_vs_median": 2,
+          "max_area": 0.0273
+        },
+        "label_errors": [],
+        "image_exists": true,
+        "label_exists": true,
+        "src_image": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\data\\detection\\batches\\batch02_clean\\images\\train\\OHI_datasetIMG_3937_JPG.rf.6e5e97f84ad85035fc407f442c187685.jpg",
+        "src_label": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\data\\detection\\batches\\batch02_clean\\labels\\train\\OHI_datasetIMG_3937_JPG.rf.6e5e97f84ad85035fc407f442c187685.txt",
+        "suspicious": [
+          "oversized_vs_median",
+          "extreme_aspect"
+        ]
+      },
+      {
+        "name": "OHI_datasetIMG_4691_JPG.rf.6053b341018c66c9a1f79d99daf5989b.jpg",
+        "split": "train",
+        "mark": "GOOD",
+        "n_boxes": 30,
+        "note": "",
+        "select_reason": "many_detections",
+        "tags": [
+          "polygon-to-rectangle conversion issue"
+        ],
+        "recorded_reason": "no free-text note | sample=many_detections | maxIoU=0.4238 IoU50=0 IoU70=0 antOv=0 border=0 large=0 extreme=1 | tags: polygon-to-rectangle conversion issue",
+        "geometry": {
+          "n_boxes": 30,
+          "max_iou": 0.4238,
+          "n_iou50": 0,
+          "n_iou70": 0,
+          "n_anterior_overlap": 0,
+          "n_border": 0,
+          "n_extreme": 1,
+          "n_tiny": 0,
+          "n_large_vs_median": 0,
+          "max_area": 0.0281
+        },
+        "label_errors": [],
+        "image_exists": true,
+        "label_exists": true,
+        "src_image": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\data\\detection\\batches\\batch02_clean\\images\\train\\OHI_datasetIMG_4691_JPG.rf.6053b341018c66c9a1f79d99daf5989b.jpg",
+        "src_label": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\data\\detection\\batches\\batch02_clean\\labels\\train\\OHI_datasetIMG_4691_JPG.rf.6053b341018c66c9a1f79d99daf5989b.txt",
+        "suspicious": [
+          "extreme_aspect"
+        ]
+      },
+      {
+        "name": "OHI_datasetIMG_6637_JPG.rf.a046349ded325409318a4ac9b7016fb5.jpg",
+        "split": "train",
+        "mark": "GOOD",
+        "n_boxes": 30,
+        "note": "",
+        "select_reason": "many_detections",
+        "tags": [
+          "oversized box"
+        ],
+        "recorded_reason": "no free-text note | sample=many_detections | maxIoU=0.3226 IoU50=0 IoU70=0 antOv=0 border=0 large=2 extreme=0 | tags: oversized box",
+        "geometry": {
+          "n_boxes": 30,
+          "max_iou": 0.3226,
+          "n_iou50": 0,
+          "n_iou70": 0,
+          "n_anterior_overlap": 0,
+          "n_border": 0,
+          "n_extreme": 0,
+          "n_tiny": 0,
+          "n_large_vs_median": 2,
+          "max_area": 0.0335
+        },
+        "label_errors": [],
+        "image_exists": true,
+        "label_exists": true,
+        "src_image": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\data\\detection\\batches\\batch02_clean\\images\\train\\OHI_datasetIMG_6637_JPG.rf.a046349ded325409318a4ac9b7016fb5.jpg",
+        "src_label": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\data\\detection\\batches\\batch02_clean\\labels\\train\\OHI_datasetIMG_6637_JPG.rf.a046349ded325409318a4ac9b7016fb5.txt",
+        "suspicious": [
+          "oversized_vs_median"
+        ]
+      },
+      {
+        "name": "OHI_datasetIMG_5285_JPG.rf.61b4841b7fb4b6fb3ae47fbd55eb2903.jpg",
+        "split": "train",
+        "mark": "GOOD",
+        "n_boxes": 27,
+        "note": "",
+        "select_reason": "extreme_aspect",
+        "tags": [
+          "oversized box",
+          "excessive gum/palate/background",
+          "polygon-to-rectangle conversion issue"
+        ],
+        "recorded_reason": "no free-text note | sample=extreme_aspect | maxIoU=0.3209 IoU50=0 IoU70=0 antOv=0 border=0 large=2 extreme=2 | tags: oversized box; excessive gum/palate/background; polygon-to-rectangle conversion issue",
+        "geometry": {
+          "n_boxes": 27,
+          "max_iou": 0.3209,
+          "n_iou50": 0,
+          "n_iou70": 0,
+          "n_anterior_overlap": 0,
+          "n_border": 0,
+          "n_extreme": 2,
+          "n_tiny": 0,
+          "n_large_vs_median": 2,
+          "max_area": 0.0182
+        },
+        "label_errors": [],
+        "image_exists": true,
+        "label_exists": true,
+        "src_image": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\data\\detection\\batches\\batch02_clean\\images\\train\\OHI_datasetIMG_5285_JPG.rf.61b4841b7fb4b6fb3ae47fbd55eb2903.jpg",
+        "src_label": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\data\\detection\\batches\\batch02_clean\\labels\\train\\OHI_datasetIMG_5285_JPG.rf.61b4841b7fb4b6fb3ae47fbd55eb2903.txt",
+        "suspicious": [
+          "oversized_vs_median",
+          "extreme_aspect"
+        ]
+      },
+      {
+        "name": "OHI_datasetIMG_5831_JPG.rf.7b6876acf798d68093a0f38782a87863.jpg",
+        "split": "train",
+        "mark": "GOOD",
+        "n_boxes": 29,
+        "note": "",
+        "select_reason": "extreme_aspect",
+        "tags": [
+          "polygon-to-rectangle conversion issue"
+        ],
+        "recorded_reason": "no free-text note | sample=extreme_aspect | maxIoU=0.3163 IoU50=0 IoU70=0 antOv=0 border=0 large=0 extreme=2 | tags: polygon-to-rectangle conversion issue",
+        "geometry": {
+          "n_boxes": 29,
+          "max_iou": 0.3163,
+          "n_iou50": 0,
+          "n_iou70": 0,
+          "n_anterior_overlap": 0,
+          "n_border": 0,
+          "n_extreme": 2,
+          "n_tiny": 0,
+          "n_large_vs_median": 0,
+          "max_area": 0.0338
+        },
+        "label_errors": [],
+        "image_exists": true,
+        "label_exists": true,
+        "src_image": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\data\\detection\\batches\\batch02_clean\\images\\train\\OHI_datasetIMG_5831_JPG.rf.7b6876acf798d68093a0f38782a87863.jpg",
+        "src_label": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\data\\detection\\batches\\batch02_clean\\labels\\train\\OHI_datasetIMG_5831_JPG.rf.7b6876acf798d68093a0f38782a87863.txt",
+        "suspicious": [
+          "extreme_aspect"
+        ]
+      },
+      {
+        "name": "OHI_datasetIMG_1746_JPG.rf.d600e314a6b016368ccf8dec0655e93f.jpg",
+        "split": "valid",
+        "mark": "GOOD",
+        "n_boxes": 26,
+        "note": "",
+        "select_reason": "extreme_aspect",
+        "tags": [
+          "polygon-to-rectangle conversion issue"
+        ],
+        "recorded_reason": "no free-text note | sample=extreme_aspect | maxIoU=0.2686 IoU50=0 IoU70=0 antOv=0 border=0 large=0 extreme=2 | tags: polygon-to-rectangle conversion issue",
+        "geometry": {
+          "n_boxes": 26,
+          "max_iou": 0.2686,
+          "n_iou50": 0,
+          "n_iou70": 0,
+          "n_anterior_overlap": 0,
+          "n_border": 0,
+          "n_extreme": 2,
+          "n_tiny": 0,
+          "n_large_vs_median": 0,
+          "max_area": 0.0313
+        },
+        "label_errors": [],
+        "image_exists": true,
+        "label_exists": true,
+        "src_image": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\data\\detection\\batches\\batch02_clean\\images\\valid\\OHI_datasetIMG_1746_JPG.rf.d600e314a6b016368ccf8dec0655e93f.jpg",
+        "src_label": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\data\\detection\\batches\\batch02_clean\\labels\\valid\\OHI_datasetIMG_1746_JPG.rf.d600e314a6b016368ccf8dec0655e93f.txt",
+        "suspicious": [
+          "extreme_aspect"
+        ]
+      },
+      {
+        "name": "OHI_datasetIMG_6308_JPG.rf.9c15010b0f21cb9f5a244d771a46c0d1.jpg",
+        "split": "valid",
+        "mark": "GOOD",
+        "n_boxes": 22,
+        "note": "",
+        "select_reason": "extreme_aspect",
+        "tags": [
+          "polygon-to-rectangle conversion issue"
+        ],
+        "recorded_reason": "no free-text note | sample=extreme_aspect | maxIoU=0.3994 IoU50=0 IoU70=0 antOv=1 border=0 large=0 extreme=2 | tags: polygon-to-rectangle conversion issue",
+        "geometry": {
+          "n_boxes": 22,
+          "max_iou": 0.3994,
+          "n_iou50": 0,
+          "n_iou70": 0,
+          "n_anterior_overlap": 1,
+          "n_border": 0,
+          "n_extreme": 2,
+          "n_tiny": 0,
+          "n_large_vs_median": 0,
+          "max_area": 0.0354
+        },
+        "label_errors": [],
+        "image_exists": true,
+        "label_exists": true,
+        "src_image": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\data\\detection\\batches\\batch02_clean\\images\\valid\\OHI_datasetIMG_6308_JPG.rf.9c15010b0f21cb9f5a244d771a46c0d1.jpg",
+        "src_label": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\data\\detection\\batches\\batch02_clean\\labels\\valid\\OHI_datasetIMG_6308_JPG.rf.9c15010b0f21cb9f5a244d771a46c0d1.txt",
+        "suspicious": [
+          "extreme_aspect"
+        ]
+      },
+      {
+        "name": "OHI_datasetIMG_4741_JPG.rf.6080574cdf807e3aa4c836789fe89619.jpg",
+        "split": "test",
+        "mark": "GOOD",
+        "n_boxes": 26,
+        "note": "",
+        "select_reason": "extreme_aspect",
+        "tags": [
+          "polygon-to-rectangle conversion issue"
+        ],
+        "recorded_reason": "no free-text note | sample=extreme_aspect | maxIoU=0.3811 IoU50=0 IoU70=0 antOv=1 border=0 large=0 extreme=2 | tags: polygon-to-rectangle conversion issue",
+        "geometry": {
+          "n_boxes": 26,
+          "max_iou": 0.3811,
+          "n_iou50": 0,
+          "n_iou70": 0,
+          "n_anterior_overlap": 1,
+          "n_border": 0,
+          "n_extreme": 2,
+          "n_tiny": 0,
+          "n_large_vs_median": 0,
+          "max_area": 0.0224
+        },
+        "label_errors": [],
+        "image_exists": true,
+        "label_exists": true,
+        "src_image": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\data\\detection\\batches\\batch02_clean\\images\\test\\OHI_datasetIMG_4741_JPG.rf.6080574cdf807e3aa4c836789fe89619.jpg",
+        "src_label": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\data\\detection\\batches\\batch02_clean\\labels\\test\\OHI_datasetIMG_4741_JPG.rf.6080574cdf807e3aa4c836789fe89619.txt",
+        "suspicious": [
+          "extreme_aspect"
+        ]
+      },
+      {
+        "name": "OHI_dataset_MG_4765_JPG.rf.856662d380002ab196e4491f8488fe42.jpg",
+        "split": "train",
+        "mark": "GOOD",
+        "n_boxes": 27,
+        "note": "",
+        "select_reason": "extreme_aspect",
+        "tags": [
+          "oversized box",
+          "excessive gum/palate/background",
+          "overlapping boxes",
+          "polygon-to-rectangle conversion issue"
+        ],
+        "recorded_reason": "no free-text note | sample=extreme_aspect | maxIoU=0.5796 IoU50=1 IoU70=0 antOv=1 border=0 large=2 extreme=1 | tags: oversized box; excessive gum/palate/background; overlapping boxes; polygon-to-rectangle conversion issue",
+        "geometry": {
+          "n_boxes": 27,
+          "max_iou": 0.5796,
+          "n_iou50": 1,
+          "n_iou70": 0,
+          "n_anterior_overlap": 1,
+          "n_border": 0,
+          "n_extreme": 1,
+          "n_tiny": 0,
+          "n_large_vs_median": 2,
+          "max_area": 0.0227
+        },
+        "label_errors": [],
+        "image_exists": true,
+        "label_exists": true,
+        "src_image": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\data\\detection\\batches\\batch02_clean\\images\\train\\OHI_dataset_MG_4765_JPG.rf.856662d380002ab196e4491f8488fe42.jpg",
+        "src_label": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\data\\detection\\batches\\batch02_clean\\labels\\train\\OHI_dataset_MG_4765_JPG.rf.856662d380002ab196e4491f8488fe42.txt",
+        "suspicious": [
+          "oversized_vs_median",
+          "extreme_aspect"
+        ]
+      },
+      {
+        "name": "OHI_datasetIMG_1518_JPG.rf.16a3482cd27073c1cfec6eacf9f86a79.jpg",
+        "split": "train",
+        "mark": "GOOD",
+        "n_boxes": 26,
+        "note": "",
+        "select_reason": "extreme_aspect",
+        "tags": [
+          "polygon-to-rectangle conversion issue"
+        ],
+        "recorded_reason": "no free-text note | sample=extreme_aspect | maxIoU=0.4184 IoU50=0 IoU70=0 antOv=0 border=0 large=0 extreme=1 | tags: polygon-to-rectangle conversion issue",
+        "geometry": {
+          "n_boxes": 26,
+          "max_iou": 0.4184,
+          "n_iou50": 0,
+          "n_iou70": 0,
+          "n_anterior_overlap": 0,
+          "n_border": 0,
+          "n_extreme": 1,
+          "n_tiny": 0,
+          "n_large_vs_median": 0,
+          "max_area": 0.0248
+        },
+        "label_errors": [],
+        "image_exists": true,
+        "label_exists": true,
+        "src_image": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\data\\detection\\batches\\batch02_clean\\images\\train\\OHI_datasetIMG_1518_JPG.rf.16a3482cd27073c1cfec6eacf9f86a79.jpg",
+        "src_label": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\data\\detection\\batches\\batch02_clean\\labels\\train\\OHI_datasetIMG_1518_JPG.rf.16a3482cd27073c1cfec6eacf9f86a79.txt",
+        "suspicious": [
+          "extreme_aspect"
+        ]
+      },
+      {
+        "name": "OHI_datasetIMG_3098_JPG.rf.22421cbfb09f512558a9d502a01e6e70.jpg",
+        "split": "train",
+        "mark": "GOOD",
+        "n_boxes": 26,
+        "note": "",
+        "select_reason": "extreme_aspect",
+        "tags": [
+          "border-truncated tooth",
+          "overlapping boxes",
+          "polygon-to-rectangle conversion issue"
+        ],
+        "recorded_reason": "no free-text note | sample=extreme_aspect | maxIoU=0.5094 IoU50=1 IoU70=0 antOv=0 border=1 large=0 extreme=1 | tags: border-truncated tooth; overlapping boxes; polygon-to-rectangle conversion issue",
+        "geometry": {
+          "n_boxes": 26,
+          "max_iou": 0.5094,
+          "n_iou50": 1,
+          "n_iou70": 0,
+          "n_anterior_overlap": 0,
+          "n_border": 1,
+          "n_extreme": 1,
+          "n_tiny": 0,
+          "n_large_vs_median": 0,
+          "max_area": 0.0591
+        },
+        "label_errors": [],
+        "image_exists": true,
+        "label_exists": true,
+        "src_image": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\data\\detection\\batches\\batch02_clean\\images\\train\\OHI_datasetIMG_3098_JPG.rf.22421cbfb09f512558a9d502a01e6e70.jpg",
+        "src_label": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\data\\detection\\batches\\batch02_clean\\labels\\train\\OHI_datasetIMG_3098_JPG.rf.22421cbfb09f512558a9d502a01e6e70.txt",
+        "suspicious": [
+          "extreme_aspect",
+          "mild_border"
+        ]
+      },
+      {
+        "name": "OHI_datasetIMG_2481_JPG.rf.07214f38f17fc6384832d1a178baa259.jpg",
+        "split": "train",
+        "mark": "GOOD",
+        "n_boxes": 28,
+        "note": "",
+        "select_reason": "oversized_vs_neighbors",
+        "tags": [
+          "oversized box"
+        ],
+        "recorded_reason": "no free-text note | sample=oversized_vs_neighbors | maxIoU=0.3677 IoU50=0 IoU70=0 antOv=1 border=0 large=3 extreme=0 | tags: oversized box",
+        "geometry": {
+          "n_boxes": 28,
+          "max_iou": 0.3677,
+          "n_iou50": 0,
+          "n_iou70": 0,
+          "n_anterior_overlap": 1,
+          "n_border": 0,
+          "n_extreme": 0,
+          "n_tiny": 0,
+          "n_large_vs_median": 3,
+          "max_area": 0.0119
+        },
+        "label_errors": [],
+        "image_exists": true,
+        "label_exists": true,
+        "src_image": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\data\\detection\\batches\\batch02_clean\\images\\train\\OHI_datasetIMG_2481_JPG.rf.07214f38f17fc6384832d1a178baa259.jpg",
+        "src_label": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\data\\detection\\batches\\batch02_clean\\labels\\train\\OHI_datasetIMG_2481_JPG.rf.07214f38f17fc6384832d1a178baa259.txt",
+        "suspicious": [
+          "oversized_vs_median"
+        ]
+      },
+      {
+        "name": "OHI_datasetIMG_4732_JPG.rf.05c5680e08cf8f534f9f490e01a2de18.jpg",
+        "split": "train",
+        "mark": "GOOD",
+        "n_boxes": 22,
+        "note": "",
+        "select_reason": "oversized_vs_neighbors",
+        "tags": [
+          "oversized box"
+        ],
+        "recorded_reason": "no free-text note | sample=oversized_vs_neighbors | maxIoU=0.2529 IoU50=0 IoU70=0 antOv=0 border=0 large=3 extreme=0 | tags: oversized box",
+        "geometry": {
+          "n_boxes": 22,
+          "max_iou": 0.2529,
+          "n_iou50": 0,
+          "n_iou70": 0,
+          "n_anterior_overlap": 0,
+          "n_border": 0,
+          "n_extreme": 0,
+          "n_tiny": 0,
+          "n_large_vs_median": 3,
+          "max_area": 0.0221
+        },
+        "label_errors": [],
+        "image_exists": true,
+        "label_exists": true,
+        "src_image": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\data\\detection\\batches\\batch02_clean\\images\\train\\OHI_datasetIMG_4732_JPG.rf.05c5680e08cf8f534f9f490e01a2de18.jpg",
+        "src_label": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\data\\detection\\batches\\batch02_clean\\labels\\train\\OHI_datasetIMG_4732_JPG.rf.05c5680e08cf8f534f9f490e01a2de18.txt",
+        "suspicious": [
+          "oversized_vs_median"
+        ]
+      },
+      {
+        "name": "OHI_datasetIMG_01421_jpg.rf.5c7c7a8db8c7c504384541de0340a530.jpg",
+        "split": "train",
+        "mark": "GOOD",
+        "n_boxes": 26,
+        "note": "",
+        "select_reason": "oversized_vs_neighbors",
+        "tags": [
+          "oversized box"
+        ],
+        "recorded_reason": "no free-text note | sample=oversized_vs_neighbors | maxIoU=0.3323 IoU50=0 IoU70=0 antOv=0 border=0 large=2 extreme=0 | tags: oversized box",
+        "geometry": {
+          "n_boxes": 26,
+          "max_iou": 0.3323,
+          "n_iou50": 0,
+          "n_iou70": 0,
+          "n_anterior_overlap": 0,
+          "n_border": 0,
+          "n_extreme": 0,
+          "n_tiny": 0,
+          "n_large_vs_median": 2,
+          "max_area": 0.0168
+        },
+        "label_errors": [],
+        "image_exists": true,
+        "label_exists": true,
+        "src_image": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\data\\detection\\batches\\batch02_clean\\images\\train\\OHI_datasetIMG_01421_jpg.rf.5c7c7a8db8c7c504384541de0340a530.jpg",
+        "src_label": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\data\\detection\\batches\\batch02_clean\\labels\\train\\OHI_datasetIMG_01421_jpg.rf.5c7c7a8db8c7c504384541de0340a530.txt",
+        "suspicious": [
+          "oversized_vs_median"
+        ]
+      },
+      {
+        "name": "OHI_datasetIMG_4569_JPG.rf.12624e4085e12bfcebdd5967d92eb129.jpg",
+        "split": "train",
+        "mark": "GOOD",
+        "n_boxes": 13,
+        "note": "",
+        "select_reason": "oversized_vs_neighbors",
+        "tags": [
+          "two teeth inside one box"
+        ],
+        "recorded_reason": "no free-text note | sample=oversized_vs_neighbors | maxIoU=0.2432 IoU50=0 IoU70=0 antOv=0 border=0 large=2 extreme=0 | tags: two teeth inside one box",
+        "geometry": {
+          "n_boxes": 13,
+          "max_iou": 0.2432,
+          "n_iou50": 0,
+          "n_iou70": 0,
+          "n_anterior_overlap": 0,
+          "n_border": 0,
+          "n_extreme": 0,
+          "n_tiny": 0,
+          "n_large_vs_median": 2,
+          "max_area": 0.0641
+        },
+        "label_errors": [],
+        "image_exists": true,
+        "label_exists": true,
+        "src_image": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\data\\detection\\batches\\batch02_clean\\images\\train\\OHI_datasetIMG_4569_JPG.rf.12624e4085e12bfcebdd5967d92eb129.jpg",
+        "src_label": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\data\\detection\\batches\\batch02_clean\\labels\\train\\OHI_datasetIMG_4569_JPG.rf.12624e4085e12bfcebdd5967d92eb129.txt",
+        "suspicious": [
+          "oversized_vs_median"
+        ]
+      },
+      {
+        "name": "OHI_datasetIMG_4585_JPG.rf.174ce0a168bcf4cf7f42c6743aaaec5a.jpg",
+        "split": "train",
+        "mark": "GOOD",
+        "n_boxes": 14,
+        "note": "",
+        "select_reason": "oversized_vs_neighbors",
+        "tags": [
+          "oversized box"
+        ],
+        "recorded_reason": "no free-text note | sample=oversized_vs_neighbors | maxIoU=0.2393 IoU50=0 IoU70=0 antOv=0 border=0 large=2 extreme=0 | tags: oversized box",
+        "geometry": {
+          "n_boxes": 14,
+          "max_iou": 0.2393,
+          "n_iou50": 0,
+          "n_iou70": 0,
+          "n_anterior_overlap": 0,
+          "n_border": 0,
+          "n_extreme": 0,
+          "n_tiny": 0,
+          "n_large_vs_median": 2,
+          "max_area": 0.0257
+        },
+        "label_errors": [],
+        "image_exists": true,
+        "label_exists": true,
+        "src_image": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\data\\detection\\batches\\batch02_clean\\images\\train\\OHI_datasetIMG_4585_JPG.rf.174ce0a168bcf4cf7f42c6743aaaec5a.jpg",
+        "src_label": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\data\\detection\\batches\\batch02_clean\\labels\\train\\OHI_datasetIMG_4585_JPG.rf.174ce0a168bcf4cf7f42c6743aaaec5a.txt",
+        "suspicious": [
+          "oversized_vs_median"
+        ]
+      },
+      {
+        "name": "OHI_datasetIMG_2957_jpg.rf.1d202ba74d87a2db59d2d83b29dde43a.jpg",
+        "split": "train",
+        "mark": "GOOD",
+        "n_boxes": 12,
+        "note": "",
+        "select_reason": "border_touching",
+        "tags": [
+          "border-truncated tooth"
+        ],
+        "recorded_reason": "no free-text note | sample=border_touching | maxIoU=0.2899 IoU50=0 IoU70=0 antOv=0 border=7 large=0 extreme=0 | tags: border-truncated tooth",
+        "geometry": {
+          "n_boxes": 12,
+          "max_iou": 0.2899,
+          "n_iou50": 0,
+          "n_iou70": 0,
+          "n_anterior_overlap": 0,
+          "n_border": 7,
+          "n_extreme": 0,
+          "n_tiny": 0,
+          "n_large_vs_median": 0,
+          "max_area": 0.0854
+        },
+        "label_errors": [],
+        "image_exists": true,
+        "label_exists": true,
+        "src_image": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\data\\detection\\batches\\batch02_clean\\images\\train\\OHI_datasetIMG_2957_jpg.rf.1d202ba74d87a2db59d2d83b29dde43a.jpg",
+        "src_label": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\data\\detection\\batches\\batch02_clean\\labels\\train\\OHI_datasetIMG_2957_jpg.rf.1d202ba74d87a2db59d2d83b29dde43a.txt",
+        "suspicious": [
+          "severe_border"
+        ]
+      },
+      {
+        "name": "OHI_datasetIMG_3497_JPG.rf.875ac9581b6f15d13ce22f4e454694d1.jpg",
+        "split": "train",
+        "mark": "GOOD",
+        "n_boxes": 11,
+        "note": "",
+        "select_reason": "border_touching",
+        "tags": [
+          "border-truncated tooth"
+        ],
+        "recorded_reason": "no free-text note | sample=border_touching | maxIoU=0.2819 IoU50=0 IoU70=0 antOv=0 border=5 large=0 extreme=0 | tags: border-truncated tooth",
+        "geometry": {
+          "n_boxes": 11,
+          "max_iou": 0.2819,
+          "n_iou50": 0,
+          "n_iou70": 0,
+          "n_anterior_overlap": 0,
+          "n_border": 5,
+          "n_extreme": 0,
+          "n_tiny": 0,
+          "n_large_vs_median": 0,
+          "max_area": 0.0683
+        },
+        "label_errors": [],
+        "image_exists": true,
+        "label_exists": true,
+        "src_image": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\data\\detection\\batches\\batch02_clean\\images\\train\\OHI_datasetIMG_3497_JPG.rf.875ac9581b6f15d13ce22f4e454694d1.jpg",
+        "src_label": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\data\\detection\\batches\\batch02_clean\\labels\\train\\OHI_datasetIMG_3497_JPG.rf.875ac9581b6f15d13ce22f4e454694d1.txt",
+        "suspicious": [
+          "severe_border"
+        ]
+      },
+      {
+        "name": "OHI_datasetIMG_6094_JPG.rf.0eb3c9ba8a5e43ae512e2659d2c7c46f.jpg",
+        "split": "train",
+        "mark": "GOOD",
+        "n_boxes": 14,
+        "note": "",
+        "select_reason": "border_touching",
+        "tags": [
+          "border-truncated tooth"
+        ],
+        "recorded_reason": "no free-text note | sample=border_touching | maxIoU=0.2636 IoU50=0 IoU70=0 antOv=0 border=5 large=0 extreme=0 | tags: border-truncated tooth",
+        "geometry": {
+          "n_boxes": 14,
+          "max_iou": 0.2636,
+          "n_iou50": 0,
+          "n_iou70": 0,
+          "n_anterior_overlap": 0,
+          "n_border": 5,
+          "n_extreme": 0,
+          "n_tiny": 0,
+          "n_large_vs_median": 0,
+          "max_area": 0.0567
+        },
+        "label_errors": [],
+        "image_exists": true,
+        "label_exists": true,
+        "src_image": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\data\\detection\\batches\\batch02_clean\\images\\train\\OHI_datasetIMG_6094_JPG.rf.0eb3c9ba8a5e43ae512e2659d2c7c46f.jpg",
+        "src_label": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\data\\detection\\batches\\batch02_clean\\labels\\train\\OHI_datasetIMG_6094_JPG.rf.0eb3c9ba8a5e43ae512e2659d2c7c46f.txt",
+        "suspicious": [
+          "severe_border"
+        ]
+      },
+      {
+        "name": "OHI_datasetIMG_5123_JPG.rf.4cd79561f80bacf2302f94ce8cfa5a09.jpg",
+        "split": "train",
+        "mark": "GOOD",
+        "n_boxes": 14,
+        "note": "",
+        "select_reason": "border_touching",
+        "tags": [
+          "border-truncated tooth"
+        ],
+        "recorded_reason": "no free-text note | sample=border_touching | maxIoU=0.2477 IoU50=0 IoU70=0 antOv=0 border=3 large=0 extreme=0 | tags: border-truncated tooth",
+        "geometry": {
+          "n_boxes": 14,
+          "max_iou": 0.2477,
+          "n_iou50": 0,
+          "n_iou70": 0,
+          "n_anterior_overlap": 0,
+          "n_border": 3,
+          "n_extreme": 0,
+          "n_tiny": 0,
+          "n_large_vs_median": 0,
+          "max_area": 0.0748
+        },
+        "label_errors": [],
+        "image_exists": true,
+        "label_exists": true,
+        "src_image": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\data\\detection\\batches\\batch02_clean\\images\\train\\OHI_datasetIMG_5123_JPG.rf.4cd79561f80bacf2302f94ce8cfa5a09.jpg",
+        "src_label": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\data\\detection\\batches\\batch02_clean\\labels\\train\\OHI_datasetIMG_5123_JPG.rf.4cd79561f80bacf2302f94ce8cfa5a09.txt",
+        "suspicious": [
+          "severe_border"
+        ]
+      },
+      {
+        "name": "OHI_datasetIMG_5284_JPG.rf.5513957e541e63585564bdd4f2c3d33b.jpg",
+        "split": "train",
+        "mark": "GOOD",
+        "n_boxes": 14,
+        "note": "",
+        "select_reason": "border_touching",
+        "tags": [
+          "border-truncated tooth"
+        ],
+        "recorded_reason": "no free-text note | sample=border_touching | maxIoU=0.2531 IoU50=0 IoU70=0 antOv=0 border=3 large=0 extreme=0 | tags: border-truncated tooth",
+        "geometry": {
+          "n_boxes": 14,
+          "max_iou": 0.2531,
+          "n_iou50": 0,
+          "n_iou70": 0,
+          "n_anterior_overlap": 0,
+          "n_border": 3,
+          "n_extreme": 0,
+          "n_tiny": 0,
+          "n_large_vs_median": 0,
+          "max_area": 0.0764
+        },
+        "label_errors": [],
+        "image_exists": true,
+        "label_exists": true,
+        "src_image": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\data\\detection\\batches\\batch02_clean\\images\\train\\OHI_datasetIMG_5284_JPG.rf.5513957e541e63585564bdd4f2c3d33b.jpg",
+        "src_label": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\data\\detection\\batches\\batch02_clean\\labels\\train\\OHI_datasetIMG_5284_JPG.rf.5513957e541e63585564bdd4f2c3d33b.txt",
+        "suspicious": [
+          "severe_border"
+        ]
+      },
+      {
+        "name": "OHI_datasetIMG_6161_JPG.rf.16769f0a6cd4bf53719e65670013acaa.jpg",
+        "split": "train",
+        "mark": "GOOD",
+        "n_boxes": 16,
+        "note": "",
+        "select_reason": "border_touching",
+        "tags": [
+          "border-truncated tooth"
+        ],
+        "recorded_reason": "no free-text note | sample=border_touching | maxIoU=0.2333 IoU50=0 IoU70=0 antOv=0 border=3 large=0 extreme=0 | tags: border-truncated tooth",
+        "geometry": {
+          "n_boxes": 16,
+          "max_iou": 0.2333,
+          "n_iou50": 0,
+          "n_iou70": 0,
+          "n_anterior_overlap": 0,
+          "n_border": 3,
+          "n_extreme": 0,
+          "n_tiny": 0,
+          "n_large_vs_median": 0,
+          "max_area": 0.0551
+        },
+        "label_errors": [],
+        "image_exists": true,
+        "label_exists": true,
+        "src_image": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\data\\detection\\batches\\batch02_clean\\images\\train\\OHI_datasetIMG_6161_JPG.rf.16769f0a6cd4bf53719e65670013acaa.jpg",
+        "src_label": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\data\\detection\\batches\\batch02_clean\\labels\\train\\OHI_datasetIMG_6161_JPG.rf.16769f0a6cd4bf53719e65670013acaa.txt",
+        "suspicious": [
+          "severe_border"
+        ]
+      },
+      {
+        "name": "OHI_datasetIMG_4892_JPG.rf.bd964b849dfcc4ed5c65ad461905c676.jpg",
+        "split": "test",
+        "mark": "GOOD",
+        "n_boxes": 24,
+        "note": "",
+        "select_reason": "max_iou_fill",
+        "tags": [
+          "overlapping boxes",
+          "polygon-to-rectangle conversion issue"
+        ],
+        "recorded_reason": "no free-text note | sample=max_iou_fill | maxIoU=0.5726 IoU50=1 IoU70=0 antOv=2 border=0 large=0 extreme=1 | tags: overlapping boxes; polygon-to-rectangle conversion issue",
+        "geometry": {
+          "n_boxes": 24,
+          "max_iou": 0.5726,
+          "n_iou50": 1,
+          "n_iou70": 0,
+          "n_anterior_overlap": 2,
+          "n_border": 0,
+          "n_extreme": 1,
+          "n_tiny": 0,
+          "n_large_vs_median": 0,
+          "max_area": 0.0215
+        },
+        "label_errors": [],
+        "image_exists": true,
+        "label_exists": true,
+        "src_image": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\data\\detection\\batches\\batch02_clean\\images\\test\\OHI_datasetIMG_4892_JPG.rf.bd964b849dfcc4ed5c65ad461905c676.jpg",
+        "src_label": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\data\\detection\\batches\\batch02_clean\\labels\\test\\OHI_datasetIMG_4892_JPG.rf.bd964b849dfcc4ed5c65ad461905c676.txt",
+        "suspicious": [
+          "extreme_aspect"
+        ]
+      },
+      {
+        "name": "OHI_datasetIMG_5002_JPG.rf.ec18fa71c12d2044eb636f1c791340d2.jpg",
+        "split": "valid",
+        "mark": "GOOD",
+        "n_boxes": 26,
+        "note": "",
+        "select_reason": "max_iou_fill",
+        "tags": [
+          "oversized box",
+          "overlapping boxes"
+        ],
+        "recorded_reason": "no free-text note | sample=max_iou_fill | maxIoU=0.5704 IoU50=1 IoU70=0 antOv=0 border=0 large=1 extreme=0 | tags: oversized box; overlapping boxes",
+        "geometry": {
+          "n_boxes": 26,
+          "max_iou": 0.5704,
+          "n_iou50": 1,
+          "n_iou70": 0,
+          "n_anterior_overlap": 0,
+          "n_border": 0,
+          "n_extreme": 0,
+          "n_tiny": 0,
+          "n_large_vs_median": 1,
+          "max_area": 0.0224
+        },
+        "label_errors": [],
+        "image_exists": true,
+        "label_exists": true,
+        "src_image": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\data\\detection\\batches\\batch02_clean\\images\\valid\\OHI_datasetIMG_5002_JPG.rf.ec18fa71c12d2044eb636f1c791340d2.jpg",
+        "src_label": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\data\\detection\\batches\\batch02_clean\\labels\\valid\\OHI_datasetIMG_5002_JPG.rf.ec18fa71c12d2044eb636f1c791340d2.txt",
+        "suspicious": [
+          "oversized_vs_median"
+        ]
+      },
+      {
+        "name": "OHI_datasetIMG_4685_JPG.rf.11c597fb7ef653f01a3a02a88e7ea886.jpg",
+        "split": "train",
+        "mark": "GOOD",
+        "n_boxes": 26,
+        "note": "",
+        "select_reason": "max_iou_fill",
+        "tags": [
+          "anterior crowding",
+          "overlapping boxes",
+          "polygon-to-rectangle conversion issue"
+        ],
+        "recorded_reason": "no free-text note | sample=max_iou_fill | maxIoU=0.5677 IoU50=1 IoU70=0 antOv=5 border=0 large=0 extreme=1 | tags: anterior crowding; overlapping boxes; polygon-to-rectangle conversion issue",
+        "geometry": {
+          "n_boxes": 26,
+          "max_iou": 0.5677,
+          "n_iou50": 1,
+          "n_iou70": 0,
+          "n_anterior_overlap": 5,
+          "n_border": 0,
+          "n_extreme": 1,
+          "n_tiny": 0,
+          "n_large_vs_median": 0,
+          "max_area": 0.0169
+        },
+        "label_errors": [],
+        "image_exists": true,
+        "label_exists": true,
+        "src_image": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\data\\detection\\batches\\batch02_clean\\images\\train\\OHI_datasetIMG_4685_JPG.rf.11c597fb7ef653f01a3a02a88e7ea886.jpg",
+        "src_label": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\data\\detection\\batches\\batch02_clean\\labels\\train\\OHI_datasetIMG_4685_JPG.rf.11c597fb7ef653f01a3a02a88e7ea886.txt",
+        "suspicious": [
+          "extreme_aspect"
+        ]
+      }
+    ],
+    "filenames": [
+      "OHI_datasetIMG_01421_jpg.rf.5c7c7a8db8c7c504384541de0340a530.jpg",
+      "OHI_datasetIMG_0281_JPG.rf.5246fd1b8883ddac184f832c9e67915d.jpg",
+      "OHI_datasetIMG_0602_JPG.rf.13c9ea9fe1c17065d26a0896410c2d6f.jpg",
+      "OHI_datasetIMG_1111_JPG.rf.c942055271ddc43953098ef41b84b5f5.jpg",
+      "OHI_datasetIMG_1498_JPG.rf.3d609d133770e66f52d1d3f991f8fad1.jpg",
+      "OHI_datasetIMG_1518_JPG.rf.16a3482cd27073c1cfec6eacf9f86a79.jpg",
+      "OHI_datasetIMG_1553_JPG.rf.0109ee33adcf5decfc5cf27a8517419a.jpg",
+      "OHI_datasetIMG_1746_JPG.rf.d600e314a6b016368ccf8dec0655e93f.jpg",
+      "OHI_datasetIMG_1804_JPG.rf.a5431c958864445000dade59ac8534c2.jpg",
+      "OHI_datasetIMG_2155_JPG.rf.3a7b797e515b3d1cec3d7596e0143e05.jpg",
+      "OHI_datasetIMG_2207_JPG.rf.e1850a33e66a6267f7624b20534e3450.jpg",
+      "OHI_datasetIMG_2347_jpg.rf.52fd84be01eaad771a7ac86e71b62902.jpg",
+      "OHI_datasetIMG_2455_JPG.rf.07def7f4973124de390726d73e55b2c3.jpg",
+      "OHI_datasetIMG_2481_JPG.rf.07214f38f17fc6384832d1a178baa259.jpg",
+      "OHI_datasetIMG_2507_JPG.rf.373e796edec9827e66f8e581ecab71cf.jpg",
+      "OHI_datasetIMG_2957_jpg.rf.1d202ba74d87a2db59d2d83b29dde43a.jpg",
+      "OHI_datasetIMG_3098_JPG.rf.22421cbfb09f512558a9d502a01e6e70.jpg",
+      "OHI_datasetIMG_3497_JPG.rf.875ac9581b6f15d13ce22f4e454694d1.jpg",
+      "OHI_datasetIMG_3635_JPG.rf.4cb53362a045ca5ce999f68711c92ff3.jpg",
+      "OHI_datasetIMG_3643_JPG.rf.b662b3d313159a24623fbbc3d1f79086.jpg",
+      "OHI_datasetIMG_3690_JPG.rf.24a6e9c93e60e6d2ef0d6424aede2019.jpg",
+      "OHI_datasetIMG_3773_jpg.rf.2d6bb88efe9142daecc81253e57392b7.jpg",
+      "OHI_datasetIMG_3883_JPG.rf.3654a52a2a3d0768f68a46a55972752c.jpg",
+      "OHI_datasetIMG_3937_JPG.rf.6e5e97f84ad85035fc407f442c187685.jpg",
+      "OHI_datasetIMG_4015_JPG.rf.1e57c89894daae1f543c3ce451cd9d7a.jpg",
+      "OHI_datasetIMG_4160_JPG.rf.33e47de79199dce8bbe81386f5bce9b6.jpg",
+      "OHI_datasetIMG_4197_JPG.rf.ed04242005343e7beffd6cd73f2f5378.jpg",
+      "OHI_datasetIMG_4276_JPG.rf.3f2c66e35bda0dcba3ea2c79b30f86b7.jpg",
+      "OHI_datasetIMG_4517_JPG.rf.2327f0db52b62f6fdbb7641b8545fd7b.jpg",
+      "OHI_datasetIMG_4569_JPG.rf.12624e4085e12bfcebdd5967d92eb129.jpg",
+      "OHI_datasetIMG_4585_JPG.rf.174ce0a168bcf4cf7f42c6743aaaec5a.jpg",
+      "OHI_datasetIMG_4682_JPG.rf.15590bc0ab6c50985b153f5b93553733.jpg",
+      "OHI_datasetIMG_4685_JPG.rf.11c597fb7ef653f01a3a02a88e7ea886.jpg",
+      "OHI_datasetIMG_4691_JPG.rf.6053b341018c66c9a1f79d99daf5989b.jpg",
+      "OHI_datasetIMG_4732_JPG.rf.05c5680e08cf8f534f9f490e01a2de18.jpg",
+      "OHI_datasetIMG_4741_JPG.rf.6080574cdf807e3aa4c836789fe89619.jpg",
+      "OHI_datasetIMG_4892_JPG.rf.bd964b849dfcc4ed5c65ad461905c676.jpg",
+      "OHI_datasetIMG_5002_JPG.rf.ec18fa71c12d2044eb636f1c791340d2.jpg",
+      "OHI_datasetIMG_5111_JPG.rf.300eea1219317375d1caa437d7d7abb0.jpg",
+      "OHI_datasetIMG_5123_JPG.rf.4cd79561f80bacf2302f94ce8cfa5a09.jpg",
+      "OHI_datasetIMG_5150_JPG.rf.ecd0d45a0aa581f1d310e941438a87ee.jpg",
+      "OHI_datasetIMG_5176_JPG.rf.5cca42d210ac66da38dbe7ab49adc470.jpg",
+      "OHI_datasetIMG_5284_JPG.rf.5513957e541e63585564bdd4f2c3d33b.jpg",
+      "OHI_datasetIMG_5285_JPG.rf.61b4841b7fb4b6fb3ae47fbd55eb2903.jpg",
+      "OHI_datasetIMG_5831_JPG.rf.7b6876acf798d68093a0f38782a87863.jpg",
+      "OHI_datasetIMG_5855_JPG.rf.11339478a9c00b3c44d07e1189cc9090.jpg",
+      "OHI_datasetIMG_5884_JPG.rf.6095d76b8f785e4575c9db5bad87e9b8.jpg",
+      "OHI_datasetIMG_6030_JPG.rf.1b3a38b20220bc664149f3e0039c5a92.jpg",
+      "OHI_datasetIMG_6094_JPG.rf.0eb3c9ba8a5e43ae512e2659d2c7c46f.jpg",
+      "OHI_datasetIMG_6158_JPG.rf.4b57c01bfae347ae38d6ae9b79438c4e.jpg",
+      "OHI_datasetIMG_6161_JPG.rf.16769f0a6cd4bf53719e65670013acaa.jpg",
+      "OHI_datasetIMG_6308_JPG.rf.9c15010b0f21cb9f5a244d771a46c0d1.jpg",
+      "OHI_datasetIMG_6357_JPG.rf.079d014274331b8436adaee6ee9ef4bd.jpg",
+      "OHI_datasetIMG_6637_JPG.rf.a046349ded325409318a4ac9b7016fb5.jpg",
+      "OHI_dataset_MG_3889_JPG.rf.1e21792e6e4a29ef6d3f5596f5591a22.jpg",
+      "OHI_dataset_MG_4765_JPG.rf.856662d380002ab196e4491f8488fe42.jpg",
+      "OHI_datasetcrop_smile3_jpg.rf.042234afbffcb7c22456a94778d6e9a6.jpg"
+    ],
+    "per_image": [
+      {
+        "name": "OHI_datasetIMG_01421_jpg.rf.5c7c7a8db8c7c504384541de0340a530.jpg",
+        "split": "train",
+        "n_boxes": 26,
+        "image_exists": true,
+        "label_exists": true,
+        "label_errors": [],
+        "suspicious": [
+          "oversized_vs_median"
+        ],
+        "geometry": {
+          "n_boxes": 26,
+          "max_iou": 0.3323,
+          "n_iou50": 0,
+          "n_iou70": 0,
+          "n_anterior_overlap": 0,
+          "n_border": 0,
+          "n_extreme": 0,
+          "n_tiny": 0,
+          "n_large_vs_median": 2,
+          "max_area": 0.0168
+        }
+      },
+      {
+        "name": "OHI_datasetIMG_0281_JPG.rf.5246fd1b8883ddac184f832c9e67915d.jpg",
+        "split": "valid",
+        "n_boxes": 25,
+        "image_exists": true,
+        "label_exists": true,
+        "label_errors": [],
+        "suspicious": [
+          "oversized_vs_median"
+        ],
+        "geometry": {
+          "n_boxes": 25,
+          "max_iou": 0.2972,
+          "n_iou50": 0,
+          "n_iou70": 0,
+          "n_anterior_overlap": 0,
+          "n_border": 0,
+          "n_extreme": 0,
+          "n_tiny": 1,
+          "n_large_vs_median": 3,
+          "max_area": 0.0172
+        }
+      },
+      {
+        "name": "OHI_datasetIMG_0602_JPG.rf.13c9ea9fe1c17065d26a0896410c2d6f.jpg",
+        "split": "valid",
+        "n_boxes": 28,
+        "image_exists": true,
+        "label_exists": true,
+        "label_errors": [],
+        "suspicious": [],
+        "geometry": {
+          "n_boxes": 28,
+          "max_iou": 0.6586,
+          "n_iou50": 1,
+          "n_iou70": 0,
+          "n_anterior_overlap": 3,
+          "n_border": 0,
+          "n_extreme": 0,
+          "n_tiny": 0,
+          "n_large_vs_median": 0,
+          "max_area": 0.0124
+        }
+      },
+      {
+        "name": "OHI_datasetIMG_1111_JPG.rf.c942055271ddc43953098ef41b84b5f5.jpg",
+        "split": "valid",
+        "n_boxes": 27,
+        "image_exists": true,
+        "label_exists": true,
+        "label_errors": [],
+        "suspicious": [
+          "oversized_vs_median"
+        ],
+        "geometry": {
+          "n_boxes": 27,
+          "max_iou": 0.3091,
+          "n_iou50": 0,
+          "n_iou70": 0,
+          "n_anterior_overlap": 0,
+          "n_border": 0,
+          "n_extreme": 0,
+          "n_tiny": 6,
+          "n_large_vs_median": 2,
+          "max_area": 0.0079
+        }
+      },
+      {
+        "name": "OHI_datasetIMG_1498_JPG.rf.3d609d133770e66f52d1d3f991f8fad1.jpg",
+        "split": "train",
+        "n_boxes": 25,
+        "image_exists": true,
+        "label_exists": true,
+        "label_errors": [],
+        "suspicious": [],
+        "geometry": {
+          "n_boxes": 25,
+          "max_iou": 0.5536,
+          "n_iou50": 2,
+          "n_iou70": 0,
+          "n_anterior_overlap": 4,
+          "n_border": 0,
+          "n_extreme": 0,
+          "n_tiny": 0,
+          "n_large_vs_median": 0,
+          "max_area": 0.0193
+        }
+      },
+      {
+        "name": "OHI_datasetIMG_1518_JPG.rf.16a3482cd27073c1cfec6eacf9f86a79.jpg",
+        "split": "train",
+        "n_boxes": 26,
+        "image_exists": true,
+        "label_exists": true,
+        "label_errors": [],
+        "suspicious": [
+          "extreme_aspect"
+        ],
+        "geometry": {
+          "n_boxes": 26,
+          "max_iou": 0.4184,
+          "n_iou50": 0,
+          "n_iou70": 0,
+          "n_anterior_overlap": 0,
+          "n_border": 0,
+          "n_extreme": 1,
+          "n_tiny": 0,
+          "n_large_vs_median": 0,
+          "max_area": 0.0248
+        }
+      },
+      {
+        "name": "OHI_datasetIMG_1553_JPG.rf.0109ee33adcf5decfc5cf27a8517419a.jpg",
+        "split": "train",
+        "n_boxes": 28,
+        "image_exists": true,
+        "label_exists": true,
+        "label_errors": [],
+        "suspicious": [],
+        "geometry": {
+          "n_boxes": 28,
+          "max_iou": 0.6486,
+          "n_iou50": 3,
+          "n_iou70": 0,
+          "n_anterior_overlap": 13,
+          "n_border": 0,
+          "n_extreme": 0,
+          "n_tiny": 0,
+          "n_large_vs_median": 0,
+          "max_area": 0.0202
+        }
+      },
+      {
+        "name": "OHI_datasetIMG_1746_JPG.rf.d600e314a6b016368ccf8dec0655e93f.jpg",
+        "split": "valid",
+        "n_boxes": 26,
+        "image_exists": true,
+        "label_exists": true,
+        "label_errors": [],
+        "suspicious": [
+          "extreme_aspect"
+        ],
+        "geometry": {
+          "n_boxes": 26,
+          "max_iou": 0.2686,
+          "n_iou50": 0,
+          "n_iou70": 0,
+          "n_anterior_overlap": 0,
+          "n_border": 0,
+          "n_extreme": 2,
+          "n_tiny": 0,
+          "n_large_vs_median": 0,
+          "max_area": 0.0313
+        }
+      },
+      {
+        "name": "OHI_datasetIMG_1804_JPG.rf.a5431c958864445000dade59ac8534c2.jpg",
+        "split": "test",
+        "n_boxes": 29,
+        "image_exists": true,
+        "label_exists": true,
+        "label_errors": [],
+        "suspicious": [],
+        "geometry": {
+          "n_boxes": 29,
+          "max_iou": 0.577,
+          "n_iou50": 2,
+          "n_iou70": 0,
+          "n_anterior_overlap": 6,
+          "n_border": 0,
+          "n_extreme": 0,
+          "n_tiny": 0,
+          "n_large_vs_median": 0,
+          "max_area": 0.0159
+        }
+      },
+      {
+        "name": "OHI_datasetIMG_2155_JPG.rf.3a7b797e515b3d1cec3d7596e0143e05.jpg",
+        "split": "train",
+        "n_boxes": 24,
+        "image_exists": true,
+        "label_exists": true,
+        "label_errors": [],
+        "suspicious": [],
+        "geometry": {
+          "n_boxes": 24,
+          "max_iou": 0.6188,
+          "n_iou50": 1,
+          "n_iou70": 0,
+          "n_anterior_overlap": 1,
+          "n_border": 0,
+          "n_extreme": 0,
+          "n_tiny": 0,
+          "n_large_vs_median": 0,
+          "max_area": 0.0266
+        }
+      },
+      {
+        "name": "OHI_datasetIMG_2207_JPG.rf.e1850a33e66a6267f7624b20534e3450.jpg",
+        "split": "train",
+        "n_boxes": 26,
+        "image_exists": true,
+        "label_exists": true,
+        "label_errors": [],
+        "suspicious": [],
+        "geometry": {
+          "n_boxes": 26,
+          "max_iou": 0.5028,
+          "n_iou50": 2,
+          "n_iou70": 0,
+          "n_anterior_overlap": 2,
+          "n_border": 0,
+          "n_extreme": 0,
+          "n_tiny": 0,
+          "n_large_vs_median": 0,
+          "max_area": 0.0135
+        }
+      },
+      {
+        "name": "OHI_datasetIMG_2347_jpg.rf.52fd84be01eaad771a7ac86e71b62902.jpg",
+        "split": "train",
+        "n_boxes": 28,
+        "image_exists": true,
+        "label_exists": true,
+        "label_errors": [],
+        "suspicious": [],
+        "geometry": {
+          "n_boxes": 28,
+          "max_iou": 0.5282,
+          "n_iou50": 2,
+          "n_iou70": 0,
+          "n_anterior_overlap": 0,
+          "n_border": 0,
+          "n_extreme": 0,
+          "n_tiny": 0,
+          "n_large_vs_median": 0,
+          "max_area": 0.0336
+        }
+      },
+      {
+        "name": "OHI_datasetIMG_2455_JPG.rf.07def7f4973124de390726d73e55b2c3.jpg",
+        "split": "train",
+        "n_boxes": 22,
+        "image_exists": true,
+        "label_exists": true,
+        "label_errors": [],
+        "suspicious": [],
+        "geometry": {
+          "n_boxes": 22,
+          "max_iou": 0.6764,
+          "n_iou50": 2,
+          "n_iou70": 0,
+          "n_anterior_overlap": 6,
+          "n_border": 0,
+          "n_extreme": 0,
+          "n_tiny": 0,
+          "n_large_vs_median": 0,
+          "max_area": 0.0216
+        }
+      },
+      {
+        "name": "OHI_datasetIMG_2481_JPG.rf.07214f38f17fc6384832d1a178baa259.jpg",
+        "split": "train",
+        "n_boxes": 28,
+        "image_exists": true,
+        "label_exists": true,
+        "label_errors": [],
+        "suspicious": [
+          "oversized_vs_median"
+        ],
+        "geometry": {
+          "n_boxes": 28,
+          "max_iou": 0.3677,
+          "n_iou50": 0,
+          "n_iou70": 0,
+          "n_anterior_overlap": 1,
+          "n_border": 0,
+          "n_extreme": 0,
+          "n_tiny": 0,
+          "n_large_vs_median": 3,
+          "max_area": 0.0119
+        }
+      },
+      {
+        "name": "OHI_datasetIMG_2507_JPG.rf.373e796edec9827e66f8e581ecab71cf.jpg",
+        "split": "train",
+        "n_boxes": 25,
+        "image_exists": true,
+        "label_exists": true,
+        "label_errors": [],
+        "suspicious": [],
+        "geometry": {
+          "n_boxes": 25,
+          "max_iou": 0.6038,
+          "n_iou50": 1,
+          "n_iou70": 0,
+          "n_anterior_overlap": 2,
+          "n_border": 0,
+          "n_extreme": 0,
+          "n_tiny": 0,
+          "n_large_vs_median": 0,
+          "max_area": 0.0286
+        }
+      },
+      {
+        "name": "OHI_datasetIMG_2957_jpg.rf.1d202ba74d87a2db59d2d83b29dde43a.jpg",
+        "split": "train",
+        "n_boxes": 12,
+        "image_exists": true,
+        "label_exists": true,
+        "label_errors": [],
+        "suspicious": [
+          "severe_border"
+        ],
+        "geometry": {
+          "n_boxes": 12,
+          "max_iou": 0.2899,
+          "n_iou50": 0,
+          "n_iou70": 0,
+          "n_anterior_overlap": 0,
+          "n_border": 7,
+          "n_extreme": 0,
+          "n_tiny": 0,
+          "n_large_vs_median": 0,
+          "max_area": 0.0854
+        }
+      },
+      {
+        "name": "OHI_datasetIMG_3098_JPG.rf.22421cbfb09f512558a9d502a01e6e70.jpg",
+        "split": "train",
+        "n_boxes": 26,
+        "image_exists": true,
+        "label_exists": true,
+        "label_errors": [],
+        "suspicious": [
+          "extreme_aspect",
+          "mild_border"
+        ],
+        "geometry": {
+          "n_boxes": 26,
+          "max_iou": 0.5094,
+          "n_iou50": 1,
+          "n_iou70": 0,
+          "n_anterior_overlap": 0,
+          "n_border": 1,
+          "n_extreme": 1,
+          "n_tiny": 0,
+          "n_large_vs_median": 0,
+          "max_area": 0.0591
+        }
+      },
+      {
+        "name": "OHI_datasetIMG_3497_JPG.rf.875ac9581b6f15d13ce22f4e454694d1.jpg",
+        "split": "train",
+        "n_boxes": 11,
+        "image_exists": true,
+        "label_exists": true,
+        "label_errors": [],
+        "suspicious": [
+          "severe_border"
+        ],
+        "geometry": {
+          "n_boxes": 11,
+          "max_iou": 0.2819,
+          "n_iou50": 0,
+          "n_iou70": 0,
+          "n_anterior_overlap": 0,
+          "n_border": 5,
+          "n_extreme": 0,
+          "n_tiny": 0,
+          "n_large_vs_median": 0,
+          "max_area": 0.0683
+        }
+      },
+      {
+        "name": "OHI_datasetIMG_3635_JPG.rf.4cb53362a045ca5ce999f68711c92ff3.jpg",
+        "split": "train",
+        "n_boxes": 30,
+        "image_exists": true,
+        "label_exists": true,
+        "label_errors": [],
+        "suspicious": [],
+        "geometry": {
+          "n_boxes": 30,
+          "max_iou": 0.3502,
+          "n_iou50": 0,
+          "n_iou70": 0,
+          "n_anterior_overlap": 0,
+          "n_border": 0,
+          "n_extreme": 0,
+          "n_tiny": 0,
+          "n_large_vs_median": 0,
+          "max_area": 0.0123
+        }
+      },
+      {
+        "name": "OHI_datasetIMG_3643_JPG.rf.b662b3d313159a24623fbbc3d1f79086.jpg",
+        "split": "train",
+        "n_boxes": 30,
+        "image_exists": true,
+        "label_exists": true,
+        "label_errors": [],
+        "suspicious": [
+          "oversized_vs_median"
+        ],
+        "geometry": {
+          "n_boxes": 30,
+          "max_iou": 0.4036,
+          "n_iou50": 0,
+          "n_iou70": 0,
+          "n_anterior_overlap": 3,
+          "n_border": 0,
+          "n_extreme": 0,
+          "n_tiny": 0,
+          "n_large_vs_median": 1,
+          "max_area": 0.0153
+        }
+      },
+      {
+        "name": "OHI_datasetIMG_3690_JPG.rf.24a6e9c93e60e6d2ef0d6424aede2019.jpg",
+        "split": "train",
+        "n_boxes": 28,
+        "image_exists": true,
+        "label_exists": true,
+        "label_errors": [],
+        "suspicious": [],
+        "geometry": {
+          "n_boxes": 28,
+          "max_iou": 0.4965,
+          "n_iou50": 0,
+          "n_iou70": 0,
+          "n_anterior_overlap": 7,
+          "n_border": 0,
+          "n_extreme": 0,
+          "n_tiny": 0,
+          "n_large_vs_median": 0,
+          "max_area": 0.0209
+        }
+      },
+      {
+        "name": "OHI_datasetIMG_3773_jpg.rf.2d6bb88efe9142daecc81253e57392b7.jpg",
+        "split": "train",
+        "n_boxes": 22,
+        "image_exists": true,
+        "label_exists": true,
+        "label_errors": [],
+        "suspicious": [
+          "oversized_vs_median"
+        ],
+        "geometry": {
+          "n_boxes": 22,
+          "max_iou": 0.2271,
+          "n_iou50": 0,
+          "n_iou70": 0,
+          "n_anterior_overlap": 0,
+          "n_border": 0,
+          "n_extreme": 0,
+          "n_tiny": 1,
+          "n_large_vs_median": 2,
+          "max_area": 0.0365
+        }
+      },
+      {
+        "name": "OHI_datasetIMG_3883_JPG.rf.3654a52a2a3d0768f68a46a55972752c.jpg",
+        "split": "train",
+        "n_boxes": 32,
+        "image_exists": true,
+        "label_exists": true,
+        "label_errors": [],
+        "suspicious": [
+          "oversized_vs_median"
+        ],
+        "geometry": {
+          "n_boxes": 32,
+          "max_iou": 0.3952,
+          "n_iou50": 0,
+          "n_iou70": 0,
+          "n_anterior_overlap": 0,
+          "n_border": 0,
+          "n_extreme": 0,
+          "n_tiny": 1,
+          "n_large_vs_median": 2,
+          "max_area": 0.0174
+        }
+      },
+      {
+        "name": "OHI_datasetIMG_3937_JPG.rf.6e5e97f84ad85035fc407f442c187685.jpg",
+        "split": "train",
+        "n_boxes": 30,
+        "image_exists": true,
+        "label_exists": true,
+        "label_errors": [],
+        "suspicious": [
+          "oversized_vs_median",
+          "extreme_aspect"
+        ],
+        "geometry": {
+          "n_boxes": 30,
+          "max_iou": 0.4012,
+          "n_iou50": 0,
+          "n_iou70": 0,
+          "n_anterior_overlap": 0,
+          "n_border": 0,
+          "n_extreme": 1,
+          "n_tiny": 0,
+          "n_large_vs_median": 2,
+          "max_area": 0.0273
+        }
+      },
+      {
+        "name": "OHI_datasetIMG_4015_JPG.rf.1e57c89894daae1f543c3ce451cd9d7a.jpg",
+        "split": "train",
+        "n_boxes": 25,
+        "image_exists": true,
+        "label_exists": true,
+        "label_errors": [],
+        "suspicious": [],
+        "geometry": {
+          "n_boxes": 25,
+          "max_iou": 0.6097,
+          "n_iou50": 1,
+          "n_iou70": 0,
+          "n_anterior_overlap": 0,
+          "n_border": 0,
+          "n_extreme": 0,
+          "n_tiny": 0,
+          "n_large_vs_median": 0,
+          "max_area": 0.0157
+        }
+      },
+      {
+        "name": "OHI_datasetIMG_4160_JPG.rf.33e47de79199dce8bbe81386f5bce9b6.jpg",
+        "split": "train",
+        "n_boxes": 26,
+        "image_exists": true,
+        "label_exists": true,
+        "label_errors": [],
+        "suspicious": [],
+        "geometry": {
+          "n_boxes": 26,
+          "max_iou": 0.5062,
+          "n_iou50": 1,
+          "n_iou70": 0,
+          "n_anterior_overlap": 7,
+          "n_border": 0,
+          "n_extreme": 0,
+          "n_tiny": 0,
+          "n_large_vs_median": 0,
+          "max_area": 0.0193
+        }
+      },
+      {
+        "name": "OHI_datasetIMG_4197_JPG.rf.ed04242005343e7beffd6cd73f2f5378.jpg",
+        "split": "valid",
+        "n_boxes": 25,
+        "image_exists": true,
+        "label_exists": true,
+        "label_errors": [],
+        "suspicious": [],
+        "geometry": {
+          "n_boxes": 25,
+          "max_iou": 0.3315,
+          "n_iou50": 0,
+          "n_iou70": 0,
+          "n_anterior_overlap": 0,
+          "n_border": 0,
+          "n_extreme": 0,
+          "n_tiny": 1,
+          "n_large_vs_median": 0,
+          "max_area": 0.0099
+        }
+      },
+      {
+        "name": "OHI_datasetIMG_4276_JPG.rf.3f2c66e35bda0dcba3ea2c79b30f86b7.jpg",
+        "split": "train",
+        "n_boxes": 25,
+        "image_exists": true,
+        "label_exists": true,
+        "label_errors": [],
+        "suspicious": [],
+        "geometry": {
+          "n_boxes": 25,
+          "max_iou": 0.4412,
+          "n_iou50": 0,
+          "n_iou70": 0,
+          "n_anterior_overlap": 6,
+          "n_border": 0,
+          "n_extreme": 0,
+          "n_tiny": 0,
+          "n_large_vs_median": 0,
+          "max_area": 0.0162
+        }
+      },
+      {
+        "name": "OHI_datasetIMG_4517_JPG.rf.2327f0db52b62f6fdbb7641b8545fd7b.jpg",
+        "split": "train",
+        "n_boxes": 27,
+        "image_exists": true,
+        "label_exists": true,
+        "label_errors": [],
+        "suspicious": [],
+        "geometry": {
+          "n_boxes": 27,
+          "max_iou": 0.2577,
+          "n_iou50": 0,
+          "n_iou70": 0,
+          "n_anterior_overlap": 0,
+          "n_border": 0,
+          "n_extreme": 0,
+          "n_tiny": 1,
+          "n_large_vs_median": 0,
+          "max_area": 0.0173
+        }
+      },
+      {
+        "name": "OHI_datasetIMG_4569_JPG.rf.12624e4085e12bfcebdd5967d92eb129.jpg",
+        "split": "train",
+        "n_boxes": 13,
+        "image_exists": true,
+        "label_exists": true,
+        "label_errors": [],
+        "suspicious": [
+          "oversized_vs_median"
+        ],
+        "geometry": {
+          "n_boxes": 13,
+          "max_iou": 0.2432,
+          "n_iou50": 0,
+          "n_iou70": 0,
+          "n_anterior_overlap": 0,
+          "n_border": 0,
+          "n_extreme": 0,
+          "n_tiny": 0,
+          "n_large_vs_median": 2,
+          "max_area": 0.0641
+        }
+      },
+      {
+        "name": "OHI_datasetIMG_4585_JPG.rf.174ce0a168bcf4cf7f42c6743aaaec5a.jpg",
+        "split": "train",
+        "n_boxes": 14,
+        "image_exists": true,
+        "label_exists": true,
+        "label_errors": [],
+        "suspicious": [
+          "oversized_vs_median"
+        ],
+        "geometry": {
+          "n_boxes": 14,
+          "max_iou": 0.2393,
+          "n_iou50": 0,
+          "n_iou70": 0,
+          "n_anterior_overlap": 0,
+          "n_border": 0,
+          "n_extreme": 0,
+          "n_tiny": 0,
+          "n_large_vs_median": 2,
+          "max_area": 0.0257
+        }
+      },
+      {
+        "name": "OHI_datasetIMG_4682_JPG.rf.15590bc0ab6c50985b153f5b93553733.jpg",
+        "split": "valid",
+        "n_boxes": 16,
+        "image_exists": true,
+        "label_exists": true,
+        "label_errors": [],
+        "suspicious": [],
+        "geometry": {
+          "n_boxes": 16,
+          "max_iou": 0.5563,
+          "n_iou50": 1,
+          "n_iou70": 0,
+          "n_anterior_overlap": 1,
+          "n_border": 0,
+          "n_extreme": 0,
+          "n_tiny": 0,
+          "n_large_vs_median": 0,
+          "max_area": 0.0248
+        }
+      },
+      {
+        "name": "OHI_datasetIMG_4685_JPG.rf.11c597fb7ef653f01a3a02a88e7ea886.jpg",
+        "split": "train",
+        "n_boxes": 26,
+        "image_exists": true,
+        "label_exists": true,
+        "label_errors": [],
+        "suspicious": [
+          "extreme_aspect"
+        ],
+        "geometry": {
+          "n_boxes": 26,
+          "max_iou": 0.5677,
+          "n_iou50": 1,
+          "n_iou70": 0,
+          "n_anterior_overlap": 5,
+          "n_border": 0,
+          "n_extreme": 1,
+          "n_tiny": 0,
+          "n_large_vs_median": 0,
+          "max_area": 0.0169
+        }
+      },
+      {
+        "name": "OHI_datasetIMG_4691_JPG.rf.6053b341018c66c9a1f79d99daf5989b.jpg",
+        "split": "train",
+        "n_boxes": 30,
+        "image_exists": true,
+        "label_exists": true,
+        "label_errors": [],
+        "suspicious": [
+          "extreme_aspect"
+        ],
+        "geometry": {
+          "n_boxes": 30,
+          "max_iou": 0.4238,
+          "n_iou50": 0,
+          "n_iou70": 0,
+          "n_anterior_overlap": 0,
+          "n_border": 0,
+          "n_extreme": 1,
+          "n_tiny": 0,
+          "n_large_vs_median": 0,
+          "max_area": 0.0281
+        }
+      },
+      {
+        "name": "OHI_datasetIMG_4732_JPG.rf.05c5680e08cf8f534f9f490e01a2de18.jpg",
+        "split": "train",
+        "n_boxes": 22,
+        "image_exists": true,
+        "label_exists": true,
+        "label_errors": [],
+        "suspicious": [
+          "oversized_vs_median"
+        ],
+        "geometry": {
+          "n_boxes": 22,
+          "max_iou": 0.2529,
+          "n_iou50": 0,
+          "n_iou70": 0,
+          "n_anterior_overlap": 0,
+          "n_border": 0,
+          "n_extreme": 0,
+          "n_tiny": 0,
+          "n_large_vs_median": 3,
+          "max_area": 0.0221
+        }
+      },
+      {
+        "name": "OHI_datasetIMG_4741_JPG.rf.6080574cdf807e3aa4c836789fe89619.jpg",
+        "split": "test",
+        "n_boxes": 26,
+        "image_exists": true,
+        "label_exists": true,
+        "label_errors": [],
+        "suspicious": [
+          "extreme_aspect"
+        ],
+        "geometry": {
+          "n_boxes": 26,
+          "max_iou": 0.3811,
+          "n_iou50": 0,
+          "n_iou70": 0,
+          "n_anterior_overlap": 1,
+          "n_border": 0,
+          "n_extreme": 2,
+          "n_tiny": 0,
+          "n_large_vs_median": 0,
+          "max_area": 0.0224
+        }
+      },
+      {
+        "name": "OHI_datasetIMG_4892_JPG.rf.bd964b849dfcc4ed5c65ad461905c676.jpg",
+        "split": "test",
+        "n_boxes": 24,
+        "image_exists": true,
+        "label_exists": true,
+        "label_errors": [],
+        "suspicious": [
+          "extreme_aspect"
+        ],
+        "geometry": {
+          "n_boxes": 24,
+          "max_iou": 0.5726,
+          "n_iou50": 1,
+          "n_iou70": 0,
+          "n_anterior_overlap": 2,
+          "n_border": 0,
+          "n_extreme": 1,
+          "n_tiny": 0,
+          "n_large_vs_median": 0,
+          "max_area": 0.0215
+        }
+      },
+      {
+        "name": "OHI_datasetIMG_5002_JPG.rf.ec18fa71c12d2044eb636f1c791340d2.jpg",
+        "split": "valid",
+        "n_boxes": 26,
+        "image_exists": true,
+        "label_exists": true,
+        "label_errors": [],
+        "suspicious": [
+          "oversized_vs_median"
+        ],
+        "geometry": {
+          "n_boxes": 26,
+          "max_iou": 0.5704,
+          "n_iou50": 1,
+          "n_iou70": 0,
+          "n_anterior_overlap": 0,
+          "n_border": 0,
+          "n_extreme": 0,
+          "n_tiny": 0,
+          "n_large_vs_median": 1,
+          "max_area": 0.0224
+        }
+      },
+      {
+        "name": "OHI_datasetIMG_5111_JPG.rf.300eea1219317375d1caa437d7d7abb0.jpg",
+        "split": "train",
+        "n_boxes": 27,
+        "image_exists": true,
+        "label_exists": true,
+        "label_errors": [],
+        "suspicious": [],
+        "geometry": {
+          "n_boxes": 27,
+          "max_iou": 0.4857,
+          "n_iou50": 0,
+          "n_iou70": 0,
+          "n_anterior_overlap": 7,
+          "n_border": 0,
+          "n_extreme": 0,
+          "n_tiny": 0,
+          "n_large_vs_median": 0,
+          "max_area": 0.0259
+        }
+      },
+      {
+        "name": "OHI_datasetIMG_5123_JPG.rf.4cd79561f80bacf2302f94ce8cfa5a09.jpg",
+        "split": "train",
+        "n_boxes": 14,
+        "image_exists": true,
+        "label_exists": true,
+        "label_errors": [],
+        "suspicious": [
+          "severe_border"
+        ],
+        "geometry": {
+          "n_boxes": 14,
+          "max_iou": 0.2477,
+          "n_iou50": 0,
+          "n_iou70": 0,
+          "n_anterior_overlap": 0,
+          "n_border": 3,
+          "n_extreme": 0,
+          "n_tiny": 0,
+          "n_large_vs_median": 0,
+          "max_area": 0.0748
+        }
+      },
+      {
+        "name": "OHI_datasetIMG_5150_JPG.rf.ecd0d45a0aa581f1d310e941438a87ee.jpg",
+        "split": "test",
+        "n_boxes": 28,
+        "image_exists": true,
+        "label_exists": true,
+        "label_errors": [],
+        "suspicious": [
+          "extreme_aspect"
+        ],
+        "geometry": {
+          "n_boxes": 28,
+          "max_iou": 0.4686,
+          "n_iou50": 0,
+          "n_iou70": 0,
+          "n_anterior_overlap": 2,
+          "n_border": 0,
+          "n_extreme": 2,
+          "n_tiny": 1,
+          "n_large_vs_median": 0,
+          "max_area": 0.0142
+        }
+      },
+      {
+        "name": "OHI_datasetIMG_5176_JPG.rf.5cca42d210ac66da38dbe7ab49adc470.jpg",
+        "split": "train",
+        "n_boxes": 25,
+        "image_exists": true,
+        "label_exists": true,
+        "label_errors": [],
+        "suspicious": [],
+        "geometry": {
+          "n_boxes": 25,
+          "max_iou": 0.5858,
+          "n_iou50": 1,
+          "n_iou70": 0,
+          "n_anterior_overlap": 3,
+          "n_border": 0,
+          "n_extreme": 0,
+          "n_tiny": 1,
+          "n_large_vs_median": 0,
+          "max_area": 0.0179
+        }
+      },
+      {
+        "name": "OHI_datasetIMG_5284_JPG.rf.5513957e541e63585564bdd4f2c3d33b.jpg",
+        "split": "train",
+        "n_boxes": 14,
+        "image_exists": true,
+        "label_exists": true,
+        "label_errors": [],
+        "suspicious": [
+          "severe_border"
+        ],
+        "geometry": {
+          "n_boxes": 14,
+          "max_iou": 0.2531,
+          "n_iou50": 0,
+          "n_iou70": 0,
+          "n_anterior_overlap": 0,
+          "n_border": 3,
+          "n_extreme": 0,
+          "n_tiny": 0,
+          "n_large_vs_median": 0,
+          "max_area": 0.0764
+        }
+      },
+      {
+        "name": "OHI_datasetIMG_5285_JPG.rf.61b4841b7fb4b6fb3ae47fbd55eb2903.jpg",
+        "split": "train",
+        "n_boxes": 27,
+        "image_exists": true,
+        "label_exists": true,
+        "label_errors": [],
+        "suspicious": [
+          "oversized_vs_median",
+          "extreme_aspect"
+        ],
+        "geometry": {
+          "n_boxes": 27,
+          "max_iou": 0.3209,
+          "n_iou50": 0,
+          "n_iou70": 0,
+          "n_anterior_overlap": 0,
+          "n_border": 0,
+          "n_extreme": 2,
+          "n_tiny": 0,
+          "n_large_vs_median": 2,
+          "max_area": 0.0182
+        }
+      },
+      {
+        "name": "OHI_datasetIMG_5831_JPG.rf.7b6876acf798d68093a0f38782a87863.jpg",
+        "split": "train",
+        "n_boxes": 29,
+        "image_exists": true,
+        "label_exists": true,
+        "label_errors": [],
+        "suspicious": [
+          "extreme_aspect"
+        ],
+        "geometry": {
+          "n_boxes": 29,
+          "max_iou": 0.3163,
+          "n_iou50": 0,
+          "n_iou70": 0,
+          "n_anterior_overlap": 0,
+          "n_border": 0,
+          "n_extreme": 2,
+          "n_tiny": 0,
+          "n_large_vs_median": 0,
+          "max_area": 0.0338
+        }
+      },
+      {
+        "name": "OHI_datasetIMG_5855_JPG.rf.11339478a9c00b3c44d07e1189cc9090.jpg",
+        "split": "train",
+        "n_boxes": 28,
+        "image_exists": true,
+        "label_exists": true,
+        "label_errors": [],
+        "suspicious": [],
+        "geometry": {
+          "n_boxes": 28,
+          "max_iou": 0.5831,
+          "n_iou50": 2,
+          "n_iou70": 0,
+          "n_anterior_overlap": 2,
+          "n_border": 0,
+          "n_extreme": 0,
+          "n_tiny": 0,
+          "n_large_vs_median": 0,
+          "max_area": 0.0365
+        }
+      },
+      {
+        "name": "OHI_datasetIMG_5884_JPG.rf.6095d76b8f785e4575c9db5bad87e9b8.jpg",
+        "split": "train",
+        "n_boxes": 32,
+        "image_exists": true,
+        "label_exists": true,
+        "label_errors": [],
+        "suspicious": [
+          "oversized_vs_median"
+        ],
+        "geometry": {
+          "n_boxes": 32,
+          "max_iou": 0.38,
+          "n_iou50": 0,
+          "n_iou70": 0,
+          "n_anterior_overlap": 0,
+          "n_border": 0,
+          "n_extreme": 0,
+          "n_tiny": 0,
+          "n_large_vs_median": 2,
+          "max_area": 0.0319
+        }
+      },
+      {
+        "name": "OHI_datasetIMG_6030_JPG.rf.1b3a38b20220bc664149f3e0039c5a92.jpg",
+        "split": "train",
+        "n_boxes": 30,
+        "image_exists": true,
+        "label_exists": true,
+        "label_errors": [],
+        "suspicious": [],
+        "geometry": {
+          "n_boxes": 30,
+          "max_iou": 0.3518,
+          "n_iou50": 0,
+          "n_iou70": 0,
+          "n_anterior_overlap": 0,
+          "n_border": 0,
+          "n_extreme": 0,
+          "n_tiny": 0,
+          "n_large_vs_median": 0,
+          "max_area": 0.0408
+        }
+      },
+      {
+        "name": "OHI_datasetIMG_6094_JPG.rf.0eb3c9ba8a5e43ae512e2659d2c7c46f.jpg",
+        "split": "train",
+        "n_boxes": 14,
+        "image_exists": true,
+        "label_exists": true,
+        "label_errors": [],
+        "suspicious": [
+          "severe_border"
+        ],
+        "geometry": {
+          "n_boxes": 14,
+          "max_iou": 0.2636,
+          "n_iou50": 0,
+          "n_iou70": 0,
+          "n_anterior_overlap": 0,
+          "n_border": 5,
+          "n_extreme": 0,
+          "n_tiny": 0,
+          "n_large_vs_median": 0,
+          "max_area": 0.0567
+        }
+      },
+      {
+        "name": "OHI_datasetIMG_6158_JPG.rf.4b57c01bfae347ae38d6ae9b79438c4e.jpg",
+        "split": "valid",
+        "n_boxes": 32,
+        "image_exists": true,
+        "label_exists": true,
+        "label_errors": [],
+        "suspicious": [
+          "oversized_vs_median"
+        ],
+        "geometry": {
+          "n_boxes": 32,
+          "max_iou": 0.364,
+          "n_iou50": 0,
+          "n_iou70": 0,
+          "n_anterior_overlap": 0,
+          "n_border": 0,
+          "n_extreme": 0,
+          "n_tiny": 0,
+          "n_large_vs_median": 2,
+          "max_area": 0.0376
+        }
+      },
+      {
+        "name": "OHI_datasetIMG_6161_JPG.rf.16769f0a6cd4bf53719e65670013acaa.jpg",
+        "split": "train",
+        "n_boxes": 16,
+        "image_exists": true,
+        "label_exists": true,
+        "label_errors": [],
+        "suspicious": [
+          "severe_border"
+        ],
+        "geometry": {
+          "n_boxes": 16,
+          "max_iou": 0.2333,
+          "n_iou50": 0,
+          "n_iou70": 0,
+          "n_anterior_overlap": 0,
+          "n_border": 3,
+          "n_extreme": 0,
+          "n_tiny": 0,
+          "n_large_vs_median": 0,
+          "max_area": 0.0551
+        }
+      },
+      {
+        "name": "OHI_datasetIMG_6308_JPG.rf.9c15010b0f21cb9f5a244d771a46c0d1.jpg",
+        "split": "valid",
+        "n_boxes": 22,
+        "image_exists": true,
+        "label_exists": true,
+        "label_errors": [],
+        "suspicious": [
+          "extreme_aspect"
+        ],
+        "geometry": {
+          "n_boxes": 22,
+          "max_iou": 0.3994,
+          "n_iou50": 0,
+          "n_iou70": 0,
+          "n_anterior_overlap": 1,
+          "n_border": 0,
+          "n_extreme": 2,
+          "n_tiny": 0,
+          "n_large_vs_median": 0,
+          "max_area": 0.0354
+        }
+      },
+      {
+        "name": "OHI_datasetIMG_6357_JPG.rf.079d014274331b8436adaee6ee9ef4bd.jpg",
+        "split": "train",
+        "n_boxes": 26,
+        "image_exists": true,
+        "label_exists": true,
+        "label_errors": [],
+        "suspicious": [],
+        "geometry": {
+          "n_boxes": 26,
+          "max_iou": 0.5551,
+          "n_iou50": 1,
+          "n_iou70": 0,
+          "n_anterior_overlap": 0,
+          "n_border": 0,
+          "n_extreme": 0,
+          "n_tiny": 0,
+          "n_large_vs_median": 0,
+          "max_area": 0.0304
+        }
+      },
+      {
+        "name": "OHI_datasetIMG_6637_JPG.rf.a046349ded325409318a4ac9b7016fb5.jpg",
+        "split": "train",
+        "n_boxes": 30,
+        "image_exists": true,
+        "label_exists": true,
+        "label_errors": [],
+        "suspicious": [
+          "oversized_vs_median"
+        ],
+        "geometry": {
+          "n_boxes": 30,
+          "max_iou": 0.3226,
+          "n_iou50": 0,
+          "n_iou70": 0,
+          "n_anterior_overlap": 0,
+          "n_border": 0,
+          "n_extreme": 0,
+          "n_tiny": 0,
+          "n_large_vs_median": 2,
+          "max_area": 0.0335
+        }
+      },
+      {
+        "name": "OHI_dataset_MG_3889_JPG.rf.1e21792e6e4a29ef6d3f5596f5591a22.jpg",
+        "split": "train",
+        "n_boxes": 27,
+        "image_exists": true,
+        "label_exists": true,
+        "label_errors": [],
+        "suspicious": [
+          "oversized_vs_median"
+        ],
+        "geometry": {
+          "n_boxes": 27,
+          "max_iou": 0.4213,
+          "n_iou50": 0,
+          "n_iou70": 0,
+          "n_anterior_overlap": 1,
+          "n_border": 0,
+          "n_extreme": 0,
+          "n_tiny": 1,
+          "n_large_vs_median": 1,
+          "max_area": 0.012
+        }
+      },
+      {
+        "name": "OHI_dataset_MG_4765_JPG.rf.856662d380002ab196e4491f8488fe42.jpg",
+        "split": "train",
+        "n_boxes": 27,
+        "image_exists": true,
+        "label_exists": true,
+        "label_errors": [],
+        "suspicious": [
+          "oversized_vs_median",
+          "extreme_aspect"
+        ],
+        "geometry": {
+          "n_boxes": 27,
+          "max_iou": 0.5796,
+          "n_iou50": 1,
+          "n_iou70": 0,
+          "n_anterior_overlap": 1,
+          "n_border": 0,
+          "n_extreme": 1,
+          "n_tiny": 0,
+          "n_large_vs_median": 2,
+          "max_area": 0.0227
+        }
+      },
+      {
+        "name": "OHI_datasetcrop_smile3_jpg.rf.042234afbffcb7c22456a94778d6e9a6.jpg",
+        "split": "train",
+        "n_boxes": 28,
+        "image_exists": true,
+        "label_exists": true,
+        "label_errors": [],
+        "suspicious": [],
+        "geometry": {
+          "n_boxes": 28,
+          "max_iou": 0.4086,
+          "n_iou50": 0,
+          "n_iou70": 0,
+          "n_anterior_overlap": 0,
+          "n_border": 0,
+          "n_extreme": 0,
+          "n_tiny": 0,
+          "n_large_vs_median": 0,
+          "max_area": 0.0414
+        }
+      }
+    ]
+  },
+  "dest": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\data\\detection\\batches\\batch02_manual_good"
+}

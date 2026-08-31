@@ -1,0 +1,1682 @@
+[
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous-frontalView-1727348211233.jpg",
+    "filename": "anonymous-frontalView-1727348211233.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous-frontalView-1727418713868.jpg",
+    "filename": "anonymous-frontalView-1727418713868.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous-frontalView-1727422536909.jpg",
+    "filename": "anonymous-frontalView-1727422536909.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous-frontalView-1727424461503.jpg",
+    "filename": "anonymous-frontalView-1727424461503.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous-frontalView-1727671361652.jpg",
+    "filename": "anonymous-frontalView-1727671361652.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous-frontalView-1727678768706.jpg",
+    "filename": "anonymous-frontalView-1727678768706.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous-frontalView-1727682033413.jpg",
+    "filename": "anonymous-frontalView-1727682033413.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous-frontalView-1727764541094.jpg",
+    "filename": "anonymous-frontalView-1727764541094.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous-frontalView-1727767823983.jpg",
+    "filename": "anonymous-frontalView-1727767823983.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous-frontalView-1727768018238.jpg",
+    "filename": "anonymous-frontalView-1727768018238.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous-leftLateralView-1726807333703.jpg",
+    "filename": "anonymous-leftLateralView-1726807333703.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous-leftLateralView-1726892814255.jpg",
+    "filename": "anonymous-leftLateralView-1726892814255.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous-leftLateralView-1727186873004.jpg",
+    "filename": "anonymous-leftLateralView-1727186873004.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous-leftLateralView-1727253685867.jpg",
+    "filename": "anonymous-leftLateralView-1727253685867.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous-leftLateralView-1727411415123.jpg",
+    "filename": "anonymous-leftLateralView-1727411415123.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous-leftLateralView-1727412461239.jpg",
+    "filename": "anonymous-leftLateralView-1727412461239.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous-leftLateralView-1727424552371.jpg",
+    "filename": "anonymous-leftLateralView-1727424552371.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous-leftLateralView-1727428806555.jpg",
+    "filename": "anonymous-leftLateralView-1727428806555.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous-leftLateralView-1727682258796.jpg",
+    "filename": "anonymous-leftLateralView-1727682258796.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous-leftLateralView-1727868277532.jpg",
+    "filename": "anonymous-leftLateralView-1727868277532.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous-mandibularView-1726736862309.jpg",
+    "filename": "anonymous-mandibularView-1726736862309.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous-mandibularView-1727428501523.jpg",
+    "filename": "anonymous-mandibularView-1727428501523.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous-mandibularView-1727431008520.jpg",
+    "filename": "anonymous-mandibularView-1727431008520.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous-mandibularView-1727434026636.jpg",
+    "filename": "anonymous-mandibularView-1727434026636.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous-mandibularView-1727697872262.jpg",
+    "filename": "anonymous-mandibularView-1727697872262.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous-mandibularView-1727703597109.jpg",
+    "filename": "anonymous-mandibularView-1727703597109.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous-mandibularView-1727775921173.jpg",
+    "filename": "anonymous-mandibularView-1727775921173.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous-mandibularView-1727864656191.jpg",
+    "filename": "anonymous-mandibularView-1727864656191.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous-mandibularView-1727873809936.jpg",
+    "filename": "anonymous-mandibularView-1727873809936.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous-mandibularView-1727875877197.jpg",
+    "filename": "anonymous-mandibularView-1727875877197.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous-maxillaryView-1726807426131.jpg",
+    "filename": "anonymous-maxillaryView-1726807426131.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous-maxillaryView-1727348028977.jpg",
+    "filename": "anonymous-maxillaryView-1727348028977.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous-maxillaryView-1727678882524.jpg",
+    "filename": "anonymous-maxillaryView-1727678882524.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous-maxillaryView-1727682092188.jpg",
+    "filename": "anonymous-maxillaryView-1727682092188.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous-maxillaryView-1727764792798.jpg",
+    "filename": "anonymous-maxillaryView-1727764792798.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous-maxillaryView-1727768058789.jpg",
+    "filename": "anonymous-maxillaryView-1727768058789.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous-maxillaryView-1727778452432.jpg",
+    "filename": "anonymous-maxillaryView-1727778452432.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous-maxillaryView-1727782272418.jpg",
+    "filename": "anonymous-maxillaryView-1727782272418.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous-maxillaryView-1727782733331.jpg",
+    "filename": "anonymous-maxillaryView-1727782733331.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous-maxillaryView-1727868347839.jpg",
+    "filename": "anonymous-maxillaryView-1727868347839.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous-rightLateralView-1726814947519.jpg",
+    "filename": "anonymous-rightLateralView-1726814947519.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous-rightLateralView-1726892751122.jpg",
+    "filename": "anonymous-rightLateralView-1726892751122.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous-rightLateralView-1727175730379.jpg",
+    "filename": "anonymous-rightLateralView-1727175730379.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous-rightLateralView-1727253615845.jpg",
+    "filename": "anonymous-rightLateralView-1727253615845.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous-rightLateralView-1727411484788.jpg",
+    "filename": "anonymous-rightLateralView-1727411484788.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous-rightLateralView-1727412411379.jpg",
+    "filename": "anonymous-rightLateralView-1727412411379.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous-rightLateralView-1727671727432.jpg",
+    "filename": "anonymous-rightLateralView-1727671727432.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous-rightLateralView-1727683763074.jpg",
+    "filename": "anonymous-rightLateralView-1727683763074.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous-rightLateralView-1727761954744.jpg",
+    "filename": "anonymous-rightLateralView-1727761954744.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous-rightLateralView-1727782111289.jpg",
+    "filename": "anonymous-rightLateralView-1727782111289.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_002-007-1425-00_1733985413148_Right_Lateral_View.jpg",
+    "filename": "anonymous_002-007-1425-00_1733985413148_Right_Lateral_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-007-1002-01_1731041206649_Frontal_View.jpg",
+    "filename": "anonymous_003-007-1002-01_1731041206649_Frontal_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-007-1004-00_1731042060585_Frontal_View.jpg",
+    "filename": "anonymous_003-007-1004-00_1731042060585_Frontal_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-007-1011-01_1731051758521_Left_Lateral_View.jpg",
+    "filename": "anonymous_003-007-1011-01_1731051758521_Left_Lateral_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-007-1012-00_1731052265486_Frontal_View.jpg",
+    "filename": "anonymous_003-007-1012-00_1731052265486_Frontal_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-007-1022-00_1731213200765_Maxillary_Occlusal_View.jpg",
+    "filename": "anonymous_003-007-1022-00_1731213200765_Maxillary_Occlusal_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-007-1044-00_1731313465914_Left_Lateral_View.jpg",
+    "filename": "anonymous_003-007-1044-00_1731313465914_Left_Lateral_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-007-1055-01_1731386400029_Right_Lateral_View.jpg",
+    "filename": "anonymous_003-007-1055-01_1731386400029_Right_Lateral_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-007-1059-01_1731392005920_Left_Lateral_View.jpg",
+    "filename": "anonymous_003-007-1059-01_1731392005920_Left_Lateral_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-007-1083-01_1732175835410_Left_Lateral_View.jpg",
+    "filename": "anonymous_003-007-1083-01_1732175835410_Left_Lateral_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-007-1086-00_1732180719427_Left_Lateral_View.jpg",
+    "filename": "anonymous_003-007-1086-00_1732180719427_Left_Lateral_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-007-1099-01_1732262197016_Right_Lateral_View.jpg",
+    "filename": "anonymous_003-007-1099-01_1732262197016_Right_Lateral_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-007-1100-00_1732262920724_Left_Lateral_View.jpg",
+    "filename": "anonymous_003-007-1100-00_1732262920724_Left_Lateral_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-007-1123-01_1732512071673_Left_Lateral_View.jpg",
+    "filename": "anonymous_003-007-1123-01_1732512071673_Left_Lateral_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-007-1124-00_1732512565150_Left_Lateral_View.jpg",
+    "filename": "anonymous_003-007-1124-00_1732512565150_Left_Lateral_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-007-1126-00_1732515253289_Left_Lateral_View.jpg",
+    "filename": "anonymous_003-007-1126-00_1732515253289_Left_Lateral_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-007-1130-00_1732522239159_Left_Lateral_View.jpg",
+    "filename": "anonymous_003-007-1130-00_1732522239159_Left_Lateral_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-007-1143-01_1732598176850_Left_Lateral_View.jpg",
+    "filename": "anonymous_003-007-1143-01_1732598176850_Left_Lateral_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-007-1150-01_1732607471437_Right_Lateral_View.jpg",
+    "filename": "anonymous_003-007-1150-01_1732607471437_Right_Lateral_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-007-1151-00_1732608241351_Right_Lateral_View.jpg",
+    "filename": "anonymous_003-007-1151-00_1732608241351_Right_Lateral_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-007-1168-01_1732686410487_Right_Lateral_View.jpg",
+    "filename": "anonymous_003-007-1168-01_1732686410487_Right_Lateral_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-007-1170-01_1732690605466_Left_Lateral_View.jpg",
+    "filename": "anonymous_003-007-1170-01_1732690605466_Left_Lateral_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-007-1210-00_1732858424401_Right_Lateral_View.jpg",
+    "filename": "anonymous_003-007-1210-00_1732858424401_Right_Lateral_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-007-1211-01_1732860586562_Right_Lateral_View.jpg",
+    "filename": "anonymous_003-007-1211-01_1732860586562_Right_Lateral_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-007-1213-01_1732862150627_Left_Lateral_View.jpg",
+    "filename": "anonymous_003-007-1213-01_1732862150627_Left_Lateral_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-007-1215-01_1732863751319_Left_Lateral_View.jpg",
+    "filename": "anonymous_003-007-1215-01_1732863751319_Left_Lateral_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-007-1217-01_1732873386455_Mandibular_View.jpg",
+    "filename": "anonymous_003-007-1217-01_1732873386455_Mandibular_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-007-1233-00_1732944212509_Right_Lateral_View.jpg",
+    "filename": "anonymous_003-007-1233-00_1732944212509_Right_Lateral_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-007-1235-00_1732946927322_Right_Lateral_View.jpg",
+    "filename": "anonymous_003-007-1235-00_1732946927322_Right_Lateral_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-007-1254-01_1733114052105_Right_Lateral_View.jpg",
+    "filename": "anonymous_003-007-1254-01_1733114052105_Right_Lateral_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-007-1256-01_1733116383089_Right_Lateral_View.jpg",
+    "filename": "anonymous_003-007-1256-01_1733116383089_Right_Lateral_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-007-1258-01_1733118887519_Right_Lateral_View.jpg",
+    "filename": "anonymous_003-007-1258-01_1733118887519_Right_Lateral_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-007-1263-00_1733124846881_Right_Lateral_View.jpg",
+    "filename": "anonymous_003-007-1263-00_1733124846881_Right_Lateral_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-007-1278-01_1733290522713_Frontal_View.jpg",
+    "filename": "anonymous_003-007-1278-01_1733290522713_Frontal_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-007-1279-00_1733291491637_Right_Lateral_View.jpg",
+    "filename": "anonymous_003-007-1279-00_1733291491637_Right_Lateral_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-007-1284-01_1733298471956_Right_Lateral_View.jpg",
+    "filename": "anonymous_003-007-1284-01_1733298471956_Right_Lateral_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-007-1285-00_1733299483506_Right_Lateral_View.jpg",
+    "filename": "anonymous_003-007-1285-00_1733299483506_Right_Lateral_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-007-1298-01_1733383416338_Right_Lateral_View.jpg",
+    "filename": "anonymous_003-007-1298-01_1733383416338_Right_Lateral_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-007-1300-01_1733385300365_Right_Lateral_View.jpg",
+    "filename": "anonymous_003-007-1300-01_1733385300365_Right_Lateral_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-007-1302-01_1733387009180_Right_Lateral_View.jpg",
+    "filename": "anonymous_003-007-1302-01_1733387009180_Right_Lateral_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-007-1303-00_1733387722479_Frontal_View.jpg",
+    "filename": "anonymous_003-007-1303-00_1733387722479_Frontal_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-007-1314-01_1733460606394_Right_Lateral_View.jpg",
+    "filename": "anonymous_003-007-1314-01_1733460606394_Right_Lateral_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-007-1315-00_1733461151409_Right_Lateral_View.jpg",
+    "filename": "anonymous_003-007-1315-00_1733461151409_Right_Lateral_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-007-1319-00_1733466947980_Frontal_View.jpg",
+    "filename": "anonymous_003-007-1319-00_1733466947980_Frontal_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-007-1332-01_1733546368703_Right_Lateral_View.jpg",
+    "filename": "anonymous_003-007-1332-01_1733546368703_Right_Lateral_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-007-1333-00_1733546768749_Left_Lateral_View.jpg",
+    "filename": "anonymous_003-007-1333-00_1733546768749_Left_Lateral_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-007-1335-00_1733549834282_Right_Lateral_View.jpg",
+    "filename": "anonymous_003-007-1335-00_1733549834282_Right_Lateral_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-007-1341-01_1733555170954_Right_Lateral_View.jpg",
+    "filename": "anonymous_003-007-1341-01_1733555170954_Right_Lateral_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-007-1342-00_1733555666542_Frontal_View.jpg",
+    "filename": "anonymous_003-007-1342-00_1733555666542_Frontal_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-007-1343-01_1733556695047_Right_Lateral_View.jpg",
+    "filename": "anonymous_003-007-1343-01_1733556695047_Right_Lateral_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-007-1356-01_1733720353831_Right_Lateral_View.jpg",
+    "filename": "anonymous_003-007-1356-01_1733720353831_Right_Lateral_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-007-1358-01_1733721809632_Right_Lateral_View.jpg",
+    "filename": "anonymous_003-007-1358-01_1733721809632_Right_Lateral_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-007-1360-01_1733723628464_Right_Lateral_View.jpg",
+    "filename": "anonymous_003-007-1360-01_1733723628464_Right_Lateral_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-007-1361-00_1733724284664_Right_Lateral_View.jpg",
+    "filename": "anonymous_003-007-1361-00_1733724284664_Right_Lateral_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-007-1362-01_1733725990504_Left_Lateral_View.jpg",
+    "filename": "anonymous_003-007-1362-01_1733725990504_Left_Lateral_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-007-1381-01_1733807088132_Right_Lateral_View.jpg",
+    "filename": "anonymous_003-007-1381-01_1733807088132_Right_Lateral_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-007-1383-01_1733809827682_Left_Lateral_View.jpg",
+    "filename": "anonymous_003-007-1383-01_1733809827682_Left_Lateral_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-007-1398-00_1733892905827_Left_Lateral_View.jpg",
+    "filename": "anonymous_003-007-1398-00_1733892905827_Left_Lateral_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-007-1403-01_1733899327077_Right_Lateral_View.jpg",
+    "filename": "anonymous_003-007-1403-01_1733899327077_Right_Lateral_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-007-1405-01_1733903046895_Right_Lateral_View.jpg",
+    "filename": "anonymous_003-007-1405-01_1733903046895_Right_Lateral_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-007-1407-01_1733905373045_Right_Lateral_View.jpg",
+    "filename": "anonymous_003-007-1407-01_1733905373045_Right_Lateral_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-007-1420-01_1733978633675_Left_Lateral_View.jpg",
+    "filename": "anonymous_003-007-1420-01_1733978633675_Left_Lateral_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-007-1426-01_1733987499538_Right_Lateral_View.jpg",
+    "filename": "anonymous_003-007-1426-01_1733987499538_Right_Lateral_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-007-1427-01_1733987975292_Left_Lateral_View.jpg",
+    "filename": "anonymous_003-007-1427-01_1733987975292_Left_Lateral_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-007-1445-01_1734067220530_Left_Lateral_View.jpg",
+    "filename": "anonymous_003-007-1445-01_1734067220530_Left_Lateral_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-007-1446-00_1734067718905_Left_Lateral_View.jpg",
+    "filename": "anonymous_003-007-1446-00_1734067718905_Left_Lateral_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-007-1447-01_1734069643857_Right_Lateral_View.jpg",
+    "filename": "anonymous_003-007-1447-01_1734069643857_Right_Lateral_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-007-1448-00_1734070151840_Right_Lateral_View.jpg",
+    "filename": "anonymous_003-007-1448-00_1734070151840_Right_Lateral_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-007-1449-01_1734071616170_Right_Lateral_View.jpg",
+    "filename": "anonymous_003-007-1449-01_1734071616170_Right_Lateral_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-007-1451-01_1734074621913_Right_Lateral_View.jpg",
+    "filename": "anonymous_003-007-1451-01_1734074621913_Right_Lateral_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-007-1452-00_1734075049818_Left_Lateral_View.jpg",
+    "filename": "anonymous_003-007-1452-00_1734075049818_Left_Lateral_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-007-1453-01_1734076182590_Right_Lateral_View.jpg",
+    "filename": "anonymous_003-007-1453-01_1734076182590_Right_Lateral_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-007-1454-00_1734076622499_Right_Lateral_View.jpg",
+    "filename": "anonymous_003-007-1454-00_1734076622499_Right_Lateral_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-007-1468-00_1734151836223_Frontal_View.jpg",
+    "filename": "anonymous_003-007-1468-00_1734151836223_Frontal_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-007-1469-01_1734153129262_Left_Lateral_View.jpg",
+    "filename": "anonymous_003-007-1469-01_1734153129262_Left_Lateral_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-007-1471-00_1734154142740_Left_Lateral_View.jpg",
+    "filename": "anonymous_003-007-1471-00_1734154142740_Left_Lateral_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-007-1476-01_1734160175819_Right_Lateral_View.jpg",
+    "filename": "anonymous_003-007-1476-01_1734160175819_Right_Lateral_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-007-575-01_1728964993041_Right_Lateral_View.jpg",
+    "filename": "anonymous_003-007-575-01_1728964993041_Right_Lateral_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-007-577-00_1728965843715_Right_Lateral_View.jpg",
+    "filename": "anonymous_003-007-577-00_1728965843715_Right_Lateral_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-007-578-01_1728969570001_Left_Lateral_View.jpg",
+    "filename": "anonymous_003-007-578-01_1728969570001_Left_Lateral_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-007-579-00_1728970499028_Left_Lateral_View.jpg",
+    "filename": "anonymous_003-007-579-00_1728970499028_Left_Lateral_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-007-580-01_1728972003930_Frontal_View.jpg",
+    "filename": "anonymous_003-007-580-01_1728972003930_Frontal_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-007-581-00_1728972796940_Left_Lateral_View.jpg",
+    "filename": "anonymous_003-007-581-00_1728972796940_Left_Lateral_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-007-583-00_1728975790763_Left_Lateral_View.jpg",
+    "filename": "anonymous_003-007-583-00_1728975790763_Left_Lateral_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-007-584-01_1728978916496_Left_Lateral_View.jpg",
+    "filename": "anonymous_003-007-584-01_1728978916496_Left_Lateral_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-007-585-00_1728979691813_Left_Lateral_View.jpg",
+    "filename": "anonymous_003-007-585-00_1728979691813_Left_Lateral_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-007-586-01_1728980916581_Left_Lateral_View.jpg",
+    "filename": "anonymous_003-007-586-01_1728980916581_Left_Lateral_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-007-588-00_1728981913002_Left_Lateral_View.jpg",
+    "filename": "anonymous_003-007-588-00_1728981913002_Left_Lateral_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-007-600-01_1729052481058_Frontal_View.jpg",
+    "filename": "anonymous_003-007-600-01_1729052481058_Frontal_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-007-601-00_1729053072717_Left_Lateral_View.jpg",
+    "filename": "anonymous_003-007-601-00_1729053072717_Left_Lateral_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-007-602-01_1729054437729_Frontal_View.jpg",
+    "filename": "anonymous_003-007-602-01_1729054437729_Frontal_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-007-603-00_1729054784683_Frontal_View.jpg",
+    "filename": "anonymous_003-007-603-00_1729054784683_Frontal_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-007-604-01_1729056718568_Frontal_View.jpg",
+    "filename": "anonymous_003-007-604-01_1729056718568_Frontal_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-007-605-00_1729057547565_Frontal_View.jpg",
+    "filename": "anonymous_003-007-605-00_1729057547565_Frontal_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-007-606-01_1729059021512_Left_Lateral_View.jpg",
+    "filename": "anonymous_003-007-606-01_1729059021512_Left_Lateral_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-007-607-00_1729059680698_Frontal_View.jpg",
+    "filename": "anonymous_003-007-607-00_1729059680698_Frontal_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-007-608-01_1729061556946_Left_Lateral_View.jpg",
+    "filename": "anonymous_003-007-608-01_1729061556946_Left_Lateral_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-007-610-01_1729062730067_Left_Lateral_View.jpg",
+    "filename": "anonymous_003-007-610-01_1729062730067_Left_Lateral_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-007-612-01_1729067426867_Left_Lateral_View.jpg",
+    "filename": "anonymous_003-007-612-01_1729067426867_Left_Lateral_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-007-613-00_1729067823449_Left_Lateral_View.jpg",
+    "filename": "anonymous_003-007-613-00_1729067823449_Left_Lateral_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-007-628-00_1729139603004_Frontal_View.jpg",
+    "filename": "anonymous_003-007-628-00_1729139603004_Frontal_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-007-629-01_1729140899689_Left_Lateral_View.jpg",
+    "filename": "anonymous_003-007-629-01_1729140899689_Left_Lateral_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-007-630-00_1729141929109_Right_Lateral_View.jpg",
+    "filename": "anonymous_003-007-630-00_1729141929109_Right_Lateral_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-007-631-01_1729143366138_Right_Lateral_View.jpg",
+    "filename": "anonymous_003-007-631-01_1729143366138_Right_Lateral_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-007-632-00_1729144134892_Left_Lateral_View.jpg",
+    "filename": "anonymous_003-007-632-00_1729144134892_Left_Lateral_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-007-634-00_1729146043051_Frontal_View.jpg",
+    "filename": "anonymous_003-007-634-00_1729146043051_Frontal_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-007-635-01_1729148089786_Frontal_View.jpg",
+    "filename": "anonymous_003-007-635-01_1729148089786_Frontal_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-007-636-00_1729148622989_Frontal_View.jpg",
+    "filename": "anonymous_003-007-636-00_1729148622989_Frontal_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-007-637-01_1729150495970_Left_Lateral_View.jpg",
+    "filename": "anonymous_003-007-637-01_1729150495970_Left_Lateral_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-007-638-00_1729150964001_Frontal_View.jpg",
+    "filename": "anonymous_003-007-638-00_1729150964001_Frontal_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-007-639-01_1729152224776_Frontal_View.jpg",
+    "filename": "anonymous_003-007-639-01_1729152224776_Frontal_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-007-641-01_1729154257635_Frontal_View.jpg",
+    "filename": "anonymous_003-007-641-01_1729154257635_Frontal_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-007-642-00_1729154783455_Frontal_View.jpg",
+    "filename": "anonymous_003-007-642-00_1729154783455_Frontal_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-007-658-00_1729226761156_Frontal_View.jpg",
+    "filename": "anonymous_003-007-658-00_1729226761156_Frontal_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-007-660-00_1729228102787_Frontal_View.jpg",
+    "filename": "anonymous_003-007-660-00_1729228102787_Frontal_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-007-662-01_1729231169609_Frontal_View.jpg",
+    "filename": "anonymous_003-007-662-01_1729231169609_Frontal_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-007-663-00_1729231959410_Frontal_View.jpg",
+    "filename": "anonymous_003-007-663-00_1729231959410_Frontal_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-007-668-01_1729235647349_Frontal_View.jpg",
+    "filename": "anonymous_003-007-668-01_1729235647349_Frontal_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-007-669-00_1729236271453_Right_Lateral_View.jpg",
+    "filename": "anonymous_003-007-669-00_1729236271453_Right_Lateral_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-007-670-01_1729238261312_Right_Lateral_View.jpg",
+    "filename": "anonymous_003-007-670-01_1729238261312_Right_Lateral_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-007-671-00_1729238622556_Frontal_View.jpg",
+    "filename": "anonymous_003-007-671-00_1729238622556_Frontal_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-007-672-01_1729239360521_Left_Lateral_View.jpg",
+    "filename": "anonymous_003-007-672-01_1729239360521_Left_Lateral_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-007-675-00_1729243996615_Mandibular_View.jpg",
+    "filename": "anonymous_003-007-675-00_1729243996615_Mandibular_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-007-689-00_1729311424743_Frontal_View.jpg",
+    "filename": "anonymous_003-007-689-00_1729311424743_Frontal_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-007-690-01_1729312765724_Left_Lateral_View.jpg",
+    "filename": "anonymous_003-007-690-01_1729312765724_Left_Lateral_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-007-691-00_1729313275146_Left_Lateral_View.jpg",
+    "filename": "anonymous_003-007-691-00_1729313275146_Left_Lateral_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-007-692-01_1729314628095_Frontal_View.jpg",
+    "filename": "anonymous_003-007-692-01_1729314628095_Frontal_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-007-693-01_1729314947717_Left_Lateral_View.jpg",
+    "filename": "anonymous_003-007-693-01_1729314947717_Left_Lateral_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-007-694-00_1729315527929_Left_Lateral_View.jpg",
+    "filename": "anonymous_003-007-694-00_1729315527929_Left_Lateral_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-007-695-01_1729317296393_Left_Lateral_View.jpg",
+    "filename": "anonymous_003-007-695-01_1729317296393_Left_Lateral_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-007-696-00_1729317967108_Frontal_View.jpg",
+    "filename": "anonymous_003-007-696-00_1729317967108_Frontal_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-007-697-01_1729320929604_Left_Lateral_View.jpg",
+    "filename": "anonymous_003-007-697-01_1729320929604_Left_Lateral_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-007-698-00_1729321479031_Mandibular_View.jpg",
+    "filename": "anonymous_003-007-698-00_1729321479031_Mandibular_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-007-699-00_1729324752845_Mandibular_View.jpg",
+    "filename": "anonymous_003-007-699-00_1729324752845_Mandibular_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-007-700-01_1729325366305_Left_Lateral_View.jpg",
+    "filename": "anonymous_003-007-700-01_1729325366305_Left_Lateral_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-007-708-01_1729483204892_Right_Lateral_View.jpg",
+    "filename": "anonymous_003-007-708-01_1729483204892_Right_Lateral_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-007-709-00_1729484054385_Right_Lateral_View.jpg",
+    "filename": "anonymous_003-007-709-00_1729484054385_Right_Lateral_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-007-710-01_1729485813570_Frontal_View.jpg",
+    "filename": "anonymous_003-007-710-01_1729485813570_Frontal_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-007-711-00_1729486430166_Right_Lateral_View.jpg",
+    "filename": "anonymous_003-007-711-00_1729486430166_Right_Lateral_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-007-716-01_1729494300386_Right_Lateral_View.jpg",
+    "filename": "anonymous_003-007-716-01_1729494300386_Right_Lateral_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-007-717-00_1729494912902_Right_Lateral_View.jpg",
+    "filename": "anonymous_003-007-717-00_1729494912902_Right_Lateral_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-007-718-01_1729496307960_Left_Lateral_View.jpg",
+    "filename": "anonymous_003-007-718-01_1729496307960_Left_Lateral_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-007-719-00_1729496830754_Right_Lateral_View.jpg",
+    "filename": "anonymous_003-007-719-00_1729496830754_Right_Lateral_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-007-720-01_1729497532540_Left_Lateral_View.jpg",
+    "filename": "anonymous_003-007-720-01_1729497532540_Left_Lateral_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-007-721-00_1729498293665_Left_Lateral_View.jpg",
+    "filename": "anonymous_003-007-721-00_1729498293665_Left_Lateral_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-007-722-01_1729499124205_Left_Lateral_View.jpg",
+    "filename": "anonymous_003-007-722-01_1729499124205_Left_Lateral_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-007-734-01_1729572108876_Frontal_View.jpg",
+    "filename": "anonymous_003-007-734-01_1729572108876_Frontal_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-007-735-00_1729572927660_Maxillary_Occlusal_View.jpg",
+    "filename": "anonymous_003-007-735-00_1729572927660_Maxillary_Occlusal_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-007-736-01_1729574163454_Left_Lateral_View.jpg",
+    "filename": "anonymous_003-007-736-01_1729574163454_Left_Lateral_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-007-737-00_1729575288568_Frontal_View.jpg",
+    "filename": "anonymous_003-007-737-00_1729575288568_Frontal_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-007-750-01_1729655314264_Frontal_View.jpg",
+    "filename": "anonymous_003-007-750-01_1729655314264_Frontal_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-007-752-01_1729658514991_Frontal_View.jpg",
+    "filename": "anonymous_003-007-752-01_1729658514991_Frontal_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-007-753-00_1729659446300_Right_Lateral_View.jpg",
+    "filename": "anonymous_003-007-753-00_1729659446300_Right_Lateral_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-007-756-01_1729668519608_Left_Lateral_View.jpg",
+    "filename": "anonymous_003-007-756-01_1729668519608_Left_Lateral_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-007-757-00_1729669599847_Left_Lateral_View.jpg",
+    "filename": "anonymous_003-007-757-00_1729669599847_Left_Lateral_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-007-758-01_1729672372582_Frontal_View.jpg",
+    "filename": "anonymous_003-007-758-01_1729672372582_Frontal_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-007-759-00_1729673074394_Frontal_View.jpg",
+    "filename": "anonymous_003-007-759-00_1729673074394_Frontal_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-007-764-01_1729742719636_Frontal_View.jpg",
+    "filename": "anonymous_003-007-764-01_1729742719636_Frontal_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-007-765-00_1729743553963_Right_Lateral_View.jpg",
+    "filename": "anonymous_003-007-765-00_1729743553963_Right_Lateral_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-007-767-00_1729747427987_Left_Lateral_View.jpg",
+    "filename": "anonymous_003-007-767-00_1729747427987_Left_Lateral_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-007-768-01_1729750209134_Frontal_View.jpg",
+    "filename": "anonymous_003-007-768-01_1729750209134_Frontal_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-007-770-01_1729752599826_Frontal_View.jpg",
+    "filename": "anonymous_003-007-770-01_1729752599826_Frontal_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-007-771-00_1729753377062_Frontal_View.jpg",
+    "filename": "anonymous_003-007-771-00_1729753377062_Frontal_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-007-774-00_1729755584991_Left_Lateral_View.jpg",
+    "filename": "anonymous_003-007-774-00_1729755584991_Left_Lateral_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-007-775-01_1729757599473_Frontal_View.jpg",
+    "filename": "anonymous_003-007-775-01_1729757599473_Frontal_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-007-776-00_1729758162119_Frontal_View.jpg",
+    "filename": "anonymous_003-007-776-00_1729758162119_Frontal_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-007-781-01_1729830237968_Frontal_View.jpg",
+    "filename": "anonymous_003-007-781-01_1729830237968_Frontal_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-007-783-01_1729832403414_Left_Lateral_View.jpg",
+    "filename": "anonymous_003-007-783-01_1729832403414_Left_Lateral_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-007-784-00_1729833168029_Left_Lateral_View.jpg",
+    "filename": "anonymous_003-007-784-00_1729833168029_Left_Lateral_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-007-788-00_1729839721436_Left_Lateral_View.jpg",
+    "filename": "anonymous_003-007-788-00_1729839721436_Left_Lateral_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-007-806-00_1729919233160_Left_Lateral_View.jpg",
+    "filename": "anonymous_003-007-806-00_1729919233160_Left_Lateral_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-007-835-00_1730098029605_Frontal_View.jpg",
+    "filename": "anonymous_003-007-835-00_1730098029605_Frontal_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-007-836-01_1730100372461_Right_Lateral_View.jpg",
+    "filename": "anonymous_003-007-836-01_1730100372461_Right_Lateral_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-007-837-00_1730101031010_Right_Lateral_View.jpg",
+    "filename": "anonymous_003-007-837-00_1730101031010_Right_Lateral_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-007-838-01_1730102704994_Frontal_View.jpg",
+    "filename": "anonymous_003-007-838-01_1730102704994_Frontal_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-007-839-00_1730103285428_Frontal_View.jpg",
+    "filename": "anonymous_003-007-839-00_1730103285428_Frontal_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-007-845-01_1730180726544_Frontal_View.jpg",
+    "filename": "anonymous_003-007-845-01_1730180726544_Frontal_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-007-846-00_1730181536968_Frontal_View.jpg",
+    "filename": "anonymous_003-007-846-00_1730181536968_Frontal_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-007-851-01_1730189874153_Left_Lateral_View.jpg",
+    "filename": "anonymous_003-007-851-01_1730189874153_Left_Lateral_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-007-852-00_1730190513347_Frontal_View.jpg",
+    "filename": "anonymous_003-007-852-00_1730190513347_Frontal_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-007-869-01_1730263219442_Frontal_View.jpg",
+    "filename": "anonymous_003-007-869-01_1730263219442_Frontal_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-007-873-00_1730266781026_Left_Lateral_View.jpg",
+    "filename": "anonymous_003-007-873-00_1730266781026_Left_Lateral_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-007-874-01_1730269462019_Frontal_View.jpg",
+    "filename": "anonymous_003-007-874-01_1730269462019_Frontal_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-007-878-00_1730274520723_Left_Lateral_View.jpg",
+    "filename": "anonymous_003-007-878-00_1730274520723_Left_Lateral_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-007-880-00_1730277823725_Left_Lateral_View.jpg",
+    "filename": "anonymous_003-007-880-00_1730277823725_Left_Lateral_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-007-902-01_1730356318368_Left_Lateral_View.jpg",
+    "filename": "anonymous_003-007-902-01_1730356318368_Left_Lateral_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-007-903-00_1730357034326_Left_Lateral_View.jpg",
+    "filename": "anonymous_003-007-903-00_1730357034326_Left_Lateral_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-007-919-00_1730693501822_Left_Lateral_View.jpg",
+    "filename": "anonymous_003-007-919-00_1730693501822_Left_Lateral_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-007-923-00_1730699938519_Frontal_View.jpg",
+    "filename": "anonymous_003-007-923-00_1730699938519_Frontal_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-007-925-00_1730702265650_Frontal_View.jpg",
+    "filename": "anonymous_003-007-925-00_1730702265650_Frontal_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-007-940-01_1730780793778_Frontal_View.jpg",
+    "filename": "anonymous_003-007-940-01_1730780793778_Frontal_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-007-941-00_1730781405268_Frontal_View.jpg",
+    "filename": "anonymous_003-007-941-00_1730781405268_Frontal_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-007-951-01_1730793957329_Frontal_View.jpg",
+    "filename": "anonymous_003-007-951-01_1730793957329_Frontal_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-007-952-00_1730794549491_Frontal_View.jpg",
+    "filename": "anonymous_003-007-952-00_1730794549491_Frontal_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-007-960-00_1730867324670_Left_Lateral_View.jpg",
+    "filename": "anonymous_003-007-960-00_1730867324670_Left_Lateral_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-007-966-00_1730877856983_Frontal_View.jpg",
+    "filename": "anonymous_003-007-966-00_1730877856983_Frontal_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-007-986-01_1730958260724_Frontal_View.jpg",
+    "filename": "anonymous_003-007-986-01_1730958260724_Frontal_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-007-987-00_1730958766991_Left_Lateral_View.jpg",
+    "filename": "anonymous_003-007-987-00_1730958766991_Left_Lateral_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-007-993-00_1730966079833_Frontal_View.jpg",
+    "filename": "anonymous_003-007-993-00_1730966079833_Frontal_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-007-995-00_1730969030950_Frontal_View.jpg",
+    "filename": "anonymous_003-007-995-00_1730969030950_Frontal_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-008-1000-01_1730983693489_Mandibular_View.jpg",
+    "filename": "anonymous_003-008-1000-01_1730983693489_Mandibular_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-008-1001-00_1730984142661_Mandibular_View.jpg",
+    "filename": "anonymous_003-008-1001-00_1730984142661_Mandibular_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-008-1017-01_1731069493503_Mandibular_View.jpg",
+    "filename": "anonymous_003-008-1017-01_1731069493503_Mandibular_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-008-1018-00_1731069917933_Mandibular_View.jpg",
+    "filename": "anonymous_003-008-1018-00_1731069917933_Mandibular_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-008-1047-01_1731323271524_Mandibular_View.jpg",
+    "filename": "anonymous_003-008-1047-01_1731323271524_Mandibular_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-008-1052-00_1731329608354_Mandibular_View.jpg",
+    "filename": "anonymous_003-008-1052-00_1731329608354_Mandibular_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-008-1072-00_1731415782557_Right_Lateral_View.jpg",
+    "filename": "anonymous_003-008-1072-00_1731415782557_Right_Lateral_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-008-1074-00_1731418391377_Mandibular_View.jpg",
+    "filename": "anonymous_003-008-1074-00_1731418391377_Mandibular_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-008-1076-00_1731420270817_Right_Lateral_View.jpg",
+    "filename": "anonymous_003-008-1076-00_1731420270817_Right_Lateral_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-008-1101-01_1732268674659_Maxillary_Occlusal_View.jpg",
+    "filename": "anonymous_003-008-1101-01_1732268674659_Maxillary_Occlusal_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-008-1105-01_1732274761826_Maxillary_Occlusal_View.jpg",
+    "filename": "anonymous_003-008-1105-01_1732274761826_Maxillary_Occlusal_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-008-1113-01_1732361420661_Mandibular_View.jpg",
+    "filename": "anonymous_003-008-1113-01_1732361420661_Mandibular_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-008-1114-00_1732362046489_Mandibular_View.jpg",
+    "filename": "anonymous_003-008-1114-00_1732362046489_Mandibular_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-008-1117-01_1732366247829_Mandibular_View.jpg",
+    "filename": "anonymous_003-008-1117-01_1732366247829_Mandibular_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-008-1131-01_1732527801310_Mandibular_View.jpg",
+    "filename": "anonymous_003-008-1131-01_1732527801310_Mandibular_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-008-1133-01_1732530707494_Mandibular_View.jpg",
+    "filename": "anonymous_003-008-1133-01_1732530707494_Mandibular_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-008-1134-00_1732531184012_Mandibular_View.jpg",
+    "filename": "anonymous_003-008-1134-00_1732531184012_Mandibular_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-008-1135-01_1732533044326_Mandibular_View.jpg",
+    "filename": "anonymous_003-008-1135-01_1732533044326_Mandibular_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-008-1136-00_1732533544748_Maxillary_Occlusal_View.jpg",
+    "filename": "anonymous_003-008-1136-00_1732533544748_Maxillary_Occlusal_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-008-1137-01_1732535092563_Mandibular_View.jpg",
+    "filename": "anonymous_003-008-1137-01_1732535092563_Mandibular_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-008-1138-00_1732535496374_Maxillary_Occlusal_View.jpg",
+    "filename": "anonymous_003-008-1138-00_1732535496374_Maxillary_Occlusal_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-008-1155-00_1732617388713_Right_Lateral_View.jpg",
+    "filename": "anonymous_003-008-1155-00_1732617388713_Right_Lateral_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-008-1162-01_1732627243635_Mandibular_View.jpg",
+    "filename": "anonymous_003-008-1162-01_1732627243635_Mandibular_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-008-1163-00_1732627585033_Mandibular_View.jpg",
+    "filename": "anonymous_003-008-1163-00_1732627585033_Mandibular_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-008-1177-00_1732701629982_Mandibular_View.jpg",
+    "filename": "anonymous_003-008-1177-00_1732701629982_Mandibular_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-008-1183-01_1732710009967_Maxillary_Occlusal_View.jpg",
+    "filename": "anonymous_003-008-1183-01_1732710009967_Maxillary_Occlusal_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-008-1184-00_1732710518322_Maxillary_Occlusal_View.jpg",
+    "filename": "anonymous_003-008-1184-00_1732710518322_Maxillary_Occlusal_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-008-1185-01_1732712307535_Maxillary_Occlusal_View.jpg",
+    "filename": "anonymous_003-008-1185-01_1732712307535_Maxillary_Occlusal_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-008-1187-01_1732714576631_Maxillary_Occlusal_View.jpg",
+    "filename": "anonymous_003-008-1187-01_1732714576631_Maxillary_Occlusal_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-008-1188-00_1732714947165_Maxillary_Occlusal_View.jpg",
+    "filename": "anonymous_003-008-1188-00_1732714947165_Maxillary_Occlusal_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-008-1203-01_1732790749679_Mandibular_View.jpg",
+    "filename": "anonymous_003-008-1203-01_1732790749679_Mandibular_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-008-1204-00_1732791234357_Mandibular_View.jpg",
+    "filename": "anonymous_003-008-1204-00_1732791234357_Mandibular_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-008-1205-01_1732794208125_Maxillary_Occlusal_View.jpg",
+    "filename": "anonymous_003-008-1205-01_1732794208125_Maxillary_Occlusal_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-008-1219-00_1732874037311_Mandibular_View.jpg",
+    "filename": "anonymous_003-008-1219-00_1732874037311_Mandibular_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-008-1225-00_1732878129340_Mandibular_View.jpg",
+    "filename": "anonymous_003-008-1225-00_1732878129340_Mandibular_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-008-1242-01_1732960347177_Maxillary_Occlusal_View.jpg",
+    "filename": "anonymous_003-008-1242-01_1732960347177_Maxillary_Occlusal_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-008-1244-01_1732962596526_Mandibular_View.jpg",
+    "filename": "anonymous_003-008-1244-01_1732962596526_Mandibular_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-008-1245-00_1732962951746_Mandibular_View.jpg",
+    "filename": "anonymous_003-008-1245-00_1732962951746_Mandibular_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-008-1246-01_1732965077773_Maxillary_Occlusal_View.jpg",
+    "filename": "anonymous_003-008-1246-01_1732965077773_Maxillary_Occlusal_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-008-1248-01_1732967176307_Mandibular_View.jpg",
+    "filename": "anonymous_003-008-1248-01_1732967176307_Mandibular_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-008-1249-00_1732967592805_Mandibular_View.jpg",
+    "filename": "anonymous_003-008-1249-00_1732967592805_Mandibular_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-008-1253-00_1732971070859_Right_Lateral_View.jpg",
+    "filename": "anonymous_003-008-1253-00_1732971070859_Right_Lateral_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-008-1266-01_1733132809329_Maxillary_Occlusal_View.jpg",
+    "filename": "anonymous_003-008-1266-01_1733132809329_Maxillary_Occlusal_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-008-1267-00_1733133235976_Maxillary_Occlusal_View.jpg",
+    "filename": "anonymous_003-008-1267-00_1733133235976_Maxillary_Occlusal_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-008-1270-01_1733137830204_Maxillary_Occlusal_View.jpg",
+    "filename": "anonymous_003-008-1270-01_1733137830204_Maxillary_Occlusal_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-008-1273-00_1733140554614_Maxillary_Occlusal_View.jpg",
+    "filename": "anonymous_003-008-1273-00_1733140554614_Maxillary_Occlusal_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-008-1275-00_1733142218216_Maxillary_Occlusal_View.jpg",
+    "filename": "anonymous_003-008-1275-00_1733142218216_Maxillary_Occlusal_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-008-1288-01_1733308646255_Maxillary_Occlusal_View.jpg",
+    "filename": "anonymous_003-008-1288-01_1733308646255_Maxillary_Occlusal_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-008-1289-00_1733308999573_Maxillary_Occlusal_View.jpg",
+    "filename": "anonymous_003-008-1289-00_1733308999573_Maxillary_Occlusal_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-008-1290-01_1733310674518_Mandibular_View.jpg",
+    "filename": "anonymous_003-008-1290-01_1733310674518_Mandibular_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-008-1291-00_1733311003393_Mandibular_View.jpg",
+    "filename": "anonymous_003-008-1291-00_1733311003393_Mandibular_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-008-1304-01_1733394354138_Mandibular_View.jpg",
+    "filename": "anonymous_003-008-1304-01_1733394354138_Mandibular_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-008-1305-00_1733394975162_Mandibular_View.jpg",
+    "filename": "anonymous_003-008-1305-00_1733394975162_Mandibular_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-008-1308-00_1733401560725_Maxillary_Occlusal_View.jpg",
+    "filename": "anonymous_003-008-1308-00_1733401560725_Maxillary_Occlusal_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-008-1309-00_1733401965672_Maxillary_Occlusal_View.jpg",
+    "filename": "anonymous_003-008-1309-00_1733401965672_Maxillary_Occlusal_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-008-1311-00_1733404330359_Maxillary_Occlusal_View.jpg",
+    "filename": "anonymous_003-008-1311-00_1733404330359_Maxillary_Occlusal_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-008-1345-01_1733567991677_Maxillary_Occlusal_View.jpg",
+    "filename": "anonymous_003-008-1345-01_1733567991677_Maxillary_Occlusal_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-008-1346-00_1733568350332_Maxillary_Occlusal_View.jpg",
+    "filename": "anonymous_003-008-1346-00_1733568350332_Maxillary_Occlusal_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-008-1353-01_1733575066516_Mandibular_View.jpg",
+    "filename": "anonymous_003-008-1353-01_1733575066516_Mandibular_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-008-1354-00_1733575459863_Mandibular_View.jpg",
+    "filename": "anonymous_003-008-1354-00_1733575459863_Mandibular_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-008-1373-01_1733742517125_Maxillary_Occlusal_View.jpg",
+    "filename": "anonymous_003-008-1373-01_1733742517125_Maxillary_Occlusal_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-008-1377-01_1733753599671_Mandibular_View.jpg",
+    "filename": "anonymous_003-008-1377-01_1733753599671_Mandibular_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-008-1389-01_1733825027941_Maxillary_Occlusal_View.jpg",
+    "filename": "anonymous_003-008-1389-01_1733825027941_Maxillary_Occlusal_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-008-1390-00_1733825468008_Maxillary_Occlusal_View.jpg",
+    "filename": "anonymous_003-008-1390-00_1733825468008_Maxillary_Occlusal_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-008-1391-01_1733827595823_Maxillary_Occlusal_View.jpg",
+    "filename": "anonymous_003-008-1391-01_1733827595823_Maxillary_Occlusal_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-008-1392-00_1733827997119_Mandibular_View.jpg",
+    "filename": "anonymous_003-008-1392-00_1733827997119_Mandibular_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-008-1393-01_1733830435002_Maxillary_Occlusal_View.jpg",
+    "filename": "anonymous_003-008-1393-01_1733830435002_Maxillary_Occlusal_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-008-1394-00_1733831166816_Maxillary_Occlusal_View.jpg",
+    "filename": "anonymous_003-008-1394-00_1733831166816_Maxillary_Occlusal_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-008-1395-01_1733833399473_Mandibular_View.jpg",
+    "filename": "anonymous_003-008-1395-01_1733833399473_Mandibular_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-008-1396-00_1733833829814_Mandibular_View.jpg",
+    "filename": "anonymous_003-008-1396-00_1733833829814_Mandibular_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-008-1409-01_1733910983435_Maxillary_Occlusal_View.jpg",
+    "filename": "anonymous_003-008-1409-01_1733910983435_Maxillary_Occlusal_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-008-1410-00_1733911356831_Mandibular_View.jpg",
+    "filename": "anonymous_003-008-1410-00_1733911356831_Mandibular_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-008-1411-01_1733912476033_Mandibular_View.jpg",
+    "filename": "anonymous_003-008-1411-01_1733912476033_Mandibular_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-008-1415-00_1733914777820_Maxillary_Occlusal_View.jpg",
+    "filename": "anonymous_003-008-1415-00_1733914777820_Maxillary_Occlusal_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-008-1417-00_1733917109783_Mandibular_View.jpg",
+    "filename": "anonymous_003-008-1417-00_1733917109783_Mandibular_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-008-1432-01_1733999821161_Maxillary_Occlusal_View.jpg",
+    "filename": "anonymous_003-008-1432-01_1733999821161_Maxillary_Occlusal_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-008-1438-00_1734004111041_Mandibular_View.jpg",
+    "filename": "anonymous_003-008-1438-00_1734004111041_Mandibular_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-008-1439-01_1734006035878_Mandibular_View.jpg",
+    "filename": "anonymous_003-008-1439-01_1734006035878_Mandibular_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-008-1440-00_1734006422034_Mandibular_View.jpg",
+    "filename": "anonymous_003-008-1440-00_1734006422034_Mandibular_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-008-1457-01_1734085909506_Mandibular_View.jpg",
+    "filename": "anonymous_003-008-1457-01_1734085909506_Mandibular_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-008-1459-01_1734087695402_Maxillary_Occlusal_View.jpg",
+    "filename": "anonymous_003-008-1459-01_1734087695402_Maxillary_Occlusal_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-008-1478-01_1734169137449_Mandibular_View.jpg",
+    "filename": "anonymous_003-008-1478-01_1734169137449_Mandibular_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-008-1479-00_1734169545024_Mandibular_View.jpg",
+    "filename": "anonymous_003-008-1479-00_1734169545024_Mandibular_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-008-564-01_1728907238496_Maxillary_Occlusal_View.jpg",
+    "filename": "anonymous_003-008-564-01_1728907238496_Maxillary_Occlusal_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-008-565-00_1728907603455_Right_Lateral_View.jpg",
+    "filename": "anonymous_003-008-565-00_1728907603455_Right_Lateral_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-008-566-01_1728910029994_Frontal_View.jpg",
+    "filename": "anonymous_003-008-566-01_1728910029994_Frontal_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-008-569-00_1728912732907_Left_Lateral_View.jpg",
+    "filename": "anonymous_003-008-569-00_1728912732907_Left_Lateral_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-008-570-01_1728915270013_Frontal_View.jpg",
+    "filename": "anonymous_003-008-570-01_1728915270013_Frontal_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-008-571-00_1728915544187_Right_Lateral_View.jpg",
+    "filename": "anonymous_003-008-571-00_1728915544187_Right_Lateral_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-008-572-01_1728917641191_Frontal_View.jpg",
+    "filename": "anonymous_003-008-572-01_1728917641191_Frontal_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-008-573-00_1728917922092_Maxillary_Occlusal_View.jpg",
+    "filename": "anonymous_003-008-573-00_1728917922092_Maxillary_Occlusal_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-008-589-01_1728986264902_Frontal_View.jpg",
+    "filename": "anonymous_003-008-589-01_1728986264902_Frontal_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-008-590-00_1728986645135_Maxillary_Occlusal_View.jpg",
+    "filename": "anonymous_003-008-590-00_1728986645135_Maxillary_Occlusal_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-008-591-01_1728996644646_Frontal_View.jpg",
+    "filename": "anonymous_003-008-591-01_1728996644646_Frontal_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-008-593-01_1728999384697_Right_Lateral_View.jpg",
+    "filename": "anonymous_003-008-593-01_1728999384697_Right_Lateral_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-008-595-00_1728999929128_Frontal_View.jpg",
+    "filename": "anonymous_003-008-595-00_1728999929128_Frontal_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-008-596-01_1729002084186_Maxillary_Occlusal_View.jpg",
+    "filename": "anonymous_003-008-596-01_1729002084186_Maxillary_Occlusal_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-008-597-00_1729002988805_Maxillary_Occlusal_View.jpg",
+    "filename": "anonymous_003-008-597-00_1729002988805_Maxillary_Occlusal_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-008-598-01_1729004550645_Right_Lateral_View.jpg",
+    "filename": "anonymous_003-008-598-01_1729004550645_Right_Lateral_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-008-614-01_1729074200376_Maxillary_Occlusal_View.jpg",
+    "filename": "anonymous_003-008-614-01_1729074200376_Maxillary_Occlusal_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-008-615-00_1729074735259_Maxillary_Occlusal_View.jpg",
+    "filename": "anonymous_003-008-615-00_1729074735259_Maxillary_Occlusal_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-008-617-00_1729078067595_Right_Lateral_View.jpg",
+    "filename": "anonymous_003-008-617-00_1729078067595_Right_Lateral_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-008-619-00_1729080900725_Maxillary_Occlusal_View.jpg",
+    "filename": "anonymous_003-008-619-00_1729080900725_Maxillary_Occlusal_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-008-620-01_1729083811620_Maxillary_Occlusal_View.jpg",
+    "filename": "anonymous_003-008-620-01_1729083811620_Maxillary_Occlusal_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-008-621-00_1729084830092_Maxillary_Occlusal_View.jpg",
+    "filename": "anonymous_003-008-621-00_1729084830092_Maxillary_Occlusal_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-008-622-01_1729087609045_Maxillary_Occlusal_View.jpg",
+    "filename": "anonymous_003-008-622-01_1729087609045_Maxillary_Occlusal_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-008-623-00_1729088109108_Mandibular_View.jpg",
+    "filename": "anonymous_003-008-623-00_1729088109108_Mandibular_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-008-626-01_1729138704180_Frontal_View.jpg",
+    "filename": "anonymous_003-008-626-01_1729138704180_Frontal_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-008-645-01_1729160496237_Maxillary_Occlusal_View.jpg",
+    "filename": "anonymous_003-008-645-01_1729160496237_Maxillary_Occlusal_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-008-646-00_1729160916094_Maxillary_Occlusal_View.jpg",
+    "filename": "anonymous_003-008-646-00_1729160916094_Maxillary_Occlusal_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-008-647-01_1729163338710_Mandibular_View.jpg",
+    "filename": "anonymous_003-008-647-01_1729163338710_Mandibular_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-008-648-00_1729163792384_Mandibular_View.jpg",
+    "filename": "anonymous_003-008-648-00_1729163792384_Mandibular_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-008-650-00_1729167733200_Mandibular_View.jpg",
+    "filename": "anonymous_003-008-650-00_1729167733200_Mandibular_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-008-651-01_1729169672305_Maxillary_Occlusal_View.jpg",
+    "filename": "anonymous_003-008-651-01_1729169672305_Maxillary_Occlusal_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-008-652-00_1729170164776_Mandibular_View.jpg",
+    "filename": "anonymous_003-008-652-00_1729170164776_Mandibular_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-008-679-00_1729249395420_Maxillary_Occlusal_View.jpg",
+    "filename": "anonymous_003-008-679-00_1729249395420_Maxillary_Occlusal_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-008-680-01_1729252793946_Mandibular_View.jpg",
+    "filename": "anonymous_003-008-680-01_1729252793946_Mandibular_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-008-684-01_1729257374840_Mandibular_View.jpg",
+    "filename": "anonymous_003-008-684-01_1729257374840_Mandibular_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-008-686-01_1729259151138_Mandibular_View.jpg",
+    "filename": "anonymous_003-008-686-01_1729259151138_Mandibular_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-008-687-00_1729259500783_Maxillary_Occlusal_View.jpg",
+    "filename": "anonymous_003-008-687-00_1729259500783_Maxillary_Occlusal_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-008-726-01_1729515883716_Mandibular_View.jpg",
+    "filename": "anonymous_003-008-726-01_1729515883716_Mandibular_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-008-732-01_1729522210714_Maxillary_Occlusal_View.jpg",
+    "filename": "anonymous_003-008-732-01_1729522210714_Maxillary_Occlusal_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-008-740-01_1729594985183_Maxillary_Occlusal_View.jpg",
+    "filename": "anonymous_003-008-740-01_1729594985183_Maxillary_Occlusal_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-008-741-00_1729595555946_Maxillary_Occlusal_View.jpg",
+    "filename": "anonymous_003-008-741-00_1729595555946_Maxillary_Occlusal_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-008-762-01_1729680417375_Maxillary_Occlusal_View.jpg",
+    "filename": "anonymous_003-008-762-01_1729680417375_Maxillary_Occlusal_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-008-779-01_1729768960699_Maxillary_Occlusal_View.jpg",
+    "filename": "anonymous_003-008-779-01_1729768960699_Maxillary_Occlusal_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-008-790-01_1729849195168_Maxillary_Occlusal_View.jpg",
+    "filename": "anonymous_003-008-790-01_1729849195168_Maxillary_Occlusal_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-008-791-00_1729849650005_Mandibular_View.jpg",
+    "filename": "anonymous_003-008-791-00_1729849650005_Mandibular_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-008-826-00_1729951922030_Mandibular_View.jpg",
+    "filename": "anonymous_003-008-826-00_1729951922030_Mandibular_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-008-842-01_1730112126234_Maxillary_Occlusal_View.jpg",
+    "filename": "anonymous_003-008-842-01_1730112126234_Maxillary_Occlusal_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-008-856-00_1730197612329_Right_Lateral_View.jpg",
+    "filename": "anonymous_003-008-856-00_1730197612329_Right_Lateral_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-008-858-00_1730200061435_Maxillary_Occlusal_View.jpg",
+    "filename": "anonymous_003-008-858-00_1730200061435_Maxillary_Occlusal_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-008-859-01_1730202467399_Mandibular_View.jpg",
+    "filename": "anonymous_003-008-859-01_1730202467399_Mandibular_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-008-860-00_1730202956330_Mandibular_View.jpg",
+    "filename": "anonymous_003-008-860-00_1730202956330_Mandibular_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-008-862-00_1730205438736_Maxillary_Occlusal_View.jpg",
+    "filename": "anonymous_003-008-862-00_1730205438736_Maxillary_Occlusal_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-008-865-01_1730209437683_Mandibular_View.jpg",
+    "filename": "anonymous_003-008-865-01_1730209437683_Mandibular_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-008-908-00_1730368773983_Maxillary_Occlusal_View.jpg",
+    "filename": "anonymous_003-008-908-00_1730368773983_Maxillary_Occlusal_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-008-911-00_1730371705980_Maxillary_Occlusal_View.jpg",
+    "filename": "anonymous_003-008-911-00_1730371705980_Maxillary_Occlusal_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-008-912-01_1730374226278_Maxillary_Occlusal_View.jpg",
+    "filename": "anonymous_003-008-912-01_1730374226278_Maxillary_Occlusal_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-008-913-00_1730374663171_Maxillary_Occlusal_View.jpg",
+    "filename": "anonymous_003-008-913-00_1730374663171_Maxillary_Occlusal_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-008-931-00_1730717738893_Maxillary_Occlusal_View.jpg",
+    "filename": "anonymous_003-008-931-00_1730717738893_Maxillary_Occlusal_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-008-937-00_1730727374307_Right_Lateral_View.jpg",
+    "filename": "anonymous_003-008-937-00_1730727374307_Right_Lateral_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-008-975-00_1730892499976_Mandibular_View.jpg",
+    "filename": "anonymous_003-008-975-00_1730892499976_Mandibular_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-008-977-00_1730895561784_Right_Lateral_View.jpg",
+    "filename": "anonymous_003-008-977-00_1730895561784_Right_Lateral_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-008-978-01_1730897360301_Mandibular_View.jpg",
+    "filename": "anonymous_003-008-978-01_1730897360301_Mandibular_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-008-996-01_1730974775488_Mandibular_View.jpg",
+    "filename": "anonymous_003-008-996-01_1730974775488_Mandibular_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-008-997-00_1730975206077_Mandibular_View.jpg",
+    "filename": "anonymous_003-008-997-00_1730975206077_Mandibular_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-008-998-01_1730980715687_Mandibular_View.jpg",
+    "filename": "anonymous_003-008-998-01_1730980715687_Mandibular_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-008-999-00_1730981358006_Mandibular_View.jpg",
+    "filename": "anonymous_003-008-999-00_1730981358006_Mandibular_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-009-1194-00_1732775915152_Right_Lateral_View.jpg",
+    "filename": "anonymous_003-009-1194-00_1732775915152_Right_Lateral_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-009-1198-00_1732783792820_Left_Lateral_View.jpg",
+    "filename": "anonymous_003-009-1198-00_1732783792820_Left_Lateral_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-009-702-01_1729333600227_Maxillary_Occlusal_View.jpg",
+    "filename": "anonymous_003-009-702-01_1729333600227_Maxillary_Occlusal_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-009-703-00_1729334403549_Maxillary_Occlusal_View.jpg",
+    "filename": "anonymous_003-009-703-00_1729334403549_Maxillary_Occlusal_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-009-704-01_1729339214008_Maxillary_Occlusal_View.jpg",
+    "filename": "anonymous_003-009-704-01_1729339214008_Maxillary_Occlusal_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_003-009-707-00_1729343513251_Right_Lateral_View.jpg",
+    "filename": "anonymous_003-009-707-00_1729343513251_Right_Lateral_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_004-007-1027-01_1731221247182_Frontal_View.jpg",
+    "filename": "anonymous_004-007-1027-01_1731221247182_Frontal_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_004-007-1028-00_1731221772302_Frontal_View.jpg",
+    "filename": "anonymous_004-007-1028-00_1731221772302_Frontal_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_004-007-1321-00_1733473332768_Right_Lateral_View.jpg",
+    "filename": "anonymous_004-007-1321-00_1733473332768_Right_Lateral_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_004-007-924-01_1730701589918_Frontal_View.jpg",
+    "filename": "anonymous_004-007-924-01_1730701589918_Frontal_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_004-008-1089-01_1732187905742_Mandibular_View.jpg",
+    "filename": "anonymous_004-008-1089-01_1732187905742_Mandibular_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_004-008-1330-01_1733492594752_Maxillary_Occlusal_View.jpg",
+    "filename": "anonymous_004-008-1330-01_1733492594752_Maxillary_Occlusal_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_004-008-1331-00_1733493131375_Mandibular_View.jpg",
+    "filename": "anonymous_004-008-1331-00_1733493131375_Mandibular_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_004-008-1460-00_1734088283907_Right_Lateral_View.jpg",
+    "filename": "anonymous_004-008-1460-00_1734088283907_Right_Lateral_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_004-008-1461-01_1734090409186_Mandibular_View.jpg",
+    "filename": "anonymous_004-008-1461-01_1734090409186_Mandibular_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_004-008-1462-00_1734090737557_Maxillary_Occlusal_View.jpg",
+    "filename": "anonymous_004-008-1462-00_1734090737557_Maxillary_Occlusal_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_004-008-1463-01_1734099079076_Maxillary_Occlusal_View.jpg",
+    "filename": "anonymous_004-008-1463-01_1734099079076_Maxillary_Occlusal_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_004-008-1465-01_1734100929758_Mandibular_View.jpg",
+    "filename": "anonymous_004-008-1465-01_1734100929758_Mandibular_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_004-008-1466-00_1734101348857_Maxillary_Occlusal_View.jpg",
+    "filename": "anonymous_004-008-1466-00_1734101348857_Maxillary_Occlusal_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_004-008-916-01_1730381009839_Mandibular_View.jpg",
+    "filename": "anonymous_004-008-916-01_1730381009839_Mandibular_View.jpg"
+  },
+  {
+    "image": "fdi_detection_dataset/images/selected/anonymous_004-008-917-00_1730381332501_Maxillary_Occlusal_View.jpg",
+    "filename": "anonymous_004-008-917-00_1730381332501_Maxillary_Occlusal_View.jpg"
+  }
+]

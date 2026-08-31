@@ -1,0 +1,420 @@
+{
+  "stage": "2B",
+  "title": "Global public dataset search (internet-wide, original-source verified)",
+  "date": "2026-08-26",
+  "scope": [
+    "A. ICDAS 0-4 tooth images",
+    "B. ICDAS 0-6 tooth images",
+    "C. tooth-level caries severity that may contain clinically mapped ICDAS",
+    "D. intraoral RGB tooth detection",
+    "E. FDI tooth-numbering",
+    "F. datasets with BOTH tooth bounding boxes and FDI numbers"
+  ],
+  "clinical_rules_applied": [
+    "Never convert caries/healthy-diseased/mild-moderate-severe/initial-moderate-extensive to ICDAS unless the original dataset/paper defines the mapping",
+    "ICDAS II is not automatically equivalent to ICDAS 0-4",
+    "Black classification is not ICDAS",
+    "Do not use dental X-ray/panoramic as RGB intraoral camera training unless a separate research purpose is explicit",
+    "Prioritize actual tooth photographs / intraoral RGB"
+  ],
+  "search_venues": [
+    "Google/public web",
+    "journal papers and data-availability statements",
+    "Zenodo",
+    "Figshare",
+    "Mendeley Data",
+    "PhysioNet",
+    "BMC / Springer / Elsevier / IEEE / Scientific Data",
+    "university repositories (Ewha DSpace, LMU ePub)",
+    "GitHub",
+    "Roboflow Universe",
+    "Kaggle/Hugging Face only as secondary listings after original-source check"
+  ],
+  "huge_downloads_skipped": [
+    {
+      "name": "Annotated intraoral image dataset for dental caries detection",
+      "reason": "Relevance verified as RGB detection (d/D), not ICDAS. Files ~1.57 GB + ~1.57 GB on Zenodo. Not downloaded in Stage 2B."
+    },
+    {
+      "name": "AlphaDent",
+      "reason": "Relevance verified as RGB pathology detection (Black classes). Zip ~4.9 GB. Not downloaded in Stage 2B."
+    }
+  ],
+  "best_icdas_ranked": [
+    {
+      "rank": 1,
+      "dataset_name": "HI Bogi intraoral ICDAS photographs (BMC Oral Health 2025)",
+      "status": "PAPER-FOUND / DATASET-NOT-PUBLIC",
+      "original_source": "BMC Oral Health article: Deep learning-based classification of dental caries from intraoral photographs using ICDAS criteria (HI Bogi application study)",
+      "direct_dataset_page": null,
+      "paper": {
+        "title": "Deep learning-based classification of dental caries from intraoral photographs using ICDAS criteria",
+        "url": "https://bmcoralhealth.biomedcentral.com/articles/10.1186/s12903-025-07486-x",
+        "doi": "10.1186/s12903-025-07486-x"
+      },
+      "license": "Paper is open access; the image dataset is not posted. Data availability: 'Data are available from the corresponding authors.'",
+      "n_images": 3221,
+      "modality": "RGB intraoral JPG photographs (resized 640x640 for training)",
+      "annotation_format": "Roboflow bounding boxes aligned to ICDAS labels",
+      "exact_label_names": ["D0", "D1", "D2", "D3", "D4", "D5", "D6"],
+      "genuinely_icdas": true,
+      "icdas_grades": "D0-D6 (paper explicitly uses ICDAS protocol; eight dentists plus two ICDAS experts; only dual-expert-agreed images included)",
+      "tooth_bounding_boxes": true,
+      "fdi_numbering": false,
+      "patient_or_source_ids": "Not described as public identifiers. Split: train 2266 / val 635 / test 320.",
+      "access_requirements": "Author request to corresponding authors. No public dump found.",
+      "commercial_academic_use": "Unknown until authors provide a license. Academic request is the intended path.",
+      "can_be_downloaded": false,
+      "suitability_for_iccc": "Highest-quality match found for genuine ICDAS on RGB intraoral photos plus boxes. Not training-ready until obtained. ICCC currently uses softmax 0-4 only: if obtained, keep 5 and 6 as excluded/separate; do not remap 5/6 to 4.",
+      "notes": "Related Indonesian IDCCD paper is cited by this work. Do not treat ICDAS II epidemiology papers (Costa Rica/Spain) as this image dataset."
+    },
+    {
+      "rank": 2,
+      "dataset_name": "IDCCD (Indonesian Dental Caries Characteristic Dataset)",
+      "status": "PAPER-FOUND / DATASET-NOT-PUBLIC",
+      "original_source": "Indonesian Journal of Electrical Engineering and Computer Science",
+      "direct_dataset_page": null,
+      "paper": {
+        "title": "IDCCD: evaluation of deep learning for early detection caries based on ICDAS",
+        "url": "https://doi.org/10.11591/ijeecs.v38.i1.pp381-392",
+        "doi": "10.11591/ijeecs.v38.i1.pp381-392"
+      },
+      "license": "Not posted as a public dataset. Paper does not provide a download URL in the portions verified.",
+      "n_images": "Not independently countable from a public dump. Paper reports class-wise AP for D0-D6 on a primary-collected Indonesian photo set.",
+      "modality": "RGB dental photographs (primary data; Roboflow-style detection pipeline; images scaled 640x640)",
+      "annotation_format": "Object-detection boxes (Faster R-CNN / YOLOv8 / DETR). Paper mentions Roboflow-style labeling with ICDAS D0-D6.",
+      "exact_label_names": ["D0", "D1", "D2", "D3", "D4", "D5", "D6"],
+      "genuinely_icdas": true,
+      "icdas_grades": "D0-D6 as stated in the paper (ICDAS used as the labeling guideline with dental annotators)",
+      "tooth_bounding_boxes": true,
+      "fdi_numbering": false,
+      "patient_or_source_ids": "Collection sites described; no public patient IDs.",
+      "access_requirements": "Author / institutional request. No public repository found.",
+      "commercial_academic_use": "Unknown until authors provide terms.",
+      "can_be_downloaded": false,
+      "suitability_for_iccc": "Clinically closer than filename-only Kaggle sets. Not downloadable today. Overlaps conceptually with HI Bogi (same research line / citation)."
+    },
+    {
+      "rank": 3,
+      "dataset_name": "CGD-Det pediatric smartphone ICDAS 0-6 (Hou et al., Biomedical Signal Processing and Control 2026)",
+      "status": "PAPER-FOUND / DATASET-NOT-PUBLIC",
+      "original_source": "Elsevier Biomedical Signal Processing and Control",
+      "direct_dataset_page": null,
+      "paper": {
+        "title": "CGD-Det: A Lightweight C2f-ghost-dynamic Detector for Pediatric Dental Caries Detection and ICDAS Grading from Smartphone Images",
+        "url": "https://doi.org/10.1016/j.bspc.2026.110557",
+        "doi": "10.1016/j.bspc.2026.110557"
+      },
+      "license": "Paper paywalled; dataset not posted in the abstract/source pages verified.",
+      "n_images": "1241 clinical/community photographs; 6260 RGB images after augmentation (5634 train / 626 val)",
+      "modality": "RGB smartphone photographs (pediatric)",
+      "annotation_format": "YOLO-style detection with ICDAS severity grades",
+      "exact_label_names": "ICDAS 0-6 (seven severity grades) as stated in the paper abstract",
+      "genuinely_icdas": true,
+      "icdas_grades": "0-6, expert consensus per abstract. Do not assume this equals ICCC 0-4 without seeing the protocol.",
+      "tooth_bounding_boxes": true,
+      "fdi_numbering": false,
+      "patient_or_source_ids": "Not public.",
+      "access_requirements": "Author request / publisher; no public dump found.",
+      "commercial_academic_use": "Unknown.",
+      "can_be_downloaded": false,
+      "suitability_for_iccc": "Promising modality match (phone RGB + ICDAS). Not available. Do not use augmented 6260 as if they were independent patients."
+    },
+    {
+      "rank": 4,
+      "dataset_name": "Odontify Clean ICDAS Dataset V2",
+      "status": "PUBLIC LISTING / ICDAS NOT CLINICIAN-VERIFIED FROM ORIGINAL SOURCE",
+      "original_source": "Kaggle listing by leonardoaranguiz. Original raw 'Odontify' collection is described as ~4274 mixed files; no independent university/Zenodo gold-standard ICDAS paper was found for these filenames.",
+      "direct_dataset_page": "https://www.kaggle.com/datasets/leonardoaranguiz/odontify-clean-icdas-dataset-v2",
+      "paper": null,
+      "license": "Kaggle listing: CC BY-NC-SA (non-commercial share-alike). Confirm on download page before any commercial ICCC use.",
+      "n_images": "~3010 files after cleaning (listing). Folders 0-6 parsed from filenames.",
+      "modality": "RGB tooth photographs (claimed). Not independently opened in this stage.",
+      "annotation_format": "Folder names 0-6 from filename parse; not boxes/FDI.",
+      "exact_label_names": ["0", "1", "2", "3", "4", "5", "6"],
+      "genuinely_icdas": false,
+      "icdas_grades": "Claimed 0-6 from filenames. No original paper found that defines clinician ICDAS scoring for this dump. Treat as unverified until a dentist reviews a sample. Do not invent a mapping.",
+      "tooth_bounding_boxes": false,
+      "fdi_numbering": false,
+      "patient_or_source_ids": "Unknown from listing.",
+      "access_requirements": "Kaggle account.",
+      "commercial_academic_use": "Academic possible under CC BY-NC-SA if listing is accurate. Commercial use likely disallowed (NC).",
+      "can_be_downloaded": true,
+      "suitability_for_iccc": "Only public claimed 0-6 photo classification dump found. Not training-ready as ICDAS until verified. If used later: keep 5/6 out of softmax 0-4; do not remap."
+    },
+    {
+      "rank": 5,
+      "dataset_name": "Research Square VGG-19 occlusal ICDAS 0 vs 2",
+      "status": "PAPER-FOUND / DATASET-NOT-PUBLIC",
+      "original_source": "Research Square preprint rs-3125352",
+      "direct_dataset_page": null,
+      "paper": {
+        "title": "Research Square rs-3125352 (ICDAS 0 vs 2 occlusal photographs)",
+        "url": "https://doi.org/10.21203/rs.3.rs-3125352/v1",
+        "doi": "10.21203/rs.3.rs-3125352/v1"
+      },
+      "license": "Clinical/private.",
+      "n_images": "Not treated as a public count.",
+      "modality": "Occlusal RGB photographs",
+      "annotation_format": "Binary ICDAS 0 vs 2 (not 0-4, not 0-6)",
+      "exact_label_names": ["ICDAS 0", "ICDAS 2"],
+      "genuinely_icdas": true,
+      "icdas_grades": "0 and 2 only",
+      "tooth_bounding_boxes": false,
+      "fdi_numbering": false,
+      "patient_or_source_ids": "Private clinical.",
+      "access_requirements": "Not public.",
+      "commercial_academic_use": "Unknown.",
+      "can_be_downloaded": false,
+      "suitability_for_iccc": "Too narrow (missing 1,3,4). Do not expand 0/2 into a 5-class model."
+    }
+  ],
+  "best_detection_fdi_ranked": [
+    {
+      "rank": 1,
+      "dataset_name": "Annotated intraoral image dataset for dental caries detection (Aga Khan University / Scientific Data)",
+      "status": "PUBLIC DOWNLOAD (Zenodo open, CC BY 4.0)",
+      "original_source": "Zenodo record 14827784 (supersedes restricted record 14769743 mentioned in earlier notes)",
+      "direct_dataset_page": "https://zenodo.org/records/14827784",
+      "doi": "10.5281/zenodo.14827784",
+      "paper": {
+        "title": "Annotated intraoral image dataset for dental caries detection",
+        "url": "https://www.nature.com/articles/s41597-025-05647-9",
+        "doi": "10.1038/s41597-025-05647-9"
+      },
+      "license": "Zenodo API metadata: cc-by-4.0. access_right: open. Commercial use allowed under CC BY 4.0 if attribution is given. Confirm files on download (paper text also discussed BY-NC-ND historically for a restricted record; the live 14827784 record is CC BY 4.0).",
+      "n_images": 6313,
+      "modality": "RGB intraoral JPG; mobile photos; views: frontal, left/right lateral, maxillary occlusal, mandibular; with/without retractors + pilot",
+      "annotation_format": "LabelMe JSON, YOLO TXT, PASCAL VOC XML, COCO JSON",
+      "exact_label_names": ["d (primary tooth decay)", "D (permanent tooth decay)"],
+      "genuinely_icdas": false,
+      "icdas_grades": "None. Do not map d/D to ICDAS.",
+      "tooth_bounding_boxes": true,
+      "fdi_numbering": false,
+      "patient_or_source_ids": "Folder structure by view/retractor; not a public FDI/patient table like PhysioNet.",
+      "access_requirements": "None (open). Files: Dataset.zip ~1.58 GB, Benchmarking Dataset.zip ~1.57 GB. Not downloaded in 2B.",
+      "commercial_academic_use": "Yes under CC BY 4.0 (academic and commercial with attribution), based on Zenodo license id.",
+      "can_be_downloaded": true,
+      "suitability_for_iccc": "Best open RGB intraoral detection set for a later crop/detect pipeline. Not a classification ICDAS set. Fits crop_teeth.py path after boxes, then separate ICDAS labeling."
+    },
+    {
+      "rank": 2,
+      "dataset_name": "AlphaDent",
+      "status": "PUBLIC DOWNLOAD",
+      "original_source": "Zenodo 16582489; also Hugging Face ZFTurbo/AlphaDent; GitHub ZFTurbo/AlphaDent",
+      "direct_dataset_page": "https://zenodo.org/records/16582489",
+      "paper": {
+        "title": "AlphaDent: A dataset for automated tooth pathology detection",
+        "note": "Computer Optics 2025; GitHub citation sosnin2025alphadent"
+      },
+      "license": "Apache License 2.0 (GitHub repository license; confirm zip license file on download)",
+      "n_images": "~1320 DSLR intraoral images from 295 patients (p001_ filename pattern reported in Stage 2A notes; not re-downloaded)",
+      "modality": "RGB intraoral DSLR photographs",
+      "annotation_format": "YOLO instance segmentation",
+      "exact_label_names": "Pathology classes including abrasion, crown, filling, and Black caries 1-6 (LOCATION classification, not ICDAS severity)",
+      "genuinely_icdas": false,
+      "icdas_grades": "None. Black's classification is not ICDAS.",
+      "tooth_bounding_boxes": true,
+      "fdi_numbering": false,
+      "patient_or_source_ids": "Yes (anonymized patient prefixes; patient-level split possible)",
+      "access_requirements": "None if Apache listing holds. Large zip (~4.9 GB). Not downloaded in 2B.",
+      "commercial_academic_use": "Apache 2.0 typically allows both; confirm LICENSE in archive.",
+      "can_be_downloaded": true,
+      "suitability_for_iccc": "Strong open RGB pathology/seg set with patient IDs. Not FDI, not ICDAS. Useful later for detection/seg experiments only."
+    },
+    {
+      "rank": 3,
+      "dataset_name": "Roboflow Universe: teeth detection and numbering (Prime)",
+      "status": "LISTING VERIFIED AT SEARCH LEVEL; FULL FILE COUNT BLOCKED BY CLOUDFLARE ON FETCH",
+      "original_source": "https://universe.roboflow.com/prime-snf1v/teeth-detection-and-numbering-agi2i",
+      "direct_dataset_page": "https://universe.roboflow.com/prime-snf1v/teeth-detection-and-numbering-agi2i",
+      "paper": null,
+      "license": "MIT (stated on Universe listing captured via search snippet)",
+      "n_images": "Not re-verified this session (Cloudflare interstitial). Stage 2A notes ~1.4k; do not treat that count as original-source confirmed until a successful download manifest.",
+      "modality": "Claimed intraoral RGB object detection (verify samples on download; do not assume panoramic)",
+      "annotation_format": "Roboflow / YOLO-style boxes; 32 classes",
+      "exact_label_names": "32 classes; listing states World Dental Federation (FDI) numbering",
+      "genuinely_icdas": false,
+      "icdas_grades": "None",
+      "tooth_bounding_boxes": true,
+      "fdi_numbering": true,
+      "patient_or_source_ids": "Unknown",
+      "access_requirements": "Roboflow account / API. Cloudflare bot check on automated fetch.",
+      "commercial_academic_use": "MIT typically allows both if the listing is accurate.",
+      "can_be_downloaded": "Likely yes with a Roboflow account; not downloaded in 2B",
+      "suitability_for_iccc": "Best public candidate that claims BOTH boxes and full 32-tooth FDI on photos. Must visually confirm images are intraoral RGB (not OPG) before any training."
+    },
+    {
+      "rank": 4,
+      "dataset_name": "FDTooth",
+      "status": "RESTRICTED / CREDENTIALED",
+      "original_source": "PhysioNet",
+      "direct_dataset_page": "https://physionet.org/content/fdtooth/1.0.0/",
+      "doi": "10.13026/v9xk-dy61",
+      "paper": {
+        "title": "FDTooth: Intraoral Photographs and CBCT Images for Fenestration and Dehiscence Detection",
+        "url": "https://doi.org/10.1038/s41597-025-05348-3"
+      },
+      "license": "PhysioNet Credentialed Health Data License 1.5.0 + DUA 1.5.0. Required training: CITI Data or Specimens Only Research.",
+      "n_images": "241 intraoral JPEG (5760x3840) + 241 CBCT; 1800 bounding boxes; 12 anterior teeth per patient",
+      "modality": "RGB intraoral photographs PLUS CBCT DICOM (do not train the camera classifier on CBCT)",
+      "annotation_format": "CSV tooth-level F/D/N; JSON boxes for MakeSense",
+      "exact_label_names": ["F fenestration", "D dehiscence", "N normal"],
+      "genuinely_icdas": false,
+      "icdas_grades": "None (periodontal bone defects, not caries ICDAS)",
+      "tooth_bounding_boxes": true,
+      "fdi_numbering": true,
+      "patient_or_source_ids": "Yes (anonymized 001-241, age, gender)",
+      "access_requirements": "PhysioNet credentialed user + CITI training + signed DUA",
+      "commercial_academic_use": "Typically research-only under PhysioNet health DUA; commercial use generally not permitted without checking the DUA.",
+      "can_be_downloaded": "Only after credentialing. Not downloaded in 2B.",
+      "suitability_for_iccc": "Best verified RGB set with BOTH boxes and FDI, but only 12 anterior teeth and labels are F/D/N not caries. Useful for numbering/crop research, not ICDAS."
+    },
+    {
+      "rank": 5,
+      "dataset_name": "SegmentAnyTooth intraoral photos (5000 images / 1000 sets)",
+      "status": "PAPER-FOUND / DATASET-NOT-PUBLIC (code/weights partially public)",
+      "original_source": "Journal of Dental Sciences",
+      "direct_dataset_page": null,
+      "paper": {
+        "title": "SegmentAnyTooth: An open-source deep learning framework for tooth enumeration and segmentation in intraoral photos",
+        "url": "https://doi.org/10.1016/j.jds.2025.01.003",
+        "doi": "10.1016/j.jds.2025.01.003"
+      },
+      "license": "Code MIT (as previously noted); trained weights often NC; images not released",
+      "n_images": 5000,
+      "modality": "RGB intraoral: upper occlusal, lower occlusal, frontal, right lateral, left lateral",
+      "annotation_format": "CVAT; YOLO localization + SAM-style segmentation; FDI + surfaces",
+      "exact_label_names": "FDI notations and tooth surfaces (not ICDAS)",
+      "genuinely_icdas": false,
+      "icdas_grades": "None",
+      "tooth_bounding_boxes": true,
+      "fdi_numbering": true,
+      "patient_or_source_ids": "1000 sets / 953 subjects (not public files)",
+      "access_requirements": "Images not public. Code/weights may be requestable; weights NC.",
+      "commercial_academic_use": "Images unavailable. Weights NC if that listing holds.",
+      "can_be_downloaded": false,
+      "suitability_for_iccc": "Clinically closest public-method match for camera 5-view + FDI + boxes. Cannot train on the 5000 photos."
+    },
+    {
+      "rank": 6,
+      "dataset_name": "IO150K / Teeth-SEG",
+      "status": "CLAIMED OPEN-SOURCE; PRIMARY GITHUB 404; MOSTLY NOT CAMERA RGB",
+      "original_source": "https://zoubo9034.github.io/TeethSEG/ ; CVPR 2024 paper",
+      "direct_dataset_page": "https://zoubo9034.github.io/TeethSEG/",
+      "paper": {
+        "title": "Teeth-SEG: An Efficient Instance Segmentation Framework for Orthodontic Treatment based on Multi-Scale Aggregation and Anthropic Prior Knowledge",
+        "url": "https://openaccess.thecvf.com/content/CVPR2024/papers/Zou_Teeth-SEG_An_Efficient_Instance_Segmentation_Framework_for_Orthodontic_Treatment_based_CVPR_2024_paper.pdf"
+      },
+      "license": "Not confirmed (download URL https://github.com/zoubo9034/TeethSEG returned 404)",
+      "n_images": "150k claimed: Challenge80K rendered 3D, Plaster70K plaster models, RGB0.8K real intraoral photos (~800)",
+      "modality": "Mostly renders and plaster photos; only ~0.8k real RGB intraoral",
+      "annotation_format": "Orthodontic instance segmentation / labeling by orthodontists",
+      "exact_label_names": "Tooth instance/position labels (not ICDAS)",
+      "genuinely_icdas": false,
+      "icdas_grades": "None",
+      "tooth_bounding_boxes": "Segmentation masks (instance), not confirmed as FDI 32-class export",
+      "fdi_numbering": "Orthodontic labeling; do not assume full FDI export without files",
+      "patient_or_source_ids": "Unknown",
+      "access_requirements": "Website says will be available; GitHub 404 at time of search",
+      "commercial_academic_use": "Unknown",
+      "can_be_downloaded": false,
+      "suitability_for_iccc": "Do not train the camera on 80k renders or 70k plaster. The 0.8k RGB subset is too small and currently not fetchable."
+    }
+  ],
+  "rejected": [
+    {
+      "dataset_name": "Yoon et al. 24,578 intraoral photos (Ewha / Journal of Dentistry 2024)",
+      "reason": "PAPER-FOUND / DATASET-NOT-PUBLIC. Boxes for tooth number AND caries stage 1/2/3. Stages are not ICDAS. Scientific Data paper states this set is not open source. DOI 10.1016/j.jdent.2023.104821",
+      "would_have_fit": "Category F (boxes + tooth numbers) if public; still would not be ICDAS without an explicit mapping (none found)."
+    },
+    {
+      "dataset_name": "Kühnisch et al. JDR intraoral AI caries (2,417 single-tooth photos)",
+      "reason": "PAPER-FOUND / DATASET-NOT-PUBLIC. Labels: caries free / noncavitated / cavitation — not ICDAS 0-4. App at dental-ai.de; contact authors. DOI 10.1177/00220345211032524",
+      "would_have_fit": "RGB tooth photos only if public; still would violate no-conversion rule."
+    },
+    {
+      "dataset_name": "Roboflow Caries Classification ICDAS II (Healthy / Initial / Moderate / Extensive)",
+      "reason": "Not genuine ICDAS 0-4 or 0-6 grades. ICDAS II merged buckets. Do not map to 0-4. Some filenames may resemble HI Bogi but labels are 4-class. Already rejected conceptually in Stage 2A; not re-downloaded.",
+      "would_have_fit": "None for ICCC softmax 0-4."
+    },
+    {
+      "dataset_name": "AlphaDent Black caries 1-6 as ICDAS",
+      "reason": "Black's cavity LOCATION classes are not ICDAS severity. Dataset itself is kept in detection ranking; using those six classes as ICDAS is rejected.",
+      "would_have_fit": "Detection/seg only."
+    },
+    {
+      "dataset_name": "PLOS One / BMC 2022 Korean intraoral (ICDAS used only as 4-6 vs not)",
+      "reason": "ICDAS collapsed to binary caries detection. Do not expand to 0-4. PAPER-FOUND / typically not a public 0-4 dump.",
+      "would_have_fit": "None without original mapping (there is none to 0-4)."
+    },
+    {
+      "dataset_name": "Child-OID (1,368 children's oral images)",
+      "reason": "GitHub GipinLinn/UCDA-and-Child-OID: 'code and dataset will be released soon' — still not a dump. Labels described as normal vs abnormal findings, not ICDAS grades. IEEE Access DOI 10.1109/access.2020.3029454",
+      "would_have_fit": "Pediatric RGB if released; still not ICDAS 0-4."
+    },
+    {
+      "dataset_name": "UFBA-425 (Figshare 10.6084/m9.figshare.29827475)",
+      "reason": "425 panoramic X-rays with FDI boxes/masks. Wrong modality for RGB camera. Do not use for ICCC camera training.",
+      "would_have_fit": "Separate radiograph research only."
+    },
+    {
+      "dataset_name": "Roboflow Panoramic-Dental-Xray-FDI",
+      "reason": "Panoramic X-ray. Wrong modality.",
+      "would_have_fit": "Separate radiograph research only."
+    },
+    {
+      "dataset_name": "DENTEX panoramic (Zenodo 7812323)",
+      "reason": "Panoramic. Already out of scope for camera RGB. Not re-downloaded.",
+      "would_have_fit": "Radiograph research only."
+    },
+    {
+      "dataset_name": "3D ICDAS STL / aguynamedSaif 3D-ICDAS_based_tooth_classification",
+      "reason": "Simulated 3D cavities / STL slices, ICDAS 3-6 cavity classes on phantoms. Not intraoral RGB camera photos.",
+      "would_have_fit": "None for camera 2.0."
+    },
+    {
+      "dataset_name": "Mendeley 5vb5tvkjb5",
+      "reason": "URL data.mendeley.com/datasets/5vb5tvkjb5/1 returned Dataset Not Found at verification time. Do not rely on stale project scripts.",
+      "would_have_fit": "Unknown."
+    },
+    {
+      "dataset_name": "Local ICCC dataset/ + annotations.csv",
+      "reason": "Not a public internet dataset. Stage 2A: 16 excluded 5/6 images on disk; 643 CSV rows with 0 files present. Ghost labels are not a downloadable ICDAS corpus.",
+      "would_have_fit": "Would be ICCC training data if pixels existed and labels were clinician-verified."
+    },
+    {
+      "dataset_name": "IO150K Challenge80K / Plaster70K",
+      "reason": "Rendered 3D and plaster models, not phone/DSLR intraoral camera of patients in the wild.",
+      "would_have_fit": "Orthodontic seg research only."
+    }
+  ],
+  "category_index": {
+    "A_icdas_0_4_images": {
+      "public_clinician_verified": "NONE FOUND",
+      "closest": "HI Bogi / IDCCD D0-D6 (author request); subset 0-4 only after obtaining data and excluding 5/6"
+    },
+    "B_icdas_0_6_images": {
+      "public_clinician_verified": "NONE FOUND",
+      "closest_public_claimed": "Odontify Clean ICDAS V2 (filename 0-6, unverified)",
+      "closest_clinical": "HI Bogi 3221 D0-D6; CGD-Det smartphone 0-6"
+    },
+    "C_severity_maybe_icdas": {
+      "explicit_mapping_found": "HI Bogi, IDCCD, CGD-Det (ICDAS named). Kühnisch 3-bucket and ICDAS-II 4-bucket and Korean 4-6-vs-not do NOT define a mapping to 0-4."
+    },
+    "D_intraoral_rgb_detection": {
+      "best_open": "Zenodo 14827784 (6313, d/D); AlphaDent (~1320, pathology)"
+    },
+    "E_fdi": {
+      "best_open_claimed": "Roboflow Prime 32-class (verify RGB vs X-ray on download)",
+      "best_verified_rgb": "FDTooth (anterior 12 only, PhysioNet); SegmentAnyTooth (images not public)"
+    },
+    "F_boxes_and_fdi": {
+      "public_easy": "Roboflow Prime listing (unverified file-level this session)",
+      "public_hard": "FDTooth credentialed (anterior only)",
+      "best_clinical_not_public": "Yoon 24578 (stages not ICDAS); SegmentAnyTooth 5000"
+    }
+  },
+  "training_data_ready": false,
+  "recommended_next_action": "Request HI Bogi/IDCCD from corresponding authors for genuine ICDAS D0-D6 RGB+boxes. In parallel, optionally download only AFTER license check: (1) Odontify V2 for filename-label audit by a clinician (exclude 5/6, no remap), (2) Zenodo 14827784 for detection/crop pipeline (do not treat d/D as ICDAS). Do not train. Copy ordinal .keras files before any future train. Do not map ICDAS-II 4-buckets, Black classes, or binary caries to ICDAS 0-4."
+}

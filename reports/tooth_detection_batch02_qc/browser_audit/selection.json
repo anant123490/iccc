@@ -1,0 +1,1584 @@
+[
+  {
+    "path": "data/detection/batches/batch02_clean/images/test/OHI_datasetbite1_jpg.rf.e4e2f02f9996bf28623aacdc71b37f35.jpg",
+    "abs_path": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\data\\detection\\batches\\batch02_clean\\images\\test\\OHI_datasetbite1_jpg.rf.e4e2f02f9996bf28623aacdc71b37f35.jpg",
+    "label_path": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\data\\detection\\batches\\batch02_clean\\labels\\test\\OHI_datasetbite1_jpg.rf.e4e2f02f9996bf28623aacdc71b37f35.txt",
+    "split": "test",
+    "name": "OHI_datasetbite1_jpg.rf.e4e2f02f9996bf28623aacdc71b37f35.jpg",
+    "n_boxes": 29,
+    "bucket": "keep",
+    "flags": [],
+    "class_csv": "KEEP",
+    "select_reason": "many_teeth",
+    "index": 1,
+    "total": 100
+  },
+  {
+    "path": "data/detection/batches/batch02_clean/images/train/OHI_datasetIMG_4685_JPG.rf.11c597fb7ef653f01a3a02a88e7ea886.jpg",
+    "abs_path": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\data\\detection\\batches\\batch02_clean\\images\\train\\OHI_datasetIMG_4685_JPG.rf.11c597fb7ef653f01a3a02a88e7ea886.jpg",
+    "label_path": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\data\\detection\\batches\\batch02_clean\\labels\\train\\OHI_datasetIMG_4685_JPG.rf.11c597fb7ef653f01a3a02a88e7ea886.txt",
+    "split": "train",
+    "name": "OHI_datasetIMG_4685_JPG.rf.11c597fb7ef653f01a3a02a88e7ea886.jpg",
+    "n_boxes": 26,
+    "bucket": "keep",
+    "flags": [
+      "extreme_aspect",
+      "low_fill",
+      "overlap"
+    ],
+    "class_csv": "KEEP",
+    "select_reason": "many_teeth",
+    "index": 2,
+    "total": 100
+  },
+  {
+    "path": "data/detection/batches/batch02_clean/images/train/OHI_datasetIMG_4517_JPG.rf.2327f0db52b62f6fdbb7641b8545fd7b.jpg",
+    "abs_path": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\data\\detection\\batches\\batch02_clean\\images\\train\\OHI_datasetIMG_4517_JPG.rf.2327f0db52b62f6fdbb7641b8545fd7b.jpg",
+    "label_path": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\data\\detection\\batches\\batch02_clean\\labels\\train\\OHI_datasetIMG_4517_JPG.rf.2327f0db52b62f6fdbb7641b8545fd7b.txt",
+    "split": "train",
+    "name": "OHI_datasetIMG_4517_JPG.rf.2327f0db52b62f6fdbb7641b8545fd7b.jpg",
+    "n_boxes": 27,
+    "bucket": "keep",
+    "flags": [
+      "tiny"
+    ],
+    "class_csv": "KEEP",
+    "select_reason": "many_teeth",
+    "index": 3,
+    "total": 100
+  },
+  {
+    "path": "data/detection/batches/batch02_clean/images/train/OHI_datasetIMG_1771_JPG.rf.348aea523c987ae759539a3062ade4bf.jpg",
+    "abs_path": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\data\\detection\\batches\\batch02_clean\\images\\train\\OHI_datasetIMG_1771_JPG.rf.348aea523c987ae759539a3062ade4bf.jpg",
+    "label_path": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\data\\detection\\batches\\batch02_clean\\labels\\train\\OHI_datasetIMG_1771_JPG.rf.348aea523c987ae759539a3062ade4bf.txt",
+    "split": "train",
+    "name": "OHI_datasetIMG_1771_JPG.rf.348aea523c987ae759539a3062ade4bf.jpg",
+    "n_boxes": 28,
+    "bucket": "keep",
+    "flags": [
+      "overlap"
+    ],
+    "class_csv": "KEEP",
+    "select_reason": "many_teeth",
+    "index": 4,
+    "total": 100
+  },
+  {
+    "path": "data/detection/batches/batch02_clean/images/train/OHI_datasetIMG_2890_JPG.rf.350e7495e8c1390195c313eceb7e128c.jpg",
+    "abs_path": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\data\\detection\\batches\\batch02_clean\\images\\train\\OHI_datasetIMG_2890_JPG.rf.350e7495e8c1390195c313eceb7e128c.jpg",
+    "label_path": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\data\\detection\\batches\\batch02_clean\\labels\\train\\OHI_datasetIMG_2890_JPG.rf.350e7495e8c1390195c313eceb7e128c.txt",
+    "split": "train",
+    "name": "OHI_datasetIMG_2890_JPG.rf.350e7495e8c1390195c313eceb7e128c.jpg",
+    "n_boxes": 28,
+    "bucket": "keep",
+    "flags": [],
+    "class_csv": "KEEP",
+    "select_reason": "many_teeth",
+    "index": 5,
+    "total": 100
+  },
+  {
+    "path": "data/detection/batches/batch02_clean/images/train/OHI_datasetIMG_4573_JPG.rf.6a0dd1cfa379a7a2ef64b7a09fe2c0f6.jpg",
+    "abs_path": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\data\\detection\\batches\\batch02_clean\\images\\train\\OHI_datasetIMG_4573_JPG.rf.6a0dd1cfa379a7a2ef64b7a09fe2c0f6.jpg",
+    "label_path": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\data\\detection\\batches\\batch02_clean\\labels\\train\\OHI_datasetIMG_4573_JPG.rf.6a0dd1cfa379a7a2ef64b7a09fe2c0f6.txt",
+    "split": "train",
+    "name": "OHI_datasetIMG_4573_JPG.rf.6a0dd1cfa379a7a2ef64b7a09fe2c0f6.jpg",
+    "n_boxes": 26,
+    "bucket": "keep",
+    "flags": [],
+    "class_csv": "KEEP",
+    "select_reason": "many_teeth",
+    "index": 6,
+    "total": 100
+  },
+  {
+    "path": "data/detection/batches/batch02_clean/images/train/OHI_datasetIMG_4233_JPG.rf.1765b214d5e4bf783c13f2eb615cd91e.jpg",
+    "abs_path": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\data\\detection\\batches\\batch02_clean\\images\\train\\OHI_datasetIMG_4233_JPG.rf.1765b214d5e4bf783c13f2eb615cd91e.jpg",
+    "label_path": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\data\\detection\\batches\\batch02_clean\\labels\\train\\OHI_datasetIMG_4233_JPG.rf.1765b214d5e4bf783c13f2eb615cd91e.txt",
+    "split": "train",
+    "name": "OHI_datasetIMG_4233_JPG.rf.1765b214d5e4bf783c13f2eb615cd91e.jpg",
+    "n_boxes": 23,
+    "bucket": "keep",
+    "flags": [
+      "overlap"
+    ],
+    "class_csv": "KEEP",
+    "select_reason": "many_teeth",
+    "index": 7,
+    "total": 100
+  },
+  {
+    "path": "data/detection/batches/batch02_clean/images/train/OHI_datasetIMG_0665_JPG.rf.037ed6675d7e35d9214568affda3a24a.jpg",
+    "abs_path": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\data\\detection\\batches\\batch02_clean\\images\\train\\OHI_datasetIMG_0665_JPG.rf.037ed6675d7e35d9214568affda3a24a.jpg",
+    "label_path": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\data\\detection\\batches\\batch02_clean\\labels\\train\\OHI_datasetIMG_0665_JPG.rf.037ed6675d7e35d9214568affda3a24a.txt",
+    "split": "train",
+    "name": "OHI_datasetIMG_0665_JPG.rf.037ed6675d7e35d9214568affda3a24a.jpg",
+    "n_boxes": 27,
+    "bucket": "keep",
+    "flags": [],
+    "class_csv": "KEEP",
+    "select_reason": "many_teeth",
+    "index": 8,
+    "total": 100
+  },
+  {
+    "path": "data/detection/batches/batch02_clean/images/train/OHI_datasetIMG_2359_JPG.rf.611fbd0719b71583b502557a41ab2cfa.jpg",
+    "abs_path": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\data\\detection\\batches\\batch02_clean\\images\\train\\OHI_datasetIMG_2359_JPG.rf.611fbd0719b71583b502557a41ab2cfa.jpg",
+    "label_path": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\data\\detection\\batches\\batch02_clean\\labels\\train\\OHI_datasetIMG_2359_JPG.rf.611fbd0719b71583b502557a41ab2cfa.txt",
+    "split": "train",
+    "name": "OHI_datasetIMG_2359_JPG.rf.611fbd0719b71583b502557a41ab2cfa.jpg",
+    "n_boxes": 23,
+    "bucket": "keep",
+    "flags": [],
+    "class_csv": "KEEP",
+    "select_reason": "many_teeth",
+    "index": 9,
+    "total": 100
+  },
+  {
+    "path": "data/detection/batches/batch02_clean/images/train/OHI_datasetIMG_2493_JPG.rf.129942024559016717f74909772bc8ef.jpg",
+    "abs_path": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\data\\detection\\batches\\batch02_clean\\images\\train\\OHI_datasetIMG_2493_JPG.rf.129942024559016717f74909772bc8ef.jpg",
+    "label_path": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\data\\detection\\batches\\batch02_clean\\labels\\train\\OHI_datasetIMG_2493_JPG.rf.129942024559016717f74909772bc8ef.txt",
+    "split": "train",
+    "name": "OHI_datasetIMG_2493_JPG.rf.129942024559016717f74909772bc8ef.jpg",
+    "n_boxes": 28,
+    "bucket": "keep",
+    "flags": [
+      "overlap"
+    ],
+    "class_csv": "KEEP",
+    "select_reason": "many_teeth",
+    "index": 10,
+    "total": 100
+  },
+  {
+    "path": "data/detection/batches/batch02_clean/images/train/OHI_datasetIMG_6030_JPG.rf.1b3a38b20220bc664149f3e0039c5a92.jpg",
+    "abs_path": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\data\\detection\\batches\\batch02_clean\\images\\train\\OHI_datasetIMG_6030_JPG.rf.1b3a38b20220bc664149f3e0039c5a92.jpg",
+    "label_path": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\data\\detection\\batches\\batch02_clean\\labels\\train\\OHI_datasetIMG_6030_JPG.rf.1b3a38b20220bc664149f3e0039c5a92.txt",
+    "split": "train",
+    "name": "OHI_datasetIMG_6030_JPG.rf.1b3a38b20220bc664149f3e0039c5a92.jpg",
+    "n_boxes": 30,
+    "bucket": "keep",
+    "flags": [],
+    "class_csv": "KEEP",
+    "select_reason": "many_teeth",
+    "index": 11,
+    "total": 100
+  },
+  {
+    "path": "data/detection/batches/batch02_clean/images/valid/OHI_datasetIMG_4360_JPG.rf.53137c151c7919aaabe98fe41e8d1a80.jpg",
+    "abs_path": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\data\\detection\\batches\\batch02_clean\\images\\valid\\OHI_datasetIMG_4360_JPG.rf.53137c151c7919aaabe98fe41e8d1a80.jpg",
+    "label_path": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\data\\detection\\batches\\batch02_clean\\labels\\valid\\OHI_datasetIMG_4360_JPG.rf.53137c151c7919aaabe98fe41e8d1a80.txt",
+    "split": "valid",
+    "name": "OHI_datasetIMG_4360_JPG.rf.53137c151c7919aaabe98fe41e8d1a80.jpg",
+    "n_boxes": 22,
+    "bucket": "keep",
+    "flags": [],
+    "class_csv": "KEEP",
+    "select_reason": "many_teeth",
+    "index": 12,
+    "total": 100
+  },
+  {
+    "path": "data/detection/batches/batch02_clean/images/train/OHI_datasetIMG_3359_JPG.rf.3f78b976d41c991b3a5944d723c87f2c.jpg",
+    "abs_path": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\data\\detection\\batches\\batch02_clean\\images\\train\\OHI_datasetIMG_3359_JPG.rf.3f78b976d41c991b3a5944d723c87f2c.jpg",
+    "label_path": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\data\\detection\\batches\\batch02_clean\\labels\\train\\OHI_datasetIMG_3359_JPG.rf.3f78b976d41c991b3a5944d723c87f2c.txt",
+    "split": "train",
+    "name": "OHI_datasetIMG_3359_JPG.rf.3f78b976d41c991b3a5944d723c87f2c.jpg",
+    "n_boxes": 8,
+    "bucket": "keep",
+    "flags": [],
+    "class_csv": "KEEP",
+    "select_reason": "few_teeth",
+    "index": 13,
+    "total": 100
+  },
+  {
+    "path": "data/detection/batches/batch02_clean/images/train/OHI_datasetIMG_1489_JPG.rf.15d42a34c702dfec0a77587095a34c56.jpg",
+    "abs_path": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\data\\detection\\batches\\batch02_clean\\images\\train\\OHI_datasetIMG_1489_JPG.rf.15d42a34c702dfec0a77587095a34c56.jpg",
+    "label_path": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\data\\detection\\batches\\batch02_clean\\labels\\train\\OHI_datasetIMG_1489_JPG.rf.15d42a34c702dfec0a77587095a34c56.txt",
+    "split": "train",
+    "name": "OHI_datasetIMG_1489_JPG.rf.15d42a34c702dfec0a77587095a34c56.jpg",
+    "n_boxes": 8,
+    "bucket": "keep",
+    "flags": [],
+    "class_csv": "KEEP",
+    "select_reason": "few_teeth",
+    "index": 14,
+    "total": 100
+  },
+  {
+    "path": "data/detection/batches/batch02_clean/images/test/OHI_datasetIMG_6465_JPG.rf.1bbc48bf9494ea7c3ac3429b980e95cf.jpg",
+    "abs_path": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\data\\detection\\batches\\batch02_clean\\images\\test\\OHI_datasetIMG_6465_JPG.rf.1bbc48bf9494ea7c3ac3429b980e95cf.jpg",
+    "label_path": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\data\\detection\\batches\\batch02_clean\\labels\\test\\OHI_datasetIMG_6465_JPG.rf.1bbc48bf9494ea7c3ac3429b980e95cf.txt",
+    "split": "test",
+    "name": "OHI_datasetIMG_6465_JPG.rf.1bbc48bf9494ea7c3ac3429b980e95cf.jpg",
+    "n_boxes": 6,
+    "bucket": "keep",
+    "flags": [],
+    "class_csv": "KEEP",
+    "select_reason": "few_teeth",
+    "index": 15,
+    "total": 100
+  },
+  {
+    "path": "data/detection/batches/batch02_clean/images/train/OHI_datasetIMG_4086_JPG.rf.0668a5c3ba00a3e5c5daba2042dc1b01.jpg",
+    "abs_path": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\data\\detection\\batches\\batch02_clean\\images\\train\\OHI_datasetIMG_4086_JPG.rf.0668a5c3ba00a3e5c5daba2042dc1b01.jpg",
+    "label_path": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\data\\detection\\batches\\batch02_clean\\labels\\train\\OHI_datasetIMG_4086_JPG.rf.0668a5c3ba00a3e5c5daba2042dc1b01.txt",
+    "split": "train",
+    "name": "OHI_datasetIMG_4086_JPG.rf.0668a5c3ba00a3e5c5daba2042dc1b01.jpg",
+    "n_boxes": 7,
+    "bucket": "keep",
+    "flags": [],
+    "class_csv": "KEEP",
+    "select_reason": "few_teeth",
+    "index": 16,
+    "total": 100
+  },
+  {
+    "path": "data/detection/batches/batch02_clean/images/train/OHI_datasetIMG_4883_JPG.rf.24ff20ee6f128a8d10298c9d4d9579bf.jpg",
+    "abs_path": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\data\\detection\\batches\\batch02_clean\\images\\train\\OHI_datasetIMG_4883_JPG.rf.24ff20ee6f128a8d10298c9d4d9579bf.jpg",
+    "label_path": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\data\\detection\\batches\\batch02_clean\\labels\\train\\OHI_datasetIMG_4883_JPG.rf.24ff20ee6f128a8d10298c9d4d9579bf.txt",
+    "split": "train",
+    "name": "OHI_datasetIMG_4883_JPG.rf.24ff20ee6f128a8d10298c9d4d9579bf.jpg",
+    "n_boxes": 8,
+    "bucket": "keep",
+    "flags": [],
+    "class_csv": "KEEP",
+    "select_reason": "few_teeth",
+    "index": 17,
+    "total": 100
+  },
+  {
+    "path": "data/detection/batches/batch02_clean/images/train/OHI_datasetIMG_4363_JPG.rf.c399143ad1f639ad8437cfae76408ccb.jpg",
+    "abs_path": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\data\\detection\\batches\\batch02_clean\\images\\train\\OHI_datasetIMG_4363_JPG.rf.c399143ad1f639ad8437cfae76408ccb.jpg",
+    "label_path": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\data\\detection\\batches\\batch02_clean\\labels\\train\\OHI_datasetIMG_4363_JPG.rf.c399143ad1f639ad8437cfae76408ccb.txt",
+    "split": "train",
+    "name": "OHI_datasetIMG_4363_JPG.rf.c399143ad1f639ad8437cfae76408ccb.jpg",
+    "n_boxes": 8,
+    "bucket": "keep",
+    "flags": [],
+    "class_csv": "KEEP",
+    "select_reason": "few_teeth",
+    "index": 18,
+    "total": 100
+  },
+  {
+    "path": "data/detection/batches/batch02_clean/images/test/OHI_datasetIMG_4388_JPG.rf.0bfee67fcab35f92e227d63afbef6e5a.jpg",
+    "abs_path": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\data\\detection\\batches\\batch02_clean\\images\\test\\OHI_datasetIMG_4388_JPG.rf.0bfee67fcab35f92e227d63afbef6e5a.jpg",
+    "label_path": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\data\\detection\\batches\\batch02_clean\\labels\\test\\OHI_datasetIMG_4388_JPG.rf.0bfee67fcab35f92e227d63afbef6e5a.txt",
+    "split": "test",
+    "name": "OHI_datasetIMG_4388_JPG.rf.0bfee67fcab35f92e227d63afbef6e5a.jpg",
+    "n_boxes": 4,
+    "bucket": "keep",
+    "flags": [],
+    "class_csv": "KEEP",
+    "select_reason": "few_teeth",
+    "index": 19,
+    "total": 100
+  },
+  {
+    "path": "data/detection/batches/batch02_clean/images/train/OHI_datasetIMG_3277_JPG.rf.0b4cc592c634c993be18da91d609e356.jpg",
+    "abs_path": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\data\\detection\\batches\\batch02_clean\\images\\train\\OHI_datasetIMG_3277_JPG.rf.0b4cc592c634c993be18da91d609e356.jpg",
+    "label_path": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\data\\detection\\batches\\batch02_clean\\labels\\train\\OHI_datasetIMG_3277_JPG.rf.0b4cc592c634c993be18da91d609e356.txt",
+    "split": "train",
+    "name": "OHI_datasetIMG_3277_JPG.rf.0b4cc592c634c993be18da91d609e356.jpg",
+    "n_boxes": 1,
+    "bucket": "keep",
+    "flags": [],
+    "class_csv": "KEEP",
+    "select_reason": "few_teeth",
+    "index": 20,
+    "total": 100
+  },
+  {
+    "path": "data/detection/batches/batch02_clean/images/train/OHI_datasetIMG_4882_JPG.rf.19d58d1f3d45dde6a3027fb19cb44660.jpg",
+    "abs_path": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\data\\detection\\batches\\batch02_clean\\images\\train\\OHI_datasetIMG_4882_JPG.rf.19d58d1f3d45dde6a3027fb19cb44660.jpg",
+    "label_path": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\data\\detection\\batches\\batch02_clean\\labels\\train\\OHI_datasetIMG_4882_JPG.rf.19d58d1f3d45dde6a3027fb19cb44660.txt",
+    "split": "train",
+    "name": "OHI_datasetIMG_4882_JPG.rf.19d58d1f3d45dde6a3027fb19cb44660.jpg",
+    "n_boxes": 8,
+    "bucket": "keep",
+    "flags": [],
+    "class_csv": "KEEP",
+    "select_reason": "few_teeth",
+    "index": 21,
+    "total": 100
+  },
+  {
+    "path": "data/detection/batches/batch02_clean/images/train/OHI_datasetIMG_5950_JPG.rf.2fb73dc53009b3881655ba6995cee404.jpg",
+    "abs_path": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\data\\detection\\batches\\batch02_clean\\images\\train\\OHI_datasetIMG_5950_JPG.rf.2fb73dc53009b3881655ba6995cee404.jpg",
+    "label_path": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\data\\detection\\batches\\batch02_clean\\labels\\train\\OHI_datasetIMG_5950_JPG.rf.2fb73dc53009b3881655ba6995cee404.txt",
+    "split": "train",
+    "name": "OHI_datasetIMG_5950_JPG.rf.2fb73dc53009b3881655ba6995cee404.jpg",
+    "n_boxes": 8,
+    "bucket": "keep",
+    "flags": [],
+    "class_csv": "KEEP",
+    "select_reason": "few_teeth",
+    "index": 22,
+    "total": 100
+  },
+  {
+    "path": "data/detection/batches/batch02_clean/images/train/OHI_datasetIMG_6340_JPG.rf.287e10d6e583b0df583892aa4a5e55fc.jpg",
+    "abs_path": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\data\\detection\\batches\\batch02_clean\\images\\train\\OHI_datasetIMG_6340_JPG.rf.287e10d6e583b0df583892aa4a5e55fc.jpg",
+    "label_path": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\data\\detection\\batches\\batch02_clean\\labels\\train\\OHI_datasetIMG_6340_JPG.rf.287e10d6e583b0df583892aa4a5e55fc.txt",
+    "split": "train",
+    "name": "OHI_datasetIMG_6340_JPG.rf.287e10d6e583b0df583892aa4a5e55fc.jpg",
+    "n_boxes": 16,
+    "bucket": "keep",
+    "flags": [
+      "border"
+    ],
+    "class_csv": "KEEP",
+    "select_reason": "border",
+    "index": 23,
+    "total": 100
+  },
+  {
+    "path": "data/detection/batches/batch02_clean/images/train/OHI_datasetIMG_3146_JPG.rf.1f20cd371f0c4f3dafef9b61c1964e94.jpg",
+    "abs_path": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\data\\detection\\batches\\batch02_clean\\images\\train\\OHI_datasetIMG_3146_JPG.rf.1f20cd371f0c4f3dafef9b61c1964e94.jpg",
+    "label_path": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\data\\detection\\batches\\batch02_clean\\labels\\train\\OHI_datasetIMG_3146_JPG.rf.1f20cd371f0c4f3dafef9b61c1964e94.txt",
+    "split": "train",
+    "name": "OHI_datasetIMG_3146_JPG.rf.1f20cd371f0c4f3dafef9b61c1964e94.jpg",
+    "n_boxes": 23,
+    "bucket": "keep",
+    "flags": [
+      "border",
+      "overlap"
+    ],
+    "class_csv": "KEEP",
+    "select_reason": "border",
+    "index": 24,
+    "total": 100
+  },
+  {
+    "path": "data/detection/batches/batch02_clean/images/train/OHI_datasetIMG_3400_JPG.rf.1e3930e2946f55768da1d48ed45822f6.jpg",
+    "abs_path": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\data\\detection\\batches\\batch02_clean\\images\\train\\OHI_datasetIMG_3400_JPG.rf.1e3930e2946f55768da1d48ed45822f6.jpg",
+    "label_path": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\data\\detection\\batches\\batch02_clean\\labels\\train\\OHI_datasetIMG_3400_JPG.rf.1e3930e2946f55768da1d48ed45822f6.txt",
+    "split": "train",
+    "name": "OHI_datasetIMG_3400_JPG.rf.1e3930e2946f55768da1d48ed45822f6.jpg",
+    "n_boxes": 11,
+    "bucket": "keep",
+    "flags": [
+      "border"
+    ],
+    "class_csv": "KEEP",
+    "select_reason": "border",
+    "index": 25,
+    "total": 100
+  },
+  {
+    "path": "data/detection/batches/batch02_clean/images/train/OHI_datasetIMG_5939_JPG.rf.31d569ee9e6c0cd3f9cd29f26ed1ef0b.jpg",
+    "abs_path": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\data\\detection\\batches\\batch02_clean\\images\\train\\OHI_datasetIMG_5939_JPG.rf.31d569ee9e6c0cd3f9cd29f26ed1ef0b.jpg",
+    "label_path": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\data\\detection\\batches\\batch02_clean\\labels\\train\\OHI_datasetIMG_5939_JPG.rf.31d569ee9e6c0cd3f9cd29f26ed1ef0b.txt",
+    "split": "train",
+    "name": "OHI_datasetIMG_5939_JPG.rf.31d569ee9e6c0cd3f9cd29f26ed1ef0b.jpg",
+    "n_boxes": 11,
+    "bucket": "keep",
+    "flags": [
+      "border"
+    ],
+    "class_csv": "KEEP",
+    "select_reason": "border",
+    "index": 26,
+    "total": 100
+  },
+  {
+    "path": "data/detection/batches/batch02_clean/images/train/OHI_datasetIMG_5560_JPG.rf.298b0347f23da7335ab67e01bb73453f.jpg",
+    "abs_path": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\data\\detection\\batches\\batch02_clean\\images\\train\\OHI_datasetIMG_5560_JPG.rf.298b0347f23da7335ab67e01bb73453f.jpg",
+    "label_path": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\data\\detection\\batches\\batch02_clean\\labels\\train\\OHI_datasetIMG_5560_JPG.rf.298b0347f23da7335ab67e01bb73453f.txt",
+    "split": "train",
+    "name": "OHI_datasetIMG_5560_JPG.rf.298b0347f23da7335ab67e01bb73453f.jpg",
+    "n_boxes": 14,
+    "bucket": "keep",
+    "flags": [
+      "border"
+    ],
+    "class_csv": "KEEP",
+    "select_reason": "border",
+    "index": 27,
+    "total": 100
+  },
+  {
+    "path": "data/detection/batches/batch02_clean/images/train/OHI_datasetIMG_5948_JPG.rf.4140055fd941feb3ae2d240bf485a59b.jpg",
+    "abs_path": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\data\\detection\\batches\\batch02_clean\\images\\train\\OHI_datasetIMG_5948_JPG.rf.4140055fd941feb3ae2d240bf485a59b.jpg",
+    "label_path": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\data\\detection\\batches\\batch02_clean\\labels\\train\\OHI_datasetIMG_5948_JPG.rf.4140055fd941feb3ae2d240bf485a59b.txt",
+    "split": "train",
+    "name": "OHI_datasetIMG_5948_JPG.rf.4140055fd941feb3ae2d240bf485a59b.jpg",
+    "n_boxes": 16,
+    "bucket": "keep",
+    "flags": [
+      "border"
+    ],
+    "class_csv": "KEEP",
+    "select_reason": "border",
+    "index": 28,
+    "total": 100
+  },
+  {
+    "path": "data/detection/batches/batch02_clean/images/train/OHI_datasetIMG_5834_JPG.rf.197c43f1a99ef1b241b1332b3a9bfdef.jpg",
+    "abs_path": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\data\\detection\\batches\\batch02_clean\\images\\train\\OHI_datasetIMG_5834_JPG.rf.197c43f1a99ef1b241b1332b3a9bfdef.jpg",
+    "label_path": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\data\\detection\\batches\\batch02_clean\\labels\\train\\OHI_datasetIMG_5834_JPG.rf.197c43f1a99ef1b241b1332b3a9bfdef.txt",
+    "split": "train",
+    "name": "OHI_datasetIMG_5834_JPG.rf.197c43f1a99ef1b241b1332b3a9bfdef.jpg",
+    "n_boxes": 16,
+    "bucket": "keep",
+    "flags": [
+      "border"
+    ],
+    "class_csv": "KEEP",
+    "select_reason": "border",
+    "index": 29,
+    "total": 100
+  },
+  {
+    "path": "data/detection/batches/batch02_clean/images/train/OHI_datasetIMG_6649_JPG.rf.2748c590102e6a7bd04bef6f5ae8b5da.jpg",
+    "abs_path": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\data\\detection\\batches\\batch02_clean\\images\\train\\OHI_datasetIMG_6649_JPG.rf.2748c590102e6a7bd04bef6f5ae8b5da.jpg",
+    "label_path": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\data\\detection\\batches\\batch02_clean\\labels\\train\\OHI_datasetIMG_6649_JPG.rf.2748c590102e6a7bd04bef6f5ae8b5da.txt",
+    "split": "train",
+    "name": "OHI_datasetIMG_6649_JPG.rf.2748c590102e6a7bd04bef6f5ae8b5da.jpg",
+    "n_boxes": 14,
+    "bucket": "keep",
+    "flags": [
+      "border"
+    ],
+    "class_csv": "KEEP",
+    "select_reason": "border",
+    "index": 30,
+    "total": 100
+  },
+  {
+    "path": "data/detection/batches/batch02_clean/images/train/OHI_datasetIMG_5600_JPG.rf.1a7639b63aebce0af8f8e8427f62f555.jpg",
+    "abs_path": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\data\\detection\\batches\\batch02_clean\\images\\train\\OHI_datasetIMG_5600_JPG.rf.1a7639b63aebce0af8f8e8427f62f555.jpg",
+    "label_path": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\data\\detection\\batches\\batch02_clean\\labels\\train\\OHI_datasetIMG_5600_JPG.rf.1a7639b63aebce0af8f8e8427f62f555.txt",
+    "split": "train",
+    "name": "OHI_datasetIMG_5600_JPG.rf.1a7639b63aebce0af8f8e8427f62f555.jpg",
+    "n_boxes": 9,
+    "bucket": "keep",
+    "flags": [
+      "border"
+    ],
+    "class_csv": "KEEP",
+    "select_reason": "border",
+    "index": 31,
+    "total": 100
+  },
+  {
+    "path": "data/detection/batches/batch02_clean/images/train/OHI_datasetIMG_2905_JPG.rf.23cf3f42767cc87792c2b54a320a0016.jpg",
+    "abs_path": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\data\\detection\\batches\\batch02_clean\\images\\train\\OHI_datasetIMG_2905_JPG.rf.23cf3f42767cc87792c2b54a320a0016.jpg",
+    "label_path": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\data\\detection\\batches\\batch02_clean\\labels\\train\\OHI_datasetIMG_2905_JPG.rf.23cf3f42767cc87792c2b54a320a0016.txt",
+    "split": "train",
+    "name": "OHI_datasetIMG_2905_JPG.rf.23cf3f42767cc87792c2b54a320a0016.jpg",
+    "n_boxes": 11,
+    "bucket": "keep",
+    "flags": [
+      "border"
+    ],
+    "class_csv": "KEEP",
+    "select_reason": "border",
+    "index": 32,
+    "total": 100
+  },
+  {
+    "path": "data/detection/batches/batch02_clean/images/train/OHI_datasetIMG_5022_JPG.rf.17b6ae5856c05396599ef575a2d1ad16.jpg",
+    "abs_path": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\data\\detection\\batches\\batch02_clean\\images\\train\\OHI_datasetIMG_5022_JPG.rf.17b6ae5856c05396599ef575a2d1ad16.jpg",
+    "label_path": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\data\\detection\\batches\\batch02_clean\\labels\\train\\OHI_datasetIMG_5022_JPG.rf.17b6ae5856c05396599ef575a2d1ad16.txt",
+    "split": "train",
+    "name": "OHI_datasetIMG_5022_JPG.rf.17b6ae5856c05396599ef575a2d1ad16.jpg",
+    "n_boxes": 12,
+    "bucket": "keep",
+    "flags": [
+      "border"
+    ],
+    "class_csv": "KEEP",
+    "select_reason": "border",
+    "index": 33,
+    "total": 100
+  },
+  {
+    "path": "data/detection/batches/batch02_clean/images/train/OHI_datasetIMG_4213_JPG.rf.12149ad72814d073c945116ed124f192.jpg",
+    "abs_path": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\data\\detection\\batches\\batch02_clean\\images\\train\\OHI_datasetIMG_4213_JPG.rf.12149ad72814d073c945116ed124f192.jpg",
+    "label_path": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\data\\detection\\batches\\batch02_clean\\labels\\train\\OHI_datasetIMG_4213_JPG.rf.12149ad72814d073c945116ed124f192.txt",
+    "split": "train",
+    "name": "OHI_datasetIMG_4213_JPG.rf.12149ad72814d073c945116ed124f192.jpg",
+    "n_boxes": 14,
+    "bucket": "keep",
+    "flags": [
+      "border"
+    ],
+    "class_csv": "KEEP",
+    "select_reason": "border",
+    "index": 34,
+    "total": 100
+  },
+  {
+    "path": "data/detection/batches/batch02_clean/images/train/OHI_datasetIMG_23351_jpg.rf.778fd3654d07738fb96338d8f69d9230.jpg",
+    "abs_path": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\data\\detection\\batches\\batch02_clean\\images\\train\\OHI_datasetIMG_23351_jpg.rf.778fd3654d07738fb96338d8f69d9230.jpg",
+    "label_path": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\data\\detection\\batches\\batch02_clean\\labels\\train\\OHI_datasetIMG_23351_jpg.rf.778fd3654d07738fb96338d8f69d9230.txt",
+    "split": "train",
+    "name": "OHI_datasetIMG_23351_jpg.rf.778fd3654d07738fb96338d8f69d9230.jpg",
+    "n_boxes": 26,
+    "bucket": "keep",
+    "flags": [
+      "border",
+      "extreme_aspect",
+      "low_fill"
+    ],
+    "class_csv": "KEEP",
+    "select_reason": "border",
+    "index": 35,
+    "total": 100
+  },
+  {
+    "path": "data/detection/batches/batch02_clean/images/train/OHI_datasetIMG_5102_JPG.rf.90112452961eb7cba4dcf098fa3daef8.jpg",
+    "abs_path": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\data\\detection\\batches\\batch02_clean\\images\\train\\OHI_datasetIMG_5102_JPG.rf.90112452961eb7cba4dcf098fa3daef8.jpg",
+    "label_path": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\data\\detection\\batches\\batch02_clean\\labels\\train\\OHI_datasetIMG_5102_JPG.rf.90112452961eb7cba4dcf098fa3daef8.txt",
+    "split": "train",
+    "name": "OHI_datasetIMG_5102_JPG.rf.90112452961eb7cba4dcf098fa3daef8.jpg",
+    "n_boxes": 15,
+    "bucket": "keep",
+    "flags": [
+      "border"
+    ],
+    "class_csv": "KEEP",
+    "select_reason": "border",
+    "index": 36,
+    "total": 100
+  },
+  {
+    "path": "data/detection/batches/batch02_clean/images/train/OHI_datasetIMG_3497_JPG.rf.875ac9581b6f15d13ce22f4e454694d1.jpg",
+    "abs_path": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\data\\detection\\batches\\batch02_clean\\images\\train\\OHI_datasetIMG_3497_JPG.rf.875ac9581b6f15d13ce22f4e454694d1.jpg",
+    "label_path": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\data\\detection\\batches\\batch02_clean\\labels\\train\\OHI_datasetIMG_3497_JPG.rf.875ac9581b6f15d13ce22f4e454694d1.txt",
+    "split": "train",
+    "name": "OHI_datasetIMG_3497_JPG.rf.875ac9581b6f15d13ce22f4e454694d1.jpg",
+    "n_boxes": 11,
+    "bucket": "keep",
+    "flags": [
+      "border"
+    ],
+    "class_csv": "KEEP",
+    "select_reason": "border",
+    "index": 37,
+    "total": 100
+  },
+  {
+    "path": "data/detection/batches/batch02_clean/images/valid/OHI_datasetIMG_6308_JPG.rf.9c15010b0f21cb9f5a244d771a46c0d1.jpg",
+    "abs_path": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\data\\detection\\batches\\batch02_clean\\images\\valid\\OHI_datasetIMG_6308_JPG.rf.9c15010b0f21cb9f5a244d771a46c0d1.jpg",
+    "label_path": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\data\\detection\\batches\\batch02_clean\\labels\\valid\\OHI_datasetIMG_6308_JPG.rf.9c15010b0f21cb9f5a244d771a46c0d1.txt",
+    "split": "valid",
+    "name": "OHI_datasetIMG_6308_JPG.rf.9c15010b0f21cb9f5a244d771a46c0d1.jpg",
+    "n_boxes": 22,
+    "bucket": "keep",
+    "flags": [
+      "extreme_aspect",
+      "low_fill"
+    ],
+    "class_csv": "KEEP",
+    "select_reason": "extreme_aspect",
+    "index": 38,
+    "total": 100
+  },
+  {
+    "path": "data/detection/batches/batch02_clean/images/train/OHI_datasetIMG_4700_JPG.rf.1124e05f52d50b127f791e2bf7762b9e.jpg",
+    "abs_path": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\data\\detection\\batches\\batch02_clean\\images\\train\\OHI_datasetIMG_4700_JPG.rf.1124e05f52d50b127f791e2bf7762b9e.jpg",
+    "label_path": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\data\\detection\\batches\\batch02_clean\\labels\\train\\OHI_datasetIMG_4700_JPG.rf.1124e05f52d50b127f791e2bf7762b9e.txt",
+    "split": "train",
+    "name": "OHI_datasetIMG_4700_JPG.rf.1124e05f52d50b127f791e2bf7762b9e.jpg",
+    "n_boxes": 23,
+    "bucket": "keep",
+    "flags": [
+      "extreme_aspect",
+      "low_fill"
+    ],
+    "class_csv": "KEEP",
+    "select_reason": "extreme_aspect",
+    "index": 39,
+    "total": 100
+  },
+  {
+    "path": "data/detection/batches/batch02_clean/images/train/OHI_datasetIMG_5802_JPG.rf.5702d2fe34b58255de4914939db21993.jpg",
+    "abs_path": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\data\\detection\\batches\\batch02_clean\\images\\train\\OHI_datasetIMG_5802_JPG.rf.5702d2fe34b58255de4914939db21993.jpg",
+    "label_path": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\data\\detection\\batches\\batch02_clean\\labels\\train\\OHI_datasetIMG_5802_JPG.rf.5702d2fe34b58255de4914939db21993.txt",
+    "split": "train",
+    "name": "OHI_datasetIMG_5802_JPG.rf.5702d2fe34b58255de4914939db21993.jpg",
+    "n_boxes": 28,
+    "bucket": "keep",
+    "flags": [
+      "extreme_aspect",
+      "low_fill"
+    ],
+    "class_csv": "KEEP",
+    "select_reason": "extreme_aspect",
+    "index": 40,
+    "total": 100
+  },
+  {
+    "path": "data/detection/batches/batch02_clean/images/train/OHI_datasetIMG_5405_JPG.rf.26224dda455a81ae9e0537d10966c240.jpg",
+    "abs_path": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\data\\detection\\batches\\batch02_clean\\images\\train\\OHI_datasetIMG_5405_JPG.rf.26224dda455a81ae9e0537d10966c240.jpg",
+    "label_path": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\data\\detection\\batches\\batch02_clean\\labels\\train\\OHI_datasetIMG_5405_JPG.rf.26224dda455a81ae9e0537d10966c240.txt",
+    "split": "train",
+    "name": "OHI_datasetIMG_5405_JPG.rf.26224dda455a81ae9e0537d10966c240.jpg",
+    "n_boxes": 28,
+    "bucket": "keep",
+    "flags": [
+      "extreme_aspect",
+      "low_fill"
+    ],
+    "class_csv": "KEEP",
+    "select_reason": "extreme_aspect",
+    "index": 41,
+    "total": 100
+  },
+  {
+    "path": "data/detection/batches/batch02_clean/images/train/OHI_datasetSANGER_M_19591112_324752336_1_jpg.rf.6230ed9411cade0edb36a37415a941f4.jpg",
+    "abs_path": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\data\\detection\\batches\\batch02_clean\\images\\train\\OHI_datasetSANGER_M_19591112_324752336_1_jpg.rf.6230ed9411cade0edb36a37415a941f4.jpg",
+    "label_path": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\data\\detection\\batches\\batch02_clean\\labels\\train\\OHI_datasetSANGER_M_19591112_324752336_1_jpg.rf.6230ed9411cade0edb36a37415a941f4.txt",
+    "split": "train",
+    "name": "OHI_datasetSANGER_M_19591112_324752336_1_jpg.rf.6230ed9411cade0edb36a37415a941f4.jpg",
+    "n_boxes": 26,
+    "bucket": "keep",
+    "flags": [
+      "extreme_aspect",
+      "low_fill"
+    ],
+    "class_csv": "KEEP",
+    "select_reason": "extreme_aspect",
+    "index": 42,
+    "total": 100
+  },
+  {
+    "path": "data/detection/batches/batch02_clean/images/train/OHI_datasetIMG_1518_JPG.rf.16a3482cd27073c1cfec6eacf9f86a79.jpg",
+    "abs_path": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\data\\detection\\batches\\batch02_clean\\images\\train\\OHI_datasetIMG_1518_JPG.rf.16a3482cd27073c1cfec6eacf9f86a79.jpg",
+    "label_path": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\data\\detection\\batches\\batch02_clean\\labels\\train\\OHI_datasetIMG_1518_JPG.rf.16a3482cd27073c1cfec6eacf9f86a79.txt",
+    "split": "train",
+    "name": "OHI_datasetIMG_1518_JPG.rf.16a3482cd27073c1cfec6eacf9f86a79.jpg",
+    "n_boxes": 26,
+    "bucket": "keep",
+    "flags": [
+      "extreme_aspect",
+      "low_fill"
+    ],
+    "class_csv": "KEEP",
+    "select_reason": "extreme_aspect",
+    "index": 43,
+    "total": 100
+  },
+  {
+    "path": "data/detection/batches/batch02_clean/images/train/OHI_datasetIMG_3098_JPG.rf.22421cbfb09f512558a9d502a01e6e70.jpg",
+    "abs_path": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\data\\detection\\batches\\batch02_clean\\images\\train\\OHI_datasetIMG_3098_JPG.rf.22421cbfb09f512558a9d502a01e6e70.jpg",
+    "label_path": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\data\\detection\\batches\\batch02_clean\\labels\\train\\OHI_datasetIMG_3098_JPG.rf.22421cbfb09f512558a9d502a01e6e70.txt",
+    "split": "train",
+    "name": "OHI_datasetIMG_3098_JPG.rf.22421cbfb09f512558a9d502a01e6e70.jpg",
+    "n_boxes": 26,
+    "bucket": "keep",
+    "flags": [
+      "border",
+      "extreme_aspect",
+      "low_fill",
+      "overlap"
+    ],
+    "class_csv": "KEEP",
+    "select_reason": "extreme_aspect",
+    "index": 44,
+    "total": 100
+  },
+  {
+    "path": "data/detection/batches/batch02_clean/images/train/OHI_datasetIMG_6447_JPG.rf.099cf20d41cf60c1174c50058610158b.jpg",
+    "abs_path": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\data\\detection\\batches\\batch02_clean\\images\\train\\OHI_datasetIMG_6447_JPG.rf.099cf20d41cf60c1174c50058610158b.jpg",
+    "label_path": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\data\\detection\\batches\\batch02_clean\\labels\\train\\OHI_datasetIMG_6447_JPG.rf.099cf20d41cf60c1174c50058610158b.txt",
+    "split": "train",
+    "name": "OHI_datasetIMG_6447_JPG.rf.099cf20d41cf60c1174c50058610158b.jpg",
+    "n_boxes": 27,
+    "bucket": "keep",
+    "flags": [
+      "extreme_aspect",
+      "low_fill"
+    ],
+    "class_csv": "KEEP",
+    "select_reason": "extreme_aspect",
+    "index": 45,
+    "total": 100
+  },
+  {
+    "path": "data/detection/batches/batch02_clean/images/train/OHI_datasetIMG_5295_JPG.rf.55a85f38ddd401e0f0f083ff223e472f.jpg",
+    "abs_path": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\data\\detection\\batches\\batch02_clean\\images\\train\\OHI_datasetIMG_5295_JPG.rf.55a85f38ddd401e0f0f083ff223e472f.jpg",
+    "label_path": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\data\\detection\\batches\\batch02_clean\\labels\\train\\OHI_datasetIMG_5295_JPG.rf.55a85f38ddd401e0f0f083ff223e472f.txt",
+    "split": "train",
+    "name": "OHI_datasetIMG_5295_JPG.rf.55a85f38ddd401e0f0f083ff223e472f.jpg",
+    "n_boxes": 28,
+    "bucket": "keep",
+    "flags": [
+      "extreme_aspect",
+      "low_fill"
+    ],
+    "class_csv": "KEEP",
+    "select_reason": "extreme_aspect",
+    "index": 46,
+    "total": 100
+  },
+  {
+    "path": "data/detection/batches/batch02_clean/images/valid/OHI_datasetIMG_2554_JPG.rf.32ba65011ccf35fbbc8c310b8bcd8ba5.jpg",
+    "abs_path": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\data\\detection\\batches\\batch02_clean\\images\\valid\\OHI_datasetIMG_2554_JPG.rf.32ba65011ccf35fbbc8c310b8bcd8ba5.jpg",
+    "label_path": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\data\\detection\\batches\\batch02_clean\\labels\\valid\\OHI_datasetIMG_2554_JPG.rf.32ba65011ccf35fbbc8c310b8bcd8ba5.txt",
+    "split": "valid",
+    "name": "OHI_datasetIMG_2554_JPG.rf.32ba65011ccf35fbbc8c310b8bcd8ba5.jpg",
+    "n_boxes": 23,
+    "bucket": "keep",
+    "flags": [
+      "extreme_aspect",
+      "low_fill"
+    ],
+    "class_csv": "KEEP",
+    "select_reason": "extreme_aspect",
+    "index": 47,
+    "total": 100
+  },
+  {
+    "path": "data/detection/batches/batch02_clean/images/train/OHI_dataset_MG_3889_JPG.rf.1e21792e6e4a29ef6d3f5596f5591a22.jpg",
+    "abs_path": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\data\\detection\\batches\\batch02_clean\\images\\train\\OHI_dataset_MG_3889_JPG.rf.1e21792e6e4a29ef6d3f5596f5591a22.jpg",
+    "label_path": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\data\\detection\\batches\\batch02_clean\\labels\\train\\OHI_dataset_MG_3889_JPG.rf.1e21792e6e4a29ef6d3f5596f5591a22.txt",
+    "split": "train",
+    "name": "OHI_dataset_MG_3889_JPG.rf.1e21792e6e4a29ef6d3f5596f5591a22.jpg",
+    "n_boxes": 27,
+    "bucket": "keep",
+    "flags": [
+      "tiny"
+    ],
+    "class_csv": "KEEP",
+    "select_reason": "tiny",
+    "index": 48,
+    "total": 100
+  },
+  {
+    "path": "data/detection/batches/batch02_clean/images/valid/OHI_datasetIMG_1111_JPG.rf.c942055271ddc43953098ef41b84b5f5.jpg",
+    "abs_path": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\data\\detection\\batches\\batch02_clean\\images\\valid\\OHI_datasetIMG_1111_JPG.rf.c942055271ddc43953098ef41b84b5f5.jpg",
+    "label_path": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\data\\detection\\batches\\batch02_clean\\labels\\valid\\OHI_datasetIMG_1111_JPG.rf.c942055271ddc43953098ef41b84b5f5.txt",
+    "split": "valid",
+    "name": "OHI_datasetIMG_1111_JPG.rf.c942055271ddc43953098ef41b84b5f5.jpg",
+    "n_boxes": 27,
+    "bucket": "keep",
+    "flags": [
+      "tiny"
+    ],
+    "class_csv": "KEEP",
+    "select_reason": "tiny",
+    "index": 49,
+    "total": 100
+  },
+  {
+    "path": "data/detection/batches/batch02_clean/images/valid/OHI_datasetIMG_4197_JPG.rf.ed04242005343e7beffd6cd73f2f5378.jpg",
+    "abs_path": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\data\\detection\\batches\\batch02_clean\\images\\valid\\OHI_datasetIMG_4197_JPG.rf.ed04242005343e7beffd6cd73f2f5378.jpg",
+    "label_path": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\data\\detection\\batches\\batch02_clean\\labels\\valid\\OHI_datasetIMG_4197_JPG.rf.ed04242005343e7beffd6cd73f2f5378.txt",
+    "split": "valid",
+    "name": "OHI_datasetIMG_4197_JPG.rf.ed04242005343e7beffd6cd73f2f5378.jpg",
+    "n_boxes": 25,
+    "bucket": "keep",
+    "flags": [
+      "tiny"
+    ],
+    "class_csv": "KEEP",
+    "select_reason": "tiny",
+    "index": 50,
+    "total": 100
+  },
+  {
+    "path": "data/detection/batches/batch02_clean/images/train/OHI_datasetIMG_4935_JPG.rf.9d8c2d158f77d03737fd136ca8fa549f.jpg",
+    "abs_path": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\data\\detection\\batches\\batch02_clean\\images\\train\\OHI_datasetIMG_4935_JPG.rf.9d8c2d158f77d03737fd136ca8fa549f.jpg",
+    "label_path": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\data\\detection\\batches\\batch02_clean\\labels\\train\\OHI_datasetIMG_4935_JPG.rf.9d8c2d158f77d03737fd136ca8fa549f.txt",
+    "split": "train",
+    "name": "OHI_datasetIMG_4935_JPG.rf.9d8c2d158f77d03737fd136ca8fa549f.jpg",
+    "n_boxes": 30,
+    "bucket": "keep",
+    "flags": [
+      "tiny"
+    ],
+    "class_csv": "KEEP",
+    "select_reason": "tiny",
+    "index": 51,
+    "total": 100
+  },
+  {
+    "path": "data/detection/batches/batch02_clean/images/test/OHI_datasetIMG_5150_JPG.rf.ecd0d45a0aa581f1d310e941438a87ee.jpg",
+    "abs_path": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\data\\detection\\batches\\batch02_clean\\images\\test\\OHI_datasetIMG_5150_JPG.rf.ecd0d45a0aa581f1d310e941438a87ee.jpg",
+    "label_path": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\data\\detection\\batches\\batch02_clean\\labels\\test\\OHI_datasetIMG_5150_JPG.rf.ecd0d45a0aa581f1d310e941438a87ee.txt",
+    "split": "test",
+    "name": "OHI_datasetIMG_5150_JPG.rf.ecd0d45a0aa581f1d310e941438a87ee.jpg",
+    "n_boxes": 28,
+    "bucket": "keep",
+    "flags": [
+      "extreme_aspect",
+      "low_fill",
+      "tiny"
+    ],
+    "class_csv": "KEEP",
+    "select_reason": "tiny",
+    "index": 52,
+    "total": 100
+  },
+  {
+    "path": "data/detection/batches/batch02_clean/images/train/OHI_datasetIMG_3883_JPG.rf.3654a52a2a3d0768f68a46a55972752c.jpg",
+    "abs_path": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\data\\detection\\batches\\batch02_clean\\images\\train\\OHI_datasetIMG_3883_JPG.rf.3654a52a2a3d0768f68a46a55972752c.jpg",
+    "label_path": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\data\\detection\\batches\\batch02_clean\\labels\\train\\OHI_datasetIMG_3883_JPG.rf.3654a52a2a3d0768f68a46a55972752c.txt",
+    "split": "train",
+    "name": "OHI_datasetIMG_3883_JPG.rf.3654a52a2a3d0768f68a46a55972752c.jpg",
+    "n_boxes": 32,
+    "bucket": "keep",
+    "flags": [
+      "tiny"
+    ],
+    "class_csv": "KEEP",
+    "select_reason": "tiny",
+    "index": 53,
+    "total": 100
+  },
+  {
+    "path": "data/detection/batches/batch02_clean/images/test/OHI_datasetIMG_5208_JPG.rf.b8dadd9f82f190023810f38231e0f4d8.jpg",
+    "abs_path": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\data\\detection\\batches\\batch02_clean\\images\\test\\OHI_datasetIMG_5208_JPG.rf.b8dadd9f82f190023810f38231e0f4d8.jpg",
+    "label_path": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\data\\detection\\batches\\batch02_clean\\labels\\test\\OHI_datasetIMG_5208_JPG.rf.b8dadd9f82f190023810f38231e0f4d8.txt",
+    "split": "test",
+    "name": "OHI_datasetIMG_5208_JPG.rf.b8dadd9f82f190023810f38231e0f4d8.jpg",
+    "n_boxes": 30,
+    "bucket": "keep",
+    "flags": [
+      "tiny"
+    ],
+    "class_csv": "KEEP",
+    "select_reason": "tiny",
+    "index": 54,
+    "total": 100
+  },
+  {
+    "path": "data/detection/batches/batch02_clean/images/train/OHI_datasetIMG_3773_jpg.rf.2d6bb88efe9142daecc81253e57392b7.jpg",
+    "abs_path": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\data\\detection\\batches\\batch02_clean\\images\\train\\OHI_datasetIMG_3773_jpg.rf.2d6bb88efe9142daecc81253e57392b7.jpg",
+    "label_path": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\data\\detection\\batches\\batch02_clean\\labels\\train\\OHI_datasetIMG_3773_jpg.rf.2d6bb88efe9142daecc81253e57392b7.txt",
+    "split": "train",
+    "name": "OHI_datasetIMG_3773_jpg.rf.2d6bb88efe9142daecc81253e57392b7.jpg",
+    "n_boxes": 22,
+    "bucket": "keep",
+    "flags": [
+      "tiny"
+    ],
+    "class_csv": "KEEP",
+    "select_reason": "tiny",
+    "index": 55,
+    "total": 100
+  },
+  {
+    "path": "data/detection/batches/batch02_clean/images/valid/OHI_datasetIMG_4922_JPG.rf.0db42f8913292f6f2c19f6a10483eef0.jpg",
+    "abs_path": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\data\\detection\\batches\\batch02_clean\\images\\valid\\OHI_datasetIMG_4922_JPG.rf.0db42f8913292f6f2c19f6a10483eef0.jpg",
+    "label_path": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\data\\detection\\batches\\batch02_clean\\labels\\valid\\OHI_datasetIMG_4922_JPG.rf.0db42f8913292f6f2c19f6a10483eef0.txt",
+    "split": "valid",
+    "name": "OHI_datasetIMG_4922_JPG.rf.0db42f8913292f6f2c19f6a10483eef0.jpg",
+    "n_boxes": 28,
+    "bucket": "keep",
+    "flags": [
+      "extreme_aspect",
+      "low_fill"
+    ],
+    "class_csv": "KEEP",
+    "select_reason": "low_fill",
+    "index": 56,
+    "total": 100
+  },
+  {
+    "path": "data/detection/batches/batch02_clean/images/train/OHI_datasetIMG_5285_JPG.rf.61b4841b7fb4b6fb3ae47fbd55eb2903.jpg",
+    "abs_path": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\data\\detection\\batches\\batch02_clean\\images\\train\\OHI_datasetIMG_5285_JPG.rf.61b4841b7fb4b6fb3ae47fbd55eb2903.jpg",
+    "label_path": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\data\\detection\\batches\\batch02_clean\\labels\\train\\OHI_datasetIMG_5285_JPG.rf.61b4841b7fb4b6fb3ae47fbd55eb2903.txt",
+    "split": "train",
+    "name": "OHI_datasetIMG_5285_JPG.rf.61b4841b7fb4b6fb3ae47fbd55eb2903.jpg",
+    "n_boxes": 27,
+    "bucket": "keep",
+    "flags": [
+      "extreme_aspect",
+      "low_fill"
+    ],
+    "class_csv": "KEEP",
+    "select_reason": "low_fill",
+    "index": 57,
+    "total": 100
+  },
+  {
+    "path": "data/detection/batches/batch02_clean/images/train/OHI_datasetIMG_3942_JPG.rf.4e60403ee40365b985552a6211fe3751.jpg",
+    "abs_path": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\data\\detection\\batches\\batch02_clean\\images\\train\\OHI_datasetIMG_3942_JPG.rf.4e60403ee40365b985552a6211fe3751.jpg",
+    "label_path": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\data\\detection\\batches\\batch02_clean\\labels\\train\\OHI_datasetIMG_3942_JPG.rf.4e60403ee40365b985552a6211fe3751.txt",
+    "split": "train",
+    "name": "OHI_datasetIMG_3942_JPG.rf.4e60403ee40365b985552a6211fe3751.jpg",
+    "n_boxes": 24,
+    "bucket": "keep",
+    "flags": [
+      "extreme_aspect",
+      "low_fill"
+    ],
+    "class_csv": "KEEP",
+    "select_reason": "low_fill",
+    "index": 58,
+    "total": 100
+  },
+  {
+    "path": "data/detection/batches/batch02_clean/images/valid/OHI_datasetIMG_4566_JPG.rf.aafe65408e9cb5731af8465e1d52e537.jpg",
+    "abs_path": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\data\\detection\\batches\\batch02_clean\\images\\valid\\OHI_datasetIMG_4566_JPG.rf.aafe65408e9cb5731af8465e1d52e537.jpg",
+    "label_path": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\data\\detection\\batches\\batch02_clean\\labels\\valid\\OHI_datasetIMG_4566_JPG.rf.aafe65408e9cb5731af8465e1d52e537.txt",
+    "split": "valid",
+    "name": "OHI_datasetIMG_4566_JPG.rf.aafe65408e9cb5731af8465e1d52e537.jpg",
+    "n_boxes": 27,
+    "bucket": "keep",
+    "flags": [
+      "extreme_aspect",
+      "low_fill"
+    ],
+    "class_csv": "KEEP",
+    "select_reason": "low_fill",
+    "index": 59,
+    "total": 100
+  },
+  {
+    "path": "data/detection/batches/batch02_clean/images/valid/OHI_datasetIMG_3106_JPG.rf.a10f609f0b0ae87f28446a0a7852a886.jpg",
+    "abs_path": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\data\\detection\\batches\\batch02_clean\\images\\valid\\OHI_datasetIMG_3106_JPG.rf.a10f609f0b0ae87f28446a0a7852a886.jpg",
+    "label_path": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\data\\detection\\batches\\batch02_clean\\labels\\valid\\OHI_datasetIMG_3106_JPG.rf.a10f609f0b0ae87f28446a0a7852a886.txt",
+    "split": "valid",
+    "name": "OHI_datasetIMG_3106_JPG.rf.a10f609f0b0ae87f28446a0a7852a886.jpg",
+    "n_boxes": 21,
+    "bucket": "keep",
+    "flags": [
+      "extreme_aspect",
+      "low_fill"
+    ],
+    "class_csv": "KEEP",
+    "select_reason": "low_fill",
+    "index": 60,
+    "total": 100
+  },
+  {
+    "path": "data/detection/batches/batch02_clean/images/test/OHI_datasetIMG_3950_JPG.rf.d9001ee9191ae5f7400488617e2b5e08.jpg",
+    "abs_path": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\data\\detection\\batches\\batch02_clean\\images\\test\\OHI_datasetIMG_3950_JPG.rf.d9001ee9191ae5f7400488617e2b5e08.jpg",
+    "label_path": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\data\\detection\\batches\\batch02_clean\\labels\\test\\OHI_datasetIMG_3950_JPG.rf.d9001ee9191ae5f7400488617e2b5e08.txt",
+    "split": "test",
+    "name": "OHI_datasetIMG_3950_JPG.rf.d9001ee9191ae5f7400488617e2b5e08.jpg",
+    "n_boxes": 28,
+    "bucket": "keep",
+    "flags": [
+      "extreme_aspect",
+      "low_fill"
+    ],
+    "class_csv": "KEEP",
+    "select_reason": "low_fill",
+    "index": 61,
+    "total": 100
+  },
+  {
+    "path": "data/detection/batches/batch02_clean/images/test/OHI_datasetIMG_5922_JPG.rf.617fac837a568bdef27d9e0a2ffad0bb.jpg",
+    "abs_path": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\data\\detection\\batches\\batch02_clean\\images\\test\\OHI_datasetIMG_5922_JPG.rf.617fac837a568bdef27d9e0a2ffad0bb.jpg",
+    "label_path": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\data\\detection\\batches\\batch02_clean\\labels\\test\\OHI_datasetIMG_5922_JPG.rf.617fac837a568bdef27d9e0a2ffad0bb.txt",
+    "split": "test",
+    "name": "OHI_datasetIMG_5922_JPG.rf.617fac837a568bdef27d9e0a2ffad0bb.jpg",
+    "n_boxes": 24,
+    "bucket": "keep",
+    "flags": [
+      "extreme_aspect",
+      "low_fill"
+    ],
+    "class_csv": "KEEP",
+    "select_reason": "low_fill",
+    "index": 62,
+    "total": 100
+  },
+  {
+    "path": "data/detection/batches/batch02_clean/images/train/OHI_datasetIMG_4415_JPG.rf.124c084607d79fe3f0a1d1719441d04f.jpg",
+    "abs_path": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\data\\detection\\batches\\batch02_clean\\images\\train\\OHI_datasetIMG_4415_JPG.rf.124c084607d79fe3f0a1d1719441d04f.jpg",
+    "label_path": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\data\\detection\\batches\\batch02_clean\\labels\\train\\OHI_datasetIMG_4415_JPG.rf.124c084607d79fe3f0a1d1719441d04f.txt",
+    "split": "train",
+    "name": "OHI_datasetIMG_4415_JPG.rf.124c084607d79fe3f0a1d1719441d04f.jpg",
+    "n_boxes": 27,
+    "bucket": "keep",
+    "flags": [
+      "extreme_aspect",
+      "low_fill"
+    ],
+    "class_csv": "KEEP",
+    "select_reason": "low_fill",
+    "index": 63,
+    "total": 100
+  },
+  {
+    "path": "data/detection/batches/batch02_clean/images/valid/OHI_datasetIMG_2181_jpg.rf.9543fbb38588f2d20fe3876453b8e4b7.jpg",
+    "abs_path": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\data\\detection\\batches\\batch02_clean\\images\\valid\\OHI_datasetIMG_2181_jpg.rf.9543fbb38588f2d20fe3876453b8e4b7.jpg",
+    "label_path": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\data\\detection\\batches\\batch02_clean\\labels\\valid\\OHI_datasetIMG_2181_jpg.rf.9543fbb38588f2d20fe3876453b8e4b7.txt",
+    "split": "valid",
+    "name": "OHI_datasetIMG_2181_jpg.rf.9543fbb38588f2d20fe3876453b8e4b7.jpg",
+    "n_boxes": 25,
+    "bucket": "keep",
+    "flags": [
+      "overlap"
+    ],
+    "class_csv": "KEEP",
+    "select_reason": "overlap",
+    "index": 64,
+    "total": 100
+  },
+  {
+    "path": "data/detection/batches/batch02_clean/images/valid/OHI_datasetIMG_5002_JPG.rf.ec18fa71c12d2044eb636f1c791340d2.jpg",
+    "abs_path": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\data\\detection\\batches\\batch02_clean\\images\\valid\\OHI_datasetIMG_5002_JPG.rf.ec18fa71c12d2044eb636f1c791340d2.jpg",
+    "label_path": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\data\\detection\\batches\\batch02_clean\\labels\\valid\\OHI_datasetIMG_5002_JPG.rf.ec18fa71c12d2044eb636f1c791340d2.txt",
+    "split": "valid",
+    "name": "OHI_datasetIMG_5002_JPG.rf.ec18fa71c12d2044eb636f1c791340d2.jpg",
+    "n_boxes": 26,
+    "bucket": "keep",
+    "flags": [
+      "overlap"
+    ],
+    "class_csv": "KEEP",
+    "select_reason": "overlap",
+    "index": 65,
+    "total": 100
+  },
+  {
+    "path": "data/detection/batches/batch02_clean/images/valid/OHI_datasetIMG_6247_JPG.rf.0bab4d77afe39fdf53c2a60e16525f39.jpg",
+    "abs_path": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\data\\detection\\batches\\batch02_clean\\images\\valid\\OHI_datasetIMG_6247_JPG.rf.0bab4d77afe39fdf53c2a60e16525f39.jpg",
+    "label_path": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\data\\detection\\batches\\batch02_clean\\labels\\valid\\OHI_datasetIMG_6247_JPG.rf.0bab4d77afe39fdf53c2a60e16525f39.txt",
+    "split": "valid",
+    "name": "OHI_datasetIMG_6247_JPG.rf.0bab4d77afe39fdf53c2a60e16525f39.jpg",
+    "n_boxes": 26,
+    "bucket": "keep",
+    "flags": [
+      "overlap"
+    ],
+    "class_csv": "KEEP",
+    "select_reason": "overlap",
+    "index": 66,
+    "total": 100
+  },
+  {
+    "path": "data/detection/batches/batch02_clean/images/train/OHI_datasetIMG_5176_JPG.rf.5cca42d210ac66da38dbe7ab49adc470.jpg",
+    "abs_path": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\data\\detection\\batches\\batch02_clean\\images\\train\\OHI_datasetIMG_5176_JPG.rf.5cca42d210ac66da38dbe7ab49adc470.jpg",
+    "label_path": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\data\\detection\\batches\\batch02_clean\\labels\\train\\OHI_datasetIMG_5176_JPG.rf.5cca42d210ac66da38dbe7ab49adc470.txt",
+    "split": "train",
+    "name": "OHI_datasetIMG_5176_JPG.rf.5cca42d210ac66da38dbe7ab49adc470.jpg",
+    "n_boxes": 25,
+    "bucket": "keep",
+    "flags": [
+      "overlap",
+      "tiny"
+    ],
+    "class_csv": "KEEP",
+    "select_reason": "overlap",
+    "index": 67,
+    "total": 100
+  },
+  {
+    "path": "data/detection/batches/batch02_clean/images/train/OHI_datasetIMG_5896_JPG.rf.9f721d63e76bdc5d42b1ea1b2553dcd4.jpg",
+    "abs_path": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\data\\detection\\batches\\batch02_clean\\images\\train\\OHI_datasetIMG_5896_JPG.rf.9f721d63e76bdc5d42b1ea1b2553dcd4.jpg",
+    "label_path": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\data\\detection\\batches\\batch02_clean\\labels\\train\\OHI_datasetIMG_5896_JPG.rf.9f721d63e76bdc5d42b1ea1b2553dcd4.txt",
+    "split": "train",
+    "name": "OHI_datasetIMG_5896_JPG.rf.9f721d63e76bdc5d42b1ea1b2553dcd4.jpg",
+    "n_boxes": 28,
+    "bucket": "keep",
+    "flags": [
+      "overlap"
+    ],
+    "class_csv": "KEEP",
+    "select_reason": "overlap",
+    "index": 68,
+    "total": 100
+  },
+  {
+    "path": "data/detection/batches/batch02_clean/images/train/OHI_datasetIMG_4986_JPG.rf.d8ff496c3e5ee6b4e47efc6beb7a4c06.jpg",
+    "abs_path": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\data\\detection\\batches\\batch02_clean\\images\\train\\OHI_datasetIMG_4986_JPG.rf.d8ff496c3e5ee6b4e47efc6beb7a4c06.jpg",
+    "label_path": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\data\\detection\\batches\\batch02_clean\\labels\\train\\OHI_datasetIMG_4986_JPG.rf.d8ff496c3e5ee6b4e47efc6beb7a4c06.txt",
+    "split": "train",
+    "name": "OHI_datasetIMG_4986_JPG.rf.d8ff496c3e5ee6b4e47efc6beb7a4c06.jpg",
+    "n_boxes": 22,
+    "bucket": "keep",
+    "flags": [
+      "overlap"
+    ],
+    "class_csv": "KEEP",
+    "select_reason": "overlap",
+    "index": 69,
+    "total": 100
+  },
+  {
+    "path": "data/detection/batches/batch02_clean/images/train/OHI_datasetIMG_5673_JPG.rf.4174895ce3952b2962d94e1eeb63dfc6.jpg",
+    "abs_path": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\data\\detection\\batches\\batch02_clean\\images\\train\\OHI_datasetIMG_5673_JPG.rf.4174895ce3952b2962d94e1eeb63dfc6.jpg",
+    "label_path": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\data\\detection\\batches\\batch02_clean\\labels\\train\\OHI_datasetIMG_5673_JPG.rf.4174895ce3952b2962d94e1eeb63dfc6.txt",
+    "split": "train",
+    "name": "OHI_datasetIMG_5673_JPG.rf.4174895ce3952b2962d94e1eeb63dfc6.jpg",
+    "n_boxes": 26,
+    "bucket": "keep",
+    "flags": [
+      "overlap"
+    ],
+    "class_csv": "KEEP",
+    "select_reason": "overlap",
+    "index": 70,
+    "total": 100
+  },
+  {
+    "path": "data/detection/batches/batch02_clean/images/test/OHI_datasetIMG_2972_jpg.rf.6fd2a655cfaec38c3bf55c32f8ccd9e9.jpg",
+    "abs_path": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\data\\detection\\batches\\batch02_clean\\images\\test\\OHI_datasetIMG_2972_jpg.rf.6fd2a655cfaec38c3bf55c32f8ccd9e9.jpg",
+    "label_path": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\data\\detection\\batches\\batch02_clean\\labels\\test\\OHI_datasetIMG_2972_jpg.rf.6fd2a655cfaec38c3bf55c32f8ccd9e9.txt",
+    "split": "test",
+    "name": "OHI_datasetIMG_2972_jpg.rf.6fd2a655cfaec38c3bf55c32f8ccd9e9.jpg",
+    "n_boxes": 22,
+    "bucket": "keep",
+    "flags": [
+      "overlap"
+    ],
+    "class_csv": "KEEP",
+    "select_reason": "overlap",
+    "index": 71,
+    "total": 100
+  },
+  {
+    "path": "data/detection/batches/batch02_clean/images/train/OHI_datasetcrop_open_jpg.rf.2a01a46fb015a4d8f1626af2fad8b137.jpg",
+    "abs_path": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\data\\detection\\batches\\batch02_clean\\images\\train\\OHI_datasetcrop_open_jpg.rf.2a01a46fb015a4d8f1626af2fad8b137.jpg",
+    "label_path": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\data\\detection\\batches\\batch02_clean\\labels\\train\\OHI_datasetcrop_open_jpg.rf.2a01a46fb015a4d8f1626af2fad8b137.txt",
+    "split": "train",
+    "name": "OHI_datasetcrop_open_jpg.rf.2a01a46fb015a4d8f1626af2fad8b137.jpg",
+    "n_boxes": 28,
+    "bucket": "keep",
+    "flags": [
+      "border",
+      "overlap"
+    ],
+    "class_csv": "KEEP",
+    "select_reason": "overlap",
+    "index": 72,
+    "total": 100
+  },
+  {
+    "path": "data/detection/batches/batch02_clean/images/train/OHI_dataset_MG_4552_JPG.rf.5df945f617d260e89f7ec678e6cf67e6.jpg",
+    "abs_path": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\data\\detection\\batches\\batch02_clean\\images\\train\\OHI_dataset_MG_4552_JPG.rf.5df945f617d260e89f7ec678e6cf67e6.jpg",
+    "label_path": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\data\\detection\\batches\\batch02_clean\\labels\\train\\OHI_dataset_MG_4552_JPG.rf.5df945f617d260e89f7ec678e6cf67e6.txt",
+    "split": "train",
+    "name": "OHI_dataset_MG_4552_JPG.rf.5df945f617d260e89f7ec678e6cf67e6.jpg",
+    "n_boxes": 27,
+    "bucket": "keep",
+    "flags": [
+      "overlap"
+    ],
+    "class_csv": "KEEP",
+    "select_reason": "overlap",
+    "index": 73,
+    "total": 100
+  },
+  {
+    "path": "data/detection/batches/batch02_clean/images/train/OHI_datasetIMG_3049_JPG.rf.23dcd74b4dcb34f536d95f6930889fde.jpg",
+    "abs_path": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\data\\detection\\batches\\batch02_clean\\images\\train\\OHI_datasetIMG_3049_JPG.rf.23dcd74b4dcb34f536d95f6930889fde.jpg",
+    "label_path": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\data\\detection\\batches\\batch02_clean\\labels\\train\\OHI_datasetIMG_3049_JPG.rf.23dcd74b4dcb34f536d95f6930889fde.txt",
+    "split": "train",
+    "name": "OHI_datasetIMG_3049_JPG.rf.23dcd74b4dcb34f536d95f6930889fde.jpg",
+    "n_boxes": 12,
+    "bucket": "keep",
+    "flags": [
+      "overlap"
+    ],
+    "class_csv": "KEEP",
+    "select_reason": "overlap",
+    "index": 74,
+    "total": 100
+  },
+  {
+    "path": "data/detection/batches/batch02_clean/images/test/OHI_datasetIMG_4860_JPG.rf.b14ae0c775bbb466f97f578c4ca90986.jpg",
+    "abs_path": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\data\\detection\\batches\\batch02_clean\\images\\test\\OHI_datasetIMG_4860_JPG.rf.b14ae0c775bbb466f97f578c4ca90986.jpg",
+    "label_path": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\data\\detection\\batches\\batch02_clean\\labels\\test\\OHI_datasetIMG_4860_JPG.rf.b14ae0c775bbb466f97f578c4ca90986.txt",
+    "split": "test",
+    "name": "OHI_datasetIMG_4860_JPG.rf.b14ae0c775bbb466f97f578c4ca90986.jpg",
+    "n_boxes": 26,
+    "bucket": "keep",
+    "flags": [
+      "overlap"
+    ],
+    "class_csv": "KEEP",
+    "select_reason": "overlap",
+    "index": 75,
+    "total": 100
+  },
+  {
+    "path": "data/detection/batches/batch02_clean/held_out/review/images/train/OHI_datasetIMG_0213_JPG.rf.1d11bafeea226b67ef4d757070a85f5b.jpg",
+    "abs_path": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\data\\detection\\batches\\batch02_clean\\held_out\\review\\images\\train\\OHI_datasetIMG_0213_JPG.rf.1d11bafeea226b67ef4d757070a85f5b.jpg",
+    "label_path": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\data\\detection\\batches\\batch02_clean\\held_out\\review\\labels\\train\\OHI_datasetIMG_0213_JPG.rf.1d11bafeea226b67ef4d757070a85f5b.txt",
+    "split": "train",
+    "name": "OHI_datasetIMG_0213_JPG.rf.1d11bafeea226b67ef4d757070a85f5b.jpg",
+    "n_boxes": 23,
+    "bucket": "review",
+    "flags": [
+      "near_gray",
+      "overlap"
+    ],
+    "class_csv": "REVIEW",
+    "select_reason": "near_gray",
+    "index": 76,
+    "total": 100
+  },
+  {
+    "path": "data/detection/batches/batch02_clean/held_out/review/images/train/OHI_datasetIMG_3493_JPG.rf.1b210b2c7e96ace93a38df8c5273073f.jpg",
+    "abs_path": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\data\\detection\\batches\\batch02_clean\\held_out\\review\\images\\train\\OHI_datasetIMG_3493_JPG.rf.1b210b2c7e96ace93a38df8c5273073f.jpg",
+    "label_path": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\data\\detection\\batches\\batch02_clean\\held_out\\review\\labels\\train\\OHI_datasetIMG_3493_JPG.rf.1b210b2c7e96ace93a38df8c5273073f.txt",
+    "split": "train",
+    "name": "OHI_datasetIMG_3493_JPG.rf.1b210b2c7e96ace93a38df8c5273073f.jpg",
+    "n_boxes": 15,
+    "bucket": "review",
+    "flags": [
+      "near_gray"
+    ],
+    "class_csv": "REVIEW",
+    "select_reason": "near_gray",
+    "index": 77,
+    "total": 100
+  },
+  {
+    "path": "data/detection/batches/batch02_clean/held_out/review/images/train/OHI_datasetgallery_-106765536_penta_upper_m_jpg.rf.39c7bd00f585c71069770864860da7cd.jpg",
+    "abs_path": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\data\\detection\\batches\\batch02_clean\\held_out\\review\\images\\train\\OHI_datasetgallery_-106765536_penta_upper_m_jpg.rf.39c7bd00f585c71069770864860da7cd.jpg",
+    "label_path": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\data\\detection\\batches\\batch02_clean\\held_out\\review\\labels\\train\\OHI_datasetgallery_-106765536_penta_upper_m_jpg.rf.39c7bd00f585c71069770864860da7cd.txt",
+    "split": "train",
+    "name": "OHI_datasetgallery_-106765536_penta_upper_m_jpg.rf.39c7bd00f585c71069770864860da7cd.jpg",
+    "n_boxes": 14,
+    "bucket": "review",
+    "flags": [
+      "border",
+      "gallery",
+      "near_gray"
+    ],
+    "class_csv": "REVIEW",
+    "select_reason": "near_gray",
+    "index": 78,
+    "total": 100
+  },
+  {
+    "path": "data/detection/batches/batch02_clean/held_out/review/images/train/OHI_datasetIMG_34791_jpg.rf.afd84a0dc0a785a3cc5955107718a9b0.jpg",
+    "abs_path": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\data\\detection\\batches\\batch02_clean\\held_out\\review\\images\\train\\OHI_datasetIMG_34791_jpg.rf.afd84a0dc0a785a3cc5955107718a9b0.jpg",
+    "label_path": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\data\\detection\\batches\\batch02_clean\\held_out\\review\\labels\\train\\OHI_datasetIMG_34791_jpg.rf.afd84a0dc0a785a3cc5955107718a9b0.txt",
+    "split": "train",
+    "name": "OHI_datasetIMG_34791_jpg.rf.afd84a0dc0a785a3cc5955107718a9b0.jpg",
+    "n_boxes": 13,
+    "bucket": "review",
+    "flags": [
+      "near_gray"
+    ],
+    "class_csv": "REVIEW",
+    "select_reason": "near_gray",
+    "index": 79,
+    "total": 100
+  },
+  {
+    "path": "data/detection/batches/batch02_clean/held_out/review/images/train/OHI_datasetIMG_3418_JPG.rf.2bbf466dc745e047d1b7afe8005541da.jpg",
+    "abs_path": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\data\\detection\\batches\\batch02_clean\\held_out\\review\\images\\train\\OHI_datasetIMG_3418_JPG.rf.2bbf466dc745e047d1b7afe8005541da.jpg",
+    "label_path": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\data\\detection\\batches\\batch02_clean\\held_out\\review\\labels\\train\\OHI_datasetIMG_3418_JPG.rf.2bbf466dc745e047d1b7afe8005541da.txt",
+    "split": "train",
+    "name": "OHI_datasetIMG_3418_JPG.rf.2bbf466dc745e047d1b7afe8005541da.jpg",
+    "n_boxes": 12,
+    "bucket": "review",
+    "flags": [
+      "border",
+      "near_gray"
+    ],
+    "class_csv": "REVIEW",
+    "select_reason": "near_gray",
+    "index": 80,
+    "total": 100
+  },
+  {
+    "path": "data/detection/batches/batch02_clean/held_out/review/images/train/OHI_datasetIMG_1114_JPG.rf.2a0aa7f4fd8d58a75e3d4a06b6fb3270.jpg",
+    "abs_path": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\data\\detection\\batches\\batch02_clean\\held_out\\review\\images\\train\\OHI_datasetIMG_1114_JPG.rf.2a0aa7f4fd8d58a75e3d4a06b6fb3270.jpg",
+    "label_path": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\data\\detection\\batches\\batch02_clean\\held_out\\review\\labels\\train\\OHI_datasetIMG_1114_JPG.rf.2a0aa7f4fd8d58a75e3d4a06b6fb3270.txt",
+    "split": "train",
+    "name": "OHI_datasetIMG_1114_JPG.rf.2a0aa7f4fd8d58a75e3d4a06b6fb3270.jpg",
+    "n_boxes": 15,
+    "bucket": "review",
+    "flags": [
+      "near_gray"
+    ],
+    "class_csv": "REVIEW",
+    "select_reason": "near_gray",
+    "index": 81,
+    "total": 100
+  },
+  {
+    "path": "data/detection/batches/batch02_clean/held_out/review/images/train/OHI_datasetIMG_6170_JPG.rf.110635b231189f3aa3976abcfdd90d83.jpg",
+    "abs_path": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\data\\detection\\batches\\batch02_clean\\held_out\\review\\images\\train\\OHI_datasetIMG_6170_JPG.rf.110635b231189f3aa3976abcfdd90d83.jpg",
+    "label_path": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\data\\detection\\batches\\batch02_clean\\held_out\\review\\labels\\train\\OHI_datasetIMG_6170_JPG.rf.110635b231189f3aa3976abcfdd90d83.txt",
+    "split": "train",
+    "name": "OHI_datasetIMG_6170_JPG.rf.110635b231189f3aa3976abcfdd90d83.jpg",
+    "n_boxes": 11,
+    "bucket": "review",
+    "flags": [
+      "near_gray"
+    ],
+    "class_csv": "REVIEW",
+    "select_reason": "near_gray",
+    "index": 82,
+    "total": 100
+  },
+  {
+    "path": "data/detection/batches/batch02_clean/held_out/review/images/train/OHI_datasetIMG_4928_JPG.rf.6aa2981d36f9bf41831415b3e25a6d0e.jpg",
+    "abs_path": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\data\\detection\\batches\\batch02_clean\\held_out\\review\\images\\train\\OHI_datasetIMG_4928_JPG.rf.6aa2981d36f9bf41831415b3e25a6d0e.jpg",
+    "label_path": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\data\\detection\\batches\\batch02_clean\\held_out\\review\\labels\\train\\OHI_datasetIMG_4928_JPG.rf.6aa2981d36f9bf41831415b3e25a6d0e.txt",
+    "split": "train",
+    "name": "OHI_datasetIMG_4928_JPG.rf.6aa2981d36f9bf41831415b3e25a6d0e.jpg",
+    "n_boxes": 28,
+    "bucket": "review",
+    "flags": [
+      "near_gray",
+      "overlap"
+    ],
+    "class_csv": "REVIEW",
+    "select_reason": "near_gray",
+    "index": 83,
+    "total": 100
+  },
+  {
+    "path": "data/detection/batches/batch02_clean/held_out/review/images/train/OHI_datasetgallery_-159699942_penta_lower_m_jpg.rf.408fe017caeeac8c9a0bec01b7c99bc6.jpg",
+    "abs_path": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\data\\detection\\batches\\batch02_clean\\held_out\\review\\images\\train\\OHI_datasetgallery_-159699942_penta_lower_m_jpg.rf.408fe017caeeac8c9a0bec01b7c99bc6.jpg",
+    "label_path": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\data\\detection\\batches\\batch02_clean\\held_out\\review\\labels\\train\\OHI_datasetgallery_-159699942_penta_lower_m_jpg.rf.408fe017caeeac8c9a0bec01b7c99bc6.txt",
+    "split": "train",
+    "name": "OHI_datasetgallery_-159699942_penta_lower_m_jpg.rf.408fe017caeeac8c9a0bec01b7c99bc6.jpg",
+    "n_boxes": 10,
+    "bucket": "review",
+    "flags": [
+      "gallery"
+    ],
+    "class_csv": "REVIEW",
+    "select_reason": "gallery",
+    "index": 84,
+    "total": 100
+  },
+  {
+    "path": "data/detection/batches/batch02_clean/held_out/review/images/valid/OHI_datasetgallery_-160158513_penta_lower_m_jpg.rf.33a6f3d9a79118134dc996ba2736048a.jpg",
+    "abs_path": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\data\\detection\\batches\\batch02_clean\\held_out\\review\\images\\valid\\OHI_datasetgallery_-160158513_penta_lower_m_jpg.rf.33a6f3d9a79118134dc996ba2736048a.jpg",
+    "label_path": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\data\\detection\\batches\\batch02_clean\\held_out\\review\\labels\\valid\\OHI_datasetgallery_-160158513_penta_lower_m_jpg.rf.33a6f3d9a79118134dc996ba2736048a.txt",
+    "split": "valid",
+    "name": "OHI_datasetgallery_-160158513_penta_lower_m_jpg.rf.33a6f3d9a79118134dc996ba2736048a.jpg",
+    "n_boxes": 5,
+    "bucket": "review",
+    "flags": [
+      "gallery"
+    ],
+    "class_csv": "REVIEW",
+    "select_reason": "gallery",
+    "index": 85,
+    "total": 100
+  },
+  {
+    "path": "data/detection/batches/batch02_clean/held_out/review/images/train/OHI_datasetgallery_-106765536_penta_lower_m_jpg.rf.62bca471605bb2859d3459f98ed645e9.jpg",
+    "abs_path": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\data\\detection\\batches\\batch02_clean\\held_out\\review\\images\\train\\OHI_datasetgallery_-106765536_penta_lower_m_jpg.rf.62bca471605bb2859d3459f98ed645e9.jpg",
+    "label_path": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\data\\detection\\batches\\batch02_clean\\held_out\\review\\labels\\train\\OHI_datasetgallery_-106765536_penta_lower_m_jpg.rf.62bca471605bb2859d3459f98ed645e9.txt",
+    "split": "train",
+    "name": "OHI_datasetgallery_-106765536_penta_lower_m_jpg.rf.62bca471605bb2859d3459f98ed645e9.jpg",
+    "n_boxes": 11,
+    "bucket": "review",
+    "flags": [
+      "gallery",
+      "near_gray"
+    ],
+    "class_csv": "REVIEW",
+    "select_reason": "gallery",
+    "index": 86,
+    "total": 100
+  },
+  {
+    "path": "data/detection/batches/batch02_clean/held_out/review/images/valid/OHI_datasetgallery_-130264893_penta_upper_m_jpg.rf.44826695cdf8841d0e559737ad2a8f2c.jpg",
+    "abs_path": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\data\\detection\\batches\\batch02_clean\\held_out\\review\\images\\valid\\OHI_datasetgallery_-130264893_penta_upper_m_jpg.rf.44826695cdf8841d0e559737ad2a8f2c.jpg",
+    "label_path": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\data\\detection\\batches\\batch02_clean\\held_out\\review\\labels\\valid\\OHI_datasetgallery_-130264893_penta_upper_m_jpg.rf.44826695cdf8841d0e559737ad2a8f2c.txt",
+    "split": "valid",
+    "name": "OHI_datasetgallery_-130264893_penta_upper_m_jpg.rf.44826695cdf8841d0e559737ad2a8f2c.jpg",
+    "n_boxes": 14,
+    "bucket": "review",
+    "flags": [
+      "gallery"
+    ],
+    "class_csv": "REVIEW",
+    "select_reason": "gallery",
+    "index": 87,
+    "total": 100
+  },
+  {
+    "path": "data/detection/batches/batch02_clean/held_out/review/images/train/OHI_datasetgallery_-118450926_penta_lower_m_jpg.rf.3c37b3d4d4613bc6091e6118ccbbe812.jpg",
+    "abs_path": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\data\\detection\\batches\\batch02_clean\\held_out\\review\\images\\train\\OHI_datasetgallery_-118450926_penta_lower_m_jpg.rf.3c37b3d4d4613bc6091e6118ccbbe812.jpg",
+    "label_path": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\data\\detection\\batches\\batch02_clean\\held_out\\review\\labels\\train\\OHI_datasetgallery_-118450926_penta_lower_m_jpg.rf.3c37b3d4d4613bc6091e6118ccbbe812.txt",
+    "split": "train",
+    "name": "OHI_datasetgallery_-118450926_penta_lower_m_jpg.rf.3c37b3d4d4613bc6091e6118ccbbe812.jpg",
+    "n_boxes": 16,
+    "bucket": "review",
+    "flags": [
+      "gallery"
+    ],
+    "class_csv": "REVIEW",
+    "select_reason": "gallery",
+    "index": 88,
+    "total": 100
+  },
+  {
+    "path": "data/detection/batches/batch02_clean/held_out/review/images/train/OHI_datasetgallery_-58038273_penta_lower_m_jpg.rf.5d5eaa07132c81b7c579b3e56f02a570.jpg",
+    "abs_path": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\data\\detection\\batches\\batch02_clean\\held_out\\review\\images\\train\\OHI_datasetgallery_-58038273_penta_lower_m_jpg.rf.5d5eaa07132c81b7c579b3e56f02a570.jpg",
+    "label_path": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\data\\detection\\batches\\batch02_clean\\held_out\\review\\labels\\train\\OHI_datasetgallery_-58038273_penta_lower_m_jpg.rf.5d5eaa07132c81b7c579b3e56f02a570.txt",
+    "split": "train",
+    "name": "OHI_datasetgallery_-58038273_penta_lower_m_jpg.rf.5d5eaa07132c81b7c579b3e56f02a570.jpg",
+    "n_boxes": 11,
+    "bucket": "review",
+    "flags": [
+      "gallery",
+      "near_gray"
+    ],
+    "class_csv": "REVIEW",
+    "select_reason": "gallery",
+    "index": 89,
+    "total": 100
+  },
+  {
+    "path": "data/detection/batches/batch02_clean/held_out/review/images/train/OHI_datasetgallery_-127342845_penta_front_m_jpg.rf.0a5e43b34dc912a7a5cab793d1b8cf9d.jpg",
+    "abs_path": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\data\\detection\\batches\\batch02_clean\\held_out\\review\\images\\train\\OHI_datasetgallery_-127342845_penta_front_m_jpg.rf.0a5e43b34dc912a7a5cab793d1b8cf9d.jpg",
+    "label_path": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\data\\detection\\batches\\batch02_clean\\held_out\\review\\labels\\train\\OHI_datasetgallery_-127342845_penta_front_m_jpg.rf.0a5e43b34dc912a7a5cab793d1b8cf9d.txt",
+    "split": "train",
+    "name": "OHI_datasetgallery_-127342845_penta_front_m_jpg.rf.0a5e43b34dc912a7a5cab793d1b8cf9d.jpg",
+    "n_boxes": 23,
+    "bucket": "review",
+    "flags": [
+      "gallery"
+    ],
+    "class_csv": "REVIEW",
+    "select_reason": "gallery",
+    "index": 90,
+    "total": 100
+  },
+  {
+    "path": "data/detection/batches/batch02_clean/images/train/OHI_datasetIMG_3832_JPG.rf.573a554f58ed4f5f9871fbf98d18a704.jpg",
+    "abs_path": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\data\\detection\\batches\\batch02_clean\\images\\train\\OHI_datasetIMG_3832_JPG.rf.573a554f58ed4f5f9871fbf98d18a704.jpg",
+    "label_path": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\data\\detection\\batches\\batch02_clean\\labels\\train\\OHI_datasetIMG_3832_JPG.rf.573a554f58ed4f5f9871fbf98d18a704.txt",
+    "split": "train",
+    "name": "OHI_datasetIMG_3832_JPG.rf.573a554f58ed4f5f9871fbf98d18a704.jpg",
+    "n_boxes": 12,
+    "bucket": "keep",
+    "flags": [],
+    "class_csv": "KEEP",
+    "select_reason": "random",
+    "index": 91,
+    "total": 100
+  },
+  {
+    "path": "data/detection/batches/batch02_clean/images/train/OHI_datasetIMG_5192_JPG.rf.465a47a66317a2d29dad0d12aa891191.jpg",
+    "abs_path": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\data\\detection\\batches\\batch02_clean\\images\\train\\OHI_datasetIMG_5192_JPG.rf.465a47a66317a2d29dad0d12aa891191.jpg",
+    "label_path": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\data\\detection\\batches\\batch02_clean\\labels\\train\\OHI_datasetIMG_5192_JPG.rf.465a47a66317a2d29dad0d12aa891191.txt",
+    "split": "train",
+    "name": "OHI_datasetIMG_5192_JPG.rf.465a47a66317a2d29dad0d12aa891191.jpg",
+    "n_boxes": 30,
+    "bucket": "keep",
+    "flags": [],
+    "class_csv": "KEEP",
+    "select_reason": "random",
+    "index": 92,
+    "total": 100
+  },
+  {
+    "path": "data/detection/batches/batch02_clean/images/train/OHI_datasetIMG_0002_jpg.rf.2118d10a37162d20e35560fd54240746.jpg",
+    "abs_path": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\data\\detection\\batches\\batch02_clean\\images\\train\\OHI_datasetIMG_0002_jpg.rf.2118d10a37162d20e35560fd54240746.jpg",
+    "label_path": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\data\\detection\\batches\\batch02_clean\\labels\\train\\OHI_datasetIMG_0002_jpg.rf.2118d10a37162d20e35560fd54240746.txt",
+    "split": "train",
+    "name": "OHI_datasetIMG_0002_jpg.rf.2118d10a37162d20e35560fd54240746.jpg",
+    "n_boxes": 15,
+    "bucket": "keep",
+    "flags": [],
+    "class_csv": "KEEP",
+    "select_reason": "random",
+    "index": 93,
+    "total": 100
+  },
+  {
+    "path": "data/detection/batches/batch02_clean/images/train/OHI_datasetIMG_2511_JPG.rf.12c791ad090b2fff2f81d0a33df03fdb.jpg",
+    "abs_path": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\data\\detection\\batches\\batch02_clean\\images\\train\\OHI_datasetIMG_2511_JPG.rf.12c791ad090b2fff2f81d0a33df03fdb.jpg",
+    "label_path": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\data\\detection\\batches\\batch02_clean\\labels\\train\\OHI_datasetIMG_2511_JPG.rf.12c791ad090b2fff2f81d0a33df03fdb.txt",
+    "split": "train",
+    "name": "OHI_datasetIMG_2511_JPG.rf.12c791ad090b2fff2f81d0a33df03fdb.jpg",
+    "n_boxes": 12,
+    "bucket": "keep",
+    "flags": [],
+    "class_csv": "KEEP",
+    "select_reason": "random",
+    "index": 94,
+    "total": 100
+  },
+  {
+    "path": "data/detection/batches/batch02_clean/images/test/OHI_datasetIMG_2878_JPG.rf.957b348d585c6ca3ac178ed9834ed302.jpg",
+    "abs_path": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\data\\detection\\batches\\batch02_clean\\images\\test\\OHI_datasetIMG_2878_JPG.rf.957b348d585c6ca3ac178ed9834ed302.jpg",
+    "label_path": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\data\\detection\\batches\\batch02_clean\\labels\\test\\OHI_datasetIMG_2878_JPG.rf.957b348d585c6ca3ac178ed9834ed302.txt",
+    "split": "test",
+    "name": "OHI_datasetIMG_2878_JPG.rf.957b348d585c6ca3ac178ed9834ed302.jpg",
+    "n_boxes": 10,
+    "bucket": "keep",
+    "flags": [],
+    "class_csv": "KEEP",
+    "select_reason": "random",
+    "index": 95,
+    "total": 100
+  },
+  {
+    "path": "data/detection/batches/batch02_clean/images/train/OHI_datasetIMG_4521_JPG.rf.0ffb9d922476cb953555a9d4a9ea716d.jpg",
+    "abs_path": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\data\\detection\\batches\\batch02_clean\\images\\train\\OHI_datasetIMG_4521_JPG.rf.0ffb9d922476cb953555a9d4a9ea716d.jpg",
+    "label_path": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\data\\detection\\batches\\batch02_clean\\labels\\train\\OHI_datasetIMG_4521_JPG.rf.0ffb9d922476cb953555a9d4a9ea716d.txt",
+    "split": "train",
+    "name": "OHI_datasetIMG_4521_JPG.rf.0ffb9d922476cb953555a9d4a9ea716d.jpg",
+    "n_boxes": 7,
+    "bucket": "keep",
+    "flags": [],
+    "class_csv": "KEEP",
+    "select_reason": "random",
+    "index": 96,
+    "total": 100
+  },
+  {
+    "path": "data/detection/batches/batch02_clean/images/train/OHI_datasetIMG_1124_JPG.rf.3b29673668edc9422c613b0e53cd16ce.jpg",
+    "abs_path": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\data\\detection\\batches\\batch02_clean\\images\\train\\OHI_datasetIMG_1124_JPG.rf.3b29673668edc9422c613b0e53cd16ce.jpg",
+    "label_path": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\data\\detection\\batches\\batch02_clean\\labels\\train\\OHI_datasetIMG_1124_JPG.rf.3b29673668edc9422c613b0e53cd16ce.txt",
+    "split": "train",
+    "name": "OHI_datasetIMG_1124_JPG.rf.3b29673668edc9422c613b0e53cd16ce.jpg",
+    "n_boxes": 13,
+    "bucket": "keep",
+    "flags": [],
+    "class_csv": "KEEP",
+    "select_reason": "random",
+    "index": 97,
+    "total": 100
+  },
+  {
+    "path": "data/detection/batches/batch02_clean/images/train/OHI_datasetIMG_3693_JPG.rf.21ff87195d632a81553a4fc08c47d157.jpg",
+    "abs_path": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\data\\detection\\batches\\batch02_clean\\images\\train\\OHI_datasetIMG_3693_JPG.rf.21ff87195d632a81553a4fc08c47d157.jpg",
+    "label_path": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\data\\detection\\batches\\batch02_clean\\labels\\train\\OHI_datasetIMG_3693_JPG.rf.21ff87195d632a81553a4fc08c47d157.txt",
+    "split": "train",
+    "name": "OHI_datasetIMG_3693_JPG.rf.21ff87195d632a81553a4fc08c47d157.jpg",
+    "n_boxes": 14,
+    "bucket": "keep",
+    "flags": [],
+    "class_csv": "KEEP",
+    "select_reason": "random",
+    "index": 98,
+    "total": 100
+  },
+  {
+    "path": "data/detection/batches/batch02_clean/images/train/OHI_datasetIMG_4749_JPG.rf.00918efaef874884f6d23ea7d06a34ad.jpg",
+    "abs_path": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\data\\detection\\batches\\batch02_clean\\images\\train\\OHI_datasetIMG_4749_JPG.rf.00918efaef874884f6d23ea7d06a34ad.jpg",
+    "label_path": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\data\\detection\\batches\\batch02_clean\\labels\\train\\OHI_datasetIMG_4749_JPG.rf.00918efaef874884f6d23ea7d06a34ad.txt",
+    "split": "train",
+    "name": "OHI_datasetIMG_4749_JPG.rf.00918efaef874884f6d23ea7d06a34ad.jpg",
+    "n_boxes": 12,
+    "bucket": "keep",
+    "flags": [],
+    "class_csv": "KEEP",
+    "select_reason": "random",
+    "index": 99,
+    "total": 100
+  },
+  {
+    "path": "data/detection/batches/batch02_clean/images/test/OHI_datasetIMG_5240_JPG.rf.dadef03e02a7818f257908bcb5a18f8d.jpg",
+    "abs_path": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\data\\detection\\batches\\batch02_clean\\images\\test\\OHI_datasetIMG_5240_JPG.rf.dadef03e02a7818f257908bcb5a18f8d.jpg",
+    "label_path": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\data\\detection\\batches\\batch02_clean\\labels\\test\\OHI_datasetIMG_5240_JPG.rf.dadef03e02a7818f257908bcb5a18f8d.txt",
+    "split": "test",
+    "name": "OHI_datasetIMG_5240_JPG.rf.dadef03e02a7818f257908bcb5a18f8d.jpg",
+    "n_boxes": 14,
+    "bucket": "keep",
+    "flags": [],
+    "class_csv": "KEEP",
+    "select_reason": "random",
+    "index": 100,
+    "total": 100
+  }
+]

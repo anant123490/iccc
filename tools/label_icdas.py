@@ -44,15 +44,15 @@ DISCLAIMER = (
 
 
 def crops_dir() -> Path:
-    return project_path("cropped_teeth", "images")
+    return project_path("data", "tooth_crops", "generated", "images")
 
 
 def crops_csv_path() -> Path:
-    return project_path("cropped_teeth", "crops.csv")
+    return project_path("data", "tooth_crops", "generated", "crops.csv")
 
 
 def labels_csv_path() -> Path:
-    return project_path("labels", "labels.csv")
+    return project_path("data", "icdas", "annotations", "labeling_studio", "labels.csv")
 
 
 def load_catalog() -> pd.DataFrame:

@@ -1,0 +1,55 @@
+{
+  "source": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\data\\detection\\batches\\batch02\\yolo_detection",
+  "destination": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\data\\detection\\batches\\batch02_clean",
+  "original_images": 2907,
+  "unique_source_stems": 1213,
+  "unique_stems_global": 1213,
+  "keep_images": 1063,
+  "review_images": 150,
+  "exclude_images": 1694,
+  "exclude_augmentation_duplicates": 1694,
+  "keep_by_split": {
+    "train": 720,
+    "valid": 228,
+    "test": 115
+  },
+  "boxes_by_split": {
+    "train": 12112,
+    "valid": 3865,
+    "test": 1912
+  },
+  "boxes_total": 17889,
+  "class_counts": {
+    "0_tooth": 17889
+  },
+  "duplicate_count_in_clean": 0,
+  "verify": {
+    "train": {
+      "images": 720,
+      "labels": 720,
+      "missing_labels": [],
+      "orphan_labels": []
+    },
+    "valid": {
+      "images": 228,
+      "labels": 228,
+      "missing_labels": [],
+      "orphan_labels": []
+    },
+    "test": {
+      "images": 115,
+      "labels": 115,
+      "missing_labels": [],
+      "orphan_labels": []
+    }
+  },
+  "missing_labels_on_keep": [],
+  "near_gray_original": 283,
+  "gallery_original": 149,
+  "screenshot_original": 21,
+  "keep_near_gray": 0,
+  "review_near_gray": 88,
+  "review_gallery": 63,
+  "problematic_boundary_keep_images_flagged_only": 0,
+  "trained": false
+}

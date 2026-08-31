@@ -1,0 +1,16 @@
+{
+  "public_image_root": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\data_external\\detection\\raw",
+  "public_image_count_on_disk": 6265,
+  "personal_420_dir": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\fdi_detection_dataset\\images\\selected",
+  "personal_420_count": 420,
+  "user_images_count": 0,
+  "registered_sources": 0,
+  "crop_pool_rows": 0,
+  "crop_files_on_disk": 0,
+  "labels_total_rows": 0,
+  "labelled_0_4": 0,
+  "skipped": 0,
+  "tooth_detector_for_icdas": "UNAVAILABLE \u2014 no whole-tooth detector; d/D boxes must not be used as ICDAS crops",
+  "existing_icdas_dataset_dir": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\dataset",
+  "note": "d/D lesion boxes are not ICDAS. Unannotated public images are not ICDAS 0."
+}

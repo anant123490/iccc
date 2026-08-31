@@ -11,7 +11,7 @@ Pipeline:
 7. Color normalization
 8. Resize using PIL
 9. Convert BGR -> RGB
-10. Normalize to float32 [0, 1]
+10. Keep RGB float32 in [0, 255] for MobileNetV3
 """
 
 from __future__ import annotations
@@ -638,10 +638,10 @@ def color_normalize(
 def preprocess_image(
     image: np.ndarray,
     target_size: int = 224,
-    use_roi: bool = True,
-    use_clahe: bool = True,
-    use_specular: bool = True,
-    color_norm: bool = True,
+    use_roi: bool = False,
+    use_clahe: bool = False,
+    use_specular: bool = False,
+    color_norm: bool = False,
 ) -> np.ndarray:
     """
     Complete preprocessing pipeline.
@@ -650,7 +650,10 @@ def preprocess_image(
         BGR uint8 NumPy image.
 
     Output:
-        RGB float32 image normalized to [0, 1].
+        RGB float32 image in [0, 255].
+
+    This matches Keras MobileNetV3Small with
+    include_preprocessing=True (ImageNet).
 
     Output shape:
         (target_size, target_size, 3)
@@ -744,14 +747,20 @@ def preprocess_image(
     )
 
     # --------------------------------------------------------
-    # 9. Normalize [0,255] -> [0,1]
+    # 9. RGB float32 in [0, 255]
+    #
+    # Do NOT divide by 255. MobileNetV3 built-in
+    # preprocessing expects this range.
     # --------------------------------------------------------
 
-    image = (
-        image.astype(
-            np.float32
-        )
-        / 255.0
+    image = image.astype(
+        np.float32
+    )
+
+    image = np.clip(
+        image,
+        0.0,
+        255.0,
     )
 
     # --------------------------------------------------------

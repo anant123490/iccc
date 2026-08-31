@@ -1,0 +1,9 @@
+# Gold whole-tooth detector dataset. Batch 01 GT + Batch 02 Round 1/2 GOOD only.
+# Do not overwrite Batch 01 weights. Training is a separate step.
+path: C:/Users/anant/OneDrive/Desktop/icdas project/data/detection/gold_detector_dataset
+train: train/images
+val: valid/images
+test: test/images
+nc: 1
+names:
+  - tooth

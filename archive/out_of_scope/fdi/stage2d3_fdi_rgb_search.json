@@ -1,0 +1,144 @@
+{
+  "stage": "2D-3",
+  "date": "2026-08-26",
+  "objective": "Targeted search for RGB intraoral photographs with whole-tooth instance annotations and genuine FDI numbering.",
+  "search_was_not": "broad generic dental search; no large downloads; no API keys",
+  "clinical_separation": {
+    "fdi": "WHICH TOOTH",
+    "icdas": "WHAT IS THE CARIES SEVERITY",
+    "never_map": ["FDI to ICDAS", "tooth number to ICDAS", "caries to ICDAS", "d/D to ICDAS", "Black to ICDAS", "healthy/diseased to ICDAS"]
+  },
+  "final_decision": "B. CANDIDATE REQUIRES MORE VERIFICATION",
+  "best_candidate": "FDTooth (PhysioNet 1.0.0)",
+  "venues_checked": [
+    "Hugging Face",
+    "Kaggle",
+    "Roboflow Universe",
+    "Zenodo",
+    "Figshare (via search; no additional RGB+FDI dump verified)",
+    "Mendeley Data",
+    "GitHub / papers",
+    "PhysioNet",
+    "Scientific Data / JDS / J Dent / arXiv"
+  ],
+  "candidates_ranked": [
+    {
+      "rank": 1,
+      "dataset_name": "FDTooth",
+      "original_source": "PhysioNet https://physionet.org/content/fdtooth/1.0.0/ DOI 10.13026/v9xk-dy61; paper Scientific Data 10.1038/s41597-025-05348-3",
+      "license": "PhysioNet Credentialed Health Data License 1.5.0 + DUA 1.5.0; required training CITI Data or Specimens Only Research",
+      "image_count": 241,
+      "annotation_count": "1800 bounding boxes on photographs; 2892 tooth-level CSV labels (F/D/N)",
+      "annotation_format": "JPEG photos; CSV (patient, FDI tooth number, F/D/N); JSON MakeSense boxes",
+      "exact_classes": "UNVERIFIED as a full exported class list. Source states 12 anterior teeth (incisors and canines, both arches) labelled with FDI two-digit numbering. Posterior 14-18/24-28/34-38/44-48 not in scope.",
+      "rgb_verification": "VERIFIED at original source: high-resolution intraoral JPEG 5760x3840; paper Fig. 3(a) is an intraoral photograph; Fig. 5 shows original intraoral images with rectangular boxes. Files themselves not downloaded.",
+      "whole_tooth_box_verification": "VERIFIED at source text: 1800 boxes on intraoral photographs around anterior teeth (not caries lesions). Box count (1800) is less than 241*12, so coverage of every anterior tooth is UNVERIFIED without opening JSON.",
+      "fdi_verification": "VERIFIED: CSV uses International Dental Federation / FDI World Dental Federation two-digit numbering. Box JSON is described as showing FD status per anterior tooth, not as 32-class FDI detector labels.",
+      "download_access": "Credentialed PhysioNet users who complete CITI and sign DUA. Not anonymous public download. Download NOT PERFORMED.",
+      "commercial_use": "UNVERIFIED (credentialed health DUA typically restricts; quote DUA before any commercial ICCC use)",
+      "iccc_suitability": "Only verified RGB+tooth-instance+FDI source. Anterior-only; not a full 32-tooth camera detector. Do not train camera ICDAS on CBCT. Do not map F/D/N to ICDAS."
+    },
+    {
+      "rank": 2,
+      "dataset_name": "SegmentAnyTooth (images)",
+      "original_source": "JDS 10.1016/j.jds.2025.01.003; PMC11993027; code https://github.com/thangngoc89/SegmentAnyTooth",
+      "license": "Code MIT (repo). Weights: SegmentAnyTooth Non-Commercial License via signed email. Image dataset: not posted.",
+      "image_count": 5000,
+      "annotation_count": "UNVERIFIED (paper: tooth surfaces + FDI on 5000 photos / 1000 sets / 953 subjects)",
+      "annotation_format": "CVAT; YOLO11 boxes + SAM masks (in the paper/code pipeline, not a public dump)",
+      "exact_classes": "FDI notations; lateral views exclude second premolar through third molar. Exact 32-list UNVERIFIED in files.",
+      "rgb_verification": "VERIFIED in paper (smartphone/DSLR intraoral, five views). Images not downloadable.",
+      "whole_tooth_box_verification": "VERIFIED in paper (YOLO11 whole-tooth boxes + FDI). Files not public.",
+      "fdi_verification": "VERIFIED in paper (Federation Dentaire Internationale). Files not public.",
+      "download_access": "Images NOT PUBLIC. Weights by email agreement only.",
+      "commercial_use": "Weights non-commercial. Images UNVERIFIED.",
+      "iccc_suitability": "Clinically the best match if authors release data. Not usable today."
+    },
+    {
+      "rank": 3,
+      "dataset_name": "DentalMate6v — Intraoral Tooth Numbering FDI (listing)",
+      "original_source": "https://universe.roboflow.com/dentalmate6v (project titled Intraoral Tooth Numbering FDI; 1.21k images, 32 classes). Exact version slug UNVERIFIED (Cloudflare blocked project pages).",
+      "license": "UNVERIFIED",
+      "image_count": "listing 1.21k (rounded UI)",
+      "annotation_count": "UNVERIFIED",
+      "annotation_format": "UNVERIFIED (Roboflow Object Detection implied by sibling projects)",
+      "exact_classes": "listing 32 classes; two-digit list UNVERIFIED",
+      "rgb_verification": "UNVERIFIED (title says intraoral; no sample JPEG inspected this stage; 2D-2 showed titles can be panoramic)",
+      "whole_tooth_box_verification": "UNVERIFIED",
+      "fdi_verification": "UNVERIFIED beyond listing title/32-class count",
+      "download_access": "Roboflow account expected. NOT PERFORMED.",
+      "commercial_use": "UNVERIFIED",
+      "iccc_suitability": "Priority for a later human-browser sample check only. Do not treat as verified RGB."
+    },
+    {
+      "rank": 4,
+      "dataset_name": "DigiLeap / TLNM internal set",
+      "original_source": "arXiv 2608.06275; Research Square 10.21203/rs.3.rs-8018860/v1",
+      "license": "Findata / ethics-restricted patient data",
+      "image_count": 1272,
+      "annotation_count": "14736 tooth polygons",
+      "annotation_format": "Label Studio polygons + FDI; JSON export described",
+      "exact_classes": "Paper metrics on 28 tooth numbers (third molars not in the 28-class eval). Exact list UNVERIFIED in files.",
+      "rgb_verification": "VERIFIED in paper (smartphone intraoral five views). Files not public.",
+      "whole_tooth_box_verification": "VERIFIED in paper (polygon/mask; boxes used in mAP). Files not public.",
+      "fdi_verification": "VERIFIED in paper (World Dental Federation FDI). Files not public.",
+      "download_access": "Findata permit. External 40-image validation used public Mendeley 6zsnhrds9t which has NO original FDI labels.",
+      "commercial_use": "UNVERIFIED / likely prohibited",
+      "iccc_suitability": "Not downloadable. Mendeley photos are RGB intraoral but view-folders only, not FDI."
+    },
+    {
+      "rank": 5,
+      "dataset_name": "Yoon et al. 24,578 intraoral photos (Ewha)",
+      "original_source": "J Dent 104821 DOI 10.1016/j.jdent.2023.104821",
+      "license": "UNVERIFIED (not posted)",
+      "image_count": 24578,
+      "annotation_count": "UNVERIFIED",
+      "annotation_format": "bounding boxes for tooth numbers and caries stages 1-2-3",
+      "exact_classes": "tooth numbers (paper); caries stages are NOT ICDAS. Exact FDI list UNVERIFIED.",
+      "rgb_verification": "VERIFIED in paper (DSLR intraoral five views). Files not public.",
+      "whole_tooth_box_verification": "VERIFIED in paper (tooth-number boxes). Files not public.",
+      "fdi_verification": "Paper says tooth numbers; Scientific Data 2025 states this set is not open source. Conversion documentation UNVERIFIED.",
+      "download_access": "Not public",
+      "commercial_use": "UNVERIFIED",
+      "iccc_suitability": "Would fit if released. Not available. Caries stages must not be mapped to ICDAS."
+    }
+  ],
+  "rejected": [
+    {
+      "name": "Roboflow Prime teeth-detection-and-numbering-agi2i",
+      "reason": "Stage 2D-2: public samples are panoramic X-rays (STD PANORAMIC), not RGB intraoral."
+    },
+    {
+      "name": "Zenodo 10.5281/zenodo.14827784",
+      "reason": "RGB intraoral YES but boxes are caries lesions d/D, not whole-tooth FDI. Already acquired as lesion data."
+    },
+    {
+      "name": "DENTEX / PANDENT / TL-pano / Panoramic-Dental-Xray-FDI / Children's panoramic Kaggle",
+      "reason": "Panoramic X-ray / OPG, wrong modality for ICCC camera."
+    },
+    {
+      "name": "DenPAR Zenodo",
+      "reason": "Intraoral periapical RADIOGRAPHS, not RGB photographs."
+    },
+    {
+      "name": "Odontify Clean ICDAS V2",
+      "reason": "Folder ICDAS 0-6 from filenames; no FDI; no whole-tooth boxes."
+    },
+    {
+      "name": "Kaggle cavity YOLO / Oral Diseases",
+      "reason": "Lesion or disease classes, not FDI tooth instances."
+    },
+    {
+      "name": "Mendeley 6zsnhrds9t (Teeth or Dental image dataset)",
+      "reason": "RGB intraoral pediatric views VERIFIED at listing; NO original FDI or whole-tooth boxes. CC BY 4.0 on Mendeley; Data-in-Brief also mentions CC BY-NC in places — use the repository license file if downloaded later."
+    },
+    {
+      "name": "mikhakdental FDI_numbering / dentalwork teeth-fdi-fhsfa / NTU dentistry-vibir",
+      "reason": "FDI class names on listings; samples not inspected (Cloudflare). NTU listing text discusses dental X-rays. Not promoted without RGB proof."
+    },
+    {
+      "name": "Hugging Face COde (zirak-ai/COde)",
+      "reason": "Claims intraoral photos + text; FDI/whole-tooth boxes UNVERIFIED. Not a detection+FDI dump on the README excerpts."
+    }
+  ]
+}

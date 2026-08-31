@@ -1,0 +1,5 @@
+model,license,access,images_tested,detections,mean_confidence,zero_detection_images,suspicious_images,technical_status,recommendation
+dental-cdueb/intraoral-tooth-detection-rohlq/1,UNKNOWN,ACCESS_REQUIRED,0,,,,n/a_no_inference,LICENSE_UNKNOWN+ACCESS_REQUIRED,REJECT
+dentalmate6v/intraoral-tooth-detection/1,UNKNOWN,ACCESS_REQUIRED,0,,,,n/a_no_inference,LICENSE_UNKNOWN+ACCESS_REQUIRED,REJECT
+tooth-detection-9ayo9/rgb-teeth-oj2v2,UNKNOWN,ACCESS_REQUIRED,0,,,,n/a_no_inference,LICENSE_UNKNOWN+ACCESS_REQUIRED,REJECT
+ti-tvysg/rgb-teeth-iael6,UNKNOWN,ACCESS_REQUIRED,0,,,,n/a_no_inference,LICENSE_UNKNOWN+ACCESS_REQUIRED,REJECT

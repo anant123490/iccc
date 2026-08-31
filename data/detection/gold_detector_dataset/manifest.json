@@ -1,0 +1,55 @@
+{
+  "before": {
+    "n": 176,
+    "boxes": 3633,
+    "by_source": {
+      "batch01": {
+        "images": 60,
+        "boxes": 767
+      },
+      "round1": {
+        "images": 57,
+        "boxes": 1415
+      },
+      "round2": {
+        "images": 59,
+        "boxes": 1451
+      }
+    }
+  },
+  "kept": 176,
+  "removed": 0,
+  "boxes_kept": 3633,
+  "validation_ok": 176,
+  "validation_errors": [],
+  "leakage": [],
+  "per_split": {
+    "train": {
+      "images": 124,
+      "boxes": 2544,
+      "sources": {
+        "batch01": 46,
+        "round1": 37,
+        "round2": 41
+      }
+    },
+    "valid": {
+      "images": 26,
+      "boxes": 577,
+      "sources": {
+        "batch01": 6,
+        "round1": 14,
+        "round2": 6
+      }
+    },
+    "test": {
+      "images": 26,
+      "boxes": 512,
+      "sources": {
+        "batch01": 8,
+        "round1": 6,
+        "round2": 12
+      }
+    }
+  }
+}

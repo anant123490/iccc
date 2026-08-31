@@ -1,0 +1,5882 @@
+[
+  {
+    "id": 1,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous-frontalView-1727348211233.jpg",
+      "filename": "anonymous-frontalView-1727348211233.jpg",
+      "mouth_view": "Frontal"
+    },
+    "meta": {
+      "width": 1319,
+      "height": 989,
+      "patient_identifier_if_available": "",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 2,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous-frontalView-1727418713868.jpg",
+      "filename": "anonymous-frontalView-1727418713868.jpg",
+      "mouth_view": "Frontal"
+    },
+    "meta": {
+      "width": 2309,
+      "height": 1297,
+      "patient_identifier_if_available": "",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 3,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous-frontalView-1727422536909.jpg",
+      "filename": "anonymous-frontalView-1727422536909.jpg",
+      "mouth_view": "Frontal"
+    },
+    "meta": {
+      "width": 1565,
+      "height": 879,
+      "patient_identifier_if_available": "",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 4,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous-frontalView-1727424461503.jpg",
+      "filename": "anonymous-frontalView-1727424461503.jpg",
+      "mouth_view": "Frontal"
+    },
+    "meta": {
+      "width": 2047,
+      "height": 1150,
+      "patient_identifier_if_available": "",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 5,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous-frontalView-1727671361652.jpg",
+      "filename": "anonymous-frontalView-1727671361652.jpg",
+      "mouth_view": "Frontal"
+    },
+    "meta": {
+      "width": 2534,
+      "height": 1423,
+      "patient_identifier_if_available": "",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 6,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous-frontalView-1727678768706.jpg",
+      "filename": "anonymous-frontalView-1727678768706.jpg",
+      "mouth_view": "Frontal"
+    },
+    "meta": {
+      "width": 2316,
+      "height": 1301,
+      "patient_identifier_if_available": "",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 7,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous-frontalView-1727682033413.jpg",
+      "filename": "anonymous-frontalView-1727682033413.jpg",
+      "mouth_view": "Frontal"
+    },
+    "meta": {
+      "width": 1999,
+      "height": 1123,
+      "patient_identifier_if_available": "",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 8,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous-frontalView-1727764541094.jpg",
+      "filename": "anonymous-frontalView-1727764541094.jpg",
+      "mouth_view": "Frontal"
+    },
+    "meta": {
+      "width": 2017,
+      "height": 1133,
+      "patient_identifier_if_available": "",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 9,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous-frontalView-1727767823983.jpg",
+      "filename": "anonymous-frontalView-1727767823983.jpg",
+      "mouth_view": "Frontal"
+    },
+    "meta": {
+      "width": 1965,
+      "height": 1104,
+      "patient_identifier_if_available": "",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 10,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous-frontalView-1727768018238.jpg",
+      "filename": "anonymous-frontalView-1727768018238.jpg",
+      "mouth_view": "Frontal"
+    },
+    "meta": {
+      "width": 1961,
+      "height": 1101,
+      "patient_identifier_if_available": "",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 11,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous-leftLateralView-1726807333703.jpg",
+      "filename": "anonymous-leftLateralView-1726807333703.jpg",
+      "mouth_view": "Left_Lateral"
+    },
+    "meta": {
+      "width": 1989,
+      "height": 1118,
+      "patient_identifier_if_available": "",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 12,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous-leftLateralView-1726892814255.jpg",
+      "filename": "anonymous-leftLateralView-1726892814255.jpg",
+      "mouth_view": "Left_Lateral"
+    },
+    "meta": {
+      "width": 2187,
+      "height": 1229,
+      "patient_identifier_if_available": "",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 13,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous-leftLateralView-1727186873004.jpg",
+      "filename": "anonymous-leftLateralView-1727186873004.jpg",
+      "mouth_view": "Left_Lateral"
+    },
+    "meta": {
+      "width": 1590,
+      "height": 894,
+      "patient_identifier_if_available": "",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 14,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous-leftLateralView-1727253685867.jpg",
+      "filename": "anonymous-leftLateralView-1727253685867.jpg",
+      "mouth_view": "Left_Lateral"
+    },
+    "meta": {
+      "width": 1580,
+      "height": 887,
+      "patient_identifier_if_available": "",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 15,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous-leftLateralView-1727411415123.jpg",
+      "filename": "anonymous-leftLateralView-1727411415123.jpg",
+      "mouth_view": "Left_Lateral"
+    },
+    "meta": {
+      "width": 1788,
+      "height": 1004,
+      "patient_identifier_if_available": "",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 16,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous-leftLateralView-1727412461239.jpg",
+      "filename": "anonymous-leftLateralView-1727412461239.jpg",
+      "mouth_view": "Left_Lateral"
+    },
+    "meta": {
+      "width": 1940,
+      "height": 1089,
+      "patient_identifier_if_available": "",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 17,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous-leftLateralView-1727424552371.jpg",
+      "filename": "anonymous-leftLateralView-1727424552371.jpg",
+      "mouth_view": "Left_Lateral"
+    },
+    "meta": {
+      "width": 1613,
+      "height": 906,
+      "patient_identifier_if_available": "",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 18,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous-leftLateralView-1727428806555.jpg",
+      "filename": "anonymous-leftLateralView-1727428806555.jpg",
+      "mouth_view": "Left_Lateral"
+    },
+    "meta": {
+      "width": 2533,
+      "height": 1688,
+      "patient_identifier_if_available": "",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 19,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous-leftLateralView-1727682258796.jpg",
+      "filename": "anonymous-leftLateralView-1727682258796.jpg",
+      "mouth_view": "Left_Lateral"
+    },
+    "meta": {
+      "width": 1681,
+      "height": 944,
+      "patient_identifier_if_available": "",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 20,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous-leftLateralView-1727868277532.jpg",
+      "filename": "anonymous-leftLateralView-1727868277532.jpg",
+      "mouth_view": "Left_Lateral"
+    },
+    "meta": {
+      "width": 1591,
+      "height": 894,
+      "patient_identifier_if_available": "",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 21,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous-mandibularView-1726736862309.jpg",
+      "filename": "anonymous-mandibularView-1726736862309.jpg",
+      "mouth_view": "Mandibular"
+    },
+    "meta": {
+      "width": 2618,
+      "height": 1745,
+      "patient_identifier_if_available": "",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 22,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous-mandibularView-1727428501523.jpg",
+      "filename": "anonymous-mandibularView-1727428501523.jpg",
+      "mouth_view": "Mandibular"
+    },
+    "meta": {
+      "width": 1752,
+      "height": 1168,
+      "patient_identifier_if_available": "",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 23,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous-mandibularView-1727431008520.jpg",
+      "filename": "anonymous-mandibularView-1727431008520.jpg",
+      "mouth_view": "Mandibular"
+    },
+    "meta": {
+      "width": 1713,
+      "height": 1284,
+      "patient_identifier_if_available": "",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 24,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous-mandibularView-1727434026636.jpg",
+      "filename": "anonymous-mandibularView-1727434026636.jpg",
+      "mouth_view": "Mandibular"
+    },
+    "meta": {
+      "width": 1528,
+      "height": 1145,
+      "patient_identifier_if_available": "",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 25,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous-mandibularView-1727697872262.jpg",
+      "filename": "anonymous-mandibularView-1727697872262.jpg",
+      "mouth_view": "Mandibular"
+    },
+    "meta": {
+      "width": 1239,
+      "height": 929,
+      "patient_identifier_if_available": "",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 26,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous-mandibularView-1727703597109.jpg",
+      "filename": "anonymous-mandibularView-1727703597109.jpg",
+      "mouth_view": "Mandibular"
+    },
+    "meta": {
+      "width": 1713,
+      "height": 1284,
+      "patient_identifier_if_available": "",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 27,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous-mandibularView-1727775921173.jpg",
+      "filename": "anonymous-mandibularView-1727775921173.jpg",
+      "mouth_view": "Mandibular"
+    },
+    "meta": {
+      "width": 1614,
+      "height": 1209,
+      "patient_identifier_if_available": "",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 28,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous-mandibularView-1727864656191.jpg",
+      "filename": "anonymous-mandibularView-1727864656191.jpg",
+      "mouth_view": "Mandibular"
+    },
+    "meta": {
+      "width": 1812,
+      "height": 1358,
+      "patient_identifier_if_available": "",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 29,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous-mandibularView-1727873809936.jpg",
+      "filename": "anonymous-mandibularView-1727873809936.jpg",
+      "mouth_view": "Mandibular"
+    },
+    "meta": {
+      "width": 1510,
+      "height": 1132,
+      "patient_identifier_if_available": "",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 30,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous-mandibularView-1727875877197.jpg",
+      "filename": "anonymous-mandibularView-1727875877197.jpg",
+      "mouth_view": "Mandibular"
+    },
+    "meta": {
+      "width": 1377,
+      "height": 1032,
+      "patient_identifier_if_available": "",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 31,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous-maxillaryView-1726807426131.jpg",
+      "filename": "anonymous-maxillaryView-1726807426131.jpg",
+      "mouth_view": "Maxillary_Occlusal"
+    },
+    "meta": {
+      "width": 2047,
+      "height": 1151,
+      "patient_identifier_if_available": "",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 32,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous-maxillaryView-1727348028977.jpg",
+      "filename": "anonymous-maxillaryView-1727348028977.jpg",
+      "mouth_view": "Maxillary_Occlusal"
+    },
+    "meta": {
+      "width": 1784,
+      "height": 1338,
+      "patient_identifier_if_available": "",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 33,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous-maxillaryView-1727678882524.jpg",
+      "filename": "anonymous-maxillaryView-1727678882524.jpg",
+      "mouth_view": "Maxillary_Occlusal"
+    },
+    "meta": {
+      "width": 2990,
+      "height": 1679,
+      "patient_identifier_if_available": "",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 34,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous-maxillaryView-1727682092188.jpg",
+      "filename": "anonymous-maxillaryView-1727682092188.jpg",
+      "mouth_view": "Maxillary_Occlusal"
+    },
+    "meta": {
+      "width": 2936,
+      "height": 1649,
+      "patient_identifier_if_available": "",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 35,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous-maxillaryView-1727764792798.jpg",
+      "filename": "anonymous-maxillaryView-1727764792798.jpg",
+      "mouth_view": "Maxillary_Occlusal"
+    },
+    "meta": {
+      "width": 3060,
+      "height": 1719,
+      "patient_identifier_if_available": "",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 36,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous-maxillaryView-1727768058789.jpg",
+      "filename": "anonymous-maxillaryView-1727768058789.jpg",
+      "mouth_view": "Maxillary_Occlusal"
+    },
+    "meta": {
+      "width": 2371,
+      "height": 1331,
+      "patient_identifier_if_available": "",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 37,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous-maxillaryView-1727778452432.jpg",
+      "filename": "anonymous-maxillaryView-1727778452432.jpg",
+      "mouth_view": "Maxillary_Occlusal"
+    },
+    "meta": {
+      "width": 1642,
+      "height": 1230,
+      "patient_identifier_if_available": "",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 38,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous-maxillaryView-1727782272418.jpg",
+      "filename": "anonymous-maxillaryView-1727782272418.jpg",
+      "mouth_view": "Maxillary_Occlusal"
+    },
+    "meta": {
+      "width": 1530,
+      "height": 1146,
+      "patient_identifier_if_available": "",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 39,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous-maxillaryView-1727782733331.jpg",
+      "filename": "anonymous-maxillaryView-1727782733331.jpg",
+      "mouth_view": "Maxillary_Occlusal"
+    },
+    "meta": {
+      "width": 1831,
+      "height": 1372,
+      "patient_identifier_if_available": "",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 40,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous-maxillaryView-1727868347839.jpg",
+      "filename": "anonymous-maxillaryView-1727868347839.jpg",
+      "mouth_view": "Maxillary_Occlusal"
+    },
+    "meta": {
+      "width": 1838,
+      "height": 1377,
+      "patient_identifier_if_available": "",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 41,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous-rightLateralView-1726814947519.jpg",
+      "filename": "anonymous-rightLateralView-1726814947519.jpg",
+      "mouth_view": "Right_Lateral"
+    },
+    "meta": {
+      "width": 1652,
+      "height": 1239,
+      "patient_identifier_if_available": "",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 42,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous-rightLateralView-1726892751122.jpg",
+      "filename": "anonymous-rightLateralView-1726892751122.jpg",
+      "mouth_view": "Right_Lateral"
+    },
+    "meta": {
+      "width": 1980,
+      "height": 1113,
+      "patient_identifier_if_available": "",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 43,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous-rightLateralView-1727175730379.jpg",
+      "filename": "anonymous-rightLateralView-1727175730379.jpg",
+      "mouth_view": "Right_Lateral"
+    },
+    "meta": {
+      "width": 1505,
+      "height": 846,
+      "patient_identifier_if_available": "",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 44,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous-rightLateralView-1727253615845.jpg",
+      "filename": "anonymous-rightLateralView-1727253615845.jpg",
+      "mouth_view": "Right_Lateral"
+    },
+    "meta": {
+      "width": 1499,
+      "height": 842,
+      "patient_identifier_if_available": "",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 45,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous-rightLateralView-1727411484788.jpg",
+      "filename": "anonymous-rightLateralView-1727411484788.jpg",
+      "mouth_view": "Right_Lateral"
+    },
+    "meta": {
+      "width": 2117,
+      "height": 1189,
+      "patient_identifier_if_available": "",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 46,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous-rightLateralView-1727412411379.jpg",
+      "filename": "anonymous-rightLateralView-1727412411379.jpg",
+      "mouth_view": "Right_Lateral"
+    },
+    "meta": {
+      "width": 1697,
+      "height": 953,
+      "patient_identifier_if_available": "",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 47,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous-rightLateralView-1727671727432.jpg",
+      "filename": "anonymous-rightLateralView-1727671727432.jpg",
+      "mouth_view": "Right_Lateral"
+    },
+    "meta": {
+      "width": 2276,
+      "height": 1278,
+      "patient_identifier_if_available": "",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 48,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous-rightLateralView-1727683763074.jpg",
+      "filename": "anonymous-rightLateralView-1727683763074.jpg",
+      "mouth_view": "Right_Lateral"
+    },
+    "meta": {
+      "width": 1538,
+      "height": 864,
+      "patient_identifier_if_available": "",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 49,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous-rightLateralView-1727761954744.jpg",
+      "filename": "anonymous-rightLateralView-1727761954744.jpg",
+      "mouth_view": "Right_Lateral"
+    },
+    "meta": {
+      "width": 1483,
+      "height": 833,
+      "patient_identifier_if_available": "",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 50,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous-rightLateralView-1727782111289.jpg",
+      "filename": "anonymous-rightLateralView-1727782111289.jpg",
+      "mouth_view": "Right_Lateral"
+    },
+    "meta": {
+      "width": 1522,
+      "height": 855,
+      "patient_identifier_if_available": "",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 51,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_002-007-1425-00_1733985413148_Right_Lateral_View.jpg",
+      "filename": "anonymous_002-007-1425-00_1733985413148_Right_Lateral_View.jpg",
+      "mouth_view": "Right_Lateral"
+    },
+    "meta": {
+      "width": 2898,
+      "height": 2172,
+      "patient_identifier_if_available": "002-007-1425",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 52,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-007-1002-01_1731041206649_Frontal_View.jpg",
+      "filename": "anonymous_003-007-1002-01_1731041206649_Frontal_View.jpg",
+      "mouth_view": "Frontal"
+    },
+    "meta": {
+      "width": 1489,
+      "height": 836,
+      "patient_identifier_if_available": "003-007-1002",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 53,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-007-1004-00_1731042060585_Frontal_View.jpg",
+      "filename": "anonymous_003-007-1004-00_1731042060585_Frontal_View.jpg",
+      "mouth_view": "Frontal"
+    },
+    "meta": {
+      "width": 1757,
+      "height": 987,
+      "patient_identifier_if_available": "003-007-1004",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 54,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-007-1011-01_1731051758521_Left_Lateral_View.jpg",
+      "filename": "anonymous_003-007-1011-01_1731051758521_Left_Lateral_View.jpg",
+      "mouth_view": "Left_Lateral"
+    },
+    "meta": {
+      "width": 1385,
+      "height": 1385,
+      "patient_identifier_if_available": "003-007-1011",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 55,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-007-1012-00_1731052265486_Frontal_View.jpg",
+      "filename": "anonymous_003-007-1012-00_1731052265486_Frontal_View.jpg",
+      "mouth_view": "Frontal"
+    },
+    "meta": {
+      "width": 1905,
+      "height": 1070,
+      "patient_identifier_if_available": "003-007-1012",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 56,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-007-1022-00_1731213200765_Maxillary_Occlusal_View.jpg",
+      "filename": "anonymous_003-007-1022-00_1731213200765_Maxillary_Occlusal_View.jpg",
+      "mouth_view": "Maxillary_Occlusal"
+    },
+    "meta": {
+      "width": 3243,
+      "height": 2431,
+      "patient_identifier_if_available": "003-007-1022",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 57,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-007-1044-00_1731313465914_Left_Lateral_View.jpg",
+      "filename": "anonymous_003-007-1044-00_1731313465914_Left_Lateral_View.jpg",
+      "mouth_view": "Left_Lateral"
+    },
+    "meta": {
+      "width": 1145,
+      "height": 1145,
+      "patient_identifier_if_available": "003-007-1044",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 58,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-007-1055-01_1731386400029_Right_Lateral_View.jpg",
+      "filename": "anonymous_003-007-1055-01_1731386400029_Right_Lateral_View.jpg",
+      "mouth_view": "Right_Lateral"
+    },
+    "meta": {
+      "width": 1561,
+      "height": 1561,
+      "patient_identifier_if_available": "003-007-1055",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 59,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-007-1059-01_1731392005920_Left_Lateral_View.jpg",
+      "filename": "anonymous_003-007-1059-01_1731392005920_Left_Lateral_View.jpg",
+      "mouth_view": "Left_Lateral"
+    },
+    "meta": {
+      "width": 1341,
+      "height": 1341,
+      "patient_identifier_if_available": "003-007-1059",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 60,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-007-1083-01_1732175835410_Left_Lateral_View.jpg",
+      "filename": "anonymous_003-007-1083-01_1732175835410_Left_Lateral_View.jpg",
+      "mouth_view": "Left_Lateral"
+    },
+    "meta": {
+      "width": 1308,
+      "height": 1308,
+      "patient_identifier_if_available": "003-007-1083",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 61,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-007-1086-00_1732180719427_Left_Lateral_View.jpg",
+      "filename": "anonymous_003-007-1086-00_1732180719427_Left_Lateral_View.jpg",
+      "mouth_view": "Left_Lateral"
+    },
+    "meta": {
+      "width": 1367,
+      "height": 1367,
+      "patient_identifier_if_available": "003-007-1086",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 62,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-007-1099-01_1732262197016_Right_Lateral_View.jpg",
+      "filename": "anonymous_003-007-1099-01_1732262197016_Right_Lateral_View.jpg",
+      "mouth_view": "Right_Lateral"
+    },
+    "meta": {
+      "width": 1245,
+      "height": 1245,
+      "patient_identifier_if_available": "003-007-1099",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 63,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-007-1100-00_1732262920724_Left_Lateral_View.jpg",
+      "filename": "anonymous_003-007-1100-00_1732262920724_Left_Lateral_View.jpg",
+      "mouth_view": "Left_Lateral"
+    },
+    "meta": {
+      "width": 1147,
+      "height": 1147,
+      "patient_identifier_if_available": "003-007-1100",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 64,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-007-1123-01_1732512071673_Left_Lateral_View.jpg",
+      "filename": "anonymous_003-007-1123-01_1732512071673_Left_Lateral_View.jpg",
+      "mouth_view": "Left_Lateral"
+    },
+    "meta": {
+      "width": 1119,
+      "height": 1119,
+      "patient_identifier_if_available": "003-007-1123",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 65,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-007-1124-00_1732512565150_Left_Lateral_View.jpg",
+      "filename": "anonymous_003-007-1124-00_1732512565150_Left_Lateral_View.jpg",
+      "mouth_view": "Left_Lateral"
+    },
+    "meta": {
+      "width": 1429,
+      "height": 1429,
+      "patient_identifier_if_available": "003-007-1124",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 66,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-007-1126-00_1732515253289_Left_Lateral_View.jpg",
+      "filename": "anonymous_003-007-1126-00_1732515253289_Left_Lateral_View.jpg",
+      "mouth_view": "Left_Lateral"
+    },
+    "meta": {
+      "width": 1186,
+      "height": 1186,
+      "patient_identifier_if_available": "003-007-1126",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 67,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-007-1130-00_1732522239159_Left_Lateral_View.jpg",
+      "filename": "anonymous_003-007-1130-00_1732522239159_Left_Lateral_View.jpg",
+      "mouth_view": "Left_Lateral"
+    },
+    "meta": {
+      "width": 1123,
+      "height": 1123,
+      "patient_identifier_if_available": "003-007-1130",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 68,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-007-1143-01_1732598176850_Left_Lateral_View.jpg",
+      "filename": "anonymous_003-007-1143-01_1732598176850_Left_Lateral_View.jpg",
+      "mouth_view": "Left_Lateral"
+    },
+    "meta": {
+      "width": 1400,
+      "height": 1400,
+      "patient_identifier_if_available": "003-007-1143",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 69,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-007-1150-01_1732607471437_Right_Lateral_View.jpg",
+      "filename": "anonymous_003-007-1150-01_1732607471437_Right_Lateral_View.jpg",
+      "mouth_view": "Right_Lateral"
+    },
+    "meta": {
+      "width": 1381,
+      "height": 1381,
+      "patient_identifier_if_available": "003-007-1150",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 70,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-007-1151-00_1732608241351_Right_Lateral_View.jpg",
+      "filename": "anonymous_003-007-1151-00_1732608241351_Right_Lateral_View.jpg",
+      "mouth_view": "Right_Lateral"
+    },
+    "meta": {
+      "width": 1871,
+      "height": 1871,
+      "patient_identifier_if_available": "003-007-1151",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 71,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-007-1168-01_1732686410487_Right_Lateral_View.jpg",
+      "filename": "anonymous_003-007-1168-01_1732686410487_Right_Lateral_View.jpg",
+      "mouth_view": "Right_Lateral"
+    },
+    "meta": {
+      "width": 1415,
+      "height": 1415,
+      "patient_identifier_if_available": "003-007-1168",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 72,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-007-1170-01_1732690605466_Left_Lateral_View.jpg",
+      "filename": "anonymous_003-007-1170-01_1732690605466_Left_Lateral_View.jpg",
+      "mouth_view": "Left_Lateral"
+    },
+    "meta": {
+      "width": 1138,
+      "height": 1138,
+      "patient_identifier_if_available": "003-007-1170",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 73,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-007-1210-00_1732858424401_Right_Lateral_View.jpg",
+      "filename": "anonymous_003-007-1210-00_1732858424401_Right_Lateral_View.jpg",
+      "mouth_view": "Right_Lateral"
+    },
+    "meta": {
+      "width": 1455,
+      "height": 1455,
+      "patient_identifier_if_available": "003-007-1210",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 74,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-007-1211-01_1732860586562_Right_Lateral_View.jpg",
+      "filename": "anonymous_003-007-1211-01_1732860586562_Right_Lateral_View.jpg",
+      "mouth_view": "Right_Lateral"
+    },
+    "meta": {
+      "width": 1256,
+      "height": 1256,
+      "patient_identifier_if_available": "003-007-1211",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 75,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-007-1213-01_1732862150627_Left_Lateral_View.jpg",
+      "filename": "anonymous_003-007-1213-01_1732862150627_Left_Lateral_View.jpg",
+      "mouth_view": "Left_Lateral"
+    },
+    "meta": {
+      "width": 1493,
+      "height": 1493,
+      "patient_identifier_if_available": "003-007-1213",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 76,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-007-1215-01_1732863751319_Left_Lateral_View.jpg",
+      "filename": "anonymous_003-007-1215-01_1732863751319_Left_Lateral_View.jpg",
+      "mouth_view": "Left_Lateral"
+    },
+    "meta": {
+      "width": 1144,
+      "height": 1144,
+      "patient_identifier_if_available": "003-007-1215",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 77,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-007-1217-01_1732873386455_Mandibular_View.jpg",
+      "filename": "anonymous_003-007-1217-01_1732873386455_Mandibular_View.jpg",
+      "mouth_view": "Mandibular"
+    },
+    "meta": {
+      "width": 1365,
+      "height": 1023,
+      "patient_identifier_if_available": "003-007-1217",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 78,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-007-1233-00_1732944212509_Right_Lateral_View.jpg",
+      "filename": "anonymous_003-007-1233-00_1732944212509_Right_Lateral_View.jpg",
+      "mouth_view": "Right_Lateral"
+    },
+    "meta": {
+      "width": 1315,
+      "height": 1315,
+      "patient_identifier_if_available": "003-007-1233",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 79,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-007-1235-00_1732946927322_Right_Lateral_View.jpg",
+      "filename": "anonymous_003-007-1235-00_1732946927322_Right_Lateral_View.jpg",
+      "mouth_view": "Right_Lateral"
+    },
+    "meta": {
+      "width": 1538,
+      "height": 1538,
+      "patient_identifier_if_available": "003-007-1235",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 80,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-007-1254-01_1733114052105_Right_Lateral_View.jpg",
+      "filename": "anonymous_003-007-1254-01_1733114052105_Right_Lateral_View.jpg",
+      "mouth_view": "Right_Lateral"
+    },
+    "meta": {
+      "width": 1448,
+      "height": 1448,
+      "patient_identifier_if_available": "003-007-1254",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 81,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-007-1256-01_1733116383089_Right_Lateral_View.jpg",
+      "filename": "anonymous_003-007-1256-01_1733116383089_Right_Lateral_View.jpg",
+      "mouth_view": "Right_Lateral"
+    },
+    "meta": {
+      "width": 1706,
+      "height": 1706,
+      "patient_identifier_if_available": "003-007-1256",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 82,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-007-1258-01_1733118887519_Right_Lateral_View.jpg",
+      "filename": "anonymous_003-007-1258-01_1733118887519_Right_Lateral_View.jpg",
+      "mouth_view": "Right_Lateral"
+    },
+    "meta": {
+      "width": 1313,
+      "height": 1313,
+      "patient_identifier_if_available": "003-007-1258",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 83,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-007-1263-00_1733124846881_Right_Lateral_View.jpg",
+      "filename": "anonymous_003-007-1263-00_1733124846881_Right_Lateral_View.jpg",
+      "mouth_view": "Right_Lateral"
+    },
+    "meta": {
+      "width": 1239,
+      "height": 1239,
+      "patient_identifier_if_available": "003-007-1263",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 84,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-007-1278-01_1733290522713_Frontal_View.jpg",
+      "filename": "anonymous_003-007-1278-01_1733290522713_Frontal_View.jpg",
+      "mouth_view": "Frontal"
+    },
+    "meta": {
+      "width": 1651,
+      "height": 927,
+      "patient_identifier_if_available": "003-007-1278",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 85,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-007-1279-00_1733291491637_Right_Lateral_View.jpg",
+      "filename": "anonymous_003-007-1279-00_1733291491637_Right_Lateral_View.jpg",
+      "mouth_view": "Right_Lateral"
+    },
+    "meta": {
+      "width": 1766,
+      "height": 1766,
+      "patient_identifier_if_available": "003-007-1279",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 86,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-007-1284-01_1733298471956_Right_Lateral_View.jpg",
+      "filename": "anonymous_003-007-1284-01_1733298471956_Right_Lateral_View.jpg",
+      "mouth_view": "Right_Lateral"
+    },
+    "meta": {
+      "width": 2000,
+      "height": 2000,
+      "patient_identifier_if_available": "003-007-1284",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 87,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-007-1285-00_1733299483506_Right_Lateral_View.jpg",
+      "filename": "anonymous_003-007-1285-00_1733299483506_Right_Lateral_View.jpg",
+      "mouth_view": "Right_Lateral"
+    },
+    "meta": {
+      "width": 1532,
+      "height": 1532,
+      "patient_identifier_if_available": "003-007-1285",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 88,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-007-1298-01_1733383416338_Right_Lateral_View.jpg",
+      "filename": "anonymous_003-007-1298-01_1733383416338_Right_Lateral_View.jpg",
+      "mouth_view": "Right_Lateral"
+    },
+    "meta": {
+      "width": 1338,
+      "height": 1338,
+      "patient_identifier_if_available": "003-007-1298",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 89,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-007-1300-01_1733385300365_Right_Lateral_View.jpg",
+      "filename": "anonymous_003-007-1300-01_1733385300365_Right_Lateral_View.jpg",
+      "mouth_view": "Right_Lateral"
+    },
+    "meta": {
+      "width": 1513,
+      "height": 1513,
+      "patient_identifier_if_available": "003-007-1300",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 90,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-007-1302-01_1733387009180_Right_Lateral_View.jpg",
+      "filename": "anonymous_003-007-1302-01_1733387009180_Right_Lateral_View.jpg",
+      "mouth_view": "Right_Lateral"
+    },
+    "meta": {
+      "width": 1657,
+      "height": 1657,
+      "patient_identifier_if_available": "003-007-1302",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 91,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-007-1303-00_1733387722479_Frontal_View.jpg",
+      "filename": "anonymous_003-007-1303-00_1733387722479_Frontal_View.jpg",
+      "mouth_view": "Frontal"
+    },
+    "meta": {
+      "width": 1652,
+      "height": 928,
+      "patient_identifier_if_available": "003-007-1303",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 92,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-007-1314-01_1733460606394_Right_Lateral_View.jpg",
+      "filename": "anonymous_003-007-1314-01_1733460606394_Right_Lateral_View.jpg",
+      "mouth_view": "Right_Lateral"
+    },
+    "meta": {
+      "width": 1649,
+      "height": 1649,
+      "patient_identifier_if_available": "003-007-1314",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 93,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-007-1315-00_1733461151409_Right_Lateral_View.jpg",
+      "filename": "anonymous_003-007-1315-00_1733461151409_Right_Lateral_View.jpg",
+      "mouth_view": "Right_Lateral"
+    },
+    "meta": {
+      "width": 1556,
+      "height": 1556,
+      "patient_identifier_if_available": "003-007-1315",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 94,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-007-1319-00_1733466947980_Frontal_View.jpg",
+      "filename": "anonymous_003-007-1319-00_1733466947980_Frontal_View.jpg",
+      "mouth_view": "Frontal"
+    },
+    "meta": {
+      "width": 1495,
+      "height": 840,
+      "patient_identifier_if_available": "003-007-1319",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 95,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-007-1332-01_1733546368703_Right_Lateral_View.jpg",
+      "filename": "anonymous_003-007-1332-01_1733546368703_Right_Lateral_View.jpg",
+      "mouth_view": "Right_Lateral"
+    },
+    "meta": {
+      "width": 1585,
+      "height": 1585,
+      "patient_identifier_if_available": "003-007-1332",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 96,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-007-1333-00_1733546768749_Left_Lateral_View.jpg",
+      "filename": "anonymous_003-007-1333-00_1733546768749_Left_Lateral_View.jpg",
+      "mouth_view": "Left_Lateral"
+    },
+    "meta": {
+      "width": 1683,
+      "height": 1683,
+      "patient_identifier_if_available": "003-007-1333",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 97,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-007-1335-00_1733549834282_Right_Lateral_View.jpg",
+      "filename": "anonymous_003-007-1335-00_1733549834282_Right_Lateral_View.jpg",
+      "mouth_view": "Right_Lateral"
+    },
+    "meta": {
+      "width": 1386,
+      "height": 1386,
+      "patient_identifier_if_available": "003-007-1335",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 98,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-007-1341-01_1733555170954_Right_Lateral_View.jpg",
+      "filename": "anonymous_003-007-1341-01_1733555170954_Right_Lateral_View.jpg",
+      "mouth_view": "Right_Lateral"
+    },
+    "meta": {
+      "width": 1193,
+      "height": 1193,
+      "patient_identifier_if_available": "003-007-1341",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 99,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-007-1342-00_1733555666542_Frontal_View.jpg",
+      "filename": "anonymous_003-007-1342-00_1733555666542_Frontal_View.jpg",
+      "mouth_view": "Frontal"
+    },
+    "meta": {
+      "width": 1626,
+      "height": 913,
+      "patient_identifier_if_available": "003-007-1342",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 100,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-007-1343-01_1733556695047_Right_Lateral_View.jpg",
+      "filename": "anonymous_003-007-1343-01_1733556695047_Right_Lateral_View.jpg",
+      "mouth_view": "Right_Lateral"
+    },
+    "meta": {
+      "width": 1548,
+      "height": 1548,
+      "patient_identifier_if_available": "003-007-1343",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 101,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-007-1356-01_1733720353831_Right_Lateral_View.jpg",
+      "filename": "anonymous_003-007-1356-01_1733720353831_Right_Lateral_View.jpg",
+      "mouth_view": "Right_Lateral"
+    },
+    "meta": {
+      "width": 1657,
+      "height": 1657,
+      "patient_identifier_if_available": "003-007-1356",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 102,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-007-1358-01_1733721809632_Right_Lateral_View.jpg",
+      "filename": "anonymous_003-007-1358-01_1733721809632_Right_Lateral_View.jpg",
+      "mouth_view": "Right_Lateral"
+    },
+    "meta": {
+      "width": 1161,
+      "height": 1161,
+      "patient_identifier_if_available": "003-007-1358",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 103,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-007-1360-01_1733723628464_Right_Lateral_View.jpg",
+      "filename": "anonymous_003-007-1360-01_1733723628464_Right_Lateral_View.jpg",
+      "mouth_view": "Right_Lateral"
+    },
+    "meta": {
+      "width": 1406,
+      "height": 1406,
+      "patient_identifier_if_available": "003-007-1360",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 104,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-007-1361-00_1733724284664_Right_Lateral_View.jpg",
+      "filename": "anonymous_003-007-1361-00_1733724284664_Right_Lateral_View.jpg",
+      "mouth_view": "Right_Lateral"
+    },
+    "meta": {
+      "width": 1180,
+      "height": 1180,
+      "patient_identifier_if_available": "003-007-1361",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 105,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-007-1362-01_1733725990504_Left_Lateral_View.jpg",
+      "filename": "anonymous_003-007-1362-01_1733725990504_Left_Lateral_View.jpg",
+      "mouth_view": "Left_Lateral"
+    },
+    "meta": {
+      "width": 1444,
+      "height": 1444,
+      "patient_identifier_if_available": "003-007-1362",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 106,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-007-1381-01_1733807088132_Right_Lateral_View.jpg",
+      "filename": "anonymous_003-007-1381-01_1733807088132_Right_Lateral_View.jpg",
+      "mouth_view": "Right_Lateral"
+    },
+    "meta": {
+      "width": 1234,
+      "height": 1234,
+      "patient_identifier_if_available": "003-007-1381",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 107,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-007-1383-01_1733809827682_Left_Lateral_View.jpg",
+      "filename": "anonymous_003-007-1383-01_1733809827682_Left_Lateral_View.jpg",
+      "mouth_view": "Left_Lateral"
+    },
+    "meta": {
+      "width": 1435,
+      "height": 1435,
+      "patient_identifier_if_available": "003-007-1383",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 108,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-007-1398-00_1733892905827_Left_Lateral_View.jpg",
+      "filename": "anonymous_003-007-1398-00_1733892905827_Left_Lateral_View.jpg",
+      "mouth_view": "Left_Lateral"
+    },
+    "meta": {
+      "width": 1199,
+      "height": 1199,
+      "patient_identifier_if_available": "003-007-1398",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 109,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-007-1403-01_1733899327077_Right_Lateral_View.jpg",
+      "filename": "anonymous_003-007-1403-01_1733899327077_Right_Lateral_View.jpg",
+      "mouth_view": "Right_Lateral"
+    },
+    "meta": {
+      "width": 1665,
+      "height": 1665,
+      "patient_identifier_if_available": "003-007-1403",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 110,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-007-1405-01_1733903046895_Right_Lateral_View.jpg",
+      "filename": "anonymous_003-007-1405-01_1733903046895_Right_Lateral_View.jpg",
+      "mouth_view": "Right_Lateral"
+    },
+    "meta": {
+      "width": 1791,
+      "height": 1791,
+      "patient_identifier_if_available": "003-007-1405",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 111,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-007-1407-01_1733905373045_Right_Lateral_View.jpg",
+      "filename": "anonymous_003-007-1407-01_1733905373045_Right_Lateral_View.jpg",
+      "mouth_view": "Right_Lateral"
+    },
+    "meta": {
+      "width": 2031,
+      "height": 2031,
+      "patient_identifier_if_available": "003-007-1407",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 112,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-007-1420-01_1733978633675_Left_Lateral_View.jpg",
+      "filename": "anonymous_003-007-1420-01_1733978633675_Left_Lateral_View.jpg",
+      "mouth_view": "Left_Lateral"
+    },
+    "meta": {
+      "width": 1311,
+      "height": 1311,
+      "patient_identifier_if_available": "003-007-1420",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 113,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-007-1426-01_1733987499538_Right_Lateral_View.jpg",
+      "filename": "anonymous_003-007-1426-01_1733987499538_Right_Lateral_View.jpg",
+      "mouth_view": "Right_Lateral"
+    },
+    "meta": {
+      "width": 1382,
+      "height": 1382,
+      "patient_identifier_if_available": "003-007-1426",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 114,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-007-1427-01_1733987975292_Left_Lateral_View.jpg",
+      "filename": "anonymous_003-007-1427-01_1733987975292_Left_Lateral_View.jpg",
+      "mouth_view": "Left_Lateral"
+    },
+    "meta": {
+      "width": 1530,
+      "height": 1530,
+      "patient_identifier_if_available": "003-007-1427",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 115,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-007-1445-01_1734067220530_Left_Lateral_View.jpg",
+      "filename": "anonymous_003-007-1445-01_1734067220530_Left_Lateral_View.jpg",
+      "mouth_view": "Left_Lateral"
+    },
+    "meta": {
+      "width": 1202,
+      "height": 1202,
+      "patient_identifier_if_available": "003-007-1445",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 116,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-007-1446-00_1734067718905_Left_Lateral_View.jpg",
+      "filename": "anonymous_003-007-1446-00_1734067718905_Left_Lateral_View.jpg",
+      "mouth_view": "Left_Lateral"
+    },
+    "meta": {
+      "width": 1636,
+      "height": 1636,
+      "patient_identifier_if_available": "003-007-1446",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 117,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-007-1447-01_1734069643857_Right_Lateral_View.jpg",
+      "filename": "anonymous_003-007-1447-01_1734069643857_Right_Lateral_View.jpg",
+      "mouth_view": "Right_Lateral"
+    },
+    "meta": {
+      "width": 1409,
+      "height": 1409,
+      "patient_identifier_if_available": "003-007-1447",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 118,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-007-1448-00_1734070151840_Right_Lateral_View.jpg",
+      "filename": "anonymous_003-007-1448-00_1734070151840_Right_Lateral_View.jpg",
+      "mouth_view": "Right_Lateral"
+    },
+    "meta": {
+      "width": 1594,
+      "height": 1594,
+      "patient_identifier_if_available": "003-007-1448",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 119,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-007-1449-01_1734071616170_Right_Lateral_View.jpg",
+      "filename": "anonymous_003-007-1449-01_1734071616170_Right_Lateral_View.jpg",
+      "mouth_view": "Right_Lateral"
+    },
+    "meta": {
+      "width": 1421,
+      "height": 1421,
+      "patient_identifier_if_available": "003-007-1449",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 120,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-007-1451-01_1734074621913_Right_Lateral_View.jpg",
+      "filename": "anonymous_003-007-1451-01_1734074621913_Right_Lateral_View.jpg",
+      "mouth_view": "Right_Lateral"
+    },
+    "meta": {
+      "width": 1635,
+      "height": 1635,
+      "patient_identifier_if_available": "003-007-1451",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 121,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-007-1452-00_1734075049818_Left_Lateral_View.jpg",
+      "filename": "anonymous_003-007-1452-00_1734075049818_Left_Lateral_View.jpg",
+      "mouth_view": "Left_Lateral"
+    },
+    "meta": {
+      "width": 1400,
+      "height": 1400,
+      "patient_identifier_if_available": "003-007-1452",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 122,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-007-1453-01_1734076182590_Right_Lateral_View.jpg",
+      "filename": "anonymous_003-007-1453-01_1734076182590_Right_Lateral_View.jpg",
+      "mouth_view": "Right_Lateral"
+    },
+    "meta": {
+      "width": 1403,
+      "height": 1403,
+      "patient_identifier_if_available": "003-007-1453",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 123,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-007-1454-00_1734076622499_Right_Lateral_View.jpg",
+      "filename": "anonymous_003-007-1454-00_1734076622499_Right_Lateral_View.jpg",
+      "mouth_view": "Right_Lateral"
+    },
+    "meta": {
+      "width": 1716,
+      "height": 1716,
+      "patient_identifier_if_available": "003-007-1454",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 124,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-007-1468-00_1734151836223_Frontal_View.jpg",
+      "filename": "anonymous_003-007-1468-00_1734151836223_Frontal_View.jpg",
+      "mouth_view": "Frontal"
+    },
+    "meta": {
+      "width": 1532,
+      "height": 860,
+      "patient_identifier_if_available": "003-007-1468",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 125,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-007-1469-01_1734153129262_Left_Lateral_View.jpg",
+      "filename": "anonymous_003-007-1469-01_1734153129262_Left_Lateral_View.jpg",
+      "mouth_view": "Left_Lateral"
+    },
+    "meta": {
+      "width": 1639,
+      "height": 1639,
+      "patient_identifier_if_available": "003-007-1469",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 126,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-007-1471-00_1734154142740_Left_Lateral_View.jpg",
+      "filename": "anonymous_003-007-1471-00_1734154142740_Left_Lateral_View.jpg",
+      "mouth_view": "Left_Lateral"
+    },
+    "meta": {
+      "width": 1309,
+      "height": 1309,
+      "patient_identifier_if_available": "003-007-1471",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 127,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-007-1476-01_1734160175819_Right_Lateral_View.jpg",
+      "filename": "anonymous_003-007-1476-01_1734160175819_Right_Lateral_View.jpg",
+      "mouth_view": "Right_Lateral"
+    },
+    "meta": {
+      "width": 1708,
+      "height": 1708,
+      "patient_identifier_if_available": "003-007-1476",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 128,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-007-575-01_1728964993041_Right_Lateral_View.jpg",
+      "filename": "anonymous_003-007-575-01_1728964993041_Right_Lateral_View.jpg",
+      "mouth_view": "Right_Lateral"
+    },
+    "meta": {
+      "width": 1073,
+      "height": 1073,
+      "patient_identifier_if_available": "003-007-575",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 129,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-007-577-00_1728965843715_Right_Lateral_View.jpg",
+      "filename": "anonymous_003-007-577-00_1728965843715_Right_Lateral_View.jpg",
+      "mouth_view": "Right_Lateral"
+    },
+    "meta": {
+      "width": 1767,
+      "height": 992,
+      "patient_identifier_if_available": "003-007-577",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 130,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-007-578-01_1728969570001_Left_Lateral_View.jpg",
+      "filename": "anonymous_003-007-578-01_1728969570001_Left_Lateral_View.jpg",
+      "mouth_view": "Left_Lateral"
+    },
+    "meta": {
+      "width": 1058,
+      "height": 1058,
+      "patient_identifier_if_available": "003-007-578",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 131,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-007-579-00_1728970499028_Left_Lateral_View.jpg",
+      "filename": "anonymous_003-007-579-00_1728970499028_Left_Lateral_View.jpg",
+      "mouth_view": "Left_Lateral"
+    },
+    "meta": {
+      "width": 1329,
+      "height": 886,
+      "patient_identifier_if_available": "003-007-579",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 132,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-007-580-01_1728972003930_Frontal_View.jpg",
+      "filename": "anonymous_003-007-580-01_1728972003930_Frontal_View.jpg",
+      "mouth_view": "Frontal"
+    },
+    "meta": {
+      "width": 1483,
+      "height": 833,
+      "patient_identifier_if_available": "003-007-580",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 133,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-007-581-00_1728972796940_Left_Lateral_View.jpg",
+      "filename": "anonymous_003-007-581-00_1728972796940_Left_Lateral_View.jpg",
+      "mouth_view": "Left_Lateral"
+    },
+    "meta": {
+      "width": 1925,
+      "height": 1284,
+      "patient_identifier_if_available": "003-007-581",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 134,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-007-583-00_1728975790763_Left_Lateral_View.jpg",
+      "filename": "anonymous_003-007-583-00_1728975790763_Left_Lateral_View.jpg",
+      "mouth_view": "Left_Lateral"
+    },
+    "meta": {
+      "width": 1620,
+      "height": 910,
+      "patient_identifier_if_available": "003-007-583",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 135,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-007-584-01_1728978916496_Left_Lateral_View.jpg",
+      "filename": "anonymous_003-007-584-01_1728978916496_Left_Lateral_View.jpg",
+      "mouth_view": "Left_Lateral"
+    },
+    "meta": {
+      "width": 1273,
+      "height": 1273,
+      "patient_identifier_if_available": "003-007-584",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 136,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-007-585-00_1728979691813_Left_Lateral_View.jpg",
+      "filename": "anonymous_003-007-585-00_1728979691813_Left_Lateral_View.jpg",
+      "mouth_view": "Left_Lateral"
+    },
+    "meta": {
+      "width": 967,
+      "height": 967,
+      "patient_identifier_if_available": "003-007-585",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 137,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-007-586-01_1728980916581_Left_Lateral_View.jpg",
+      "filename": "anonymous_003-007-586-01_1728980916581_Left_Lateral_View.jpg",
+      "mouth_view": "Left_Lateral"
+    },
+    "meta": {
+      "width": 1405,
+      "height": 1405,
+      "patient_identifier_if_available": "003-007-586",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 138,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-007-588-00_1728981913002_Left_Lateral_View.jpg",
+      "filename": "anonymous_003-007-588-00_1728981913002_Left_Lateral_View.jpg",
+      "mouth_view": "Left_Lateral"
+    },
+    "meta": {
+      "width": 1356,
+      "height": 1016,
+      "patient_identifier_if_available": "003-007-588",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 139,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-007-600-01_1729052481058_Frontal_View.jpg",
+      "filename": "anonymous_003-007-600-01_1729052481058_Frontal_View.jpg",
+      "mouth_view": "Frontal"
+    },
+    "meta": {
+      "width": 1459,
+      "height": 819,
+      "patient_identifier_if_available": "003-007-600",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 140,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-007-601-00_1729053072717_Left_Lateral_View.jpg",
+      "filename": "anonymous_003-007-601-00_1729053072717_Left_Lateral_View.jpg",
+      "mouth_view": "Left_Lateral"
+    },
+    "meta": {
+      "width": 1315,
+      "height": 1315,
+      "patient_identifier_if_available": "003-007-601",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 141,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-007-602-01_1729054437729_Frontal_View.jpg",
+      "filename": "anonymous_003-007-602-01_1729054437729_Frontal_View.jpg",
+      "mouth_view": "Frontal"
+    },
+    "meta": {
+      "width": 1469,
+      "height": 825,
+      "patient_identifier_if_available": "003-007-602",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 142,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-007-603-00_1729054784683_Frontal_View.jpg",
+      "filename": "anonymous_003-007-603-00_1729054784683_Frontal_View.jpg",
+      "mouth_view": "Frontal"
+    },
+    "meta": {
+      "width": 1485,
+      "height": 834,
+      "patient_identifier_if_available": "003-007-603",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 143,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-007-604-01_1729056718568_Frontal_View.jpg",
+      "filename": "anonymous_003-007-604-01_1729056718568_Frontal_View.jpg",
+      "mouth_view": "Frontal"
+    },
+    "meta": {
+      "width": 1530,
+      "height": 859,
+      "patient_identifier_if_available": "003-007-604",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 144,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-007-605-00_1729057547565_Frontal_View.jpg",
+      "filename": "anonymous_003-007-605-00_1729057547565_Frontal_View.jpg",
+      "mouth_view": "Frontal"
+    },
+    "meta": {
+      "width": 1562,
+      "height": 877,
+      "patient_identifier_if_available": "003-007-605",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 145,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-007-606-01_1729059021512_Left_Lateral_View.jpg",
+      "filename": "anonymous_003-007-606-01_1729059021512_Left_Lateral_View.jpg",
+      "mouth_view": "Left_Lateral"
+    },
+    "meta": {
+      "width": 1283,
+      "height": 1283,
+      "patient_identifier_if_available": "003-007-606",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 146,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-007-607-00_1729059680698_Frontal_View.jpg",
+      "filename": "anonymous_003-007-607-00_1729059680698_Frontal_View.jpg",
+      "mouth_view": "Frontal"
+    },
+    "meta": {
+      "width": 1771,
+      "height": 995,
+      "patient_identifier_if_available": "003-007-607",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 147,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-007-608-01_1729061556946_Left_Lateral_View.jpg",
+      "filename": "anonymous_003-007-608-01_1729061556946_Left_Lateral_View.jpg",
+      "mouth_view": "Left_Lateral"
+    },
+    "meta": {
+      "width": 1284,
+      "height": 1284,
+      "patient_identifier_if_available": "003-007-608",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 148,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-007-610-01_1729062730067_Left_Lateral_View.jpg",
+      "filename": "anonymous_003-007-610-01_1729062730067_Left_Lateral_View.jpg",
+      "mouth_view": "Left_Lateral"
+    },
+    "meta": {
+      "width": 1243,
+      "height": 1243,
+      "patient_identifier_if_available": "003-007-610",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 149,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-007-612-01_1729067426867_Left_Lateral_View.jpg",
+      "filename": "anonymous_003-007-612-01_1729067426867_Left_Lateral_View.jpg",
+      "mouth_view": "Left_Lateral"
+    },
+    "meta": {
+      "width": 1775,
+      "height": 1775,
+      "patient_identifier_if_available": "003-007-612",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 150,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-007-613-00_1729067823449_Left_Lateral_View.jpg",
+      "filename": "anonymous_003-007-613-00_1729067823449_Left_Lateral_View.jpg",
+      "mouth_view": "Left_Lateral"
+    },
+    "meta": {
+      "width": 1403,
+      "height": 935,
+      "patient_identifier_if_available": "003-007-613",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 151,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-007-628-00_1729139603004_Frontal_View.jpg",
+      "filename": "anonymous_003-007-628-00_1729139603004_Frontal_View.jpg",
+      "mouth_view": "Frontal"
+    },
+    "meta": {
+      "width": 1525,
+      "height": 856,
+      "patient_identifier_if_available": "003-007-628",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 152,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-007-629-01_1729140899689_Left_Lateral_View.jpg",
+      "filename": "anonymous_003-007-629-01_1729140899689_Left_Lateral_View.jpg",
+      "mouth_view": "Left_Lateral"
+    },
+    "meta": {
+      "width": 1200,
+      "height": 1200,
+      "patient_identifier_if_available": "003-007-629",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 153,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-007-630-00_1729141929109_Right_Lateral_View.jpg",
+      "filename": "anonymous_003-007-630-00_1729141929109_Right_Lateral_View.jpg",
+      "mouth_view": "Right_Lateral"
+    },
+    "meta": {
+      "width": 1652,
+      "height": 1238,
+      "patient_identifier_if_available": "003-007-630",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 154,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-007-631-01_1729143366138_Right_Lateral_View.jpg",
+      "filename": "anonymous_003-007-631-01_1729143366138_Right_Lateral_View.jpg",
+      "mouth_view": "Right_Lateral"
+    },
+    "meta": {
+      "width": 1524,
+      "height": 1524,
+      "patient_identifier_if_available": "003-007-631",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 155,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-007-632-00_1729144134892_Left_Lateral_View.jpg",
+      "filename": "anonymous_003-007-632-00_1729144134892_Left_Lateral_View.jpg",
+      "mouth_view": "Left_Lateral"
+    },
+    "meta": {
+      "width": 2189,
+      "height": 1459,
+      "patient_identifier_if_available": "003-007-632",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 156,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-007-634-00_1729146043051_Frontal_View.jpg",
+      "filename": "anonymous_003-007-634-00_1729146043051_Frontal_View.jpg",
+      "mouth_view": "Frontal"
+    },
+    "meta": {
+      "width": 1894,
+      "height": 1064,
+      "patient_identifier_if_available": "003-007-634",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 157,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-007-635-01_1729148089786_Frontal_View.jpg",
+      "filename": "anonymous_003-007-635-01_1729148089786_Frontal_View.jpg",
+      "mouth_view": "Frontal"
+    },
+    "meta": {
+      "width": 1664,
+      "height": 935,
+      "patient_identifier_if_available": "003-007-635",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 158,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-007-636-00_1729148622989_Frontal_View.jpg",
+      "filename": "anonymous_003-007-636-00_1729148622989_Frontal_View.jpg",
+      "mouth_view": "Frontal"
+    },
+    "meta": {
+      "width": 1690,
+      "height": 949,
+      "patient_identifier_if_available": "003-007-636",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 159,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-007-637-01_1729150495970_Left_Lateral_View.jpg",
+      "filename": "anonymous_003-007-637-01_1729150495970_Left_Lateral_View.jpg",
+      "mouth_view": "Left_Lateral"
+    },
+    "meta": {
+      "width": 1382,
+      "height": 1382,
+      "patient_identifier_if_available": "003-007-637",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 160,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-007-638-00_1729150964001_Frontal_View.jpg",
+      "filename": "anonymous_003-007-638-00_1729150964001_Frontal_View.jpg",
+      "mouth_view": "Frontal"
+    },
+    "meta": {
+      "width": 1656,
+      "height": 930,
+      "patient_identifier_if_available": "003-007-638",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 161,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-007-639-01_1729152224776_Frontal_View.jpg",
+      "filename": "anonymous_003-007-639-01_1729152224776_Frontal_View.jpg",
+      "mouth_view": "Frontal"
+    },
+    "meta": {
+      "width": 2110,
+      "height": 1185,
+      "patient_identifier_if_available": "003-007-639",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 162,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-007-641-01_1729154257635_Frontal_View.jpg",
+      "filename": "anonymous_003-007-641-01_1729154257635_Frontal_View.jpg",
+      "mouth_view": "Frontal"
+    },
+    "meta": {
+      "width": 2005,
+      "height": 1126,
+      "patient_identifier_if_available": "003-007-641",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 163,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-007-642-00_1729154783455_Frontal_View.jpg",
+      "filename": "anonymous_003-007-642-00_1729154783455_Frontal_View.jpg",
+      "mouth_view": "Frontal"
+    },
+    "meta": {
+      "width": 1518,
+      "height": 852,
+      "patient_identifier_if_available": "003-007-642",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 164,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-007-658-00_1729226761156_Frontal_View.jpg",
+      "filename": "anonymous_003-007-658-00_1729226761156_Frontal_View.jpg",
+      "mouth_view": "Frontal"
+    },
+    "meta": {
+      "width": 1533,
+      "height": 861,
+      "patient_identifier_if_available": "003-007-658",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 165,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-007-660-00_1729228102787_Frontal_View.jpg",
+      "filename": "anonymous_003-007-660-00_1729228102787_Frontal_View.jpg",
+      "mouth_view": "Frontal"
+    },
+    "meta": {
+      "width": 1623,
+      "height": 911,
+      "patient_identifier_if_available": "003-007-660",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 166,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-007-662-01_1729231169609_Frontal_View.jpg",
+      "filename": "anonymous_003-007-662-01_1729231169609_Frontal_View.jpg",
+      "mouth_view": "Frontal"
+    },
+    "meta": {
+      "width": 1566,
+      "height": 879,
+      "patient_identifier_if_available": "003-007-662",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 167,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-007-663-00_1729231959410_Frontal_View.jpg",
+      "filename": "anonymous_003-007-663-00_1729231959410_Frontal_View.jpg",
+      "mouth_view": "Frontal"
+    },
+    "meta": {
+      "width": 1787,
+      "height": 1004,
+      "patient_identifier_if_available": "003-007-663",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 168,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-007-668-01_1729235647349_Frontal_View.jpg",
+      "filename": "anonymous_003-007-668-01_1729235647349_Frontal_View.jpg",
+      "mouth_view": "Frontal"
+    },
+    "meta": {
+      "width": 1561,
+      "height": 877,
+      "patient_identifier_if_available": "003-007-668",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 169,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-007-669-00_1729236271453_Right_Lateral_View.jpg",
+      "filename": "anonymous_003-007-669-00_1729236271453_Right_Lateral_View.jpg",
+      "mouth_view": "Right_Lateral"
+    },
+    "meta": {
+      "width": 1459,
+      "height": 973,
+      "patient_identifier_if_available": "003-007-669",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 170,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-007-670-01_1729238261312_Right_Lateral_View.jpg",
+      "filename": "anonymous_003-007-670-01_1729238261312_Right_Lateral_View.jpg",
+      "mouth_view": "Right_Lateral"
+    },
+    "meta": {
+      "width": 1427,
+      "height": 951,
+      "patient_identifier_if_available": "003-007-670",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 171,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-007-671-00_1729238622556_Frontal_View.jpg",
+      "filename": "anonymous_003-007-671-00_1729238622556_Frontal_View.jpg",
+      "mouth_view": "Frontal"
+    },
+    "meta": {
+      "width": 1773,
+      "height": 996,
+      "patient_identifier_if_available": "003-007-671",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 172,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-007-672-01_1729239360521_Left_Lateral_View.jpg",
+      "filename": "anonymous_003-007-672-01_1729239360521_Left_Lateral_View.jpg",
+      "mouth_view": "Left_Lateral"
+    },
+    "meta": {
+      "width": 1711,
+      "height": 1711,
+      "patient_identifier_if_available": "003-007-672",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 173,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-007-675-00_1729243996615_Mandibular_View.jpg",
+      "filename": "anonymous_003-007-675-00_1729243996615_Mandibular_View.jpg",
+      "mouth_view": "Mandibular"
+    },
+    "meta": {
+      "width": 1132,
+      "height": 848,
+      "patient_identifier_if_available": "003-007-675",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 174,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-007-689-00_1729311424743_Frontal_View.jpg",
+      "filename": "anonymous_003-007-689-00_1729311424743_Frontal_View.jpg",
+      "mouth_view": "Frontal"
+    },
+    "meta": {
+      "width": 1624,
+      "height": 912,
+      "patient_identifier_if_available": "003-007-689",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 175,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-007-690-01_1729312765724_Left_Lateral_View.jpg",
+      "filename": "anonymous_003-007-690-01_1729312765724_Left_Lateral_View.jpg",
+      "mouth_view": "Left_Lateral"
+    },
+    "meta": {
+      "width": 1481,
+      "height": 1481,
+      "patient_identifier_if_available": "003-007-690",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 176,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-007-691-00_1729313275146_Left_Lateral_View.jpg",
+      "filename": "anonymous_003-007-691-00_1729313275146_Left_Lateral_View.jpg",
+      "mouth_view": "Left_Lateral"
+    },
+    "meta": {
+      "width": 1860,
+      "height": 1240,
+      "patient_identifier_if_available": "003-007-691",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 177,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-007-692-01_1729314628095_Frontal_View.jpg",
+      "filename": "anonymous_003-007-692-01_1729314628095_Frontal_View.jpg",
+      "mouth_view": "Frontal"
+    },
+    "meta": {
+      "width": 1491,
+      "height": 837,
+      "patient_identifier_if_available": "003-007-692",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 178,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-007-693-01_1729314947717_Left_Lateral_View.jpg",
+      "filename": "anonymous_003-007-693-01_1729314947717_Left_Lateral_View.jpg",
+      "mouth_view": "Left_Lateral"
+    },
+    "meta": {
+      "width": 1110,
+      "height": 1110,
+      "patient_identifier_if_available": "003-007-693",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 179,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-007-694-00_1729315527929_Left_Lateral_View.jpg",
+      "filename": "anonymous_003-007-694-00_1729315527929_Left_Lateral_View.jpg",
+      "mouth_view": "Left_Lateral"
+    },
+    "meta": {
+      "width": 1277,
+      "height": 851,
+      "patient_identifier_if_available": "003-007-694",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 180,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-007-695-01_1729317296393_Left_Lateral_View.jpg",
+      "filename": "anonymous_003-007-695-01_1729317296393_Left_Lateral_View.jpg",
+      "mouth_view": "Left_Lateral"
+    },
+    "meta": {
+      "width": 912,
+      "height": 912,
+      "patient_identifier_if_available": "003-007-695",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 181,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-007-696-00_1729317967108_Frontal_View.jpg",
+      "filename": "anonymous_003-007-696-00_1729317967108_Frontal_View.jpg",
+      "mouth_view": "Frontal"
+    },
+    "meta": {
+      "width": 1771,
+      "height": 995,
+      "patient_identifier_if_available": "003-007-696",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 182,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-007-697-01_1729320929604_Left_Lateral_View.jpg",
+      "filename": "anonymous_003-007-697-01_1729320929604_Left_Lateral_View.jpg",
+      "mouth_view": "Left_Lateral"
+    },
+    "meta": {
+      "width": 1188,
+      "height": 1188,
+      "patient_identifier_if_available": "003-007-697",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 183,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-007-698-00_1729321479031_Mandibular_View.jpg",
+      "filename": "anonymous_003-007-698-00_1729321479031_Mandibular_View.jpg",
+      "mouth_view": "Mandibular"
+    },
+    "meta": {
+      "width": 1351,
+      "height": 901,
+      "patient_identifier_if_available": "003-007-698",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 184,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-007-699-00_1729324752845_Mandibular_View.jpg",
+      "filename": "anonymous_003-007-699-00_1729324752845_Mandibular_View.jpg",
+      "mouth_view": "Mandibular"
+    },
+    "meta": {
+      "width": 1567,
+      "height": 1045,
+      "patient_identifier_if_available": "003-007-699",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 185,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-007-700-01_1729325366305_Left_Lateral_View.jpg",
+      "filename": "anonymous_003-007-700-01_1729325366305_Left_Lateral_View.jpg",
+      "mouth_view": "Left_Lateral"
+    },
+    "meta": {
+      "width": 958,
+      "height": 958,
+      "patient_identifier_if_available": "003-007-700",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 186,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-007-708-01_1729483204892_Right_Lateral_View.jpg",
+      "filename": "anonymous_003-007-708-01_1729483204892_Right_Lateral_View.jpg",
+      "mouth_view": "Right_Lateral"
+    },
+    "meta": {
+      "width": 1178,
+      "height": 1178,
+      "patient_identifier_if_available": "003-007-708",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 187,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-007-709-00_1729484054385_Right_Lateral_View.jpg",
+      "filename": "anonymous_003-007-709-00_1729484054385_Right_Lateral_View.jpg",
+      "mouth_view": "Right_Lateral"
+    },
+    "meta": {
+      "width": 946,
+      "height": 946,
+      "patient_identifier_if_available": "003-007-709",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 188,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-007-710-01_1729485813570_Frontal_View.jpg",
+      "filename": "anonymous_003-007-710-01_1729485813570_Frontal_View.jpg",
+      "mouth_view": "Frontal"
+    },
+    "meta": {
+      "width": 1527,
+      "height": 857,
+      "patient_identifier_if_available": "003-007-710",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 189,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-007-711-00_1729486430166_Right_Lateral_View.jpg",
+      "filename": "anonymous_003-007-711-00_1729486430166_Right_Lateral_View.jpg",
+      "mouth_view": "Right_Lateral"
+    },
+    "meta": {
+      "width": 1095,
+      "height": 1095,
+      "patient_identifier_if_available": "003-007-711",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 190,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-007-716-01_1729494300386_Right_Lateral_View.jpg",
+      "filename": "anonymous_003-007-716-01_1729494300386_Right_Lateral_View.jpg",
+      "mouth_view": "Right_Lateral"
+    },
+    "meta": {
+      "width": 939,
+      "height": 939,
+      "patient_identifier_if_available": "003-007-716",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 191,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-007-717-00_1729494912902_Right_Lateral_View.jpg",
+      "filename": "anonymous_003-007-717-00_1729494912902_Right_Lateral_View.jpg",
+      "mouth_view": "Right_Lateral"
+    },
+    "meta": {
+      "width": 1480,
+      "height": 1480,
+      "patient_identifier_if_available": "003-007-717",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 192,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-007-718-01_1729496307960_Left_Lateral_View.jpg",
+      "filename": "anonymous_003-007-718-01_1729496307960_Left_Lateral_View.jpg",
+      "mouth_view": "Left_Lateral"
+    },
+    "meta": {
+      "width": 1014,
+      "height": 1014,
+      "patient_identifier_if_available": "003-007-718",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 193,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-007-719-00_1729496830754_Right_Lateral_View.jpg",
+      "filename": "anonymous_003-007-719-00_1729496830754_Right_Lateral_View.jpg",
+      "mouth_view": "Right_Lateral"
+    },
+    "meta": {
+      "width": 1366,
+      "height": 1366,
+      "patient_identifier_if_available": "003-007-719",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 194,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-007-720-01_1729497532540_Left_Lateral_View.jpg",
+      "filename": "anonymous_003-007-720-01_1729497532540_Left_Lateral_View.jpg",
+      "mouth_view": "Left_Lateral"
+    },
+    "meta": {
+      "width": 900,
+      "height": 900,
+      "patient_identifier_if_available": "003-007-720",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 195,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-007-721-00_1729498293665_Left_Lateral_View.jpg",
+      "filename": "anonymous_003-007-721-00_1729498293665_Left_Lateral_View.jpg",
+      "mouth_view": "Left_Lateral"
+    },
+    "meta": {
+      "width": 1095,
+      "height": 1095,
+      "patient_identifier_if_available": "003-007-721",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 196,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-007-722-01_1729499124205_Left_Lateral_View.jpg",
+      "filename": "anonymous_003-007-722-01_1729499124205_Left_Lateral_View.jpg",
+      "mouth_view": "Left_Lateral"
+    },
+    "meta": {
+      "width": 1273,
+      "height": 1273,
+      "patient_identifier_if_available": "003-007-722",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 197,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-007-734-01_1729572108876_Frontal_View.jpg",
+      "filename": "anonymous_003-007-734-01_1729572108876_Frontal_View.jpg",
+      "mouth_view": "Frontal"
+    },
+    "meta": {
+      "width": 1701,
+      "height": 956,
+      "patient_identifier_if_available": "003-007-734",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 198,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-007-735-00_1729572927660_Maxillary_Occlusal_View.jpg",
+      "filename": "anonymous_003-007-735-00_1729572927660_Maxillary_Occlusal_View.jpg",
+      "mouth_view": "Maxillary_Occlusal"
+    },
+    "meta": {
+      "width": 3676,
+      "height": 2451,
+      "patient_identifier_if_available": "003-007-735",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 199,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-007-736-01_1729574163454_Left_Lateral_View.jpg",
+      "filename": "anonymous_003-007-736-01_1729574163454_Left_Lateral_View.jpg",
+      "mouth_view": "Left_Lateral"
+    },
+    "meta": {
+      "width": 1674,
+      "height": 1674,
+      "patient_identifier_if_available": "003-007-736",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 200,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-007-737-00_1729575288568_Frontal_View.jpg",
+      "filename": "anonymous_003-007-737-00_1729575288568_Frontal_View.jpg",
+      "mouth_view": "Frontal"
+    },
+    "meta": {
+      "width": 1676,
+      "height": 941,
+      "patient_identifier_if_available": "003-007-737",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 201,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-007-750-01_1729655314264_Frontal_View.jpg",
+      "filename": "anonymous_003-007-750-01_1729655314264_Frontal_View.jpg",
+      "mouth_view": "Frontal"
+    },
+    "meta": {
+      "width": 1878,
+      "height": 1055,
+      "patient_identifier_if_available": "003-007-750",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 202,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-007-752-01_1729658514991_Frontal_View.jpg",
+      "filename": "anonymous_003-007-752-01_1729658514991_Frontal_View.jpg",
+      "mouth_view": "Frontal"
+    },
+    "meta": {
+      "width": 1589,
+      "height": 892,
+      "patient_identifier_if_available": "003-007-752",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 203,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-007-753-00_1729659446300_Right_Lateral_View.jpg",
+      "filename": "anonymous_003-007-753-00_1729659446300_Right_Lateral_View.jpg",
+      "mouth_view": "Right_Lateral"
+    },
+    "meta": {
+      "width": 1585,
+      "height": 1585,
+      "patient_identifier_if_available": "003-007-753",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 204,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-007-756-01_1729668519608_Left_Lateral_View.jpg",
+      "filename": "anonymous_003-007-756-01_1729668519608_Left_Lateral_View.jpg",
+      "mouth_view": "Left_Lateral"
+    },
+    "meta": {
+      "width": 2055,
+      "height": 2055,
+      "patient_identifier_if_available": "003-007-756",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 205,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-007-757-00_1729669599847_Left_Lateral_View.jpg",
+      "filename": "anonymous_003-007-757-00_1729669599847_Left_Lateral_View.jpg",
+      "mouth_view": "Left_Lateral"
+    },
+    "meta": {
+      "width": 1761,
+      "height": 1320,
+      "patient_identifier_if_available": "003-007-757",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 206,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-007-758-01_1729672372582_Frontal_View.jpg",
+      "filename": "anonymous_003-007-758-01_1729672372582_Frontal_View.jpg",
+      "mouth_view": "Frontal"
+    },
+    "meta": {
+      "width": 1855,
+      "height": 1042,
+      "patient_identifier_if_available": "003-007-758",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 207,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-007-759-00_1729673074394_Frontal_View.jpg",
+      "filename": "anonymous_003-007-759-00_1729673074394_Frontal_View.jpg",
+      "mouth_view": "Frontal"
+    },
+    "meta": {
+      "width": 1556,
+      "height": 874,
+      "patient_identifier_if_available": "003-007-759",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 208,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-007-764-01_1729742719636_Frontal_View.jpg",
+      "filename": "anonymous_003-007-764-01_1729742719636_Frontal_View.jpg",
+      "mouth_view": "Frontal"
+    },
+    "meta": {
+      "width": 1624,
+      "height": 912,
+      "patient_identifier_if_available": "003-007-764",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 209,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-007-765-00_1729743553963_Right_Lateral_View.jpg",
+      "filename": "anonymous_003-007-765-00_1729743553963_Right_Lateral_View.jpg",
+      "mouth_view": "Right_Lateral"
+    },
+    "meta": {
+      "width": 1433,
+      "height": 1433,
+      "patient_identifier_if_available": "003-007-765",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 210,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-007-767-00_1729747427987_Left_Lateral_View.jpg",
+      "filename": "anonymous_003-007-767-00_1729747427987_Left_Lateral_View.jpg",
+      "mouth_view": "Left_Lateral"
+    },
+    "meta": {
+      "width": 1371,
+      "height": 1371,
+      "patient_identifier_if_available": "003-007-767",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 211,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-007-768-01_1729750209134_Frontal_View.jpg",
+      "filename": "anonymous_003-007-768-01_1729750209134_Frontal_View.jpg",
+      "mouth_view": "Frontal"
+    },
+    "meta": {
+      "width": 1640,
+      "height": 921,
+      "patient_identifier_if_available": "003-007-768",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 212,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-007-770-01_1729752599826_Frontal_View.jpg",
+      "filename": "anonymous_003-007-770-01_1729752599826_Frontal_View.jpg",
+      "mouth_view": "Frontal"
+    },
+    "meta": {
+      "width": 1750,
+      "height": 983,
+      "patient_identifier_if_available": "003-007-770",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 213,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-007-771-00_1729753377062_Frontal_View.jpg",
+      "filename": "anonymous_003-007-771-00_1729753377062_Frontal_View.jpg",
+      "mouth_view": "Frontal"
+    },
+    "meta": {
+      "width": 1544,
+      "height": 867,
+      "patient_identifier_if_available": "003-007-771",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 214,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-007-774-00_1729755584991_Left_Lateral_View.jpg",
+      "filename": "anonymous_003-007-774-00_1729755584991_Left_Lateral_View.jpg",
+      "mouth_view": "Left_Lateral"
+    },
+    "meta": {
+      "width": 1316,
+      "height": 1316,
+      "patient_identifier_if_available": "003-007-774",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 215,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-007-775-01_1729757599473_Frontal_View.jpg",
+      "filename": "anonymous_003-007-775-01_1729757599473_Frontal_View.jpg",
+      "mouth_view": "Frontal"
+    },
+    "meta": {
+      "width": 1758,
+      "height": 987,
+      "patient_identifier_if_available": "003-007-775",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 216,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-007-776-00_1729758162119_Frontal_View.jpg",
+      "filename": "anonymous_003-007-776-00_1729758162119_Frontal_View.jpg",
+      "mouth_view": "Frontal"
+    },
+    "meta": {
+      "width": 1545,
+      "height": 868,
+      "patient_identifier_if_available": "003-007-776",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 217,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-007-781-01_1729830237968_Frontal_View.jpg",
+      "filename": "anonymous_003-007-781-01_1729830237968_Frontal_View.jpg",
+      "mouth_view": "Frontal"
+    },
+    "meta": {
+      "width": 2120,
+      "height": 1191,
+      "patient_identifier_if_available": "003-007-781",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 218,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-007-783-01_1729832403414_Left_Lateral_View.jpg",
+      "filename": "anonymous_003-007-783-01_1729832403414_Left_Lateral_View.jpg",
+      "mouth_view": "Left_Lateral"
+    },
+    "meta": {
+      "width": 1335,
+      "height": 1335,
+      "patient_identifier_if_available": "003-007-783",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 219,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-007-784-00_1729833168029_Left_Lateral_View.jpg",
+      "filename": "anonymous_003-007-784-00_1729833168029_Left_Lateral_View.jpg",
+      "mouth_view": "Left_Lateral"
+    },
+    "meta": {
+      "width": 1326,
+      "height": 1326,
+      "patient_identifier_if_available": "003-007-784",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 220,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-007-788-00_1729839721436_Left_Lateral_View.jpg",
+      "filename": "anonymous_003-007-788-00_1729839721436_Left_Lateral_View.jpg",
+      "mouth_view": "Left_Lateral"
+    },
+    "meta": {
+      "width": 1329,
+      "height": 1329,
+      "patient_identifier_if_available": "003-007-788",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 221,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-007-806-00_1729919233160_Left_Lateral_View.jpg",
+      "filename": "anonymous_003-007-806-00_1729919233160_Left_Lateral_View.jpg",
+      "mouth_view": "Left_Lateral"
+    },
+    "meta": {
+      "width": 1520,
+      "height": 1013,
+      "patient_identifier_if_available": "003-007-806",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 222,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-007-835-00_1730098029605_Frontal_View.jpg",
+      "filename": "anonymous_003-007-835-00_1730098029605_Frontal_View.jpg",
+      "mouth_view": "Frontal"
+    },
+    "meta": {
+      "width": 1564,
+      "height": 878,
+      "patient_identifier_if_available": "003-007-835",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 223,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-007-836-01_1730100372461_Right_Lateral_View.jpg",
+      "filename": "anonymous_003-007-836-01_1730100372461_Right_Lateral_View.jpg",
+      "mouth_view": "Right_Lateral"
+    },
+    "meta": {
+      "width": 1541,
+      "height": 1541,
+      "patient_identifier_if_available": "003-007-836",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 224,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-007-837-00_1730101031010_Right_Lateral_View.jpg",
+      "filename": "anonymous_003-007-837-00_1730101031010_Right_Lateral_View.jpg",
+      "mouth_view": "Right_Lateral"
+    },
+    "meta": {
+      "width": 1453,
+      "height": 1453,
+      "patient_identifier_if_available": "003-007-837",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 225,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-007-838-01_1730102704994_Frontal_View.jpg",
+      "filename": "anonymous_003-007-838-01_1730102704994_Frontal_View.jpg",
+      "mouth_view": "Frontal"
+    },
+    "meta": {
+      "width": 1433,
+      "height": 805,
+      "patient_identifier_if_available": "003-007-838",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 226,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-007-839-00_1730103285428_Frontal_View.jpg",
+      "filename": "anonymous_003-007-839-00_1730103285428_Frontal_View.jpg",
+      "mouth_view": "Frontal"
+    },
+    "meta": {
+      "width": 1965,
+      "height": 1103,
+      "patient_identifier_if_available": "003-007-839",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 227,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-007-845-01_1730180726544_Frontal_View.jpg",
+      "filename": "anonymous_003-007-845-01_1730180726544_Frontal_View.jpg",
+      "mouth_view": "Frontal"
+    },
+    "meta": {
+      "width": 1465,
+      "height": 823,
+      "patient_identifier_if_available": "003-007-845",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 228,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-007-846-00_1730181536968_Frontal_View.jpg",
+      "filename": "anonymous_003-007-846-00_1730181536968_Frontal_View.jpg",
+      "mouth_view": "Frontal"
+    },
+    "meta": {
+      "width": 1571,
+      "height": 882,
+      "patient_identifier_if_available": "003-007-846",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 229,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-007-851-01_1730189874153_Left_Lateral_View.jpg",
+      "filename": "anonymous_003-007-851-01_1730189874153_Left_Lateral_View.jpg",
+      "mouth_view": "Left_Lateral"
+    },
+    "meta": {
+      "width": 1951,
+      "height": 1951,
+      "patient_identifier_if_available": "003-007-851",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 230,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-007-852-00_1730190513347_Frontal_View.jpg",
+      "filename": "anonymous_003-007-852-00_1730190513347_Frontal_View.jpg",
+      "mouth_view": "Frontal"
+    },
+    "meta": {
+      "width": 1428,
+      "height": 802,
+      "patient_identifier_if_available": "003-007-852",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 231,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-007-869-01_1730263219442_Frontal_View.jpg",
+      "filename": "anonymous_003-007-869-01_1730263219442_Frontal_View.jpg",
+      "mouth_view": "Frontal"
+    },
+    "meta": {
+      "width": 1474,
+      "height": 828,
+      "patient_identifier_if_available": "003-007-869",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 232,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-007-873-00_1730266781026_Left_Lateral_View.jpg",
+      "filename": "anonymous_003-007-873-00_1730266781026_Left_Lateral_View.jpg",
+      "mouth_view": "Left_Lateral"
+    },
+    "meta": {
+      "width": 1708,
+      "height": 1708,
+      "patient_identifier_if_available": "003-007-873",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 233,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-007-874-01_1730269462019_Frontal_View.jpg",
+      "filename": "anonymous_003-007-874-01_1730269462019_Frontal_View.jpg",
+      "mouth_view": "Frontal"
+    },
+    "meta": {
+      "width": 1790,
+      "height": 1005,
+      "patient_identifier_if_available": "003-007-874",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 234,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-007-878-00_1730274520723_Left_Lateral_View.jpg",
+      "filename": "anonymous_003-007-878-00_1730274520723_Left_Lateral_View.jpg",
+      "mouth_view": "Left_Lateral"
+    },
+    "meta": {
+      "width": 1479,
+      "height": 1479,
+      "patient_identifier_if_available": "003-007-878",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 235,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-007-880-00_1730277823725_Left_Lateral_View.jpg",
+      "filename": "anonymous_003-007-880-00_1730277823725_Left_Lateral_View.jpg",
+      "mouth_view": "Left_Lateral"
+    },
+    "meta": {
+      "width": 1232,
+      "height": 1232,
+      "patient_identifier_if_available": "003-007-880",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 236,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-007-902-01_1730356318368_Left_Lateral_View.jpg",
+      "filename": "anonymous_003-007-902-01_1730356318368_Left_Lateral_View.jpg",
+      "mouth_view": "Left_Lateral"
+    },
+    "meta": {
+      "width": 2022,
+      "height": 2022,
+      "patient_identifier_if_available": "003-007-902",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 237,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-007-903-00_1730357034326_Left_Lateral_View.jpg",
+      "filename": "anonymous_003-007-903-00_1730357034326_Left_Lateral_View.jpg",
+      "mouth_view": "Left_Lateral"
+    },
+    "meta": {
+      "width": 1344,
+      "height": 1344,
+      "patient_identifier_if_available": "003-007-903",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 238,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-007-919-00_1730693501822_Left_Lateral_View.jpg",
+      "filename": "anonymous_003-007-919-00_1730693501822_Left_Lateral_View.jpg",
+      "mouth_view": "Left_Lateral"
+    },
+    "meta": {
+      "width": 1356,
+      "height": 1356,
+      "patient_identifier_if_available": "003-007-919",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 239,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-007-923-00_1730699938519_Frontal_View.jpg",
+      "filename": "anonymous_003-007-923-00_1730699938519_Frontal_View.jpg",
+      "mouth_view": "Frontal"
+    },
+    "meta": {
+      "width": 1427,
+      "height": 801,
+      "patient_identifier_if_available": "003-007-923",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 240,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-007-925-00_1730702265650_Frontal_View.jpg",
+      "filename": "anonymous_003-007-925-00_1730702265650_Frontal_View.jpg",
+      "mouth_view": "Frontal"
+    },
+    "meta": {
+      "width": 1914,
+      "height": 1075,
+      "patient_identifier_if_available": "003-007-925",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 241,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-007-940-01_1730780793778_Frontal_View.jpg",
+      "filename": "anonymous_003-007-940-01_1730780793778_Frontal_View.jpg",
+      "mouth_view": "Frontal"
+    },
+    "meta": {
+      "width": 1609,
+      "height": 903,
+      "patient_identifier_if_available": "003-007-940",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 242,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-007-941-00_1730781405268_Frontal_View.jpg",
+      "filename": "anonymous_003-007-941-00_1730781405268_Frontal_View.jpg",
+      "mouth_view": "Frontal"
+    },
+    "meta": {
+      "width": 1511,
+      "height": 849,
+      "patient_identifier_if_available": "003-007-941",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 243,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-007-951-01_1730793957329_Frontal_View.jpg",
+      "filename": "anonymous_003-007-951-01_1730793957329_Frontal_View.jpg",
+      "mouth_view": "Frontal"
+    },
+    "meta": {
+      "width": 1618,
+      "height": 908,
+      "patient_identifier_if_available": "003-007-951",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 244,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-007-952-00_1730794549491_Frontal_View.jpg",
+      "filename": "anonymous_003-007-952-00_1730794549491_Frontal_View.jpg",
+      "mouth_view": "Frontal"
+    },
+    "meta": {
+      "width": 1649,
+      "height": 926,
+      "patient_identifier_if_available": "003-007-952",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 245,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-007-960-00_1730867324670_Left_Lateral_View.jpg",
+      "filename": "anonymous_003-007-960-00_1730867324670_Left_Lateral_View.jpg",
+      "mouth_view": "Left_Lateral"
+    },
+    "meta": {
+      "width": 1586,
+      "height": 1586,
+      "patient_identifier_if_available": "003-007-960",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 246,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-007-966-00_1730877856983_Frontal_View.jpg",
+      "filename": "anonymous_003-007-966-00_1730877856983_Frontal_View.jpg",
+      "mouth_view": "Frontal"
+    },
+    "meta": {
+      "width": 1753,
+      "height": 985,
+      "patient_identifier_if_available": "003-007-966",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 247,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-007-986-01_1730958260724_Frontal_View.jpg",
+      "filename": "anonymous_003-007-986-01_1730958260724_Frontal_View.jpg",
+      "mouth_view": "Frontal"
+    },
+    "meta": {
+      "width": 1625,
+      "height": 913,
+      "patient_identifier_if_available": "003-007-986",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 248,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-007-987-00_1730958766991_Left_Lateral_View.jpg",
+      "filename": "anonymous_003-007-987-00_1730958766991_Left_Lateral_View.jpg",
+      "mouth_view": "Left_Lateral"
+    },
+    "meta": {
+      "width": 1266,
+      "height": 1266,
+      "patient_identifier_if_available": "003-007-987",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 249,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-007-993-00_1730966079833_Frontal_View.jpg",
+      "filename": "anonymous_003-007-993-00_1730966079833_Frontal_View.jpg",
+      "mouth_view": "Frontal"
+    },
+    "meta": {
+      "width": 1629,
+      "height": 915,
+      "patient_identifier_if_available": "003-007-993",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 250,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-007-995-00_1730969030950_Frontal_View.jpg",
+      "filename": "anonymous_003-007-995-00_1730969030950_Frontal_View.jpg",
+      "mouth_view": "Frontal"
+    },
+    "meta": {
+      "width": 1520,
+      "height": 854,
+      "patient_identifier_if_available": "003-007-995",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 251,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-008-1000-01_1730983693489_Mandibular_View.jpg",
+      "filename": "anonymous_003-008-1000-01_1730983693489_Mandibular_View.jpg",
+      "mouth_view": "Mandibular"
+    },
+    "meta": {
+      "width": 1412,
+      "height": 1058,
+      "patient_identifier_if_available": "003-008-1000",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 252,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-008-1001-00_1730984142661_Mandibular_View.jpg",
+      "filename": "anonymous_003-008-1001-00_1730984142661_Mandibular_View.jpg",
+      "mouth_view": "Mandibular"
+    },
+    "meta": {
+      "width": 1205,
+      "height": 903,
+      "patient_identifier_if_available": "003-008-1001",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 253,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-008-1017-01_1731069493503_Mandibular_View.jpg",
+      "filename": "anonymous_003-008-1017-01_1731069493503_Mandibular_View.jpg",
+      "mouth_view": "Mandibular"
+    },
+    "meta": {
+      "width": 1526,
+      "height": 857,
+      "patient_identifier_if_available": "003-008-1017",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 254,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-008-1018-00_1731069917933_Mandibular_View.jpg",
+      "filename": "anonymous_003-008-1018-00_1731069917933_Mandibular_View.jpg",
+      "mouth_view": "Mandibular"
+    },
+    "meta": {
+      "width": 1121,
+      "height": 840,
+      "patient_identifier_if_available": "003-008-1018",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 255,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-008-1047-01_1731323271524_Mandibular_View.jpg",
+      "filename": "anonymous_003-008-1047-01_1731323271524_Mandibular_View.jpg",
+      "mouth_view": "Mandibular"
+    },
+    "meta": {
+      "width": 1477,
+      "height": 830,
+      "patient_identifier_if_available": "003-008-1047",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 256,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-008-1052-00_1731329608354_Mandibular_View.jpg",
+      "filename": "anonymous_003-008-1052-00_1731329608354_Mandibular_View.jpg",
+      "mouth_view": "Mandibular"
+    },
+    "meta": {
+      "width": 1202,
+      "height": 901,
+      "patient_identifier_if_available": "003-008-1052",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 257,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-008-1072-00_1731415782557_Right_Lateral_View.jpg",
+      "filename": "anonymous_003-008-1072-00_1731415782557_Right_Lateral_View.jpg",
+      "mouth_view": "Right_Lateral"
+    },
+    "meta": {
+      "width": 889,
+      "height": 499,
+      "patient_identifier_if_available": "003-008-1072",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 258,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-008-1074-00_1731418391377_Mandibular_View.jpg",
+      "filename": "anonymous_003-008-1074-00_1731418391377_Mandibular_View.jpg",
+      "mouth_view": "Mandibular"
+    },
+    "meta": {
+      "width": 1279,
+      "height": 958,
+      "patient_identifier_if_available": "003-008-1074",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 259,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-008-1076-00_1731420270817_Right_Lateral_View.jpg",
+      "filename": "anonymous_003-008-1076-00_1731420270817_Right_Lateral_View.jpg",
+      "mouth_view": "Right_Lateral"
+    },
+    "meta": {
+      "width": 973,
+      "height": 547,
+      "patient_identifier_if_available": "003-008-1076",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 260,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-008-1101-01_1732268674659_Maxillary_Occlusal_View.jpg",
+      "filename": "anonymous_003-008-1101-01_1732268674659_Maxillary_Occlusal_View.jpg",
+      "mouth_view": "Maxillary_Occlusal"
+    },
+    "meta": {
+      "width": 1646,
+      "height": 1234,
+      "patient_identifier_if_available": "003-008-1101",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 261,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-008-1105-01_1732274761826_Maxillary_Occlusal_View.jpg",
+      "filename": "anonymous_003-008-1105-01_1732274761826_Maxillary_Occlusal_View.jpg",
+      "mouth_view": "Maxillary_Occlusal"
+    },
+    "meta": {
+      "width": 1515,
+      "height": 1136,
+      "patient_identifier_if_available": "003-008-1105",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 262,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-008-1113-01_1732361420661_Mandibular_View.jpg",
+      "filename": "anonymous_003-008-1113-01_1732361420661_Mandibular_View.jpg",
+      "mouth_view": "Mandibular"
+    },
+    "meta": {
+      "width": 1327,
+      "height": 994,
+      "patient_identifier_if_available": "003-008-1113",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 263,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-008-1114-00_1732362046489_Mandibular_View.jpg",
+      "filename": "anonymous_003-008-1114-00_1732362046489_Mandibular_View.jpg",
+      "mouth_view": "Mandibular"
+    },
+    "meta": {
+      "width": 1304,
+      "height": 977,
+      "patient_identifier_if_available": "003-008-1114",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 264,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-008-1117-01_1732366247829_Mandibular_View.jpg",
+      "filename": "anonymous_003-008-1117-01_1732366247829_Mandibular_View.jpg",
+      "mouth_view": "Mandibular"
+    },
+    "meta": {
+      "width": 1215,
+      "height": 910,
+      "patient_identifier_if_available": "003-008-1117",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 265,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-008-1131-01_1732527801310_Mandibular_View.jpg",
+      "filename": "anonymous_003-008-1131-01_1732527801310_Mandibular_View.jpg",
+      "mouth_view": "Mandibular"
+    },
+    "meta": {
+      "width": 1385,
+      "height": 1038,
+      "patient_identifier_if_available": "003-008-1131",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 266,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-008-1133-01_1732530707494_Mandibular_View.jpg",
+      "filename": "anonymous_003-008-1133-01_1732530707494_Mandibular_View.jpg",
+      "mouth_view": "Mandibular"
+    },
+    "meta": {
+      "width": 1309,
+      "height": 981,
+      "patient_identifier_if_available": "003-008-1133",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 267,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-008-1134-00_1732531184012_Mandibular_View.jpg",
+      "filename": "anonymous_003-008-1134-00_1732531184012_Mandibular_View.jpg",
+      "mouth_view": "Mandibular"
+    },
+    "meta": {
+      "width": 1328,
+      "height": 996,
+      "patient_identifier_if_available": "003-008-1134",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 268,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-008-1135-01_1732533044326_Mandibular_View.jpg",
+      "filename": "anonymous_003-008-1135-01_1732533044326_Mandibular_View.jpg",
+      "mouth_view": "Mandibular"
+    },
+    "meta": {
+      "width": 1496,
+      "height": 840,
+      "patient_identifier_if_available": "003-008-1135",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 269,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-008-1136-00_1732533544748_Maxillary_Occlusal_View.jpg",
+      "filename": "anonymous_003-008-1136-00_1732533544748_Maxillary_Occlusal_View.jpg",
+      "mouth_view": "Maxillary_Occlusal"
+    },
+    "meta": {
+      "width": 1643,
+      "height": 1232,
+      "patient_identifier_if_available": "003-008-1136",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 270,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-008-1137-01_1732535092563_Mandibular_View.jpg",
+      "filename": "anonymous_003-008-1137-01_1732535092563_Mandibular_View.jpg",
+      "mouth_view": "Mandibular"
+    },
+    "meta": {
+      "width": 1420,
+      "height": 1064,
+      "patient_identifier_if_available": "003-008-1137",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 271,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-008-1138-00_1732535496374_Maxillary_Occlusal_View.jpg",
+      "filename": "anonymous_003-008-1138-00_1732535496374_Maxillary_Occlusal_View.jpg",
+      "mouth_view": "Maxillary_Occlusal"
+    },
+    "meta": {
+      "width": 1470,
+      "height": 1102,
+      "patient_identifier_if_available": "003-008-1138",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 272,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-008-1155-00_1732617388713_Right_Lateral_View.jpg",
+      "filename": "anonymous_003-008-1155-00_1732617388713_Right_Lateral_View.jpg",
+      "mouth_view": "Right_Lateral"
+    },
+    "meta": {
+      "width": 1158,
+      "height": 650,
+      "patient_identifier_if_available": "003-008-1155",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 273,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-008-1162-01_1732627243635_Mandibular_View.jpg",
+      "filename": "anonymous_003-008-1162-01_1732627243635_Mandibular_View.jpg",
+      "mouth_view": "Mandibular"
+    },
+    "meta": {
+      "width": 1292,
+      "height": 968,
+      "patient_identifier_if_available": "003-008-1162",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 274,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-008-1163-00_1732627585033_Mandibular_View.jpg",
+      "filename": "anonymous_003-008-1163-00_1732627585033_Mandibular_View.jpg",
+      "mouth_view": "Mandibular"
+    },
+    "meta": {
+      "width": 1374,
+      "height": 1030,
+      "patient_identifier_if_available": "003-008-1163",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 275,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-008-1177-00_1732701629982_Mandibular_View.jpg",
+      "filename": "anonymous_003-008-1177-00_1732701629982_Mandibular_View.jpg",
+      "mouth_view": "Mandibular"
+    },
+    "meta": {
+      "width": 1180,
+      "height": 885,
+      "patient_identifier_if_available": "003-008-1177",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 276,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-008-1183-01_1732710009967_Maxillary_Occlusal_View.jpg",
+      "filename": "anonymous_003-008-1183-01_1732710009967_Maxillary_Occlusal_View.jpg",
+      "mouth_view": "Maxillary_Occlusal"
+    },
+    "meta": {
+      "width": 1715,
+      "height": 1285,
+      "patient_identifier_if_available": "003-008-1183",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 277,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-008-1184-00_1732710518322_Maxillary_Occlusal_View.jpg",
+      "filename": "anonymous_003-008-1184-00_1732710518322_Maxillary_Occlusal_View.jpg",
+      "mouth_view": "Maxillary_Occlusal"
+    },
+    "meta": {
+      "width": 1603,
+      "height": 1201,
+      "patient_identifier_if_available": "003-008-1184",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 278,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-008-1185-01_1732712307535_Maxillary_Occlusal_View.jpg",
+      "filename": "anonymous_003-008-1185-01_1732712307535_Maxillary_Occlusal_View.jpg",
+      "mouth_view": "Maxillary_Occlusal"
+    },
+    "meta": {
+      "width": 1579,
+      "height": 1183,
+      "patient_identifier_if_available": "003-008-1185",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 279,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-008-1187-01_1732714576631_Maxillary_Occlusal_View.jpg",
+      "filename": "anonymous_003-008-1187-01_1732714576631_Maxillary_Occlusal_View.jpg",
+      "mouth_view": "Maxillary_Occlusal"
+    },
+    "meta": {
+      "width": 1611,
+      "height": 1208,
+      "patient_identifier_if_available": "003-008-1187",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 280,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-008-1188-00_1732714947165_Maxillary_Occlusal_View.jpg",
+      "filename": "anonymous_003-008-1188-00_1732714947165_Maxillary_Occlusal_View.jpg",
+      "mouth_view": "Maxillary_Occlusal"
+    },
+    "meta": {
+      "width": 1534,
+      "height": 1150,
+      "patient_identifier_if_available": "003-008-1188",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 281,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-008-1203-01_1732790749679_Mandibular_View.jpg",
+      "filename": "anonymous_003-008-1203-01_1732790749679_Mandibular_View.jpg",
+      "mouth_view": "Mandibular"
+    },
+    "meta": {
+      "width": 1352,
+      "height": 1014,
+      "patient_identifier_if_available": "003-008-1203",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 282,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-008-1204-00_1732791234357_Mandibular_View.jpg",
+      "filename": "anonymous_003-008-1204-00_1732791234357_Mandibular_View.jpg",
+      "mouth_view": "Mandibular"
+    },
+    "meta": {
+      "width": 1263,
+      "height": 946,
+      "patient_identifier_if_available": "003-008-1204",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 283,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-008-1205-01_1732794208125_Maxillary_Occlusal_View.jpg",
+      "filename": "anonymous_003-008-1205-01_1732794208125_Maxillary_Occlusal_View.jpg",
+      "mouth_view": "Maxillary_Occlusal"
+    },
+    "meta": {
+      "width": 1916,
+      "height": 1076,
+      "patient_identifier_if_available": "003-008-1205",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 284,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-008-1219-00_1732874037311_Mandibular_View.jpg",
+      "filename": "anonymous_003-008-1219-00_1732874037311_Mandibular_View.jpg",
+      "mouth_view": "Mandibular"
+    },
+    "meta": {
+      "width": 1302,
+      "height": 976,
+      "patient_identifier_if_available": "003-008-1219",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 285,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-008-1225-00_1732878129340_Mandibular_View.jpg",
+      "filename": "anonymous_003-008-1225-00_1732878129340_Mandibular_View.jpg",
+      "mouth_view": "Mandibular"
+    },
+    "meta": {
+      "width": 1368,
+      "height": 1026,
+      "patient_identifier_if_available": "003-008-1225",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 286,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-008-1242-01_1732960347177_Maxillary_Occlusal_View.jpg",
+      "filename": "anonymous_003-008-1242-01_1732960347177_Maxillary_Occlusal_View.jpg",
+      "mouth_view": "Maxillary_Occlusal"
+    },
+    "meta": {
+      "width": 1685,
+      "height": 1263,
+      "patient_identifier_if_available": "003-008-1242",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 287,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-008-1244-01_1732962596526_Mandibular_View.jpg",
+      "filename": "anonymous_003-008-1244-01_1732962596526_Mandibular_View.jpg",
+      "mouth_view": "Mandibular"
+    },
+    "meta": {
+      "width": 1399,
+      "height": 1049,
+      "patient_identifier_if_available": "003-008-1244",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 288,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-008-1245-00_1732962951746_Mandibular_View.jpg",
+      "filename": "anonymous_003-008-1245-00_1732962951746_Mandibular_View.jpg",
+      "mouth_view": "Mandibular"
+    },
+    "meta": {
+      "width": 1299,
+      "height": 974,
+      "patient_identifier_if_available": "003-008-1245",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 289,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-008-1246-01_1732965077773_Maxillary_Occlusal_View.jpg",
+      "filename": "anonymous_003-008-1246-01_1732965077773_Maxillary_Occlusal_View.jpg",
+      "mouth_view": "Maxillary_Occlusal"
+    },
+    "meta": {
+      "width": 1792,
+      "height": 1343,
+      "patient_identifier_if_available": "003-008-1246",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 290,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-008-1248-01_1732967176307_Mandibular_View.jpg",
+      "filename": "anonymous_003-008-1248-01_1732967176307_Mandibular_View.jpg",
+      "mouth_view": "Mandibular"
+    },
+    "meta": {
+      "width": 1165,
+      "height": 873,
+      "patient_identifier_if_available": "003-008-1248",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 291,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-008-1249-00_1732967592805_Mandibular_View.jpg",
+      "filename": "anonymous_003-008-1249-00_1732967592805_Mandibular_View.jpg",
+      "mouth_view": "Mandibular"
+    },
+    "meta": {
+      "width": 1128,
+      "height": 846,
+      "patient_identifier_if_available": "003-008-1249",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 292,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-008-1253-00_1732971070859_Right_Lateral_View.jpg",
+      "filename": "anonymous_003-008-1253-00_1732971070859_Right_Lateral_View.jpg",
+      "mouth_view": "Right_Lateral"
+    },
+    "meta": {
+      "width": 1008,
+      "height": 566,
+      "patient_identifier_if_available": "003-008-1253",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 293,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-008-1266-01_1733132809329_Maxillary_Occlusal_View.jpg",
+      "filename": "anonymous_003-008-1266-01_1733132809329_Maxillary_Occlusal_View.jpg",
+      "mouth_view": "Maxillary_Occlusal"
+    },
+    "meta": {
+      "width": 1500,
+      "height": 1125,
+      "patient_identifier_if_available": "003-008-1266",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 294,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-008-1267-00_1733133235976_Maxillary_Occlusal_View.jpg",
+      "filename": "anonymous_003-008-1267-00_1733133235976_Maxillary_Occlusal_View.jpg",
+      "mouth_view": "Maxillary_Occlusal"
+    },
+    "meta": {
+      "width": 1317,
+      "height": 987,
+      "patient_identifier_if_available": "003-008-1267",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 295,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-008-1270-01_1733137830204_Maxillary_Occlusal_View.jpg",
+      "filename": "anonymous_003-008-1270-01_1733137830204_Maxillary_Occlusal_View.jpg",
+      "mouth_view": "Maxillary_Occlusal"
+    },
+    "meta": {
+      "width": 1394,
+      "height": 1045,
+      "patient_identifier_if_available": "003-008-1270",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 296,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-008-1273-00_1733140554614_Maxillary_Occlusal_View.jpg",
+      "filename": "anonymous_003-008-1273-00_1733140554614_Maxillary_Occlusal_View.jpg",
+      "mouth_view": "Maxillary_Occlusal"
+    },
+    "meta": {
+      "width": 1432,
+      "height": 1074,
+      "patient_identifier_if_available": "003-008-1273",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 297,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-008-1275-00_1733142218216_Maxillary_Occlusal_View.jpg",
+      "filename": "anonymous_003-008-1275-00_1733142218216_Maxillary_Occlusal_View.jpg",
+      "mouth_view": "Maxillary_Occlusal"
+    },
+    "meta": {
+      "width": 1413,
+      "height": 1059,
+      "patient_identifier_if_available": "003-008-1275",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 298,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-008-1288-01_1733308646255_Maxillary_Occlusal_View.jpg",
+      "filename": "anonymous_003-008-1288-01_1733308646255_Maxillary_Occlusal_View.jpg",
+      "mouth_view": "Maxillary_Occlusal"
+    },
+    "meta": {
+      "width": 1586,
+      "height": 1189,
+      "patient_identifier_if_available": "003-008-1288",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 299,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-008-1289-00_1733308999573_Maxillary_Occlusal_View.jpg",
+      "filename": "anonymous_003-008-1289-00_1733308999573_Maxillary_Occlusal_View.jpg",
+      "mouth_view": "Maxillary_Occlusal"
+    },
+    "meta": {
+      "width": 1392,
+      "height": 1043,
+      "patient_identifier_if_available": "003-008-1289",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 300,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-008-1290-01_1733310674518_Mandibular_View.jpg",
+      "filename": "anonymous_003-008-1290-01_1733310674518_Mandibular_View.jpg",
+      "mouth_view": "Mandibular"
+    },
+    "meta": {
+      "width": 1304,
+      "height": 978,
+      "patient_identifier_if_available": "003-008-1290",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 301,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-008-1291-00_1733311003393_Mandibular_View.jpg",
+      "filename": "anonymous_003-008-1291-00_1733311003393_Mandibular_View.jpg",
+      "mouth_view": "Mandibular"
+    },
+    "meta": {
+      "width": 1331,
+      "height": 998,
+      "patient_identifier_if_available": "003-008-1291",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 302,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-008-1304-01_1733394354138_Mandibular_View.jpg",
+      "filename": "anonymous_003-008-1304-01_1733394354138_Mandibular_View.jpg",
+      "mouth_view": "Mandibular"
+    },
+    "meta": {
+      "width": 1484,
+      "height": 1112,
+      "patient_identifier_if_available": "003-008-1304",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 303,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-008-1305-00_1733394975162_Mandibular_View.jpg",
+      "filename": "anonymous_003-008-1305-00_1733394975162_Mandibular_View.jpg",
+      "mouth_view": "Mandibular"
+    },
+    "meta": {
+      "width": 1216,
+      "height": 912,
+      "patient_identifier_if_available": "003-008-1305",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 304,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-008-1308-00_1733401560725_Maxillary_Occlusal_View.jpg",
+      "filename": "anonymous_003-008-1308-00_1733401560725_Maxillary_Occlusal_View.jpg",
+      "mouth_view": "Maxillary_Occlusal"
+    },
+    "meta": {
+      "width": 1478,
+      "height": 1108,
+      "patient_identifier_if_available": "003-008-1308",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 305,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-008-1309-00_1733401965672_Maxillary_Occlusal_View.jpg",
+      "filename": "anonymous_003-008-1309-00_1733401965672_Maxillary_Occlusal_View.jpg",
+      "mouth_view": "Maxillary_Occlusal"
+    },
+    "meta": {
+      "width": 1672,
+      "height": 1253,
+      "patient_identifier_if_available": "003-008-1309",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 306,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-008-1311-00_1733404330359_Maxillary_Occlusal_View.jpg",
+      "filename": "anonymous_003-008-1311-00_1733404330359_Maxillary_Occlusal_View.jpg",
+      "mouth_view": "Maxillary_Occlusal"
+    },
+    "meta": {
+      "width": 1667,
+      "height": 1249,
+      "patient_identifier_if_available": "003-008-1311",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 307,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-008-1345-01_1733567991677_Maxillary_Occlusal_View.jpg",
+      "filename": "anonymous_003-008-1345-01_1733567991677_Maxillary_Occlusal_View.jpg",
+      "mouth_view": "Maxillary_Occlusal"
+    },
+    "meta": {
+      "width": 1480,
+      "height": 1109,
+      "patient_identifier_if_available": "003-008-1345",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 308,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-008-1346-00_1733568350332_Maxillary_Occlusal_View.jpg",
+      "filename": "anonymous_003-008-1346-00_1733568350332_Maxillary_Occlusal_View.jpg",
+      "mouth_view": "Maxillary_Occlusal"
+    },
+    "meta": {
+      "width": 1484,
+      "height": 833,
+      "patient_identifier_if_available": "003-008-1346",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 309,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-008-1353-01_1733575066516_Mandibular_View.jpg",
+      "filename": "anonymous_003-008-1353-01_1733575066516_Mandibular_View.jpg",
+      "mouth_view": "Mandibular"
+    },
+    "meta": {
+      "width": 1113,
+      "height": 834,
+      "patient_identifier_if_available": "003-008-1353",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 310,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-008-1354-00_1733575459863_Mandibular_View.jpg",
+      "filename": "anonymous_003-008-1354-00_1733575459863_Mandibular_View.jpg",
+      "mouth_view": "Mandibular"
+    },
+    "meta": {
+      "width": 1092,
+      "height": 818,
+      "patient_identifier_if_available": "003-008-1354",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 311,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-008-1373-01_1733742517125_Maxillary_Occlusal_View.jpg",
+      "filename": "anonymous_003-008-1373-01_1733742517125_Maxillary_Occlusal_View.jpg",
+      "mouth_view": "Maxillary_Occlusal"
+    },
+    "meta": {
+      "width": 1438,
+      "height": 1078,
+      "patient_identifier_if_available": "003-008-1373",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 312,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-008-1377-01_1733753599671_Mandibular_View.jpg",
+      "filename": "anonymous_003-008-1377-01_1733753599671_Mandibular_View.jpg",
+      "mouth_view": "Mandibular"
+    },
+    "meta": {
+      "width": 1224,
+      "height": 918,
+      "patient_identifier_if_available": "003-008-1377",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 313,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-008-1389-01_1733825027941_Maxillary_Occlusal_View.jpg",
+      "filename": "anonymous_003-008-1389-01_1733825027941_Maxillary_Occlusal_View.jpg",
+      "mouth_view": "Maxillary_Occlusal"
+    },
+    "meta": {
+      "width": 1617,
+      "height": 1212,
+      "patient_identifier_if_available": "003-008-1389",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 314,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-008-1390-00_1733825468008_Maxillary_Occlusal_View.jpg",
+      "filename": "anonymous_003-008-1390-00_1733825468008_Maxillary_Occlusal_View.jpg",
+      "mouth_view": "Maxillary_Occlusal"
+    },
+    "meta": {
+      "width": 1389,
+      "height": 1041,
+      "patient_identifier_if_available": "003-008-1390",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 315,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-008-1391-01_1733827595823_Maxillary_Occlusal_View.jpg",
+      "filename": "anonymous_003-008-1391-01_1733827595823_Maxillary_Occlusal_View.jpg",
+      "mouth_view": "Maxillary_Occlusal"
+    },
+    "meta": {
+      "width": 1665,
+      "height": 1248,
+      "patient_identifier_if_available": "003-008-1391",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 316,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-008-1392-00_1733827997119_Mandibular_View.jpg",
+      "filename": "anonymous_003-008-1392-00_1733827997119_Mandibular_View.jpg",
+      "mouth_view": "Mandibular"
+    },
+    "meta": {
+      "width": 1260,
+      "height": 944,
+      "patient_identifier_if_available": "003-008-1392",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 317,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-008-1393-01_1733830435002_Maxillary_Occlusal_View.jpg",
+      "filename": "anonymous_003-008-1393-01_1733830435002_Maxillary_Occlusal_View.jpg",
+      "mouth_view": "Maxillary_Occlusal"
+    },
+    "meta": {
+      "width": 1504,
+      "height": 1128,
+      "patient_identifier_if_available": "003-008-1393",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 318,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-008-1394-00_1733831166816_Maxillary_Occlusal_View.jpg",
+      "filename": "anonymous_003-008-1394-00_1733831166816_Maxillary_Occlusal_View.jpg",
+      "mouth_view": "Maxillary_Occlusal"
+    },
+    "meta": {
+      "width": 1515,
+      "height": 1136,
+      "patient_identifier_if_available": "003-008-1394",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 319,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-008-1395-01_1733833399473_Mandibular_View.jpg",
+      "filename": "anonymous_003-008-1395-01_1733833399473_Mandibular_View.jpg",
+      "mouth_view": "Mandibular"
+    },
+    "meta": {
+      "width": 1439,
+      "height": 808,
+      "patient_identifier_if_available": "003-008-1395",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 320,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-008-1396-00_1733833829814_Mandibular_View.jpg",
+      "filename": "anonymous_003-008-1396-00_1733833829814_Mandibular_View.jpg",
+      "mouth_view": "Mandibular"
+    },
+    "meta": {
+      "width": 1268,
+      "height": 950,
+      "patient_identifier_if_available": "003-008-1396",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 321,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-008-1409-01_1733910983435_Maxillary_Occlusal_View.jpg",
+      "filename": "anonymous_003-008-1409-01_1733910983435_Maxillary_Occlusal_View.jpg",
+      "mouth_view": "Maxillary_Occlusal"
+    },
+    "meta": {
+      "width": 1317,
+      "height": 987,
+      "patient_identifier_if_available": "003-008-1409",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 322,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-008-1410-00_1733911356831_Mandibular_View.jpg",
+      "filename": "anonymous_003-008-1410-00_1733911356831_Mandibular_View.jpg",
+      "mouth_view": "Mandibular"
+    },
+    "meta": {
+      "width": 1243,
+      "height": 932,
+      "patient_identifier_if_available": "003-008-1410",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 323,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-008-1411-01_1733912476033_Mandibular_View.jpg",
+      "filename": "anonymous_003-008-1411-01_1733912476033_Mandibular_View.jpg",
+      "mouth_view": "Mandibular"
+    },
+    "meta": {
+      "width": 1236,
+      "height": 926,
+      "patient_identifier_if_available": "003-008-1411",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 324,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-008-1415-00_1733914777820_Maxillary_Occlusal_View.jpg",
+      "filename": "anonymous_003-008-1415-00_1733914777820_Maxillary_Occlusal_View.jpg",
+      "mouth_view": "Maxillary_Occlusal"
+    },
+    "meta": {
+      "width": 1471,
+      "height": 1103,
+      "patient_identifier_if_available": "003-008-1415",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 325,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-008-1417-00_1733917109783_Mandibular_View.jpg",
+      "filename": "anonymous_003-008-1417-00_1733917109783_Mandibular_View.jpg",
+      "mouth_view": "Mandibular"
+    },
+    "meta": {
+      "width": 1130,
+      "height": 847,
+      "patient_identifier_if_available": "003-008-1417",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 326,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-008-1432-01_1733999821161_Maxillary_Occlusal_View.jpg",
+      "filename": "anonymous_003-008-1432-01_1733999821161_Maxillary_Occlusal_View.jpg",
+      "mouth_view": "Maxillary_Occlusal"
+    },
+    "meta": {
+      "width": 1625,
+      "height": 1218,
+      "patient_identifier_if_available": "003-008-1432",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 327,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-008-1438-00_1734004111041_Mandibular_View.jpg",
+      "filename": "anonymous_003-008-1438-00_1734004111041_Mandibular_View.jpg",
+      "mouth_view": "Mandibular"
+    },
+    "meta": {
+      "width": 1170,
+      "height": 877,
+      "patient_identifier_if_available": "003-008-1438",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 328,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-008-1439-01_1734006035878_Mandibular_View.jpg",
+      "filename": "anonymous_003-008-1439-01_1734006035878_Mandibular_View.jpg",
+      "mouth_view": "Mandibular"
+    },
+    "meta": {
+      "width": 1183,
+      "height": 887,
+      "patient_identifier_if_available": "003-008-1439",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 329,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-008-1440-00_1734006422034_Mandibular_View.jpg",
+      "filename": "anonymous_003-008-1440-00_1734006422034_Mandibular_View.jpg",
+      "mouth_view": "Mandibular"
+    },
+    "meta": {
+      "width": 1188,
+      "height": 890,
+      "patient_identifier_if_available": "003-008-1440",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 330,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-008-1457-01_1734085909506_Mandibular_View.jpg",
+      "filename": "anonymous_003-008-1457-01_1734085909506_Mandibular_View.jpg",
+      "mouth_view": "Mandibular"
+    },
+    "meta": {
+      "width": 1462,
+      "height": 1096,
+      "patient_identifier_if_available": "003-008-1457",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 331,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-008-1459-01_1734087695402_Maxillary_Occlusal_View.jpg",
+      "filename": "anonymous_003-008-1459-01_1734087695402_Maxillary_Occlusal_View.jpg",
+      "mouth_view": "Maxillary_Occlusal"
+    },
+    "meta": {
+      "width": 1399,
+      "height": 1048,
+      "patient_identifier_if_available": "003-008-1459",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 332,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-008-1478-01_1734169137449_Mandibular_View.jpg",
+      "filename": "anonymous_003-008-1478-01_1734169137449_Mandibular_View.jpg",
+      "mouth_view": "Mandibular"
+    },
+    "meta": {
+      "width": 1263,
+      "height": 947,
+      "patient_identifier_if_available": "003-008-1478",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 333,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-008-1479-00_1734169545024_Mandibular_View.jpg",
+      "filename": "anonymous_003-008-1479-00_1734169545024_Mandibular_View.jpg",
+      "mouth_view": "Mandibular"
+    },
+    "meta": {
+      "width": 1267,
+      "height": 950,
+      "patient_identifier_if_available": "003-008-1479",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 334,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-008-564-01_1728907238496_Maxillary_Occlusal_View.jpg",
+      "filename": "anonymous_003-008-564-01_1728907238496_Maxillary_Occlusal_View.jpg",
+      "mouth_view": "Maxillary_Occlusal"
+    },
+    "meta": {
+      "width": 1818,
+      "height": 1362,
+      "patient_identifier_if_available": "003-008-564",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 335,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-008-565-00_1728907603455_Right_Lateral_View.jpg",
+      "filename": "anonymous_003-008-565-00_1728907603455_Right_Lateral_View.jpg",
+      "mouth_view": "Right_Lateral"
+    },
+    "meta": {
+      "width": 1228,
+      "height": 690,
+      "patient_identifier_if_available": "003-008-565",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 336,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-008-566-01_1728910029994_Frontal_View.jpg",
+      "filename": "anonymous_003-008-566-01_1728910029994_Frontal_View.jpg",
+      "mouth_view": "Frontal"
+    },
+    "meta": {
+      "width": 1465,
+      "height": 823,
+      "patient_identifier_if_available": "003-008-566",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 337,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-008-569-00_1728912732907_Left_Lateral_View.jpg",
+      "filename": "anonymous_003-008-569-00_1728912732907_Left_Lateral_View.jpg",
+      "mouth_view": "Left_Lateral"
+    },
+    "meta": {
+      "width": 1535,
+      "height": 862,
+      "patient_identifier_if_available": "003-008-569",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 338,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-008-570-01_1728915270013_Frontal_View.jpg",
+      "filename": "anonymous_003-008-570-01_1728915270013_Frontal_View.jpg",
+      "mouth_view": "Frontal"
+    },
+    "meta": {
+      "width": 1525,
+      "height": 857,
+      "patient_identifier_if_available": "003-008-570",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 339,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-008-571-00_1728915544187_Right_Lateral_View.jpg",
+      "filename": "anonymous_003-008-571-00_1728915544187_Right_Lateral_View.jpg",
+      "mouth_view": "Right_Lateral"
+    },
+    "meta": {
+      "width": 1482,
+      "height": 832,
+      "patient_identifier_if_available": "003-008-571",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 340,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-008-572-01_1728917641191_Frontal_View.jpg",
+      "filename": "anonymous_003-008-572-01_1728917641191_Frontal_View.jpg",
+      "mouth_view": "Frontal"
+    },
+    "meta": {
+      "width": 1464,
+      "height": 822,
+      "patient_identifier_if_available": "003-008-572",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 341,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-008-573-00_1728917922092_Maxillary_Occlusal_View.jpg",
+      "filename": "anonymous_003-008-573-00_1728917922092_Maxillary_Occlusal_View.jpg",
+      "mouth_view": "Maxillary_Occlusal"
+    },
+    "meta": {
+      "width": 1524,
+      "height": 1142,
+      "patient_identifier_if_available": "003-008-573",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 342,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-008-589-01_1728986264902_Frontal_View.jpg",
+      "filename": "anonymous_003-008-589-01_1728986264902_Frontal_View.jpg",
+      "mouth_view": "Frontal"
+    },
+    "meta": {
+      "width": 1741,
+      "height": 978,
+      "patient_identifier_if_available": "003-008-589",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 343,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-008-590-00_1728986645135_Maxillary_Occlusal_View.jpg",
+      "filename": "anonymous_003-008-590-00_1728986645135_Maxillary_Occlusal_View.jpg",
+      "mouth_view": "Maxillary_Occlusal"
+    },
+    "meta": {
+      "width": 1595,
+      "height": 1195,
+      "patient_identifier_if_available": "003-008-590",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 344,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-008-591-01_1728996644646_Frontal_View.jpg",
+      "filename": "anonymous_003-008-591-01_1728996644646_Frontal_View.jpg",
+      "mouth_view": "Frontal"
+    },
+    "meta": {
+      "width": 1273,
+      "height": 954,
+      "patient_identifier_if_available": "003-008-591",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 345,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-008-593-01_1728999384697_Right_Lateral_View.jpg",
+      "filename": "anonymous_003-008-593-01_1728999384697_Right_Lateral_View.jpg",
+      "mouth_view": "Right_Lateral"
+    },
+    "meta": {
+      "width": 1514,
+      "height": 850,
+      "patient_identifier_if_available": "003-008-593",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 346,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-008-595-00_1728999929128_Frontal_View.jpg",
+      "filename": "anonymous_003-008-595-00_1728999929128_Frontal_View.jpg",
+      "mouth_view": "Frontal"
+    },
+    "meta": {
+      "width": 1461,
+      "height": 820,
+      "patient_identifier_if_available": "003-008-595",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 347,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-008-596-01_1729002084186_Maxillary_Occlusal_View.jpg",
+      "filename": "anonymous_003-008-596-01_1729002084186_Maxillary_Occlusal_View.jpg",
+      "mouth_view": "Maxillary_Occlusal"
+    },
+    "meta": {
+      "width": 1512,
+      "height": 1133,
+      "patient_identifier_if_available": "003-008-596",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 348,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-008-597-00_1729002988805_Maxillary_Occlusal_View.jpg",
+      "filename": "anonymous_003-008-597-00_1729002988805_Maxillary_Occlusal_View.jpg",
+      "mouth_view": "Maxillary_Occlusal"
+    },
+    "meta": {
+      "width": 1654,
+      "height": 1240,
+      "patient_identifier_if_available": "003-008-597",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 349,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-008-598-01_1729004550645_Right_Lateral_View.jpg",
+      "filename": "anonymous_003-008-598-01_1729004550645_Right_Lateral_View.jpg",
+      "mouth_view": "Right_Lateral"
+    },
+    "meta": {
+      "width": 1175,
+      "height": 880,
+      "patient_identifier_if_available": "003-008-598",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 350,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-008-614-01_1729074200376_Maxillary_Occlusal_View.jpg",
+      "filename": "anonymous_003-008-614-01_1729074200376_Maxillary_Occlusal_View.jpg",
+      "mouth_view": "Maxillary_Occlusal"
+    },
+    "meta": {
+      "width": 1448,
+      "height": 1085,
+      "patient_identifier_if_available": "003-008-614",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 351,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-008-615-00_1729074735259_Maxillary_Occlusal_View.jpg",
+      "filename": "anonymous_003-008-615-00_1729074735259_Maxillary_Occlusal_View.jpg",
+      "mouth_view": "Maxillary_Occlusal"
+    },
+    "meta": {
+      "width": 1694,
+      "height": 1270,
+      "patient_identifier_if_available": "003-008-615",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 352,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-008-617-00_1729078067595_Right_Lateral_View.jpg",
+      "filename": "anonymous_003-008-617-00_1729078067595_Right_Lateral_View.jpg",
+      "mouth_view": "Right_Lateral"
+    },
+    "meta": {
+      "width": 948,
+      "height": 532,
+      "patient_identifier_if_available": "003-008-617",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 353,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-008-619-00_1729080900725_Maxillary_Occlusal_View.jpg",
+      "filename": "anonymous_003-008-619-00_1729080900725_Maxillary_Occlusal_View.jpg",
+      "mouth_view": "Maxillary_Occlusal"
+    },
+    "meta": {
+      "width": 1478,
+      "height": 1108,
+      "patient_identifier_if_available": "003-008-619",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 354,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-008-620-01_1729083811620_Maxillary_Occlusal_View.jpg",
+      "filename": "anonymous_003-008-620-01_1729083811620_Maxillary_Occlusal_View.jpg",
+      "mouth_view": "Maxillary_Occlusal"
+    },
+    "meta": {
+      "width": 1417,
+      "height": 1062,
+      "patient_identifier_if_available": "003-008-620",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 355,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-008-621-00_1729084830092_Maxillary_Occlusal_View.jpg",
+      "filename": "anonymous_003-008-621-00_1729084830092_Maxillary_Occlusal_View.jpg",
+      "mouth_view": "Maxillary_Occlusal"
+    },
+    "meta": {
+      "width": 1616,
+      "height": 1211,
+      "patient_identifier_if_available": "003-008-621",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 356,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-008-622-01_1729087609045_Maxillary_Occlusal_View.jpg",
+      "filename": "anonymous_003-008-622-01_1729087609045_Maxillary_Occlusal_View.jpg",
+      "mouth_view": "Maxillary_Occlusal"
+    },
+    "meta": {
+      "width": 1841,
+      "height": 1380,
+      "patient_identifier_if_available": "003-008-622",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 357,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-008-623-00_1729088109108_Mandibular_View.jpg",
+      "filename": "anonymous_003-008-623-00_1729088109108_Mandibular_View.jpg",
+      "mouth_view": "Mandibular"
+    },
+    "meta": {
+      "width": 1147,
+      "height": 860,
+      "patient_identifier_if_available": "003-008-623",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 358,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-008-626-01_1729138704180_Frontal_View.jpg",
+      "filename": "anonymous_003-008-626-01_1729138704180_Frontal_View.jpg",
+      "mouth_view": "Frontal"
+    },
+    "meta": {
+      "width": 1460,
+      "height": 820,
+      "patient_identifier_if_available": "003-008-626",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 359,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-008-645-01_1729160496237_Maxillary_Occlusal_View.jpg",
+      "filename": "anonymous_003-008-645-01_1729160496237_Maxillary_Occlusal_View.jpg",
+      "mouth_view": "Maxillary_Occlusal"
+    },
+    "meta": {
+      "width": 1681,
+      "height": 1260,
+      "patient_identifier_if_available": "003-008-645",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 360,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-008-646-00_1729160916094_Maxillary_Occlusal_View.jpg",
+      "filename": "anonymous_003-008-646-00_1729160916094_Maxillary_Occlusal_View.jpg",
+      "mouth_view": "Maxillary_Occlusal"
+    },
+    "meta": {
+      "width": 1618,
+      "height": 1213,
+      "patient_identifier_if_available": "003-008-646",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 361,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-008-647-01_1729163338710_Mandibular_View.jpg",
+      "filename": "anonymous_003-008-647-01_1729163338710_Mandibular_View.jpg",
+      "mouth_view": "Mandibular"
+    },
+    "meta": {
+      "width": 1420,
+      "height": 1065,
+      "patient_identifier_if_available": "003-008-647",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 362,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-008-648-00_1729163792384_Mandibular_View.jpg",
+      "filename": "anonymous_003-008-648-00_1729163792384_Mandibular_View.jpg",
+      "mouth_view": "Mandibular"
+    },
+    "meta": {
+      "width": 1115,
+      "height": 836,
+      "patient_identifier_if_available": "003-008-648",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 363,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-008-650-00_1729167733200_Mandibular_View.jpg",
+      "filename": "anonymous_003-008-650-00_1729167733200_Mandibular_View.jpg",
+      "mouth_view": "Mandibular"
+    },
+    "meta": {
+      "width": 1285,
+      "height": 963,
+      "patient_identifier_if_available": "003-008-650",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 364,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-008-651-01_1729169672305_Maxillary_Occlusal_View.jpg",
+      "filename": "anonymous_003-008-651-01_1729169672305_Maxillary_Occlusal_View.jpg",
+      "mouth_view": "Maxillary_Occlusal"
+    },
+    "meta": {
+      "width": 1285,
+      "height": 963,
+      "patient_identifier_if_available": "003-008-651",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 365,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-008-652-00_1729170164776_Mandibular_View.jpg",
+      "filename": "anonymous_003-008-652-00_1729170164776_Mandibular_View.jpg",
+      "mouth_view": "Mandibular"
+    },
+    "meta": {
+      "width": 1098,
+      "height": 823,
+      "patient_identifier_if_available": "003-008-652",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 366,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-008-679-00_1729249395420_Maxillary_Occlusal_View.jpg",
+      "filename": "anonymous_003-008-679-00_1729249395420_Maxillary_Occlusal_View.jpg",
+      "mouth_view": "Maxillary_Occlusal"
+    },
+    "meta": {
+      "width": 1706,
+      "height": 1279,
+      "patient_identifier_if_available": "003-008-679",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 367,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-008-680-01_1729252793946_Mandibular_View.jpg",
+      "filename": "anonymous_003-008-680-01_1729252793946_Mandibular_View.jpg",
+      "mouth_view": "Mandibular"
+    },
+    "meta": {
+      "width": 1322,
+      "height": 991,
+      "patient_identifier_if_available": "003-008-680",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 368,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-008-684-01_1729257374840_Mandibular_View.jpg",
+      "filename": "anonymous_003-008-684-01_1729257374840_Mandibular_View.jpg",
+      "mouth_view": "Mandibular"
+    },
+    "meta": {
+      "width": 1358,
+      "height": 1018,
+      "patient_identifier_if_available": "003-008-684",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 369,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-008-686-01_1729259151138_Mandibular_View.jpg",
+      "filename": "anonymous_003-008-686-01_1729259151138_Mandibular_View.jpg",
+      "mouth_view": "Mandibular"
+    },
+    "meta": {
+      "width": 1213,
+      "height": 909,
+      "patient_identifier_if_available": "003-008-686",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 370,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-008-687-00_1729259500783_Maxillary_Occlusal_View.jpg",
+      "filename": "anonymous_003-008-687-00_1729259500783_Maxillary_Occlusal_View.jpg",
+      "mouth_view": "Maxillary_Occlusal"
+    },
+    "meta": {
+      "width": 1417,
+      "height": 1062,
+      "patient_identifier_if_available": "003-008-687",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 371,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-008-726-01_1729515883716_Mandibular_View.jpg",
+      "filename": "anonymous_003-008-726-01_1729515883716_Mandibular_View.jpg",
+      "mouth_view": "Mandibular"
+    },
+    "meta": {
+      "width": 1113,
+      "height": 834,
+      "patient_identifier_if_available": "003-008-726",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 372,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-008-732-01_1729522210714_Maxillary_Occlusal_View.jpg",
+      "filename": "anonymous_003-008-732-01_1729522210714_Maxillary_Occlusal_View.jpg",
+      "mouth_view": "Maxillary_Occlusal"
+    },
+    "meta": {
+      "width": 1611,
+      "height": 1208,
+      "patient_identifier_if_available": "003-008-732",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 373,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-008-740-01_1729594985183_Maxillary_Occlusal_View.jpg",
+      "filename": "anonymous_003-008-740-01_1729594985183_Maxillary_Occlusal_View.jpg",
+      "mouth_view": "Maxillary_Occlusal"
+    },
+    "meta": {
+      "width": 1372,
+      "height": 1028,
+      "patient_identifier_if_available": "003-008-740",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 374,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-008-741-00_1729595555946_Maxillary_Occlusal_View.jpg",
+      "filename": "anonymous_003-008-741-00_1729595555946_Maxillary_Occlusal_View.jpg",
+      "mouth_view": "Maxillary_Occlusal"
+    },
+    "meta": {
+      "width": 1571,
+      "height": 1178,
+      "patient_identifier_if_available": "003-008-741",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 375,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-008-762-01_1729680417375_Maxillary_Occlusal_View.jpg",
+      "filename": "anonymous_003-008-762-01_1729680417375_Maxillary_Occlusal_View.jpg",
+      "mouth_view": "Maxillary_Occlusal"
+    },
+    "meta": {
+      "width": 1495,
+      "height": 1121,
+      "patient_identifier_if_available": "003-008-762",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 376,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-008-779-01_1729768960699_Maxillary_Occlusal_View.jpg",
+      "filename": "anonymous_003-008-779-01_1729768960699_Maxillary_Occlusal_View.jpg",
+      "mouth_view": "Maxillary_Occlusal"
+    },
+    "meta": {
+      "width": 1581,
+      "height": 1185,
+      "patient_identifier_if_available": "003-008-779",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 377,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-008-790-01_1729849195168_Maxillary_Occlusal_View.jpg",
+      "filename": "anonymous_003-008-790-01_1729849195168_Maxillary_Occlusal_View.jpg",
+      "mouth_view": "Maxillary_Occlusal"
+    },
+    "meta": {
+      "width": 1627,
+      "height": 1219,
+      "patient_identifier_if_available": "003-008-790",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 378,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-008-791-00_1729849650005_Mandibular_View.jpg",
+      "filename": "anonymous_003-008-791-00_1729849650005_Mandibular_View.jpg",
+      "mouth_view": "Mandibular"
+    },
+    "meta": {
+      "width": 1361,
+      "height": 1020,
+      "patient_identifier_if_available": "003-008-791",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 379,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-008-826-00_1729951922030_Mandibular_View.jpg",
+      "filename": "anonymous_003-008-826-00_1729951922030_Mandibular_View.jpg",
+      "mouth_view": "Mandibular"
+    },
+    "meta": {
+      "width": 1136,
+      "height": 852,
+      "patient_identifier_if_available": "003-008-826",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 380,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-008-842-01_1730112126234_Maxillary_Occlusal_View.jpg",
+      "filename": "anonymous_003-008-842-01_1730112126234_Maxillary_Occlusal_View.jpg",
+      "mouth_view": "Maxillary_Occlusal"
+    },
+    "meta": {
+      "width": 2022,
+      "height": 1136,
+      "patient_identifier_if_available": "003-008-842",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 381,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-008-856-00_1730197612329_Right_Lateral_View.jpg",
+      "filename": "anonymous_003-008-856-00_1730197612329_Right_Lateral_View.jpg",
+      "mouth_view": "Right_Lateral"
+    },
+    "meta": {
+      "width": 1219,
+      "height": 685,
+      "patient_identifier_if_available": "003-008-856",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 382,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-008-858-00_1730200061435_Maxillary_Occlusal_View.jpg",
+      "filename": "anonymous_003-008-858-00_1730200061435_Maxillary_Occlusal_View.jpg",
+      "mouth_view": "Maxillary_Occlusal"
+    },
+    "meta": {
+      "width": 1678,
+      "height": 1258,
+      "patient_identifier_if_available": "003-008-858",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 383,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-008-859-01_1730202467399_Mandibular_View.jpg",
+      "filename": "anonymous_003-008-859-01_1730202467399_Mandibular_View.jpg",
+      "mouth_view": "Mandibular"
+    },
+    "meta": {
+      "width": 1295,
+      "height": 971,
+      "patient_identifier_if_available": "003-008-859",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 384,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-008-860-00_1730202956330_Mandibular_View.jpg",
+      "filename": "anonymous_003-008-860-00_1730202956330_Mandibular_View.jpg",
+      "mouth_view": "Mandibular"
+    },
+    "meta": {
+      "width": 1154,
+      "height": 865,
+      "patient_identifier_if_available": "003-008-860",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 385,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-008-862-00_1730205438736_Maxillary_Occlusal_View.jpg",
+      "filename": "anonymous_003-008-862-00_1730205438736_Maxillary_Occlusal_View.jpg",
+      "mouth_view": "Maxillary_Occlusal"
+    },
+    "meta": {
+      "width": 1523,
+      "height": 1141,
+      "patient_identifier_if_available": "003-008-862",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 386,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-008-865-01_1730209437683_Mandibular_View.jpg",
+      "filename": "anonymous_003-008-865-01_1730209437683_Mandibular_View.jpg",
+      "mouth_view": "Mandibular"
+    },
+    "meta": {
+      "width": 1529,
+      "height": 859,
+      "patient_identifier_if_available": "003-008-865",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 387,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-008-908-00_1730368773983_Maxillary_Occlusal_View.jpg",
+      "filename": "anonymous_003-008-908-00_1730368773983_Maxillary_Occlusal_View.jpg",
+      "mouth_view": "Maxillary_Occlusal"
+    },
+    "meta": {
+      "width": 1933,
+      "height": 1449,
+      "patient_identifier_if_available": "003-008-908",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 388,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-008-911-00_1730371705980_Maxillary_Occlusal_View.jpg",
+      "filename": "anonymous_003-008-911-00_1730371705980_Maxillary_Occlusal_View.jpg",
+      "mouth_view": "Maxillary_Occlusal"
+    },
+    "meta": {
+      "width": 1737,
+      "height": 1302,
+      "patient_identifier_if_available": "003-008-911",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 389,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-008-912-01_1730374226278_Maxillary_Occlusal_View.jpg",
+      "filename": "anonymous_003-008-912-01_1730374226278_Maxillary_Occlusal_View.jpg",
+      "mouth_view": "Maxillary_Occlusal"
+    },
+    "meta": {
+      "width": 1662,
+      "height": 1245,
+      "patient_identifier_if_available": "003-008-912",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 390,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-008-913-00_1730374663171_Maxillary_Occlusal_View.jpg",
+      "filename": "anonymous_003-008-913-00_1730374663171_Maxillary_Occlusal_View.jpg",
+      "mouth_view": "Maxillary_Occlusal"
+    },
+    "meta": {
+      "width": 1793,
+      "height": 1007,
+      "patient_identifier_if_available": "003-008-913",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 391,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-008-931-00_1730717738893_Maxillary_Occlusal_View.jpg",
+      "filename": "anonymous_003-008-931-00_1730717738893_Maxillary_Occlusal_View.jpg",
+      "mouth_view": "Maxillary_Occlusal"
+    },
+    "meta": {
+      "width": 1759,
+      "height": 988,
+      "patient_identifier_if_available": "003-008-931",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 392,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-008-937-00_1730727374307_Right_Lateral_View.jpg",
+      "filename": "anonymous_003-008-937-00_1730727374307_Right_Lateral_View.jpg",
+      "mouth_view": "Right_Lateral"
+    },
+    "meta": {
+      "width": 950,
+      "height": 534,
+      "patient_identifier_if_available": "003-008-937",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 393,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-008-975-00_1730892499976_Mandibular_View.jpg",
+      "filename": "anonymous_003-008-975-00_1730892499976_Mandibular_View.jpg",
+      "mouth_view": "Mandibular"
+    },
+    "meta": {
+      "width": 1178,
+      "height": 883,
+      "patient_identifier_if_available": "003-008-975",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 394,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-008-977-00_1730895561784_Right_Lateral_View.jpg",
+      "filename": "anonymous_003-008-977-00_1730895561784_Right_Lateral_View.jpg",
+      "mouth_view": "Right_Lateral"
+    },
+    "meta": {
+      "width": 875,
+      "height": 491,
+      "patient_identifier_if_available": "003-008-977",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 395,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-008-978-01_1730897360301_Mandibular_View.jpg",
+      "filename": "anonymous_003-008-978-01_1730897360301_Mandibular_View.jpg",
+      "mouth_view": "Mandibular"
+    },
+    "meta": {
+      "width": 1611,
+      "height": 905,
+      "patient_identifier_if_available": "003-008-978",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 396,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-008-996-01_1730974775488_Mandibular_View.jpg",
+      "filename": "anonymous_003-008-996-01_1730974775488_Mandibular_View.jpg",
+      "mouth_view": "Mandibular"
+    },
+    "meta": {
+      "width": 1531,
+      "height": 860,
+      "patient_identifier_if_available": "003-008-996",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 397,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-008-997-00_1730975206077_Mandibular_View.jpg",
+      "filename": "anonymous_003-008-997-00_1730975206077_Mandibular_View.jpg",
+      "mouth_view": "Mandibular"
+    },
+    "meta": {
+      "width": 1239,
+      "height": 929,
+      "patient_identifier_if_available": "003-008-997",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 398,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-008-998-01_1730980715687_Mandibular_View.jpg",
+      "filename": "anonymous_003-008-998-01_1730980715687_Mandibular_View.jpg",
+      "mouth_view": "Mandibular"
+    },
+    "meta": {
+      "width": 1191,
+      "height": 893,
+      "patient_identifier_if_available": "003-008-998",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 399,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-008-999-00_1730981358006_Mandibular_View.jpg",
+      "filename": "anonymous_003-008-999-00_1730981358006_Mandibular_View.jpg",
+      "mouth_view": "Mandibular"
+    },
+    "meta": {
+      "width": 1148,
+      "height": 860,
+      "patient_identifier_if_available": "003-008-999",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 400,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-009-1194-00_1732775915152_Right_Lateral_View.jpg",
+      "filename": "anonymous_003-009-1194-00_1732775915152_Right_Lateral_View.jpg",
+      "mouth_view": "Right_Lateral"
+    },
+    "meta": {
+      "width": 1529,
+      "height": 1019,
+      "patient_identifier_if_available": "003-009-1194",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 401,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-009-1198-00_1732783792820_Left_Lateral_View.jpg",
+      "filename": "anonymous_003-009-1198-00_1732783792820_Left_Lateral_View.jpg",
+      "mouth_view": "Left_Lateral"
+    },
+    "meta": {
+      "width": 1902,
+      "height": 1268,
+      "patient_identifier_if_available": "003-009-1198",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 402,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-009-702-01_1729333600227_Maxillary_Occlusal_View.jpg",
+      "filename": "anonymous_003-009-702-01_1729333600227_Maxillary_Occlusal_View.jpg",
+      "mouth_view": "Maxillary_Occlusal"
+    },
+    "meta": {
+      "width": 2312,
+      "height": 1541,
+      "patient_identifier_if_available": "003-009-702",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 403,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-009-703-00_1729334403549_Maxillary_Occlusal_View.jpg",
+      "filename": "anonymous_003-009-703-00_1729334403549_Maxillary_Occlusal_View.jpg",
+      "mouth_view": "Maxillary_Occlusal"
+    },
+    "meta": {
+      "width": 1719,
+      "height": 1146,
+      "patient_identifier_if_available": "003-009-703",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 404,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-009-704-01_1729339214008_Maxillary_Occlusal_View.jpg",
+      "filename": "anonymous_003-009-704-01_1729339214008_Maxillary_Occlusal_View.jpg",
+      "mouth_view": "Maxillary_Occlusal"
+    },
+    "meta": {
+      "width": 1553,
+      "height": 1035,
+      "patient_identifier_if_available": "003-009-704",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 405,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_003-009-707-00_1729343513251_Right_Lateral_View.jpg",
+      "filename": "anonymous_003-009-707-00_1729343513251_Right_Lateral_View.jpg",
+      "mouth_view": "Right_Lateral"
+    },
+    "meta": {
+      "width": 1206,
+      "height": 804,
+      "patient_identifier_if_available": "003-009-707",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 406,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_004-007-1027-01_1731221247182_Frontal_View.jpg",
+      "filename": "anonymous_004-007-1027-01_1731221247182_Frontal_View.jpg",
+      "mouth_view": "Frontal"
+    },
+    "meta": {
+      "width": 1942,
+      "height": 1090,
+      "patient_identifier_if_available": "004-007-1027",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 407,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_004-007-1028-00_1731221772302_Frontal_View.jpg",
+      "filename": "anonymous_004-007-1028-00_1731221772302_Frontal_View.jpg",
+      "mouth_view": "Frontal"
+    },
+    "meta": {
+      "width": 1818,
+      "height": 1021,
+      "patient_identifier_if_available": "004-007-1028",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 408,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_004-007-1321-00_1733473332768_Right_Lateral_View.jpg",
+      "filename": "anonymous_004-007-1321-00_1733473332768_Right_Lateral_View.jpg",
+      "mouth_view": "Right_Lateral"
+    },
+    "meta": {
+      "width": 1449,
+      "height": 1449,
+      "patient_identifier_if_available": "004-007-1321",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 409,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_004-007-924-01_1730701589918_Frontal_View.jpg",
+      "filename": "anonymous_004-007-924-01_1730701589918_Frontal_View.jpg",
+      "mouth_view": "Frontal"
+    },
+    "meta": {
+      "width": 1455,
+      "height": 817,
+      "patient_identifier_if_available": "004-007-924",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 410,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_004-008-1089-01_1732187905742_Mandibular_View.jpg",
+      "filename": "anonymous_004-008-1089-01_1732187905742_Mandibular_View.jpg",
+      "mouth_view": "Mandibular"
+    },
+    "meta": {
+      "width": 1576,
+      "height": 1181,
+      "patient_identifier_if_available": "004-008-1089",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 411,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_004-008-1330-01_1733492594752_Maxillary_Occlusal_View.jpg",
+      "filename": "anonymous_004-008-1330-01_1733492594752_Maxillary_Occlusal_View.jpg",
+      "mouth_view": "Maxillary_Occlusal"
+    },
+    "meta": {
+      "width": 1721,
+      "height": 1290,
+      "patient_identifier_if_available": "004-008-1330",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 412,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_004-008-1331-00_1733493131375_Mandibular_View.jpg",
+      "filename": "anonymous_004-008-1331-00_1733493131375_Mandibular_View.jpg",
+      "mouth_view": "Mandibular"
+    },
+    "meta": {
+      "width": 1221,
+      "height": 915,
+      "patient_identifier_if_available": "004-008-1331",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 413,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_004-008-1460-00_1734088283907_Right_Lateral_View.jpg",
+      "filename": "anonymous_004-008-1460-00_1734088283907_Right_Lateral_View.jpg",
+      "mouth_view": "Right_Lateral"
+    },
+    "meta": {
+      "width": 815,
+      "height": 458,
+      "patient_identifier_if_available": "004-008-1460",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 414,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_004-008-1461-01_1734090409186_Mandibular_View.jpg",
+      "filename": "anonymous_004-008-1461-01_1734090409186_Mandibular_View.jpg",
+      "mouth_view": "Mandibular"
+    },
+    "meta": {
+      "width": 1208,
+      "height": 905,
+      "patient_identifier_if_available": "004-008-1461",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 415,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_004-008-1462-00_1734090737557_Maxillary_Occlusal_View.jpg",
+      "filename": "anonymous_004-008-1462-00_1734090737557_Maxillary_Occlusal_View.jpg",
+      "mouth_view": "Maxillary_Occlusal"
+    },
+    "meta": {
+      "width": 1600,
+      "height": 1199,
+      "patient_identifier_if_available": "004-008-1462",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 416,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_004-008-1463-01_1734099079076_Maxillary_Occlusal_View.jpg",
+      "filename": "anonymous_004-008-1463-01_1734099079076_Maxillary_Occlusal_View.jpg",
+      "mouth_view": "Maxillary_Occlusal"
+    },
+    "meta": {
+      "width": 1888,
+      "height": 1061,
+      "patient_identifier_if_available": "004-008-1463",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 417,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_004-008-1465-01_1734100929758_Mandibular_View.jpg",
+      "filename": "anonymous_004-008-1465-01_1734100929758_Mandibular_View.jpg",
+      "mouth_view": "Mandibular"
+    },
+    "meta": {
+      "width": 1439,
+      "height": 808,
+      "patient_identifier_if_available": "004-008-1465",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 418,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_004-008-1466-00_1734101348857_Maxillary_Occlusal_View.jpg",
+      "filename": "anonymous_004-008-1466-00_1734101348857_Maxillary_Occlusal_View.jpg",
+      "mouth_view": "Maxillary_Occlusal"
+    },
+    "meta": {
+      "width": 1307,
+      "height": 979,
+      "patient_identifier_if_available": "004-008-1466",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 419,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_004-008-916-01_1730381009839_Mandibular_View.jpg",
+      "filename": "anonymous_004-008-916-01_1730381009839_Mandibular_View.jpg",
+      "mouth_view": "Mandibular"
+    },
+    "meta": {
+      "width": 1365,
+      "height": 1023,
+      "patient_identifier_if_available": "004-008-916",
+      "annotation_status": "not_annotated"
+    }
+  },
+  {
+    "id": 420,
+    "data": {
+      "image": "/data/local-files/?d=fdi_detection_dataset/images/selected/anonymous_004-008-917-00_1730381332501_Maxillary_Occlusal_View.jpg",
+      "filename": "anonymous_004-008-917-00_1730381332501_Maxillary_Occlusal_View.jpg",
+      "mouth_view": "Maxillary_Occlusal"
+    },
+    "meta": {
+      "width": 1570,
+      "height": 1177,
+      "patient_identifier_if_available": "004-008-917",
+      "annotation_status": "not_annotated"
+    }
+  }
+]

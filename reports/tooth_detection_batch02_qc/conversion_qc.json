@@ -1,0 +1,123 @@
+{
+  "source": "C:\\Users\\anant\\AppData\\Local\\Temp\\icdas_inspect_intraoral_tooth_detection_v1i",
+  "destination": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\data\\detection\\batches\\batch02\\yolo_detection",
+  "copied_images": true,
+  "per_split_conversion": {
+    "train": {
+      "images": 2541,
+      "polygon_label_files": 2541,
+      "converted_label_files": 2541,
+      "converted_boxes": 42779,
+      "images_missing_polygon_labels": 0,
+      "polygon_labels_missing_images": 0,
+      "missing_label_examples": [],
+      "orphan_label_examples": []
+    },
+    "valid": {
+      "images": 246,
+      "polygon_label_files": 246,
+      "converted_label_files": 246,
+      "converted_boxes": 4153,
+      "images_missing_polygon_labels": 0,
+      "polygon_labels_missing_images": 0,
+      "missing_label_examples": [],
+      "orphan_label_examples": []
+    },
+    "test": {
+      "images": 120,
+      "polygon_label_files": 120,
+      "converted_label_files": 120,
+      "converted_boxes": 2010,
+      "images_missing_polygon_labels": 0,
+      "polygon_labels_missing_images": 0,
+      "missing_label_examples": [],
+      "orphan_label_examples": []
+    }
+  },
+  "validation": {
+    "splits": {
+      "train": {
+        "images": 2541,
+        "converted_labels": 2541,
+        "boxes": 42779,
+        "missing_labels": 0,
+        "orphan_labels": 0,
+        "bad_lines": 0
+      },
+      "valid": {
+        "images": 246,
+        "converted_labels": 246,
+        "boxes": 4153,
+        "missing_labels": 0,
+        "orphan_labels": 0,
+        "bad_lines": 0
+      },
+      "test": {
+        "images": 120,
+        "converted_labels": 120,
+        "boxes": 2010,
+        "missing_labels": 0,
+        "orphan_labels": 0,
+        "bad_lines": 0
+      }
+    },
+    "bad_lines": [],
+    "total_boxes": 48942,
+    "total_label_files": 2907,
+    "conversion_errors": 0,
+    "expected_boxes": {
+      "train": 42779,
+      "valid": 4153,
+      "test": 2010,
+      "total": 48942
+    }
+  },
+  "box_quality": {
+    "n_boxes": 48942,
+    "normalized_area": {
+      "min": 0.0003502078066432491,
+      "max": 0.11685034988892093,
+      "mean": 0.01868360708998895,
+      "median": 0.015789978023037204
+    },
+    "width": {
+      "min": 0.010988521875000101,
+      "max": 0.3189454359375,
+      "mean": 0.10277559540326432,
+      "median": 0.09793562656250004
+    },
+    "height": {
+      "min": 0.01929012343750003,
+      "max": 0.49472860156250004,
+      "mean": 0.16844432846660332,
+      "median": 0.16250920546875
+    },
+    "polygon_to_box_ratio": {
+      "min": 0.27584892656280624,
+      "max": 1.0000000000001423,
+      "mean": 0.8690691862402367,
+      "median": 0.9219066405009604
+    },
+    "aspect_ratio": {
+      "min": 1.0,
+      "max": 11.892857271795856,
+      "mean": 1.7981873039734504,
+      "median": 1.6264552601707163
+    },
+    "boundary_touching_boxes": 691,
+    "heavy_overlap_pairs_iou_ge_0.7": 2,
+    "images_with_heavy_overlap": 2,
+    "near_duplicate_box_pairs_iou_ge_0.92": 0,
+    "max_pairwise_iou": 0.7076767531739233,
+    "flagged_rows": 861
+  },
+  "duplicates": {
+    "total_images": 2907,
+    "unique_stems_before_rf_hash": 1213,
+    "stems_with_more_than_one_file": 847,
+    "extra_augmented_copies": 1694,
+    "stems_leaking_across_splits": 0,
+    "leak_examples": {}
+  },
+  "conversion_error_examples": []
+}

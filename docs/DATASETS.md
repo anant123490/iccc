@@ -1,65 +1,43 @@
-# Dataset Integration
+# Datasets
 
-## Public Datasets
+Full-mouth **detection** data and **ICDAS** tooth images are separate. See `docs/DATASET_WORKFLOW.md`.
 
-| Dataset | Labels | Access |
-|---------|--------|--------|
-| Mendeley Dental Caries | Binary/Multi | [Link](https://data.mendeley.com/datasets/5vb5tvkjb5/1) |
-| Dental Caries Kaggle | Binary | Kaggle API |
-| Tooth Segmentation | Segmentation | Various GitHub repos |
-| Oral Disease Classification | Disease class | Academic request |
+## Detection (full RGB + tooth boxes)
 
-> **Note:** Few public datasets have full ICDAS 0-6 labels. Use weak supervision or expert annotation.
+| Asset | Path |
+|-------|------|
+| 420 originals | `fdi_detection_dataset/images/selected/` |
+| Batch 01 YOLO | `fdi_detection_dataset/tooth_detector_batch01/` |
+| New photos | `data/detection/raw_images/` |
+| New boxes | `data/detection/annotations/` |
 
-## Folder Structure
+FDI numbering is not used. Folder name `fdi_detection_dataset` is historical.
 
-```
-dataset/
-├── train/0/ ... train/6/
-├── val/0/   ... val/6/
-├── test/0/  ... test/6/
-├── raw/                    # Downloads
-└── annotations.csv
-```
+## ICDAS (single tooth + grade 0–4)
 
-## annotations.csv
-
-```csv
-filename,icdas_score,split,patient_id,notes
-train/2/sample_001.jpg,2,train,P042,distinct visual change
-val/4/sample_002.jpg,4,val,P042,dentin visible
+```text
+data/icdas/
+├── train/0 .. 4/
+├── val/0 .. 4/
+├── test/0 .. 4/
+├── excluded/5 and excluded/6
+├── raw/
+├── images/
+└── annotations/annotations.csv
 ```
 
-**Important:** If `annotations.csv` exists but is older than your folders, training may ignore new images. After copying images into `train/val/test/<0-6>/`, always refresh the CSV:
+`annotations.csv` currently has ~643 rows; **image pixels are missing**. Restore files into the class folders; do not invent labels.
+
+ICDAS 5 and 6 are never remapped to 4.
+
+## Generated crops
+
+`data/tooth_crops/generated/` — detector output, not ground truth.
+
+## Public downloads
 
 ```bash
-python ml/scripts/sync_annotations.py
+python tools/ingest/download_datasets.py --dataset dental_caries
 ```
 
-The loader uses folder paths automatically when folders contain more images than the CSV lists for that split.
-
-## Download Scripts
-
-```bash
-python scripts/download_datasets.py --dataset dental_caries
-python scripts/preprocess_dataset.py --input dataset/raw --output dataset
-```
-
-## Weak Supervision Pipeline
-
-1. Train binary caries detector on public data
-2. Run `weak_supervision_pseudo_labels()` on unlabeled images
-3. Expert review high-confidence pseudo-labels
-4. Retrain full ICDAS ordinal model
-
-## ICDAS Labeling Guide
-
-| Score | Criteria |
-|-------|----------|
-| 0 | Sound surface |
-| 1 | First visual change |
-| 2 | Distinct visual change in enamel |
-| 3 | Localized enamel breakdown |
-| 4 | Underlying dentin shadow |
-| 5 | Distinct cavity with dentin |
-| 6 | Extensive distinct cavity |
+Lesion `d`/`D` public boxes are **not** ICDAS and **not** whole-tooth GT.

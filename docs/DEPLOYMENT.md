@@ -1,45 +1,37 @@
 # Deployment Guide
 
-## PWA Production Build
+## Streamlit + FastAPI
 
 ```bash
-cd frontend
-npm run build
-# Serve dist/ with any static host or Docker
+cd app/backend
+uvicorn app.main:app --host 0.0.0.0 --port 8000
+
+streamlit run app/frontend/streamlit_app.py --server.port 8501
 ```
 
-## Docker Full Stack
+## Docker
 
 ```bash
 docker compose up --build
-# Frontend: http://localhost:3000
-# Backend:  http://localhost:8000
 ```
 
-## Edge Optimization Checklist
+- UI: http://localhost:8501
+- Backend: http://localhost:8000
 
-- [ ] Run `python ml/export.py --quantize`
-- [ ] Verify `export_report.json`: p95 < 1000ms, size < 20MB
-- [ ] Copy TF.js model to `frontend/public/models/`
-- [ ] Test on low-end Android (Chrome DevTools throttling)
+Compose mounts `models/` read-only. ICDAS production weights are `models/icdas/current/deploy.keras` (5-class softmax). If that file is missing, the API reports ICDAS as not trained/deployed. Historical stale ordinal checkpoints are not used.
 
-## Mobile TFLite (Native Wrapper)
+## Optional export
 
-Use `models/model.tflite` with:
-- Android: TensorFlow Lite Interpreter
-- iOS: TensorFlowLiteSwift
+```bash
+python ml/export.py --checkpoint ../models/icdas/current/<experiment>/best.keras --quantize
+```
 
 ## Security
 
-- All inference local by default
-- AES-GCM encryption for IndexedDB (Settings → Encrypt)
-- Consent screen on first launch
-- No telemetry or cloud upload
+- Groq only explains a grade already produced by the CNN.
+- Secrets stay in `.env`.
+- This API does not currently require JWT.
 
-## CI/CD
+## CI
 
-GitHub Actions runs on push to `main`:
-- ML unit tests
-- Backend API tests
-- Frontend build + lint
-- Docker image build
+GitHub Actions: `ml/tests`, `app/backend/tests`, Docker build of the backend image.

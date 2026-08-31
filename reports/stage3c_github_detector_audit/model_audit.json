@@ -1,0 +1,39 @@
+{
+  "repo": "https://github.com/KOUSHIK-9/Tooth-Detection-Using-Yolo",
+  "date": "2026-08-26",
+  "github_license_api": null,
+  "license_status": "UNKNOWN",
+  "yolo11n_pt": {
+    "in_github_tree": true,
+    "size_bytes": 5613764,
+    "interpretation": "A_standard_ultralytics_yolo11n_coco_base",
+    "tooth_trained": false,
+    "locally_available": false,
+    "status": "WEIGHT_NOT_LOCALLY_AVAILABLE",
+    "downloaded_this_audit": false
+  },
+  "yolov8s_pt": {
+    "in_github_tree": true,
+    "size_bytes": 22588772,
+    "interpretation": "likely_stock_yolov8s_coco",
+    "tooth_trained": false
+  },
+  "unpublished_tooth_checkpoint": {
+    "notebook_path": "runs/detect/train4/weights/best.pt",
+    "size_noted_in_notebook": "16.6MB",
+    "base_model_in_notebook": "yolov10s.pt",
+    "in_github_tree": false
+  },
+  "data_yaml_classes": 32,
+  "class_scheme": "FDI-named tooth types (not generic class 0 tooth)",
+  "train_images_notebook_scan": 496,
+  "val_images_notebook_scan": 201,
+  "imgsz": 640,
+  "inference_5_images": false,
+  "remap_fdi_boxes_to_class_0": "technically possible IF tooth-trained weights existed; not performed",
+  "verdict": "REJECTED",
+  "icdas_modified": false,
+  "fdi_generated": false,
+  "tooth_gt_boxes": 0,
+  "models_trained": false
+}

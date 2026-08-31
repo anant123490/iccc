@@ -10,8 +10,9 @@ services:
     volumes:
       - ./models:/app/models:ro
     environment:
-      - MODEL_PATH=/app/models/best.keras
-      - ICDAS_CLASSES=7
+      - ICDAS_MODEL_PATH=/app/models/icdas/current/deploy.keras
+      - ICDAS_DEPLOY_MODEL_PATH=/app/models/icdas/current/deploy.keras
+      - ICDAS_NUM_CLASSES=5
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8000/api/v1/health"]
       interval: 30s
@@ -23,16 +24,18 @@ services:
       context: .
       dockerfile: docker/Dockerfile.frontend
     ports:
-      - "3000:80"
+      - "8501:8501"
     depends_on:
       - backend
+    environment:
+      - BACKEND_URL=http://backend:8000
 
   ml-train:
     build:
       context: .
       dockerfile: docker/Dockerfile.ml
     volumes:
-      - ./dataset:/app/dataset
+      - ./data/icdas:/app/data/icdas
       - ./models:/app/models
     profiles:
       - train

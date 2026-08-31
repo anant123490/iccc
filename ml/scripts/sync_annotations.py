@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Rebuild dataset/annotations.csv from train/val/test folder layout.
+Rebuild data/icdas/annotations/annotations.csv from train/val/test folder layout.
 
 Only ICDAS 0–4 are accepted. Extra class folders fail validation.
 """
@@ -16,7 +16,7 @@ sys.path.insert(0, str(ROOT / "ml"))
 from src.dataset import DatasetValidationError, discover_images_from_folders, validate_dataset_layout
 from src.icdas import NUM_CLASSES
 
-DATASET_ROOT = ROOT / "dataset"
+DATASET_ROOT = ROOT / "data" / "icdas"
 
 
 def main():
@@ -34,11 +34,12 @@ def main():
         return 1
 
     if df.empty:
-        print("No images found under dataset/train|val|test/<0-4>/.")
+        print("No images found under data/icdas/train|val|test/<0-4>/.")
         print("Add images first, then run this script again.")
+        print("Existing data/icdas/annotations/annotations.csv was not overwritten.")
         return 0
 
-    out = DATASET_ROOT / "annotations.csv"
+    out = DATASET_ROOT / "annotations" / "annotations.csv"
     df.to_csv(out, index=False)
     counts = df.groupby(["split", "icdas_score"]).size().unstack(fill_value=0)
     print(f"Wrote {len(df)} rows to {out}")

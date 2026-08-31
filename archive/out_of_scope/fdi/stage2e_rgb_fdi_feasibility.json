@@ -1,0 +1,271 @@
+{
+  "stage": "2E",
+  "title": "Existing RGB dataset FDI annotation feasibility audit",
+  "date": "2026-08-26",
+  "scope": "READ-ONLY inspection of datasets already on disk. No labeling, training, merging, or modification of images/annotations/models/app.",
+  "clinical_separation": {
+    "fdi": "tooth identity",
+    "icdas": "caries severity 0-4",
+    "zenodo_d_D": "primary vs permanent decay DETECTION only; not ICDAS; not FDI"
+  },
+  "most_important_finding": "FDI NOT CURRENTLY AVAILABLE. Existing boxes are lesion boxes, not whole-tooth boxes. Existing ICDAS scores are not FDI.",
+  "questions": {
+    "q1_tooth_detector_with_existing_annotations": "NO",
+    "q2_realistic_manual_fdi_on_existing_rgb": "NO as conversion of existing boxes; POSSIBLY only after new whole-tooth boxes plus dentist FDI on a subset",
+    "q3_teeth_needing_manual_fdi": {
+      "existing_whole_tooth_instances": 0,
+      "if_labeling_existing_lesion_boxes": "NOT APPLICABLE — those boxes are lesions, not teeth",
+      "estimate_if_boxing_all_6265_zenodo_views": {
+        "value": 67679,
+        "marked_as": "ESTIMATE",
+        "method": "view counts times assumed visible teeth: retractor occlusal 1100*14; no-retractor occlusal 1102*12; pilot occlusal 303*13; frontal 1259*12; laterals 2501*8"
+      },
+      "estimate_if_only_retractor_occlusal": {
+        "images": 1100,
+        "teeth": 15400,
+        "marked_as": "ESTIMATE",
+        "method": "551 maxillary occlusal + 549 mandibular under retractors, assume 14 visible teeth per image"
+      }
+    },
+    "q4_practical_for_major_project": "NO as the primary path to 32-class FDI",
+    "q5_recommended_next_action": "C_pursue_legitimate_FDTooth_access",
+    "q5_maps_to_strategy": "STRATEGY_D"
+  },
+  "recommended_strategy": {
+    "code": "D",
+    "name": "Existing data is insufficient for FDI; continue legitimate FDTooth / PhysioNet credentialing",
+    "why": "Local RGB has no whole-tooth localization and no FDI. Converting Zenodo d/D boxes into FDI would be scientifically invalid. Boxing and FDI-labeling ~6,265 full-mouth photos is not a reasonable student-project workload. Stage 2D already identified FDTooth as the only verified RGB + whole-tooth + FDI source (restricted, anterior-only).",
+    "not_chosen": {
+      "A": "There are no existing whole-tooth boxes to attach FDI to.",
+      "B": "Partial FDI on lesion boxes is still the wrong object. Additional acquisition would still be required after first drawing tooth boxes.",
+      "C": "New collection is likely needed later for 32-class coverage, but is not the highest-value immediate next step given a documented restricted FDI RGB set.",
+      "E": "Long-term combination (FDTooth + later posterior RGB + Zenodo lesion-only) is plausible, but the single next action is credentialed FDTooth access, not merging datasets now."
+    }
+  },
+  "feasibility": {
+    "tooth_detection_existing_annotations": "NO",
+    "tooth_detection_if_new_whole_tooth_boxes_drawn": "POSSIBLY — 6,265 RGB intraoral frames exist, but that is new annotation work, not reuse of current boxes",
+    "fdi_identification_existing_labels": "NO",
+    "fdi_after_manual_labeling": "POSSIBLY for anterior/occlusal subsets with a dentist; NO as a balanced 32-class dataset from this repo alone without large new annotation"
+  },
+  "datasets_inventoried": [
+    {
+      "id": "zenodo_14827784",
+      "name": "Annotated intraoral image dataset for dental caries detection",
+      "path": "data_external/detection/",
+      "source_url": "https://zenodo.org/records/14827784",
+      "doi": "10.5281/zenodo.14827784",
+      "license_documented": "CC BY 4.0",
+      "license_status": "DOCUMENTED_IN_REPO",
+      "research_use": "CC BY 4.0 typically permits research use with attribution; this is not legal advice",
+      "manual_derivative_annotations": "Attribution-required derivatives are commonly allowed under CC BY 4.0; not a legal determination",
+      "images": {
+        "total": 6265,
+        "extensions": {".jpg": 6265},
+        "color": "RGB (all 6265; 0 grayscale)",
+        "dimensions_px": {"min_width": 617, "max_width": 4080, "min_height": 347, "max_height": 3206},
+        "intraoral": "YES — clinical intraoral photographs",
+        "view_type": "full-mouth / arch / lateral segments, not single-tooth crops",
+        "quality": "Generally high; flash highlights; variable resolution; laterals often shallow DOF",
+        "protocols": {"no_retractors": 2752, "pilot": 760, "retractors": 2753},
+        "views": {
+          "Frontal": 1259,
+          "Left_Lateral": 1249,
+          "Mandibular": 1251,
+          "Maxillary_Occlusal": 1254,
+          "Right_Lateral": 1252
+        },
+        "protocol_x_view": {
+          "no_retractors": {"Frontal": 550, "Left_Lateral": 550, "Mandibular": 551, "Maxillary_Occlusal": 551, "Right_Lateral": 550},
+          "pilot": {"Frontal": 156, "Left_Lateral": 149, "Mandibular": 151, "Maxillary_Occlusal": 152, "Right_Lateral": 152},
+          "retractors": {"Frontal": 553, "Left_Lateral": 550, "Mandibular": 549, "Maxillary_Occlusal": 551, "Right_Lateral": 550}
+        }
+      },
+      "annotations": {
+        "formats": ["Darknet YOLO", "Pascal VOC XML", "COCO JSON"],
+        "yolo_files": 2245,
+        "voc_files": 2245,
+        "coco_files": 3,
+        "yolo_instance_lines": 6782,
+        "coco_bbox_count": 6728,
+        "images_with_annotations": 2227,
+        "images_without_annotations": 4038,
+        "empty_yolo_files": 65,
+        "invalid_boxes_stage2c": 84,
+        "annotation_files_missing_image_stage2c": 36,
+        "classes": {
+          "D": {"count_voc_or_yolo0": 6174, "meaning": "permanent-tooth decay lesion detection"},
+          "d": {"count_voc_or_yolo1": 554, "meaning": "primary-tooth decay lesion detection"}
+        },
+        "whole_tooth_boxes": 0,
+        "tooth_segmentation": 0,
+        "tooth_masks": 0,
+        "fdi_id": "NOT AVAILABLE",
+        "note": "Do not count lesion annotations as tooth annotations. COCO test.json category ids are inverted vs train/valid (Stage 2C)."
+      },
+      "coco_splits": {
+        "train": {"images": 1781, "annotations": 5386, "category_id_1": "d", "category_id_2": "D"},
+        "valid": {"images": 214, "annotations": 652, "category_id_1": "d", "category_id_2": "D"},
+        "test": {"images": 232, "annotations": 690, "note": "category ids inverted: id 1 = D, id 2 = d"}
+      },
+      "patient_like_ids": {
+        "pattern": "anonymous_(\\d{3}-\\d{3}-\\d+)",
+        "unique_ids": 889,
+        "images_matching": 4356,
+        "images_without_pattern": 1909,
+        "photos_per_id_mode": {"5": 852, "4": 11, "3": 8, "2": 10, "1": 8},
+        "patient_level_split_possible": "POSSIBLY for the 889 parsed IDs; not verified as true patient IDs; 1909 images lack this pattern"
+      }
+    },
+    {
+      "id": "local_icdas_csv_ghost",
+      "name": "dataset/annotations.csv (ICDAS crop index without pixels)",
+      "path": "dataset/annotations.csv",
+      "license_documented": "NOT VERIFIED for the missing image files",
+      "images_on_disk": 0,
+      "rows": 643,
+      "columns": ["filename", "icdas_score", "split"],
+      "icdas_score_counts": {"0": 76, "1": 145, "2": 118, "3": 121, "4": 183},
+      "split_counts": {"train": 440, "val": 110, "test": 93},
+      "rows_with_anonymous_id": 430,
+      "unique_anonymous_ids_in_csv": 142,
+      "fdi_id": "NOT AVAILABLE",
+      "note": "Filenames look like tooth crops from mandibular/maxillary/lateral views. ICDAS 0-4 is caries severity, not tooth identity. Files are missing; cannot annotate FDI on absent pixels."
+    },
+    {
+      "id": "local_excluded",
+      "name": "dataset/excluded/",
+      "path": "dataset/excluded/",
+      "images": 16,
+      "excluded_5": {
+        "count": 11,
+        "type": "RGB photos, often tight tooth/lesion crops; some appear to be photos of a screen",
+        "whole_tooth_boxes": 0,
+        "fdi_id": "NOT AVAILABLE",
+        "fdi_feasibility": "Poor — insufficient arch landmarks"
+      },
+      "excluded_6": {
+        "count": 5,
+        "type": "ChatGPT-generated PNG images",
+        "fdi_id": "NOT AVAILABLE",
+        "recommendation": "Exclude from clinical FDI/detection training"
+      }
+    },
+    {
+      "id": "cropped_teeth",
+      "path": "cropped_teeth/images/",
+      "tooth_crops": 0,
+      "contents": ".gitkeep only",
+      "traceable_to_full_mouth": false,
+      "source_boxes": false,
+      "manifest": false
+    },
+    {
+      "id": "labels",
+      "path": "labels/",
+      "contents": ".gitkeep only",
+      "labels_csv": false,
+      "fdi_id": "NOT AVAILABLE"
+    }
+  ],
+  "not_present_on_disk": [
+    "dataset/train",
+    "dataset/val",
+    "dataset/test image trees",
+    "AlphaDent",
+    "FDTooth",
+    "COde image pack",
+    "Teeth3DS"
+  ],
+  "fdi_coverage_32": {
+    "11": {"status": "NOT VERIFIED", "evidence": "No FDI field in any local annotation. Occlusal/frontal photos may show maxillary anteriors; identity not proven."},
+    "12": {"status": "NOT VERIFIED", "evidence": "FDI NOT CURRENTLY AVAILABLE"},
+    "13": {"status": "NOT VERIFIED", "evidence": "FDI NOT CURRENTLY AVAILABLE"},
+    "14": {"status": "NOT VERIFIED", "evidence": "FDI NOT CURRENTLY AVAILABLE"},
+    "15": {"status": "NOT VERIFIED", "evidence": "FDI NOT CURRENTLY AVAILABLE"},
+    "16": {"status": "NOT VERIFIED", "evidence": "FDI NOT CURRENTLY AVAILABLE"},
+    "17": {"status": "NOT VERIFIED", "evidence": "FDI NOT CURRENTLY AVAILABLE"},
+    "18": {"status": "NOT VERIFIED", "evidence": "FDI NOT CURRENTLY AVAILABLE"},
+    "21": {"status": "NOT VERIFIED", "evidence": "FDI NOT CURRENTLY AVAILABLE"},
+    "22": {"status": "NOT VERIFIED", "evidence": "FDI NOT CURRENTLY AVAILABLE"},
+    "23": {"status": "NOT VERIFIED", "evidence": "FDI NOT CURRENTLY AVAILABLE"},
+    "24": {"status": "NOT VERIFIED", "evidence": "FDI NOT CURRENTLY AVAILABLE"},
+    "25": {"status": "NOT VERIFIED", "evidence": "FDI NOT CURRENTLY AVAILABLE"},
+    "26": {"status": "NOT VERIFIED", "evidence": "FDI NOT CURRENTLY AVAILABLE"},
+    "27": {"status": "NOT VERIFIED", "evidence": "FDI NOT CURRENTLY AVAILABLE"},
+    "28": {"status": "NOT VERIFIED", "evidence": "FDI NOT CURRENTLY AVAILABLE"},
+    "31": {"status": "NOT VERIFIED", "evidence": "FDI NOT CURRENTLY AVAILABLE"},
+    "32": {"status": "NOT VERIFIED", "evidence": "FDI NOT CURRENTLY AVAILABLE"},
+    "33": {"status": "NOT VERIFIED", "evidence": "FDI NOT CURRENTLY AVAILABLE"},
+    "34": {"status": "NOT VERIFIED", "evidence": "FDI NOT CURRENTLY AVAILABLE"},
+    "35": {"status": "NOT VERIFIED", "evidence": "FDI NOT CURRENTLY AVAILABLE"},
+    "36": {"status": "NOT VERIFIED", "evidence": "FDI NOT CURRENTLY AVAILABLE"},
+    "37": {"status": "NOT VERIFIED", "evidence": "FDI NOT CURRENTLY AVAILABLE"},
+    "38": {"status": "NOT VERIFIED", "evidence": "FDI NOT CURRENTLY AVAILABLE"},
+    "41": {"status": "NOT VERIFIED", "evidence": "FDI NOT CURRENTLY AVAILABLE"},
+    "42": {"status": "NOT VERIFIED", "evidence": "FDI NOT CURRENTLY AVAILABLE"},
+    "43": {"status": "NOT VERIFIED", "evidence": "FDI NOT CURRENTLY AVAILABLE"},
+    "44": {"status": "NOT VERIFIED", "evidence": "FDI NOT CURRENTLY AVAILABLE"},
+    "45": {"status": "NOT VERIFIED", "evidence": "FDI NOT CURRENTLY AVAILABLE"},
+    "46": {"status": "NOT VERIFIED", "evidence": "FDI NOT CURRENTLY AVAILABLE"},
+    "47": {"status": "NOT VERIFIED", "evidence": "FDI NOT CURRENTLY AVAILABLE"},
+    "48": {"status": "NOT VERIFIED", "evidence": "FDI NOT CURRENTLY AVAILABLE"}
+  },
+  "fdi_classes_verified_present": 0,
+  "fdi_classes_possibly_present_without_identity_proof": "Visual arch photos exist; do not treat position as verified FDI",
+  "manual_effort": {
+    "rgb_intraoral_usable_pixels": 6265,
+    "additional_local_rgb_not_recommended_for_fdi": 16,
+    "ghost_csv_crops": 643,
+    "images_requiring_fdi_if_using_zenodo_frames": 6265,
+    "existing_tooth_instances_requiring_fdi": 0,
+    "estimated_new_tooth_instances_all_views": 67679,
+    "images_easy_estimate": {
+      "count": 1100,
+      "marked_as": "ESTIMATE",
+      "definition": "retractors Maxillary_Occlusal (551) + retractors Mandibular (549); sampled occlusal shows full single-jaw arch"
+    },
+    "images_medium_estimate": {
+      "count": 303,
+      "marked_as": "ESTIMATE",
+      "definition": "pilot Maxillary_Occlusal (152) + pilot Mandibular (151); same views as easy set but smaller/pilot protocol"
+    },
+    "images_ambiguous_estimate": {
+      "count": 4862,
+      "marked_as": "ESTIMATE",
+      "definition": "all laterals 2501 + all frontals 1259 + no_retractors occlusal 1102 (551 mandibular + 551 maxillary); overlap, missing landmarks, or two jaws. 1100+303+4862=6265."
+    },
+    "images_probably_exclude_from_standalone_fdi": {
+      "chatgpt": 5,
+      "tight_excluded_5_crops": 11,
+      "laterals_if_no_paired_arch": 2501,
+      "note": "Laterals can still help if linked by the same anonymous ID to occlusal/frontal; they are poor as the only view"
+    },
+    "workload": "High. Existing boxes cannot be relabeled as FDI. New whole-tooth boxes plus FDI on 6,265 images is not practical. Even the 1,100 easier occlusal frames imply ESTIMATE ~15,400 tooth labels."
+  },
+  "position_analysis": {
+    "do_not_auto_assign_fdi": true,
+    "frontal": "Anterior sequence often readable; posterior out of focus; crowding/missing teeth add ambiguity; left/right is viewer-relative and must not be guessed as FDI without a dentist and mirroring policy",
+    "occlusal": "Best single-jaw ordering; third molars may be absent; tight contacts overlap boxes",
+    "lateral": "Quadrant-ish; overlapping crowns; exact FDI unstable without paired arch view",
+    "mirroring": "NOT VERIFIED; no metadata stating whether images are mirrored",
+    "complete_arch": "Common on retractor occlusal samples; not guaranteed",
+    "existing_lesion_box_order": "Lesion boxes do not enumerate teeth and must not be used as tooth order"
+  },
+  "summary_table": {
+    "RGB intraoral images": 6265,
+    "Whole-tooth annotated images": 0,
+    "Whole-tooth instances": 0,
+    "Bounding boxes": "6728 lesion boxes (not whole-tooth)",
+    "Segmentation": "none for teeth; COCO segmentation empty",
+    "Existing FDI labels": "NOT AVAILABLE",
+    "FDI classes verified": 0,
+    "Potential FDI classes": "NOT VERIFIED (32 classes unproven)",
+    "Images requiring manual FDI": 6265,
+    "Teeth requiring manual FDI": "0 existing; ESTIMATE ~67679 if boxing all views",
+    "Detection feasibility": "NO",
+    "FDI feasibility": "NO with current labels; POSSIBLY only after large new annotation",
+    "Manual annotation burden": "High / not practical as primary path",
+    "Recommended strategy": "D (pursue legitimate FDTooth access)"
+  }
+}

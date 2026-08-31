@@ -1,0 +1,18 @@
+# Stage 3B dataset paths for a future YOLO detector.
+# Annotation folders are empty of tooth boxes on purpose.
+# Do not train until Stage 3C+ produces real labels.
+# Paths are relative to this file's parent (fdi_detection_dataset/).
+
+path: .
+
+train: splits/train.txt
+val: splits/val.txt
+test: splits/test.txt
+
+nc: 1
+names:
+  0: tooth
+
+# Images live in images/selected/ (see split txt relative paths from repo root).
+# YOLO empty labels: annotations/yolo/
+# COCO placeholder: annotations/coco/instances_placeholder.json

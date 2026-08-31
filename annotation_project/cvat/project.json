@@ -1,0 +1,14 @@
+{
+  "name": "iccc_whole_tooth_detection",
+  "labels": [
+    {
+      "name": "tooth",
+      "id": 0,
+      "color": "#E63946",
+      "type": "rectangle",
+      "attributes": []
+    }
+  ],
+  "bug_tracker": "",
+  "note": "Stage 3B infrastructure only. No tooth boxes preloaded. No FDI classes."
+}

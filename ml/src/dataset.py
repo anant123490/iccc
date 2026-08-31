@@ -37,6 +37,8 @@ def discover_images_from_folders(
             train|val|test/
                 0/ 1/ 2/ 3/ 4/
 
+    (canonical root: data/icdas/)
+
     Raises DatasetValidationError if any split contains a class directory
     other than 0–4. ICDAS 5/6 images must not be folded into class 4.
     """
@@ -75,7 +77,7 @@ def discover_images_from_folders(
                 f"Unsupported class directories in {split_dir}: {sorted(extra_dirs)}. "
                 f"This project supports only ICDAS {', '.join(VALID_CLASS_NAMES)}. "
                 "Do not move ICDAS 5 or 6 images into class 4. "
-                "Relocate them outside train/val/test (for example dataset/excluded/)."
+                "Relocate them outside train/val/test (for example data/icdas/excluded/)."
             )
 
     return pd.DataFrame(records)
@@ -234,13 +236,18 @@ class DentalCariesDataset:
             target_size=self.image_size,
             **self.preprocess_cfg,
         )
-        image = np.clip(image, 0.0, 1.0)
-        image_uint8 = (image * 255.0).astype(np.uint8)
+        # preprocess_image returns RGB float32 [0, 255].
+        image = np.clip(image, 0.0, 255.0)
+        image_uint8 = image.astype(np.uint8)
 
         if self.augment:
             image_uint8 = self.aug(image=image_uint8)["image"]
 
-        image = image_uint8.astype(np.float32) / 255.0
+        image = np.clip(
+            image_uint8.astype(np.float32),
+            0.0,
+            255.0,
+        )
         label = int(row["icdas_score"])
         if label < 0 or label >= self.num_classes:
             raise DatasetValidationError(

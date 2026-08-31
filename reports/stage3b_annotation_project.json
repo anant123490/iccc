@@ -1,0 +1,78 @@
+{
+  "stage": "3B",
+  "title": "Whole-tooth annotation project preparation",
+  "date": "2026-08-26",
+  "clinical_note": "No tooth boxes generated. No FDI generated. ICDAS unmodified. No training.",
+  "stage3a_verification": {
+    "selected_dir": "fdi_detection_dataset/images/selected",
+    "selected_images": 420,
+    "selected_expected": 420,
+    "mismatch": false,
+    "review_dir": "fdi_detection_dataset/images/review",
+    "review_images": 80,
+    "coco_placeholder": "fdi_detection_dataset/annotations/coco/instances_placeholder.json",
+    "yolo_placeholder_files": 420
+  },
+  "class_configuration": {
+    "name": "tooth",
+    "id": 0,
+    "nc": 1,
+    "fdi_classes": 0,
+    "files": [
+      "fdi_detection_dataset/classes.txt",
+      "fdi_detection_dataset/classes.json",
+      "fdi_detection_dataset/classes.yaml",
+      "annotation_project/classes.txt",
+      "annotation_project/classes.json",
+      "annotation_project/classes.yaml"
+    ]
+  },
+  "readiness": {
+    "cvat": true,
+    "label_studio": true,
+    "coco": true,
+    "yolo": true,
+    "docker_required_in_repo": false
+  },
+  "batches": {
+    "count": 7,
+    "images_per_batch": 60,
+    "view_balance": "12 images per mouth view per batch",
+    "images_duplicated": false
+  },
+  "splits": {
+    "train": 294,
+    "val": 63,
+    "test": 63,
+    "method": "patient identifier groups when present, else one group per image; greedy fill 70/15/15",
+    "patient_id_overlap_train_val": 0,
+    "patient_id_overlap_train_test": 0,
+    "patient_id_overlap_val_test": 0,
+    "images_moved": false
+  },
+  "tooth_boxes_generated": false,
+  "fdi_labels_generated": false,
+  "icdas_modified": false,
+  "models_trained": false,
+  "next_stage": "Stage 3C — Whole-Tooth Bounding Box Annotation",
+  "files_created": [
+    "TOOTH_ANNOTATION_GUIDELINES.md",
+    "ANNOTATION_QC_CHECKLIST.md",
+    "README_STAGE3B.md",
+    "STAGE3B_ANNOTATION_PROJECT_REPORT.md",
+    "reports/stage3b_annotation_project.json",
+    "fdi_detection_dataset/dataset.yaml",
+    "fdi_detection_dataset/classes.txt",
+    "fdi_detection_dataset/classes.json",
+    "fdi_detection_dataset/classes.yaml",
+    "fdi_detection_dataset/splits/",
+    "annotation_project/cvat/",
+    "annotation_project/label_studio/",
+    "annotation_project/manifests/",
+    "annotation_batches/Batch_01 through Batch_07",
+    "tools/visualize_annotations.py",
+    "tools/voc_to_yolo.py",
+    "tools/yolo_to_coco.py",
+    "tools/coco_to_yolo.py"
+  ]
+}

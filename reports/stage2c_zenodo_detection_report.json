@@ -1,0 +1,91 @@
+{
+  "stage": "2C",
+  "date": "2026-08-26",
+  "purpose": "Acquire and inspect Zenodo 10.5281/zenodo.14827784 for a future detect-then-crop pipeline. No training. No ICDAS mapping.",
+  "clinical_note": "d/D = detection labels only; NOT ICDAS 0-4.",
+  "source": {
+    "title": "Annotated intraoral image dataset for dental caries detection",
+    "doi": "10.5281/zenodo.14827784",
+    "url": "https://zenodo.org/records/14827784",
+    "access": "open",
+    "license": "cc-by-4.0",
+    "paper": "10.1038/s41597-025-05647-9",
+    "claimed_images": 6313,
+    "claimed_classes": ["d", "D"],
+    "class_meaning": {
+      "d": "primary-tooth decay (detection class, not ICDAS)",
+      "D": "permanent-tooth decay (detection class, not ICDAS)"
+    }
+  },
+  "download": {
+    "canonical_file": "Dataset.zip",
+    "bytes": 1576115314,
+    "md5": "89307871ac2f08f4a8f3a7da1f18db31",
+    "md5_ok": true,
+    "verified_path": "C:\\Users\\anant\\AppData\\Local\\Temp\\zenodo_14827784_Dataset.zip",
+    "skipped": ["Benchmarking Dataset.zip"],
+    "skip_reason": "Duplicate images plus train/val/test splits; canonical tree is Dataset.zip"
+  },
+  "layout": {
+    "raw": "data_external/detection/raw/",
+    "yolo": "data_external/detection/annotations/yolo/",
+    "pascal_voc": "data_external/detection/annotations/pascal-voc/",
+    "ms_coco": "data_external/detection/annotations/ms_coco/",
+    "labelme": "not extracted (duplicate of boxes; YOLO kept as working format)",
+    "manifest_csv": "data_external/detection/manifest.csv",
+    "manifest_jsonl": "data_external/detection/manifest.jsonl"
+  },
+  "inspection": {
+    "total_images": 6265,
+    "claimed_minus_found": 48,
+    "extensions": {".jpg": 6265},
+    "rgb_count": 6265,
+    "non_rgb_count": 0,
+    "grayscale_count": 0,
+    "xray_like_grayscale": 0,
+    "corrupted_count": 0,
+    "min_width": 617,
+    "max_width": 4080,
+    "min_height": 347,
+    "max_height": 3206,
+    "duplicate_stems": 0,
+    "duplicate_content_groups": 0,
+    "yolo_files": 2245,
+    "voc_files": 2245,
+    "coco_json_files": 3,
+    "images_with_annotations": 2227,
+    "images_without_annotations": 4038,
+    "annotation_files_missing_image": 36,
+    "malformed_annotation_issues": 0,
+    "invalid_boxes": 84,
+    "empty_label_files": 126,
+    "bounding_box_count": 6728,
+    "voc_class_counts": {"D": 6174, "d": 554},
+    "yolo_class_id_counts": {"0": 6174, "1": 554},
+    "yolo_id_to_name_verified_against_voc": {"0": "D", "1": "d"},
+    "coco_note": "train.json and valid.json use category id 1=d, 2=D. test.json inverts ids (1=D, 2=d). Do not trust COCO category ids without split-specific mapping."
+  },
+  "iccc_verdicts": {
+    "rgb_intraoral_detection": "YES",
+    "tooth_crop_from_boxes": "YES_WITH_CAVEAT",
+    "tooth_crop_caveat": "Boxes are decay lesions, not whole-tooth or FDI tooth-instance masks.",
+    "fdi_numbering": "NO",
+    "icdas_0_4": "NO",
+    "immediate_icdas_training": "NO"
+  },
+  "future_crop_pipeline_notes": [
+    "Restrict detector/crop work to the 2227 images that have YOLO/VOC labels; 4038 JPGs have no boxes.",
+    "Treat boxes as caries lesions. Pad crops; do not assume a crop is a full clinical tooth crown.",
+    "Drop or clip the 84 YOLO boxes with normalized coordinates outside [0,1] (example: center-y > 1).",
+    "Skip empty label files (126) rather than treating them as negatives unless a later protocol defines unlabeled views as ICDAS 0 (they must not).",
+    "Map Darknet YOLO id 0 -> D and id 1 -> d. Do not use COCO category ids from test.json without remapping.",
+    "Expect mixed views (Frontal, Left/Right lateral, Maxillary occlusal, Mandibular) and mixed retractor conditions.",
+    "Resolutions vary widely (about 617-4080 px); letterbox/resize at train time, do not assume a fixed camera.",
+    "Do not copy these files into dataset/train|val|test.",
+    "Do not map d or D to ICDAS 0-4."
+  ],
+  "stop": true,
+  "training_performed": false,
+  "application_modified": false,
+  "models_modified": false
+}

@@ -1,0 +1,2 @@
+name,path,images,label,note
+iccc_whole_tooth,fdi_detection_dataset/images/selected,420,tooth,Empty labels. Import images only. Do not import Zenodo d/D lesions.

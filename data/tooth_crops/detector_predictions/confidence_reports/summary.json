@@ -1,0 +1,24 @@
+{
+  "images_processed": 360,
+  "batch01_excluded": 60,
+  "zero_teeth": [],
+  "fewer_than_8": [],
+  "more_than_24": [
+    "anonymous_003-007-1215-01_1732863751319_Left_Lateral_View.jpg",
+    "anonymous_003-008-647-01_1729163338710_Mandibular_View.jpg"
+  ],
+  "total_detections": 5493,
+  "average_detections_per_image": 15.258333333333333,
+  "mean_confidence": 0.5447337446198879,
+  "confidence_histogram_0.1": {
+    "0.2": 497,
+    "0.3": 969,
+    "0.4": 1168,
+    "0.5": 860,
+    "0.6": 652,
+    "0.7": 610,
+    "0.8": 538,
+    "0.9": 199
+  },
+  "note": "CANDIDATE detections only. Not ground truth. No FDI. No ICDAS. Originals not modified."
+}

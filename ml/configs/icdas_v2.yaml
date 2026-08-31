@@ -1,0 +1,31 @@
+# ICDAS v2 training — uses ONLY dentist labels in data/icdas/labeling_v2/final.
+# Does not overwrite historical keras files or models/icdas/current/ until approved.
+
+experiment_name: "icdas_mobilenet_cbam_v2"
+dataset_root: "data/icdas/labeling_v2/final"
+overwrite_root_checkpoints: false
+
+num_classes: 5
+image_size: 224
+batch_size: 8
+backbone: "MobileNetV3Small"
+use_attention: "cbam"
+dropout: 0.30
+pretrained: true
+ordinal_regression: false
+loss: "sparse_categorical_crossentropy"
+learning_rate: 0.0001
+fine_tune_learning_rate: 0.00001
+weight_decay: 0.0001
+head_epochs: 20
+fine_tune_epochs: 30
+fine_tune_layers: 20
+augmentation: true
+use_roi_detection: false
+use_clahe: false
+use_specular_reduction: false
+color_normalize: false
+early_stopping_patience: 8
+reduce_lr_patience: 3
+confidence_threshold: 0.55
+mobilenet_input_range: "0-255"

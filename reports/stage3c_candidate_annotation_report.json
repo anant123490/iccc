@@ -1,0 +1,16 @@
+{
+  "generated_at": "2026-08-26T15:27:00+00:00",
+  "status": "NOT_RUN",
+  "reason": "SEED MODEL NOT READY FOR PSEUDO-LABELING",
+  "remaining_images_processed": 0,
+  "candidate_boxes_generated": 0,
+  "zero_detection_images": 0,
+  "low_confidence_detections": 0,
+  "suspicious_images": 0,
+  "images_requiring_human_qc": 0,
+  "candidate_yolo_written": false,
+  "candidate_coco_written": false,
+  "candidate_voc_written": false,
+  "visualizations_written": false,
+  "note": "Candidates are not ground truth. None were generated."
+}

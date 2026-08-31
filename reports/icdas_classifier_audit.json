@@ -1,0 +1,204 @@
+{
+  "labeled_dataset": {
+    "annotations_csv_rows": 643,
+    "annotations_by_split": {
+      "train": 440,
+      "val": 110,
+      "test": 93
+    },
+    "annotations_by_class": {
+      "0": 76,
+      "1": 145,
+      "2": 118,
+      "3": 121,
+      "4": 183
+    },
+    "dataset_pixels_by_split_class": {
+      "train": {
+        "0": 0,
+        "1": 0,
+        "2": 0,
+        "3": 0,
+        "4": 0
+      },
+      "val": {
+        "0": 0,
+        "1": 0,
+        "2": 0,
+        "3": 0,
+        "4": 0
+      },
+      "test": {
+        "0": 0,
+        "1": 0,
+        "2": 0,
+        "3": 0,
+        "4": 0
+      }
+    },
+    "data_icdas_final_pixels": {
+      "train": {
+        "0": 0,
+        "1": 0,
+        "2": 0,
+        "3": 0,
+        "4": 0
+      },
+      "val": {
+        "0": 0,
+        "1": 0,
+        "2": 0,
+        "3": 0,
+        "4": 0
+      },
+      "test": {
+        "0": 0,
+        "1": 0,
+        "2": 0,
+        "3": 0,
+        "4": 0
+      }
+    },
+    "labeled_pixels_total": 0
+  },
+  "models": {
+    "deploy": {
+      "path": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\models\\deploy.keras",
+      "exists": true,
+      "input_shape": [
+        null,
+        224,
+        224,
+        3
+      ],
+      "output_shape": [
+        null,
+        4
+      ],
+      "output_names": [
+        "ordinal"
+      ],
+      "output_units": 4,
+      "head_kind": "ordinal_4_thresholds_icdas_0_4",
+      "n_layers": 163
+    },
+    "best": {
+      "path": "C:\\Users\\anant\\OneDrive\\Desktop\\icdas project\\models\\best.keras",
+      "exists": true,
+      "input_shape": [
+        null,
+        224,
+        224,
+        3
+      ],
+      "output_shape": [
+        null,
+        4
+      ],
+      "output_names": [
+        "ordinal"
+      ],
+      "output_units": 4,
+      "head_kind": "ordinal_4_thresholds_icdas_0_4",
+      "n_layers": 163
+    }
+  },
+  "fold_config": null,
+  "ordinal_sample_on_yolo_crops": {
+    "n": 64,
+    "raw_shape": [
+      64,
+      4
+    ],
+    "raw_mean_per_output": [
+      0.3652176856994629,
+      0.4569709897041321,
+      0.5807608962059021,
+      0.6371474266052246
+    ],
+    "raw_std_per_output": [
+      0.06392617523670197,
+      0.0323328971862793,
+      0.04074534401297569,
+      0.05936622619628906
+    ],
+    "raw_min_per_output": [
+      0.2383773773908615,
+      0.35786885023117065,
+      0.5014468431472778,
+      0.5034361481666565
+    ],
+    "raw_max_per_output": [
+      0.5209180116653442,
+      0.5248685479164124,
+      0.675055742263794,
+      0.7380105257034302
+    ],
+    "decoded_mean_per_class": [
+      0.49726271629333496,
+      0.0010027034441009164,
+      0.0,
+      0.002144359750673175,
+      0.4995902180671692
+    ],
+    "decoded_pred_counts": {
+      "0": 33,
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 31
+    }
+  },
+  "intended_by_default_yaml": {
+    "ordinal_regression": false,
+    "loss": "sparse_categorical_crossentropy",
+    "num_classes": 5,
+    "output": "softmax 5"
+  },
+  "historical_fold_config": {
+    "num_classes": 7,
+    "ordinal_regression": true,
+    "backbone": "mobilenet_v3_small",
+    "use_attention": "cbam",
+    "use_segmentation": false,
+    "dropout": 0.3,
+    "image_size": 224,
+    "batch_size": 32,
+    "dataset_root": "../dataset",
+    "annotations_file": "annotations.csv",
+    "use_roi_detection": true,
+    "use_clahe": true,
+    "use_specular_reduction": true,
+    "color_normalize": true,
+    "augmentation": {
+      "rotation_limit": 15,
+      "brightness_limit": 0.2,
+      "contrast_limit": 0.2,
+      "gaussian_noise": 0.01,
+      "blur_limit": 3,
+      "shadow": true,
+      "perspective": true
+    },
+    "epochs": 100,
+    "learning_rate": 0.001,
+    "weight_decay": 0.0001,
+    "mixed_precision": true,
+    "early_stopping_patience": 15,
+    "k_folds": 5,
+    "class_weights": true,
+    "loss": "focal",
+    "focal_gamma": 2.0,
+    "focal_alpha": 0.25,
+    "scheduler": "cosine",
+    "warmup_epochs": 5,
+    "quantize": true,
+    "target_model_size_mb": 20,
+    "output_dir": "../models",
+    "experiment_name": "icdas_mobilenet_cbam"
+  },
+  "test_evaluation": {
+    "status": "NOT_RUN",
+    "reason": "No ICDAS 0\u20134 labeled pixels on disk under dataset/{train,val,test}/0\u20134.",
+    "metrics": null
+  }
+}

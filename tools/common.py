@@ -61,7 +61,7 @@ def ensure_dir(path: Path) -> Path:
 
 def ensure_dataset_class_dirs(dataset_root: Path | None = None) -> Path:
     """Create dataset/train|val|test/0-4. Never creates a second hierarchy."""
-    root = Path(dataset_root) if dataset_root else project_path("dataset")
+    root = Path(dataset_root) if dataset_root else project_path("data", "icdas")
     for split in SPLITS:
         for grade in ICDAS_CLASSES:
             ensure_dir(root / split / grade)
@@ -71,8 +71,8 @@ def ensure_dataset_class_dirs(dataset_root: Path | None = None) -> Path:
 def ensure_pipeline_dirs() -> None:
     ensure_dataset_class_dirs()
     ensure_dir(project_path("tools"))
-    ensure_dir(project_path("cropped_teeth", "images"))
-    ensure_dir(project_path("labels"))
+    ensure_dir(project_path("data", "tooth_crops", "generated", "images"))
+    ensure_dir(project_path("data", "icdas", "annotations", "labeling_studio"))
     ensure_dir(project_path("reports"))
     ensure_dir(project_path("models"))
 

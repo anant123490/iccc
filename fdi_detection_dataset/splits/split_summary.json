@@ -1,0 +1,24 @@
+{
+  "selected": 420,
+  "batches": {
+    "Batch_01": 60,
+    "Batch_02": 60,
+    "Batch_03": 60,
+    "Batch_04": 60,
+    "Batch_05": 60,
+    "Batch_06": 60,
+    "Batch_07": 60
+  },
+  "splits": {
+    "train": 294,
+    "val": 63,
+    "test": 63
+  },
+  "split_unique_patient_keys": {
+    "train": 294,
+    "val": 63,
+    "test": 63
+  },
+  "yolo_placeholders_created_missing": 0,
+  "yolo_placeholders_total": 420
+}

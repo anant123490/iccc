@@ -1,0 +1,6 @@
+filename,relative_path,mouth_view,note
+anonymous-maxillaryView-1726807426131.jpg,fdi_detection_dataset/images/selected/anonymous-maxillaryView-1726807426131.jpg,Maxillary_Occlusal,intended 5-image sample; inference NOT run
+anonymous-mandibularView-1726736862309.jpg,fdi_detection_dataset/images/selected/anonymous-mandibularView-1726736862309.jpg,Mandibular,intended 5-image sample; inference NOT run
+anonymous-frontalView-1727348211233.jpg,fdi_detection_dataset/images/selected/anonymous-frontalView-1727348211233.jpg,Frontal,intended 5-image sample; inference NOT run
+anonymous-leftLateralView-1726807333703.jpg,fdi_detection_dataset/images/selected/anonymous-leftLateralView-1726807333703.jpg,Left_Lateral,intended 5-image sample; inference NOT run
+anonymous-rightLateralView-1726814947519.jpg,fdi_detection_dataset/images/selected/anonymous-rightLateralView-1726814947519.jpg,Right_Lateral,intended 5-image sample; inference NOT run

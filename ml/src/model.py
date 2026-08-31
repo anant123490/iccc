@@ -1,5 +1,8 @@
 """
-MobileNetV3-Small + CBAM ICDAS ordinal classifier.
+MobileNetV3-Small + CBAM ICDAS classifier.
+
+Production default: 5-class softmax (ICDAS 0-4).
+Ordinal (K-1 sigmoid) remains available when ordinal_regression=True.
 """
 
 from __future__ import annotations
@@ -18,7 +21,7 @@ def build_model(
     attention_type: str = "cbam",
     dropout: float = 0.3,
     pretrained: bool = True,
-    ordinal_regression: bool = True,
+    ordinal_regression: bool = False,
     ordinal: bool | None = None,
 ) -> keras.Model:
     if ordinal is not None:

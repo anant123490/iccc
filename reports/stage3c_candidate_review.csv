@@ -1,0 +1,1 @@
+filename,batch,number_of_boxes,mean_confidence,minimum_confidence,maximum_confidence,zero_detection,low_confidence,overlap_flag,small_box_flag,large_box_flag,boundary_flag,review_status

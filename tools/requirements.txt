@@ -1,11 +1,3 @@
-# Minimal dependencies for the ICDAS dataset-preparation toolkit.
-# Already present in the repository root requirements.txt; listed here
-# so this pipeline can be installed on its own.
-# If you train in the same venv as TensorFlow, prefer the root
-# requirements.txt (numpy<2). Do not mix this file with TF blindly.
-
-opencv-python
-Pillow
-numpy
-pandas
-streamlit
+# Prefer the repo-root requirements.txt (one venv with TensorFlow + YOLO).
+# This file is only a reminder for image-only helper scripts.
+#   pip install -r requirements.txt

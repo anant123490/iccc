@@ -1,0 +1,11 @@
+filename,relative_path,mouth_view,width,height
+anonymous-maxillaryView-1726807426131.jpg,fdi_detection_dataset/images/selected/anonymous-maxillaryView-1726807426131.jpg,Maxillary_Occlusal,2047,1151
+anonymous-maxillaryView-1727348028977.jpg,fdi_detection_dataset/images/selected/anonymous-maxillaryView-1727348028977.jpg,Maxillary_Occlusal,1784,1338
+anonymous-mandibularView-1726736862309.jpg,fdi_detection_dataset/images/selected/anonymous-mandibularView-1726736862309.jpg,Mandibular,2618,1745
+anonymous-mandibularView-1727428501523.jpg,fdi_detection_dataset/images/selected/anonymous-mandibularView-1727428501523.jpg,Mandibular,1752,1168
+anonymous-frontalView-1727348211233.jpg,fdi_detection_dataset/images/selected/anonymous-frontalView-1727348211233.jpg,Frontal,1319,989
+anonymous-frontalView-1727418713868.jpg,fdi_detection_dataset/images/selected/anonymous-frontalView-1727418713868.jpg,Frontal,2309,1297
+anonymous-leftLateralView-1726807333703.jpg,fdi_detection_dataset/images/selected/anonymous-leftLateralView-1726807333703.jpg,Left_Lateral,1989,1118
+anonymous-leftLateralView-1726892814255.jpg,fdi_detection_dataset/images/selected/anonymous-leftLateralView-1726892814255.jpg,Left_Lateral,2187,1229
+anonymous-rightLateralView-1726814947519.jpg,fdi_detection_dataset/images/selected/anonymous-rightLateralView-1726814947519.jpg,Right_Lateral,1652,1239
+anonymous-rightLateralView-1726892751122.jpg,fdi_detection_dataset/images/selected/anonymous-rightLateralView-1726892751122.jpg,Right_Lateral,1980,1113

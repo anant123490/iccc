@@ -3,23 +3,17 @@
 
 from pathlib import Path
 
-DATASET_ROOT = Path(__file__).resolve().parents[2] / "dataset"
+DATASET_ROOT = Path(__file__).resolve().parents[2] / "data" / "icdas"
 
 STRUCTURE = """
-dataset/
-├── train/
-│   ├── 0/   # ICDAS 0 - sound
-│   ├── 1/
-│   ├── 2/
-│   ├── 3/
-│   └── 4/   # ICDAS 4 - underlying dentin shadow
-├── val/
-│   ├── 0/ ... 4/
-├── test/
-│   ├── 0/ ... 4/
+data/icdas/
+├── train/0..4/
+├── val/0..4/
+├── test/0..4/
 ├── excluded/     # ICDAS 5/6 originals (never remapped to 4)
 ├── raw/
-└── annotations.csv
+├── images/
+└── annotations/annotations.csv
 """
 
 ANNOTATIONS_TEMPLATE = """filename,icdas_score,split,patient_id,notes
@@ -34,21 +28,26 @@ def main():
             (DATASET_ROOT / split / str(grade)).mkdir(parents=True, exist_ok=True)
     (DATASET_ROOT / "raw").mkdir(parents=True, exist_ok=True)
     (DATASET_ROOT / "excluded").mkdir(parents=True, exist_ok=True)
+    (DATASET_ROOT / "annotations").mkdir(parents=True, exist_ok=True)
+    (DATASET_ROOT / "images").mkdir(parents=True, exist_ok=True)
 
-    ann_path = DATASET_ROOT / "annotations.csv"
+    ann_path = DATASET_ROOT / "annotations" / "annotations.csv"
     if not ann_path.exists():
         ann_path.write_text(ANNOTATIONS_TEMPLATE, encoding="utf-8")
         print(f"Created template: {ann_path}")
+    else:
+        print(f"Kept existing labels: {ann_path}")
 
     readme = DATASET_ROOT / "README.md"
-    readme.write_text(
-        "# Dataset Directory\n\n"
-        "Place intraoral images in class subfolders (0–4).\n\n"
-        "ICDAS 5 and 6 images must **not** be copied into class 4. "
-        "Keep them under `excluded/` if they are retained for reference.\n\n"
-        f"```\n{STRUCTURE}\n```\n",
-        encoding="utf-8",
-    )
+    if not readme.exists():
+        readme.write_text(
+            "# ICDAS dataset\n\n"
+            "Place clinician-confirmed tooth images in class subfolders (0–4).\n\n"
+            "ICDAS 5 and 6 images must **not** be copied into class 4. "
+            "Keep them under `excluded/`.\n\n"
+            f"```\n{STRUCTURE}\n```\n",
+            encoding="utf-8",
+        )
     print(f"Dataset root: {DATASET_ROOT}")
     print("Done. Add images to train/val/test/0..4/, then run:")
     print("  python ml/scripts/sync_annotations.py")

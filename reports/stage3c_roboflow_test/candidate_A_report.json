@@ -1,0 +1,28 @@
+{
+  "candidate": "A",
+  "url": "https://universe.roboflow.com/dentalmate6v/intraoral-tooth-detection",
+  "dataset_model_name": "Intraoral Tooth Detection (workspace DentalMate6v)",
+  "model_type": "UNVERIFIED on live HTML (Cloudflare). Workspace index lists 1 model on this project.",
+  "detection_vs_segmentation": "UNVERIFIED",
+  "number_of_classes": "UNVERIFIED",
+  "class_names": "UNVERIFIED",
+  "fdi_vs_generic_tooth": "UNVERIFIED. Sibling project on same workspace is titled Intraoral Tooth Numbering FDI (32 classes) — that is a DIFFERENT slug. Do not assume this Detection project uses FDI.",
+  "number_of_images": "workspace index: 1.21k images",
+  "license": "not readable on retrieved pages",
+  "license_status": "UNKNOWN",
+  "weights_publicly_accessible": false,
+  "local_inference_possible_this_audit": false,
+  "roboflow_api_required": true,
+  "api_key_required": true,
+  "model_version": "UNVERIFIED (workspace shows model count; version number not retrieved)",
+  "expected_image_format": "UNVERIFIED (typical Universe: RGB JPEG/PNG for hosted infer)",
+  "output_format": "UNVERIFIED (hosted infer typically JSON boxes/masks)",
+  "trained_on_rgb_intraoral": "LIKELY from title/workspace listing; sample JPEGs not inspected this stage",
+  "appropriate_for_whole_tooth_detection": "UNKNOWN until classes and samples verified",
+  "usage_restrictions": "UNKNOWN (license unknown). Hosted inference requires Roboflow account/API key.",
+  "inference_test": {
+    "status": "ACCESS_REQUIRED",
+    "reason": "Official docs show InferenceHTTPClient with api_key. inference_sdk and roboflow packages MISSING. ROBOFLOW_API_KEY not used (absent). No anonymous public endpoint documented. No weight download performed.",
+    "images_tested": 0
+  }
+}

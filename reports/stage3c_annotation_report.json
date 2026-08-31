@@ -1,0 +1,91 @@
+{
+  "stage": "3C",
+  "title": "Automated whole-tooth bounding-box annotation",
+  "date": "2026-08-26",
+  "annotation_status": "NOT_GENERATED",
+  "label_type": "No machine-generated candidate boxes. Existing YOLO/COCO/VOC files remain empty placeholders from Stage 3A/3B.",
+  "candidate_vs_verified": {
+    "candidate_annotations": 0,
+    "verified_annotations": 0,
+    "note": "Do not treat empty files as ground truth. Human drawing in CVAT/Label Studio is required (Stage 3C stop + Stage 3D after humans annotate)."
+  },
+  "stage3b_verification": {
+    "selected_images": 420,
+    "selected_readable": 420,
+    "unreadable": 0,
+    "mismatch": false,
+    "class_config": {"0": "tooth"},
+    "class_count": 1,
+    "existing_tooth_boxes_before": 0,
+    "yolo_nonempty_before": 0,
+    "icdas_dataset_train_dir_exists": false,
+    "guidelines_present": [
+      "TOOTH_ANNOTATION_GUIDELINES.md",
+      "ANNOTATION_QC_CHECKLIST.md",
+      "README_STAGE3B.md"
+    ]
+  },
+  "method_decision": {
+    "reliable_local_whole_tooth_detector": false,
+    "action": "Did not fabricate boxes. Did not convert lesion XML. Did not download models. Did not search the internet.",
+    "inspected": {
+      "detection_weights_in_repo": "none (.pt/.onnx tooth detectors absent)",
+      "keras_weights_present": "ICDAS classification only (MobileNetV3/CBAM .keras) — not a tooth localizer",
+      "python_packages": {
+        "ultralytics": true,
+        "torch": true,
+        "cv2": true,
+        "tensorflow": true,
+        "detectron2": false
+      },
+      "why_ultralytics_not_used": "No local tooth-detection checkpoint. Generic COCO YOLO would invent non-tooth boxes and would require downloading weights.",
+      "why_opencv_not_used": "Contour/threshold blobs are not whole-tooth identity and would fabricate boxes.",
+      "why_lesion_xml_not_used": "d/D boxes are caries lesions, not teeth."
+    }
+  },
+  "counts": {
+    "selected_images": 420,
+    "successfully_processed_for_auto_boxes": 0,
+    "successfully_processed_inventory_only": 420,
+    "candidate_tooth_boxes": 0,
+    "mean_boxes_per_image": 0,
+    "median_boxes_per_image": 0,
+    "min_boxes_per_image": 0,
+    "max_boxes_per_image": 0,
+    "images_with_zero_boxes": 420,
+    "images_requiring_review": 420,
+    "invalid_annotations": 0,
+    "duplicate_boxes_flagged": 0,
+    "low_confidence_annotations": 0,
+    "yolo_label_files": 420,
+    "yolo_nonempty": 0,
+    "coco_annotation_objects": 0,
+    "voc_object_elements": 0
+  },
+  "batch_box_counts": {
+    "Batch_01": 0,
+    "Batch_02": 0,
+    "Batch_03": 0,
+    "Batch_04": 0,
+    "Batch_05": 0,
+    "Batch_06": 0,
+    "Batch_07": 0
+  },
+  "format_status": {
+    "yolo": "420 empty txt files retained; structurally valid as zero-object labels; not tooth GT",
+    "coco": "instances_placeholder.json images registered; annotations []",
+    "pascal_voc": "size-only XML from Stage 3A/3B; no tooth objects"
+  },
+  "protections": {
+    "lesion_xml_converted": false,
+    "fdi_labels": 0,
+    "detection_class_ids_observed": [0],
+    "icdas_modified": false,
+    "yolo_trained": false,
+    "tensorflow_trained": false,
+    "original_6265_modified": false,
+    "models_trained": false
+  },
+  "visualizations": "not generated (no boxes to overlay; originals not copied)",
+  "next_stage": "Human annotation in CVAT/Label Studio using Stage 3B project, then Stage 3D QC/finalization"
+}

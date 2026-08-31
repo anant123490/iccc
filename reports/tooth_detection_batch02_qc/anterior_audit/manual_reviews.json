@@ -1,0 +1,805 @@
+{
+  "updated": "2026-08-27T15:06:18.443970+00:00",
+  "ratings": {
+    "OHI_datasetIMG_3131_JPG.rf.125dc3548f629d163c07441d33da6c7a.jpg": {
+      "mark": "QUESTIONABLE",
+      "note": "",
+      "split": "train",
+      "name": "OHI_datasetIMG_3131_JPG.rf.125dc3548f629d163c07441d33da6c7a.jpg",
+      "n_boxes": 24,
+      "select_reason": "overlap_pairs"
+    },
+    "OHI_datasetIMG_1553_JPG.rf.0109ee33adcf5decfc5cf27a8517419a.jpg": {
+      "mark": "GOOD",
+      "note": "",
+      "split": "train",
+      "name": "OHI_datasetIMG_1553_JPG.rf.0109ee33adcf5decfc5cf27a8517419a.jpg",
+      "n_boxes": 28,
+      "select_reason": "overlap_pairs"
+    },
+    "OHI_datasetIMG_3542_jpg.rf.171eeea429785b1497aba5eec2c9f3cf.jpg": {
+      "mark": "BAD",
+      "note": "",
+      "split": "train",
+      "name": "OHI_datasetIMG_3542_jpg.rf.171eeea429785b1497aba5eec2c9f3cf.jpg",
+      "n_boxes": 26,
+      "select_reason": "overlap_pairs"
+    },
+    "OHI_datasetIMG_4753_JPG.rf.067ea770a01fad5a4a84dc00c04fc3ed.jpg": {
+      "mark": "QUESTIONABLE",
+      "note": "",
+      "split": "train",
+      "name": "OHI_datasetIMG_4753_JPG.rf.067ea770a01fad5a4a84dc00c04fc3ed.jpg",
+      "n_boxes": 32,
+      "select_reason": "overlap_pairs"
+    },
+    "OHI_datasetIMG_5702_JPG.rf.34ac7be26abb30e7687ab484bf47fe0e.jpg": {
+      "mark": "QUESTIONABLE",
+      "note": "",
+      "split": "train",
+      "name": "OHI_datasetIMG_5702_JPG.rf.34ac7be26abb30e7687ab484bf47fe0e.jpg",
+      "n_boxes": 30,
+      "select_reason": "overlap_pairs"
+    },
+    "OHI_datasetIMG_1498_JPG.rf.3d609d133770e66f52d1d3f991f8fad1.jpg": {
+      "mark": "GOOD",
+      "note": "",
+      "split": "train",
+      "name": "OHI_datasetIMG_1498_JPG.rf.3d609d133770e66f52d1d3f991f8fad1.jpg",
+      "n_boxes": 25,
+      "select_reason": "overlap_pairs"
+    },
+    "OHI_datasetIMG_2207_JPG.rf.e1850a33e66a6267f7624b20534e3450.jpg": {
+      "mark": "GOOD",
+      "note": "",
+      "split": "train",
+      "name": "OHI_datasetIMG_2207_JPG.rf.e1850a33e66a6267f7624b20534e3450.jpg",
+      "n_boxes": 26,
+      "select_reason": "overlap_pairs"
+    },
+    "OHI_datasetIMG_2335_JPG.rf.05072b41528cfa37c9fb8e61dafdf36e.jpg": {
+      "mark": "QUESTIONABLE",
+      "note": "",
+      "split": "train",
+      "name": "OHI_datasetIMG_2335_JPG.rf.05072b41528cfa37c9fb8e61dafdf36e.jpg",
+      "n_boxes": 25,
+      "select_reason": "overlap_pairs"
+    },
+    "OHI_datasetIMG_2347_jpg.rf.52fd84be01eaad771a7ac86e71b62902.jpg": {
+      "mark": "GOOD",
+      "note": "",
+      "split": "train",
+      "name": "OHI_datasetIMG_2347_jpg.rf.52fd84be01eaad771a7ac86e71b62902.jpg",
+      "n_boxes": 28,
+      "select_reason": "overlap_pairs"
+    },
+    "OHI_datasetIMG_2455_JPG.rf.07def7f4973124de390726d73e55b2c3.jpg": {
+      "mark": "GOOD",
+      "note": "",
+      "split": "train",
+      "name": "OHI_datasetIMG_2455_JPG.rf.07def7f4973124de390726d73e55b2c3.jpg",
+      "n_boxes": 22,
+      "select_reason": "overlap_pairs"
+    },
+    "OHI_datasetIMG_2493_JPG.rf.129942024559016717f74909772bc8ef.jpg": {
+      "mark": "BAD",
+      "note": "",
+      "split": "train",
+      "name": "OHI_datasetIMG_2493_JPG.rf.129942024559016717f74909772bc8ef.jpg",
+      "n_boxes": 28,
+      "select_reason": "overlap_pairs"
+    },
+    "OHI_datasetIMG_3993_JPG.rf.0a9b22bdc50782debaed048af8ae395d.jpg": {
+      "mark": "QUESTIONABLE",
+      "note": "",
+      "split": "train",
+      "name": "OHI_datasetIMG_3993_JPG.rf.0a9b22bdc50782debaed048af8ae395d.jpg",
+      "n_boxes": 23,
+      "select_reason": "overlap_pairs"
+    },
+    "OHI_datasetIMG_4648_JPG.rf.1d1708baf3978d5dd5d3a3ccb914ab60.jpg": {
+      "mark": "QUESTIONABLE",
+      "note": "",
+      "split": "train",
+      "name": "OHI_datasetIMG_4648_JPG.rf.1d1708baf3978d5dd5d3a3ccb914ab60.jpg",
+      "n_boxes": 25,
+      "select_reason": "overlap_pairs"
+    },
+    "OHI_datasetIMG_4986_JPG.rf.d8ff496c3e5ee6b4e47efc6beb7a4c06.jpg": {
+      "mark": "QUESTIONABLE",
+      "note": "",
+      "split": "train",
+      "name": "OHI_datasetIMG_4986_JPG.rf.d8ff496c3e5ee6b4e47efc6beb7a4c06.jpg",
+      "n_boxes": 22,
+      "select_reason": "overlap_pairs"
+    },
+    "OHI_datasetIMG_5009_JPG.rf.6c18a412e43ac49f63f221ec0a0e5b51.jpg": {
+      "mark": "QUESTIONABLE",
+      "note": "",
+      "split": "train",
+      "name": "OHI_datasetIMG_5009_JPG.rf.6c18a412e43ac49f63f221ec0a0e5b51.jpg",
+      "n_boxes": 23,
+      "select_reason": "overlap_pairs"
+    },
+    "OHI_datasetIMG_5673_JPG.rf.4174895ce3952b2962d94e1eeb63dfc6.jpg": {
+      "mark": "BAD",
+      "note": "",
+      "split": "train",
+      "name": "OHI_datasetIMG_5673_JPG.rf.4174895ce3952b2962d94e1eeb63dfc6.jpg",
+      "n_boxes": 26,
+      "select_reason": "overlap_pairs"
+    },
+    "OHI_datasetIMG_5855_JPG.rf.11339478a9c00b3c44d07e1189cc9090.jpg": {
+      "mark": "GOOD",
+      "note": "",
+      "split": "train",
+      "name": "OHI_datasetIMG_5855_JPG.rf.11339478a9c00b3c44d07e1189cc9090.jpg",
+      "n_boxes": 28,
+      "select_reason": "overlap_pairs"
+    },
+    "OHI_datasetIMG_6652_JPG.rf.363d6a2e583506ba1888c25c961529de.jpg": {
+      "mark": "BAD",
+      "note": "",
+      "split": "train",
+      "name": "OHI_datasetIMG_6652_JPG.rf.363d6a2e583506ba1888c25c961529de.jpg",
+      "n_boxes": 22,
+      "select_reason": "overlap_pairs"
+    },
+    "OHI_datasetIMG_5055_JPG.rf.540dbe22c0d79b06d9c82e851b18def9.jpg": {
+      "mark": "QUESTIONABLE",
+      "note": "",
+      "split": "train",
+      "name": "OHI_datasetIMG_5055_JPG.rf.540dbe22c0d79b06d9c82e851b18def9.jpg",
+      "n_boxes": 31,
+      "select_reason": "anterior_crowded"
+    },
+    "OHI_datasetIMG_4994_JPG.rf.7024d7ee59d6814505f09c8fad9ce09e.jpg": {
+      "mark": "BAD",
+      "note": "",
+      "split": "train",
+      "name": "OHI_datasetIMG_4994_JPG.rf.7024d7ee59d6814505f09c8fad9ce09e.jpg",
+      "n_boxes": 31,
+      "select_reason": "anterior_crowded"
+    },
+    "OHI_datasetIMG_3048_JPG.rf.7b9f3c892b6240761127e844e35719ad.jpg": {
+      "mark": "QUESTIONABLE",
+      "note": "",
+      "split": "train",
+      "name": "OHI_datasetIMG_3048_JPG.rf.7b9f3c892b6240761127e844e35719ad.jpg",
+      "n_boxes": 23,
+      "select_reason": "anterior_crowded"
+    },
+    "OHI_datasetIMG_4809_JPG.rf.361917e6c7549e6f57afb66929d8640a.jpg": {
+      "mark": "QUESTIONABLE",
+      "note": "",
+      "split": "train",
+      "name": "OHI_datasetIMG_4809_JPG.rf.361917e6c7549e6f57afb66929d8640a.jpg",
+      "n_boxes": 28,
+      "select_reason": "anterior_crowded"
+    },
+    "OHI_datasetIMG_5296_JPG.rf.71a266c3369a94c72e6b7bf4cd3aca32.jpg": {
+      "mark": "QUESTIONABLE",
+      "note": "",
+      "split": "train",
+      "name": "OHI_datasetIMG_5296_JPG.rf.71a266c3369a94c72e6b7bf4cd3aca32.jpg",
+      "n_boxes": 24,
+      "select_reason": "anterior_crowded"
+    },
+    "OHI_datasetIMG_1845_JPG.rf.25750cf398d9b2588d8be216571aaaec.jpg": {
+      "mark": "QUESTIONABLE",
+      "note": "",
+      "split": "train",
+      "name": "OHI_datasetIMG_1845_JPG.rf.25750cf398d9b2588d8be216571aaaec.jpg",
+      "n_boxes": 27,
+      "select_reason": "anterior_crowded"
+    },
+    "OHI_datasetIMG_3690_JPG.rf.24a6e9c93e60e6d2ef0d6424aede2019.jpg": {
+      "mark": "GOOD",
+      "note": "",
+      "split": "train",
+      "name": "OHI_datasetIMG_3690_JPG.rf.24a6e9c93e60e6d2ef0d6424aede2019.jpg",
+      "n_boxes": 28,
+      "select_reason": "anterior_crowded"
+    },
+    "OHI_datasetIMG_4160_JPG.rf.33e47de79199dce8bbe81386f5bce9b6.jpg": {
+      "mark": "GOOD",
+      "note": "",
+      "split": "train",
+      "name": "OHI_datasetIMG_4160_JPG.rf.33e47de79199dce8bbe81386f5bce9b6.jpg",
+      "n_boxes": 26,
+      "select_reason": "anterior_crowded"
+    },
+    "OHI_datasetIMG_4233_JPG.rf.1765b214d5e4bf783c13f2eb615cd91e.jpg": {
+      "mark": "QUESTIONABLE",
+      "note": "",
+      "split": "train",
+      "name": "OHI_datasetIMG_4233_JPG.rf.1765b214d5e4bf783c13f2eb615cd91e.jpg",
+      "n_boxes": 23,
+      "select_reason": "anterior_crowded"
+    },
+    "OHI_datasetIMG_4697_JPG.rf.9616c0adb320cec4ae0b5b51b39bc64c.jpg": {
+      "mark": "BAD",
+      "note": "",
+      "split": "train",
+      "name": "OHI_datasetIMG_4697_JPG.rf.9616c0adb320cec4ae0b5b51b39bc64c.jpg",
+      "n_boxes": 26,
+      "select_reason": "anterior_crowded"
+    },
+    "OHI_datasetIMG_4935_JPG.rf.9d8c2d158f77d03737fd136ca8fa549f.jpg": {
+      "mark": "QUESTIONABLE",
+      "note": "",
+      "split": "train",
+      "name": "OHI_datasetIMG_4935_JPG.rf.9d8c2d158f77d03737fd136ca8fa549f.jpg",
+      "n_boxes": 30,
+      "select_reason": "anterior_crowded"
+    },
+    "OHI_datasetIMG_5111_JPG.rf.300eea1219317375d1caa437d7d7abb0.jpg": {
+      "mark": "GOOD",
+      "note": "",
+      "split": "train",
+      "name": "OHI_datasetIMG_5111_JPG.rf.300eea1219317375d1caa437d7d7abb0.jpg",
+      "n_boxes": 27,
+      "select_reason": "anterior_crowded"
+    },
+    "OHI_datasetIMG_4276_JPG.rf.3f2c66e35bda0dcba3ea2c79b30f86b7.jpg": {
+      "mark": "GOOD",
+      "note": "",
+      "split": "train",
+      "name": "OHI_datasetIMG_4276_JPG.rf.3f2c66e35bda0dcba3ea2c79b30f86b7.jpg",
+      "n_boxes": 25,
+      "select_reason": "anterior_crowded"
+    },
+    "OHI_datasetIMG_1804_JPG.rf.a5431c958864445000dade59ac8534c2.jpg": {
+      "mark": "GOOD",
+      "note": "",
+      "split": "test",
+      "name": "OHI_datasetIMG_1804_JPG.rf.a5431c958864445000dade59ac8534c2.jpg",
+      "n_boxes": 29,
+      "select_reason": "anterior_crowded"
+    },
+    "OHI_datasetcrop_open_jpg.rf.2a01a46fb015a4d8f1626af2fad8b137.jpg": {
+      "mark": "BAD",
+      "note": "",
+      "split": "train",
+      "name": "OHI_datasetcrop_open_jpg.rf.2a01a46fb015a4d8f1626af2fad8b137.jpg",
+      "n_boxes": 28,
+      "select_reason": "anterior_crowded"
+    },
+    "OHI_datasetIMG_1111_JPG.rf.c942055271ddc43953098ef41b84b5f5.jpg": {
+      "mark": "GOOD",
+      "note": "",
+      "split": "valid",
+      "name": "OHI_datasetIMG_1111_JPG.rf.c942055271ddc43953098ef41b84b5f5.jpg",
+      "n_boxes": 27,
+      "select_reason": "tiny_packed"
+    },
+    "OHI_dataset_MG_3889_JPG.rf.1e21792e6e4a29ef6d3f5596f5591a22.jpg": {
+      "mark": "GOOD",
+      "note": "",
+      "split": "train",
+      "name": "OHI_dataset_MG_3889_JPG.rf.1e21792e6e4a29ef6d3f5596f5591a22.jpg",
+      "n_boxes": 27,
+      "select_reason": "tiny_packed"
+    },
+    "OHI_datasetIMG_3773_jpg.rf.2d6bb88efe9142daecc81253e57392b7.jpg": {
+      "mark": "GOOD",
+      "note": "",
+      "split": "train",
+      "name": "OHI_datasetIMG_3773_jpg.rf.2d6bb88efe9142daecc81253e57392b7.jpg",
+      "n_boxes": 22,
+      "select_reason": "tiny_packed"
+    },
+    "OHI_datasetIMG_3883_JPG.rf.3654a52a2a3d0768f68a46a55972752c.jpg": {
+      "mark": "GOOD",
+      "note": "",
+      "split": "train",
+      "name": "OHI_datasetIMG_3883_JPG.rf.3654a52a2a3d0768f68a46a55972752c.jpg",
+      "n_boxes": 32,
+      "select_reason": "tiny_packed"
+    },
+    "OHI_datasetIMG_4517_JPG.rf.2327f0db52b62f6fdbb7641b8545fd7b.jpg": {
+      "mark": "GOOD",
+      "note": "",
+      "split": "train",
+      "name": "OHI_datasetIMG_4517_JPG.rf.2327f0db52b62f6fdbb7641b8545fd7b.jpg",
+      "n_boxes": 27,
+      "select_reason": "tiny_packed"
+    },
+    "OHI_datasetIMG_5176_JPG.rf.5cca42d210ac66da38dbe7ab49adc470.jpg": {
+      "mark": "GOOD",
+      "note": "",
+      "split": "train",
+      "name": "OHI_datasetIMG_5176_JPG.rf.5cca42d210ac66da38dbe7ab49adc470.jpg",
+      "n_boxes": 25,
+      "select_reason": "tiny_packed"
+    },
+    "OHI_datasetIMG_5201_JPG.rf.1dbeefdf555b186d9bc7764871df04cc.jpg": {
+      "mark": "QUESTIONABLE",
+      "note": "",
+      "split": "train",
+      "name": "OHI_datasetIMG_5201_JPG.rf.1dbeefdf555b186d9bc7764871df04cc.jpg",
+      "n_boxes": 25,
+      "select_reason": "tiny_packed"
+    },
+    "OHI_datasetIMG_0281_JPG.rf.5246fd1b8883ddac184f832c9e67915d.jpg": {
+      "mark": "GOOD",
+      "note": "",
+      "split": "valid",
+      "name": "OHI_datasetIMG_0281_JPG.rf.5246fd1b8883ddac184f832c9e67915d.jpg",
+      "n_boxes": 25,
+      "select_reason": "tiny_packed"
+    },
+    "OHI_datasetIMG_4197_JPG.rf.ed04242005343e7beffd6cd73f2f5378.jpg": {
+      "mark": "GOOD",
+      "note": "",
+      "split": "valid",
+      "name": "OHI_datasetIMG_4197_JPG.rf.ed04242005343e7beffd6cd73f2f5378.jpg",
+      "n_boxes": 25,
+      "select_reason": "tiny_packed"
+    },
+    "OHI_datasetIMG_5150_JPG.rf.ecd0d45a0aa581f1d310e941438a87ee.jpg": {
+      "mark": "GOOD",
+      "note": "",
+      "split": "test",
+      "name": "OHI_datasetIMG_5150_JPG.rf.ecd0d45a0aa581f1d310e941438a87ee.jpg",
+      "n_boxes": 28,
+      "select_reason": "tiny_packed"
+    },
+    "OHI_datasetIMG_5884_JPG.rf.6095d76b8f785e4575c9db5bad87e9b8.jpg": {
+      "mark": "GOOD",
+      "note": "",
+      "split": "train",
+      "name": "OHI_datasetIMG_5884_JPG.rf.6095d76b8f785e4575c9db5bad87e9b8.jpg",
+      "n_boxes": 32,
+      "select_reason": "many_detections"
+    },
+    "OHI_datasetIMG_6158_JPG.rf.4b57c01bfae347ae38d6ae9b79438c4e.jpg": {
+      "mark": "GOOD",
+      "note": "",
+      "split": "valid",
+      "name": "OHI_datasetIMG_6158_JPG.rf.4b57c01bfae347ae38d6ae9b79438c4e.jpg",
+      "n_boxes": 32,
+      "select_reason": "many_detections"
+    },
+    "OHI_datasetIMG_4802_JPG.rf.2ee847e527da236cab8b718803678354.jpg": {
+      "mark": "QUESTIONABLE",
+      "note": "",
+      "split": "train",
+      "name": "OHI_datasetIMG_4802_JPG.rf.2ee847e527da236cab8b718803678354.jpg",
+      "n_boxes": 31,
+      "select_reason": "many_detections"
+    },
+    "OHI_datasetIMG_5188_JPG.rf.532920bdd622b9534c18834deafa5e19.jpg": {
+      "mark": "QUESTIONABLE",
+      "note": "",
+      "split": "train",
+      "name": "OHI_datasetIMG_5188_JPG.rf.532920bdd622b9534c18834deafa5e19.jpg",
+      "n_boxes": 31,
+      "select_reason": "many_detections"
+    },
+    "OHI_datasetIMG_5264_JPG.rf.bd06dc1b69bc857b62cece2cf72244d0.jpg": {
+      "mark": "BAD",
+      "note": "",
+      "split": "train",
+      "name": "OHI_datasetIMG_5264_JPG.rf.bd06dc1b69bc857b62cece2cf72244d0.jpg",
+      "n_boxes": 31,
+      "select_reason": "many_detections"
+    },
+    "OHI_datasetIMG_3635_JPG.rf.4cb53362a045ca5ce999f68711c92ff3.jpg": {
+      "mark": "GOOD",
+      "note": "",
+      "split": "train",
+      "name": "OHI_datasetIMG_3635_JPG.rf.4cb53362a045ca5ce999f68711c92ff3.jpg",
+      "n_boxes": 30,
+      "select_reason": "many_detections"
+    },
+    "OHI_datasetIMG_3643_JPG.rf.b662b3d313159a24623fbbc3d1f79086.jpg": {
+      "mark": "GOOD",
+      "note": "",
+      "split": "train",
+      "name": "OHI_datasetIMG_3643_JPG.rf.b662b3d313159a24623fbbc3d1f79086.jpg",
+      "n_boxes": 30,
+      "select_reason": "many_detections"
+    },
+    "OHI_datasetIMG_3937_JPG.rf.6e5e97f84ad85035fc407f442c187685.jpg": {
+      "mark": "GOOD",
+      "note": "",
+      "split": "train",
+      "name": "OHI_datasetIMG_3937_JPG.rf.6e5e97f84ad85035fc407f442c187685.jpg",
+      "n_boxes": 30,
+      "select_reason": "many_detections"
+    },
+    "OHI_datasetIMG_4691_JPG.rf.6053b341018c66c9a1f79d99daf5989b.jpg": {
+      "mark": "GOOD",
+      "note": "",
+      "split": "train",
+      "name": "OHI_datasetIMG_4691_JPG.rf.6053b341018c66c9a1f79d99daf5989b.jpg",
+      "n_boxes": 30,
+      "select_reason": "many_detections"
+    },
+    "OHI_datasetIMG_5192_JPG.rf.465a47a66317a2d29dad0d12aa891191.jpg": {
+      "mark": "QUESTIONABLE",
+      "note": "",
+      "split": "train",
+      "name": "OHI_datasetIMG_5192_JPG.rf.465a47a66317a2d29dad0d12aa891191.jpg",
+      "n_boxes": 30,
+      "select_reason": "many_detections"
+    },
+    "OHI_datasetIMG_6030_JPG.rf.1b3a38b20220bc664149f3e0039c5a92.jpg": {
+      "mark": "GOOD",
+      "note": "",
+      "split": "train",
+      "name": "OHI_datasetIMG_6030_JPG.rf.1b3a38b20220bc664149f3e0039c5a92.jpg",
+      "n_boxes": 30,
+      "select_reason": "many_detections"
+    },
+    "OHI_datasetIMG_6637_JPG.rf.a046349ded325409318a4ac9b7016fb5.jpg": {
+      "mark": "GOOD",
+      "note": "",
+      "split": "train",
+      "name": "OHI_datasetIMG_6637_JPG.rf.a046349ded325409318a4ac9b7016fb5.jpg",
+      "n_boxes": 30,
+      "select_reason": "many_detections"
+    },
+    "OHI_datasetIMG_5285_JPG.rf.61b4841b7fb4b6fb3ae47fbd55eb2903.jpg": {
+      "mark": "GOOD",
+      "note": "",
+      "split": "train",
+      "name": "OHI_datasetIMG_5285_JPG.rf.61b4841b7fb4b6fb3ae47fbd55eb2903.jpg",
+      "n_boxes": 27,
+      "select_reason": "extreme_aspect"
+    },
+    "OHI_datasetIMG_5831_JPG.rf.7b6876acf798d68093a0f38782a87863.jpg": {
+      "mark": "GOOD",
+      "note": "",
+      "split": "train",
+      "name": "OHI_datasetIMG_5831_JPG.rf.7b6876acf798d68093a0f38782a87863.jpg",
+      "n_boxes": 29,
+      "select_reason": "extreme_aspect"
+    },
+    "OHI_datasetIMG_1746_JPG.rf.d600e314a6b016368ccf8dec0655e93f.jpg": {
+      "mark": "GOOD",
+      "note": "",
+      "split": "valid",
+      "name": "OHI_datasetIMG_1746_JPG.rf.d600e314a6b016368ccf8dec0655e93f.jpg",
+      "n_boxes": 26,
+      "select_reason": "extreme_aspect"
+    },
+    "OHI_datasetIMG_6308_JPG.rf.9c15010b0f21cb9f5a244d771a46c0d1.jpg": {
+      "mark": "GOOD",
+      "note": "",
+      "split": "valid",
+      "name": "OHI_datasetIMG_6308_JPG.rf.9c15010b0f21cb9f5a244d771a46c0d1.jpg",
+      "n_boxes": 22,
+      "select_reason": "extreme_aspect"
+    },
+    "OHI_datasetIMG_4741_JPG.rf.6080574cdf807e3aa4c836789fe89619.jpg": {
+      "mark": "GOOD",
+      "note": "",
+      "split": "test",
+      "name": "OHI_datasetIMG_4741_JPG.rf.6080574cdf807e3aa4c836789fe89619.jpg",
+      "n_boxes": 26,
+      "select_reason": "extreme_aspect"
+    },
+    "OHI_dataset_MG_4765_JPG.rf.856662d380002ab196e4491f8488fe42.jpg": {
+      "mark": "GOOD",
+      "note": "",
+      "split": "train",
+      "name": "OHI_dataset_MG_4765_JPG.rf.856662d380002ab196e4491f8488fe42.jpg",
+      "n_boxes": 27,
+      "select_reason": "extreme_aspect"
+    },
+    "OHI_datasetIMG_1518_JPG.rf.16a3482cd27073c1cfec6eacf9f86a79.jpg": {
+      "mark": "GOOD",
+      "note": "",
+      "split": "train",
+      "name": "OHI_datasetIMG_1518_JPG.rf.16a3482cd27073c1cfec6eacf9f86a79.jpg",
+      "n_boxes": 26,
+      "select_reason": "extreme_aspect"
+    },
+    "OHI_datasetIMG_23351_jpg.rf.778fd3654d07738fb96338d8f69d9230.jpg": {
+      "mark": "QUESTIONABLE",
+      "note": "",
+      "split": "train",
+      "name": "OHI_datasetIMG_23351_jpg.rf.778fd3654d07738fb96338d8f69d9230.jpg",
+      "n_boxes": 26,
+      "select_reason": "extreme_aspect"
+    },
+    "OHI_datasetIMG_3098_JPG.rf.22421cbfb09f512558a9d502a01e6e70.jpg": {
+      "mark": "GOOD",
+      "note": "",
+      "split": "train",
+      "name": "OHI_datasetIMG_3098_JPG.rf.22421cbfb09f512558a9d502a01e6e70.jpg",
+      "n_boxes": 26,
+      "select_reason": "extreme_aspect"
+    },
+    "OHI_datasetIMG_3942_JPG.rf.4e60403ee40365b985552a6211fe3751.jpg": {
+      "mark": "QUESTIONABLE",
+      "note": "",
+      "split": "train",
+      "name": "OHI_datasetIMG_3942_JPG.rf.4e60403ee40365b985552a6211fe3751.jpg",
+      "n_boxes": 24,
+      "select_reason": "extreme_aspect"
+    },
+    "OHI_datasetIMG_2481_JPG.rf.07214f38f17fc6384832d1a178baa259.jpg": {
+      "mark": "GOOD",
+      "note": "",
+      "split": "train",
+      "name": "OHI_datasetIMG_2481_JPG.rf.07214f38f17fc6384832d1a178baa259.jpg",
+      "n_boxes": 28,
+      "select_reason": "oversized_vs_neighbors"
+    },
+    "OHI_datasetIMG_4732_JPG.rf.05c5680e08cf8f534f9f490e01a2de18.jpg": {
+      "mark": "GOOD",
+      "note": "",
+      "split": "train",
+      "name": "OHI_datasetIMG_4732_JPG.rf.05c5680e08cf8f534f9f490e01a2de18.jpg",
+      "n_boxes": 22,
+      "select_reason": "oversized_vs_neighbors"
+    },
+    "OHI_dataset_MG_3852_JPG.rf.2d94f42f28f1452dc8f4033c9ad58563.jpg": {
+      "mark": "BAD",
+      "note": "",
+      "split": "train",
+      "name": "OHI_dataset_MG_3852_JPG.rf.2d94f42f28f1452dc8f4033c9ad58563.jpg",
+      "n_boxes": 26,
+      "select_reason": "oversized_vs_neighbors"
+    },
+    "OHI_datasetcrop_smile3_jpg.rf.042234afbffcb7c22456a94778d6e9a6.jpg": {
+      "mark": "GOOD",
+      "note": "",
+      "split": "train",
+      "name": "OHI_datasetcrop_smile3_jpg.rf.042234afbffcb7c22456a94778d6e9a6.jpg",
+      "n_boxes": 28,
+      "select_reason": "oversized_vs_neighbors"
+    },
+    "OHI_datasetIMG_01421_jpg.rf.5c7c7a8db8c7c504384541de0340a530.jpg": {
+      "mark": "GOOD",
+      "note": "",
+      "split": "train",
+      "name": "OHI_datasetIMG_01421_jpg.rf.5c7c7a8db8c7c504384541de0340a530.jpg",
+      "n_boxes": 26,
+      "select_reason": "oversized_vs_neighbors"
+    },
+    "OHI_datasetIMG_4455_JPG.rf.26c09664707f4daa885c56a7b6f13659.jpg": {
+      "mark": "BAD",
+      "note": "",
+      "split": "train",
+      "name": "OHI_datasetIMG_4455_JPG.rf.26c09664707f4daa885c56a7b6f13659.jpg",
+      "n_boxes": 24,
+      "select_reason": "oversized_vs_neighbors"
+    },
+    "OHI_datasetIMG_4569_JPG.rf.12624e4085e12bfcebdd5967d92eb129.jpg": {
+      "mark": "GOOD",
+      "note": "",
+      "split": "train",
+      "name": "OHI_datasetIMG_4569_JPG.rf.12624e4085e12bfcebdd5967d92eb129.jpg",
+      "n_boxes": 13,
+      "select_reason": "oversized_vs_neighbors"
+    },
+    "OHI_datasetIMG_4585_JPG.rf.174ce0a168bcf4cf7f42c6743aaaec5a.jpg": {
+      "mark": "GOOD",
+      "note": "",
+      "split": "train",
+      "name": "OHI_datasetIMG_4585_JPG.rf.174ce0a168bcf4cf7f42c6743aaaec5a.jpg",
+      "n_boxes": 14,
+      "select_reason": "oversized_vs_neighbors"
+    },
+    "OHI_datasetIMG_5122_JPG.rf.25247f38a098e2bdbf5aa24a4125666a.jpg": {
+      "mark": "QUESTIONABLE",
+      "note": "",
+      "split": "train",
+      "name": "OHI_datasetIMG_5122_JPG.rf.25247f38a098e2bdbf5aa24a4125666a.jpg",
+      "n_boxes": 27,
+      "select_reason": "oversized_vs_neighbors"
+    },
+    "OHI_datasetIMG_5147_JPG.rf.6fec0ef1e4115e984dfcdb999b4b9858.jpg": {
+      "mark": "BAD",
+      "note": "",
+      "split": "train",
+      "name": "OHI_datasetIMG_5147_JPG.rf.6fec0ef1e4115e984dfcdb999b4b9858.jpg",
+      "n_boxes": 29,
+      "select_reason": "oversized_vs_neighbors"
+    },
+    "OHI_datasetIMG_2957_jpg.rf.1d202ba74d87a2db59d2d83b29dde43a.jpg": {
+      "mark": "GOOD",
+      "note": "",
+      "split": "train",
+      "name": "OHI_datasetIMG_2957_jpg.rf.1d202ba74d87a2db59d2d83b29dde43a.jpg",
+      "n_boxes": 12,
+      "select_reason": "border_touching"
+    },
+    "OHI_datasetIMG_3448_jpg.rf.4d43e9bf5dbeaae842ed22062ce0a15c.jpg": {
+      "mark": "QUESTIONABLE",
+      "note": "",
+      "split": "train",
+      "name": "OHI_datasetIMG_3448_jpg.rf.4d43e9bf5dbeaae842ed22062ce0a15c.jpg",
+      "n_boxes": 13,
+      "select_reason": "border_touching"
+    },
+    "OHI_datasetIMG_3497_JPG.rf.875ac9581b6f15d13ce22f4e454694d1.jpg": {
+      "mark": "GOOD",
+      "note": "",
+      "split": "train",
+      "name": "OHI_datasetIMG_3497_JPG.rf.875ac9581b6f15d13ce22f4e454694d1.jpg",
+      "n_boxes": 11,
+      "select_reason": "border_touching"
+    },
+    "OHI_datasetIMG_6094_JPG.rf.0eb3c9ba8a5e43ae512e2659d2c7c46f.jpg": {
+      "mark": "GOOD",
+      "note": "",
+      "split": "train",
+      "name": "OHI_datasetIMG_6094_JPG.rf.0eb3c9ba8a5e43ae512e2659d2c7c46f.jpg",
+      "n_boxes": 14,
+      "select_reason": "border_touching"
+    },
+    "OHI_datasetflip_IMG_2188_jpg.rf.6c9a71c0e9aaf424c68bb7addc2af3c8.jpg": {
+      "mark": "BAD",
+      "note": "",
+      "split": "train",
+      "name": "OHI_datasetflip_IMG_2188_jpg.rf.6c9a71c0e9aaf424c68bb7addc2af3c8.jpg",
+      "n_boxes": 13,
+      "select_reason": "border_touching"
+    },
+    "OHI_datasetIMG_5834_JPG.rf.197c43f1a99ef1b241b1332b3a9bfdef.jpg": {
+      "mark": "QUESTIONABLE",
+      "note": "",
+      "split": "train",
+      "name": "OHI_datasetIMG_5834_JPG.rf.197c43f1a99ef1b241b1332b3a9bfdef.jpg",
+      "n_boxes": 16,
+      "select_reason": "border_touching"
+    },
+    "OHI_datasetIMG_6566_JPG.rf.0c32d811b9dd9233d4d286db7bce668f.jpg": {
+      "mark": "QUESTIONABLE",
+      "note": "",
+      "split": "train",
+      "name": "OHI_datasetIMG_6566_JPG.rf.0c32d811b9dd9233d4d286db7bce668f.jpg",
+      "n_boxes": 14,
+      "select_reason": "border_touching"
+    },
+    "OHI_datasetIMG_3103_JPG.rf.5a75b8c86f3731c1e22d75ee55df2500.jpg": {
+      "mark": "BAD",
+      "note": "",
+      "split": "train",
+      "name": "OHI_datasetIMG_3103_JPG.rf.5a75b8c86f3731c1e22d75ee55df2500.jpg",
+      "n_boxes": 15,
+      "select_reason": "border_touching"
+    },
+    "OHI_datasetIMG_3146_JPG.rf.1f20cd371f0c4f3dafef9b61c1964e94.jpg": {
+      "mark": "BAD",
+      "note": "",
+      "split": "train",
+      "name": "OHI_datasetIMG_3146_JPG.rf.1f20cd371f0c4f3dafef9b61c1964e94.jpg",
+      "n_boxes": 23,
+      "select_reason": "border_touching"
+    },
+    "OHI_datasetIMG_3400_JPG.rf.1e3930e2946f55768da1d48ed45822f6.jpg": {
+      "mark": "QUESTIONABLE",
+      "note": "",
+      "split": "train",
+      "name": "OHI_datasetIMG_3400_JPG.rf.1e3930e2946f55768da1d48ed45822f6.jpg",
+      "n_boxes": 11,
+      "select_reason": "border_touching"
+    },
+    "OHI_datasetIMG_5123_JPG.rf.4cd79561f80bacf2302f94ce8cfa5a09.jpg": {
+      "mark": "GOOD",
+      "note": "",
+      "split": "train",
+      "name": "OHI_datasetIMG_5123_JPG.rf.4cd79561f80bacf2302f94ce8cfa5a09.jpg",
+      "n_boxes": 14,
+      "select_reason": "border_touching"
+    },
+    "OHI_datasetIMG_5284_JPG.rf.5513957e541e63585564bdd4f2c3d33b.jpg": {
+      "mark": "GOOD",
+      "note": "",
+      "split": "train",
+      "name": "OHI_datasetIMG_5284_JPG.rf.5513957e541e63585564bdd4f2c3d33b.jpg",
+      "n_boxes": 14,
+      "select_reason": "border_touching"
+    },
+    "OHI_datasetIMG_6161_JPG.rf.16769f0a6cd4bf53719e65670013acaa.jpg": {
+      "mark": "GOOD",
+      "note": "",
+      "split": "train",
+      "name": "OHI_datasetIMG_6161_JPG.rf.16769f0a6cd4bf53719e65670013acaa.jpg",
+      "n_boxes": 16,
+      "select_reason": "border_touching"
+    },
+    "OHI_datasetIMG_0602_JPG.rf.13c9ea9fe1c17065d26a0896410c2d6f.jpg": {
+      "mark": "GOOD",
+      "note": "",
+      "split": "valid",
+      "name": "OHI_datasetIMG_0602_JPG.rf.13c9ea9fe1c17065d26a0896410c2d6f.jpg",
+      "n_boxes": 28,
+      "select_reason": "max_iou_fill"
+    },
+    "OHI_datasetIMG_2155_JPG.rf.3a7b797e515b3d1cec3d7596e0143e05.jpg": {
+      "mark": "GOOD",
+      "note": "",
+      "split": "train",
+      "name": "OHI_datasetIMG_2155_JPG.rf.3a7b797e515b3d1cec3d7596e0143e05.jpg",
+      "n_boxes": 24,
+      "select_reason": "max_iou_fill"
+    },
+    "OHI_datasetIMG_6064_JPG.rf.09a2a17f72d931a7d60838a9d033f523.jpg": {
+      "mark": "BAD",
+      "note": "",
+      "split": "train",
+      "name": "OHI_datasetIMG_6064_JPG.rf.09a2a17f72d931a7d60838a9d033f523.jpg",
+      "n_boxes": 19,
+      "select_reason": "max_iou_fill"
+    },
+    "OHI_datasetIMG_4015_JPG.rf.1e57c89894daae1f543c3ce451cd9d7a.jpg": {
+      "mark": "GOOD",
+      "note": "",
+      "split": "train",
+      "name": "OHI_datasetIMG_4015_JPG.rf.1e57c89894daae1f543c3ce451cd9d7a.jpg",
+      "n_boxes": 25,
+      "select_reason": "max_iou_fill"
+    },
+    "OHI_datasetIMG_2507_JPG.rf.373e796edec9827e66f8e581ecab71cf.jpg": {
+      "mark": "GOOD",
+      "note": "",
+      "split": "train",
+      "name": "OHI_datasetIMG_2507_JPG.rf.373e796edec9827e66f8e581ecab71cf.jpg",
+      "n_boxes": 25,
+      "select_reason": "max_iou_fill"
+    },
+    "OHI_datasetIMG_1771_JPG.rf.348aea523c987ae759539a3062ade4bf.jpg": {
+      "mark": "BAD",
+      "note": "",
+      "split": "train",
+      "name": "OHI_datasetIMG_1771_JPG.rf.348aea523c987ae759539a3062ade4bf.jpg",
+      "n_boxes": 28,
+      "select_reason": "max_iou_fill"
+    },
+    "OHI_datasetIMG_4892_JPG.rf.bd964b849dfcc4ed5c65ad461905c676.jpg": {
+      "mark": "GOOD",
+      "note": "",
+      "split": "test",
+      "name": "OHI_datasetIMG_4892_JPG.rf.bd964b849dfcc4ed5c65ad461905c676.jpg",
+      "n_boxes": 24,
+      "select_reason": "max_iou_fill"
+    },
+    "OHI_datasetIMG_5002_JPG.rf.ec18fa71c12d2044eb636f1c791340d2.jpg": {
+      "mark": "GOOD",
+      "note": "",
+      "split": "valid",
+      "name": "OHI_datasetIMG_5002_JPG.rf.ec18fa71c12d2044eb636f1c791340d2.jpg",
+      "n_boxes": 26,
+      "select_reason": "max_iou_fill"
+    },
+    "OHI_datasetIMG_4685_JPG.rf.11c597fb7ef653f01a3a02a88e7ea886.jpg": {
+      "mark": "GOOD",
+      "note": "",
+      "split": "train",
+      "name": "OHI_datasetIMG_4685_JPG.rf.11c597fb7ef653f01a3a02a88e7ea886.jpg",
+      "n_boxes": 26,
+      "select_reason": "max_iou_fill"
+    },
+    "OHI_datasetIMG_4682_JPG.rf.15590bc0ab6c50985b153f5b93553733.jpg": {
+      "mark": "GOOD",
+      "note": "",
+      "split": "valid",
+      "name": "OHI_datasetIMG_4682_JPG.rf.15590bc0ab6c50985b153f5b93553733.jpg",
+      "n_boxes": 16,
+      "select_reason": "max_iou_fill"
+    },
+    "OHI_datasetIMG_6357_JPG.rf.079d014274331b8436adaee6ee9ef4bd.jpg": {
+      "mark": "GOOD",
+      "note": "",
+      "split": "train",
+      "name": "OHI_datasetIMG_6357_JPG.rf.079d014274331b8436adaee6ee9ef4bd.jpg",
+      "n_boxes": 26,
+      "select_reason": "max_iou_fill"
+    },
+    "OHI_datasetIMG_6630_JPG.rf.2d9a6068e169603c26d9e6b32575d940.jpg": {
+      "mark": "BAD",
+      "note": "",
+      "split": "train",
+      "name": "OHI_datasetIMG_6630_JPG.rf.2d9a6068e169603c26d9e6b32575d940.jpg",
+      "n_boxes": 26,
+      "select_reason": "high_iou_duplicate"
+    }
+  }
+}
