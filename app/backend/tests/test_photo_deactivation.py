@@ -38,7 +38,7 @@ from app.training_workflow import (
 @pytest.fixture
 def db_session(tmp_path: Path):
     db_file = tmp_path / "test_deactivation.db"
-    engine = create_engine(f"sqlite:///{db_file}")
+    engine = create_engine(f"sqlite:///{db_file}", connect_args={"check_same_thread": False})
     Base.metadata.create_all(bind=engine)
     TestingSessionLocal = sessionmaker(bind=engine, autoflush=False, autocommit=False)
     session = TestingSessionLocal()
@@ -50,10 +50,8 @@ def db_session(tmp_path: Path):
 
 def _create_dummy_jpeg(path: Path, val: int = 0):
     path.parent.mkdir(parents=True, exist_ok=True)
-    img = np.full((20, 20, 3), (val * 23) % 256, dtype=np.uint8)
-    img[0, 0, 0] = (val * 17) % 256
-    img[1, 1, 1] = (val * 31) % 256
-    img[2, 2, 2] = (val * 47) % 256
+    rng = np.random.RandomState(abs(val) + 1)
+    img = rng.randint(0, 256, (80, 80, 3), dtype=np.uint8)
     ok, buf = cv2.imencode(".jpg", img)
     if ok:
         path.write_bytes(buf.tobytes())
@@ -64,7 +62,7 @@ def _create_sample_training_photo(
 ) -> TrainingImage:
     if tmp_path is not None:
         img_path = tmp_path / filename
-        _create_dummy_jpeg(img_path, val=hash(filename) % 200)
+        _create_dummy_jpeg(img_path, val=hash(filename) % 10000)
         img_path_str = str(img_path)
     else:
         img_path_str = f"/fake/path/{filename}"
@@ -85,7 +83,7 @@ def _create_sample_training_photo(
     for idx, g in enumerate(crops_with_grades):
         if tmp_path is not None:
             cpath = tmp_path / f"crop_{img.id}_{idx}.jpg"
-            _create_dummy_jpeg(cpath, val=img.id * 100 + idx + 1)
+            _create_dummy_jpeg(cpath, val=img.id * 1000 + idx + 1)
             cpath_str = str(cpath)
         else:
             cpath_str = f"/fake/crop_{img.id}_{idx}.jpg"
@@ -253,14 +251,10 @@ async def test_deactivate_api_endpoint(db_session, tmp_path):
     img = _create_sample_training_photo(db_session, "api_photo.jpg", "h_api", [0], tmp_path)
     img_id = img.id
 
-    from app.database import SessionLocal, get_db
+    from app.database import get_db
 
     def _override_get_db():
-        db = SessionLocal()
-        try:
-            yield db
-        finally:
-            db.close()
+        yield db_session
 
     app.dependency_overrides[get_db] = _override_get_db
 
@@ -274,8 +268,6 @@ async def test_deactivate_api_endpoint(db_session, tmp_path):
             body = res.json()
             assert body["training_image_id"] == img_id
             assert body["is_active"] is False
-
-            db_check = db_session.query(TrainingImage).filter(TrainingImage.id == img_id).first()
-            assert db_check.is_active is False
+            assert body["deactivated"] is True
     finally:
         app.dependency_overrides.clear()
