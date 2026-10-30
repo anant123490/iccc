@@ -7,7 +7,7 @@ tf = pytest.importorskip("tensorflow")
 
 from src.icdas import NUM_CLASSES, ORDINAL_THRESHOLDS, VALID_CLASSES
 from src.losses import ordinal_loss, ordinal_predict, ordinal_to_class_probabilities  # noqa: E402
-from src.model import build_model, ordinal_to_class
+from src.model import build_model
 from src.preprocessing import preprocess_image
 from src.attention import CBAM
 
@@ -36,7 +36,7 @@ def test_build_model_default_is_softmax():
 def test_ordinal_head_still_available():
     model = build_model(
         num_classes=NUM_CLASSES,
-        ordinal=True,
+        ordinal_regression=True,
         pretrained=False,
     )
     x = np.random.randn(1, 224, 224, 3).astype(np.float32)
@@ -54,7 +54,6 @@ def test_ordinal_decode_and_loss():
     assert float(loss.numpy()) >= 0.0
     pred_class = int(ordinal_predict(y_pred).numpy()[0])
     assert pred_class == 2
-    assert int(ordinal_to_class(y_pred).numpy()[0]) == 2
     probs = ordinal_to_class_probabilities(y_pred.numpy())[0]
     assert probs.shape == (5,)
     assert abs(float(probs.sum()) - 1.0) < 1e-5

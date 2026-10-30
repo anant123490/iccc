@@ -1,47 +1,63 @@
 #!/usr/bin/env python3
-"""
-ICDAS 0-4 Training Pipeline
 
-Features:
-    - 5 ICDAS classes: 0, 1, 2, 3, 4
-    - MobileNetV3-Small
-    - CBAM attention
-    - ImageNet pretrained weights
-    - Training augmentation
-    - Class-weighted training
-    - Optional focal loss
-    - Optional ordinal regression
-    - Two-stage training
-    - Early stopping
-    - ReduceLROnPlateau
-    - Best-model checkpointing
-    - Full test evaluation
-    - Confusion matrix
-    - Classification report
+"""
+ICDAS 0-4 Training Pipeline — V6 CLEAN
+
+Purpose
+-------
+Controlled baseline experiment for ICDAS 0-4 classification.
+
+V6 changes
+----------
+1. Standard SparseCategoricalCrossentropy.
+2. No Keras class_weight.
+3. No custom class weights.
+4. Mild augmentation is controlled by dataset.py.
+5. Images remain in [0,255] before MobileNetV3 preprocessing.
+6. QWK is used for checkpoint selection.
+7. Two-stage training is retained.
+8. ICDAS 5 and 6 remain completely out of scope.
+9. Nested v6_clean.yaml configuration is supported correctly.
+10. Dataset path is read from dataset.root.
+11. Output path is read from output.directory.
+12. Model/training settings are read from their nested sections.
 
 IMPORTANT
 ---------
-DentalCariesDataset currently returns images normalized to [0, 1].
+Do NOT modify the v77 test set during training/tuning.
 
-Keras MobileNetV3 with ImageNet pretrained weights and built-in
-preprocessing expects images in the [0, 255] range.
+Expected dataset:
 
-Therefore this training pipeline converts:
+data/training/versions/v77/
+    train/
+        0/
+        1/
+        2/
+        3/
+        4/
 
-    [0, 1] -> [0, 255]
+    val/
+        0/
+        1/
+        2/
+        3/
+        4/
 
-before sending images into MobileNetV3.
+    test/
+        0/
+        1/
+        2/
+        3/
+        4/
 
-This same preprocessing contract MUST also be used during inference.
+ICDAS 5 and 6 are NOT supported.
 """
-
 
 from __future__ import annotations
 
 import argparse
 import json
 import logging
-import os
 import shutil
 import sys
 from pathlib import Path
@@ -67,17 +83,17 @@ if str(ML_DIR) not in sys.path:
 # ============================================================
 
 from src.dataset import DentalCariesDataset
+
 from src.icdas import NUM_CLASSES
 
 from src.losses import (
     ordinal_loss,
     ordinal_predict,
     ordinal_to_class_probabilities,
+    QuadraticWeightedKappa,
 )
 
-from src.metrics import (
-    save_evaluation_report,
-)
+from src.metrics import save_evaluation_report
 
 from src.model import (
     build_model,
@@ -114,99 +130,322 @@ VALID_EXTENSIONS = {
 
 
 # ============================================================
-# YAML LOADER
+# CONFIG LOADER
 # ============================================================
 
 def load_config(path: str) -> dict:
     """
     Load YAML configuration.
+
+    The V6 YAML uses nested sections such as:
+
+        dataset:
+            root: ...
+
+        model:
+            dropout: ...
+
+        stage1:
+            epochs: ...
+
     """
+    config_path = Path(path).resolve()
+
+    if not config_path.exists():
+        raise FileNotFoundError(
+            f"Configuration file does not exist: {config_path}"
+        )
 
     with open(
-        path,
+        config_path,
         "r",
         encoding="utf-8",
     ) as f:
-
         config = yaml.safe_load(f)
 
     if config is None:
         raise ValueError(
-            f"YAML configuration is empty: {path}"
+            f"YAML configuration is empty: {config_path}"
         )
 
+    if not isinstance(config, dict):
+        raise ValueError(
+            "YAML root must be a dictionary."
+        )
+
+    logger.info(
+        "Configuration loaded: %s",
+        config_path,
+    )
+
     return config
+
+
+# ============================================================
+# CONFIG HELPERS
+# ============================================================
+
+def get_nested(
+    config: dict,
+    section: str,
+    key: str,
+    default=None,
+):
+    """
+    Read a value from nested YAML configuration.
+
+    Example:
+
+        dataset:
+            root: data/training/versions/v77
+
+    get_nested(config, "dataset", "root")
+    -> data/training/versions/v77
+
+    Legacy flat configuration is also supported.
+    """
+
+    section_data = config.get(section)
+
+    if isinstance(section_data, dict):
+        if key in section_data:
+            return section_data[key]
+
+    # Backward compatibility with older flat YAML files.
+    flat_key = f"{section}_{key}"
+
+    if flat_key in config:
+        return config[flat_key]
+
+    return default
+
+
+def get_dataset_root(
+    config: dict,
+    project_root: Path,
+) -> Path:
+    """
+    Resolve dataset root.
+
+    Priority:
+        1. dataset.root
+        2. dataset_root
+        3. data/icdas
+    """
+
+    dataset_root_value = get_nested(
+        config,
+        "dataset",
+        "root",
+        None,
+    )
+
+    if dataset_root_value is None:
+        dataset_root_value = config.get(
+            "dataset_root"
+        )
+
+    if dataset_root_value is None:
+        dataset_root_value = "data/icdas"
+
+    dataset_root = Path(
+        str(dataset_root_value)
+    )
+
+    if not dataset_root.is_absolute():
+        dataset_root = (
+            project_root / dataset_root
+        )
+
+    return dataset_root.resolve()
+
+
+def get_output_directory(
+    config: dict,
+    project_root: Path,
+) -> Path:
+    """
+    Resolve output directory.
+
+    Priority:
+        1. output.directory
+        2. output_dir
+        3. models/icdas/current/<experiment_name>
+    """
+
+    output_value = get_nested(
+        config,
+        "output",
+        "directory",
+        None,
+    )
+
+    if output_value is None:
+        output_value = config.get(
+            "output_dir"
+        )
+
+    if output_value is not None:
+        output_dir = Path(
+            str(output_value)
+        )
+
+        if not output_dir.is_absolute():
+            output_dir = (
+                project_root / output_dir
+            )
+
+        return output_dir.resolve()
+
+    experiment_name = config.get(
+        "experiment_name",
+        "icdas_mobilenet_cbam_5class_v6_clean",
+    )
+
+    return (
+        project_root
+        / "models"
+        / "icdas"
+        / "current"
+        / str(experiment_name)
+    ).resolve()
 
 
 # ============================================================
 # CONFIG VALIDATION
 # ============================================================
 
-def validate_config(config: dict):
+def validate_config(
+    config: dict,
+):
     """
-    Validate important training configuration.
+    Validate V6 configuration.
+
+    Supports the nested v6_clean.yaml structure.
     """
 
+    dataset_cfg = config.get(
+        "dataset",
+        {},
+    )
+
+    model_cfg = config.get(
+        "model",
+        {},
+    )
+
+    loss_cfg = config.get(
+        "loss",
+        {},
+    )
+
+    stage1_cfg = config.get(
+        "stage1",
+        {},
+    )
+
+    stage2_cfg = config.get(
+        "stage2",
+        {},
+    )
+
+    # --------------------------------------------------------
+    # Number of classes
+    # --------------------------------------------------------
+
     num_classes = int(
-        config.get(
+        dataset_cfg.get(
             "num_classes",
-            EXPECTED_NUM_CLASSES,
+            model_cfg.get(
+                "num_classes",
+                config.get(
+                    "num_classes",
+                    EXPECTED_NUM_CLASSES,
+                ),
+            ),
         )
     )
 
     if num_classes != EXPECTED_NUM_CLASSES:
-
         raise ValueError(
-            f"This project is configured for ICDAS 0-4 "
-            f"only. Expected num_classes=5, "
-            f"but got {num_classes}."
+            "This project supports ICDAS 0-4 only. "
+            "num_classes must be 5."
         )
 
+    # --------------------------------------------------------
+    # Image size
+    # --------------------------------------------------------
+
     image_size = int(
-        config.get(
+        dataset_cfg.get(
             "image_size",
-            224,
+            model_cfg.get(
+                "input_shape",
+                [224, 224, 3],
+            )[0]
+            if isinstance(
+                model_cfg.get(
+                    "input_shape"
+                ),
+                list,
+            )
+            else config.get(
+                "image_size",
+                224,
+            ),
         )
     )
 
     if image_size != 224:
-
         logger.warning(
-            "MobileNetV3 training is normally configured "
-            "for 224x224. Current image_size=%s",
+            "Current image_size=%s. "
+            "Recommended value is 224.",
             image_size,
         )
 
-    loss_name = str(
-        config.get(
-            "loss",
-            "sparse_categorical_crossentropy",
-        )
-    ).lower()
+    # --------------------------------------------------------
+    # Loss
+    # --------------------------------------------------------
+
+    if isinstance(
+        loss_cfg,
+        dict,
+    ):
+        loss_name = str(
+            loss_cfg.get(
+                "name",
+                "sparse_categorical_crossentropy",
+            )
+        ).lower()
+    else:
+        loss_name = str(
+            loss_cfg
+        ).lower()
+
+    # --------------------------------------------------------
+    # Ordinal
+    # --------------------------------------------------------
 
     ordinal_regression = bool(
-        config.get(
+        model_cfg.get(
             "ordinal_regression",
-            False,
+            config.get(
+                "ordinal_regression",
+                False,
+            ),
         )
     )
 
-    if ordinal_regression and loss_name not in {
-        "ordinal",
-        "sparse_categorical_crossentropy",
-        "focal",
-    }:
-
-        raise ValueError(
-            f"Invalid loss configuration: {loss_name}"
-        )
+    # --------------------------------------------------------
+    # Log configuration
+    # --------------------------------------------------------
 
     logger.info(
-        "Configuration validated successfully."
+        "Configuration validated."
     )
 
     logger.info(
-        "Number of classes: %d",
+        "Classes: %d",
         num_classes,
     )
 
@@ -217,7 +456,7 @@ def validate_config(config: dict):
 
     logger.info(
         "Loss: %s",
-        loss_name,
+        loss_cfg,
     )
 
     logger.info(
@@ -225,151 +464,75 @@ def validate_config(config: dict):
         ordinal_regression,
     )
 
-
-# ============================================================
-# CLASS WEIGHTS
-# ============================================================
-
-def compute_class_weights_from_dataset(
-    dataset_root: Path,
-    num_classes: int,
-):
-    """
-    Calculate balanced class weights.
-
-    Formula:
-
-        weight =
-            total_samples /
-            (num_classes * class_count)
-    """
-
-    train_root = (
-        dataset_root
-        / "train"
-    )
-
-    if not train_root.exists():
-
-        raise FileNotFoundError(
-            f"Training directory not found: "
-            f"{train_root}"
-        )
-
-    counts = {}
-
     logger.info(
-        "Calculating class weights from: %s",
-        train_root,
-    )
-
-    for class_id in range(num_classes):
-
-        class_dir = (
-            train_root
-            / str(class_id)
-        )
-
-        if not class_dir.exists():
-
-            raise FileNotFoundError(
-                f"Missing training class directory: "
-                f"{class_dir}"
-            )
-
-        count = sum(
-            1
-            for file in class_dir.iterdir()
-            if (
-                file.is_file()
-                and file.suffix.lower()
-                in VALID_EXTENSIONS
-            )
-        )
-
-        if count == 0:
-
-            raise ValueError(
-                f"Class {class_id} contains "
-                f"zero training images."
-            )
-
-        counts[class_id] = count
-
-    total_samples = sum(
-        counts.values()
-    )
-
-    class_weights = {}
-
-    for class_id in range(num_classes):
-
-        class_weights[class_id] = (
-            total_samples
-            / (
-                num_classes
-                * counts[class_id]
-            )
-        )
-
-    logger.info(
-        "========================================"
+        "Stage 1 enabled: %s",
+        stage1_cfg.get(
+            "enabled",
+            True,
+        ),
     )
 
     logger.info(
-        "TRAINING CLASS DISTRIBUTION"
+        "Stage 1 epochs: %s",
+        stage1_cfg.get(
+            "epochs",
+            20,
+        ),
     )
 
     logger.info(
-        "========================================"
+        "Stage 2 enabled: %s",
+        stage2_cfg.get(
+            "enabled",
+            True,
+        ),
     )
-
-    for class_id in range(num_classes):
-
-        logger.info(
-            "ICDAS %d: %d images -> weight %.4f",
-            class_id,
-            counts[class_id],
-            class_weights[class_id],
-        )
 
     logger.info(
-        "========================================"
+        "Stage 2 epochs: %s",
+        stage2_cfg.get(
+            "epochs",
+            30,
+        ),
     )
-
-    return class_weights
 
 
 # ============================================================
-# DATASET INPUT SCALE FIX
+# DATASET INPUT SCALE
 # ============================================================
 
 def convert_dataset_to_mobilenet_range(
     dataset: tf.data.Dataset,
 ) -> tf.data.Dataset:
     """
-    Ensure dataset images are float32 [0, 255] for MobileNetV3.
+    Ensure images are float32 [0,255].
 
-    DentalCariesDataset now returns [0, 255]. Older [0, 1]
-    batches are scaled once. Values already in [0, 255]
-    are not multiplied again.
+    dataset.py currently returns [0,255].
+
+    This function protects against older [0,1]
+    datasets without double scaling.
     """
 
     def transform(
         images,
         labels,
     ):
-
         images = tf.cast(
             images,
             tf.float32,
         )
 
-        max_value = tf.reduce_max(images)
+        max_value = tf.reduce_max(
+            images
+        )
 
         def from_unit_interval():
             return (
-                tf.clip_by_value(images, 0.0, 1.0)
+                tf.clip_by_value(
+                    images,
+                    0.0,
+                    1.0,
+                )
                 * 255.0
             )
 
@@ -406,15 +569,25 @@ def inspect_dataset(
     name: str,
 ):
     """
-    Print image statistics.
+    Inspect one batch.
 
-    This is extremely important for detecting
-    preprocessing mismatch.
+    Checks:
+        shape
+        min
+        max
+        mean
+        std
+        labels
     """
 
-    images, labels = next(
-        iter(dataset)
-    )
+    try:
+        images, labels = next(
+            iter(dataset)
+        )
+    except StopIteration:
+        raise RuntimeError(
+            f"{name} dataset is empty."
+        )
 
     images_np = images.numpy()
 
@@ -464,7 +637,7 @@ def inspect_dataset(
     if images_np.max() <= 1.1:
 
         logger.warning(
-            "%s images are still approximately "
+            "%s images are approximately "
             "in [0,1].",
             name,
         )
@@ -479,8 +652,7 @@ def inspect_dataset(
     else:
 
         logger.info(
-            "%s input scale looks correct "
-            "for MobileNetV3 [0,255].",
+            "%s input scale is correct: [0,255].",
             name,
         )
 
@@ -491,36 +663,79 @@ def inspect_dataset(
 
 def compile_model(
     model,
-    config,
+    config: dict,
     learning_rate: float,
 ):
     """
-    Compile model according to YAML.
+    Compile V6 model.
+
+    V6 baseline intentionally uses:
+
+        SparseCategoricalCrossentropy
+
+    and does NOT use:
+
+        class weights
+        Keras class_weight
+        focal loss
+
+    Ordinal loss remains available for future experiments,
+    but is disabled in v6_clean.yaml.
     """
 
+    model_cfg = config.get(
+        "model",
+        {},
+    )
+
+    loss_cfg = config.get(
+        "loss",
+        {},
+    )
+
     ordinal_regression = bool(
-        config.get(
+        model_cfg.get(
             "ordinal_regression",
-            False,
+            config.get(
+                "ordinal_regression",
+                False,
+            ),
         )
     )
 
-    loss_name = str(
-        config.get(
-            "loss",
-            "sparse_categorical_crossentropy",
-        )
-    ).lower()
+    if isinstance(
+        loss_cfg,
+        dict,
+    ):
+
+        loss_name = str(
+            loss_cfg.get(
+                "name",
+                "sparse_categorical_crossentropy",
+            )
+        ).lower()
+
+    else:
+
+        loss_name = str(
+            loss_cfg
+        ).lower()
 
     num_classes = int(
         config.get(
+            "dataset",
+            {},
+        ).get(
             "num_classes",
-            EXPECTED_NUM_CLASSES,
+            model_cfg.get(
+                "num_classes",
+                EXPECTED_NUM_CLASSES,
+            ),
         )
     )
 
     # ========================================================
-    # ORDINAL LOSS
+    # ORDINAL
     # ========================================================
 
     if (
@@ -537,26 +752,44 @@ def compile_model(
         )
 
     # ========================================================
-    # FOCAL LOSS
+    # FOCAL
     # ========================================================
 
     elif loss_name == "focal":
 
         from src.losses import focal_loss
 
+        gamma = 2.0
+        alpha = 0.25
+
+        if isinstance(
+            loss_cfg,
+            dict,
+        ):
+
+            gamma = float(
+                loss_cfg.get(
+                    "gamma",
+                    config.get(
+                        "focal_gamma",
+                        2.0,
+                    ),
+                )
+            )
+
+            alpha = float(
+                loss_cfg.get(
+                    "alpha",
+                    config.get(
+                        "focal_alpha",
+                        0.25,
+                    ),
+                )
+            )
+
         loss = focal_loss(
-            gamma=float(
-                config.get(
-                    "focal_gamma",
-                    2.0,
-                )
-            ),
-            alpha=float(
-                config.get(
-                    "focal_alpha",
-                    0.25,
-                )
-            ),
+            gamma=gamma,
+            alpha=alpha,
         )
 
         logger.info(
@@ -564,46 +797,86 @@ def compile_model(
         )
 
     # ========================================================
-    # STANDARD CLASSIFICATION
+    # STANDARD CE
     # ========================================================
 
     else:
 
-        loss = (
-            keras.losses
-            .SparseCategoricalCrossentropy()
+        label_smoothing = 0.0
+
+        if isinstance(
+            loss_cfg,
+            dict,
+        ):
+
+            label_smoothing = float(
+                loss_cfg.get(
+                    "label_smoothing",
+                    0.0,
+                )
+            )
+
+        loss = keras.losses.SparseCategoricalCrossentropy(
+            from_logits=False
         )
 
         logger.info(
             "Using SparseCategoricalCrossentropy."
         )
 
+        logger.info(
+            "Label smoothing: %.4f",
+            label_smoothing,
+        )
+
     # ========================================================
     # OPTIMIZER
     # ========================================================
 
-    optimizer = (
-        keras.optimizers.AdamW(
-            learning_rate=float(
-                learning_rate
-            ),
-            weight_decay=float(
-                config.get(
-                    "weight_decay",
-                    1e-4,
-                )
+    optimizer_cfg = config.get(
+        "optimizer",
+        {},
+    )
+
+    weight_decay = float(
+        optimizer_cfg.get(
+            "weight_decay",
+            config.get(
+                "weight_decay",
+                1e-4,
             ),
         )
     )
 
+    optimizer = keras.optimizers.AdamW(
+        learning_rate=float(
+            learning_rate
+        ),
+        weight_decay=weight_decay,
+    )
+
+    # ========================================================
+    # COMPILE
+    # ========================================================
+
     model.compile(
         optimizer=optimizer,
         loss=loss,
+        metrics=[
+            QuadraticWeightedKappa(
+                num_classes=num_classes
+            )
+        ],
     )
 
     logger.info(
         "Learning rate: %.8f",
         learning_rate,
+    )
+
+    logger.info(
+        "Weight decay: %.8f",
+        weight_decay,
     )
 
     return model
@@ -618,7 +891,9 @@ def get_callbacks(
     config: dict,
 ):
     """
-    Training callbacks.
+    Create callbacks.
+
+    QWK is the model-selection metric.
     """
 
     output_dir.mkdir(
@@ -631,89 +906,155 @@ def get_callbacks(
         / "best.keras"
     )
 
+    callbacks_cfg = config.get(
+        "callbacks",
+        {},
+    )
+
+    early_cfg = callbacks_cfg.get(
+        "early_stopping",
+        {},
+    )
+
+    reduce_cfg = callbacks_cfg.get(
+        "reduce_lr",
+        {},
+    )
+
+    checkpoint_cfg = callbacks_cfg.get(
+        "checkpoint",
+        {},
+    )
+
     patience = int(
-        config.get(
-            "early_stopping_patience",
-            10,
+        early_cfg.get(
+            "patience",
+            8,
         )
     )
 
     lr_patience = int(
-        config.get(
-            "reduce_lr_patience",
+        reduce_cfg.get(
+            "patience",
             3,
         )
     )
 
-    return [
+    monitor = str(
+        callbacks_cfg.get(
+            "monitor",
+            "val_qwk",
+        )
+    )
 
-        # ----------------------------------------------------
-        # BEST MODEL
-        # ----------------------------------------------------
+    mode = str(
+        callbacks_cfg.get(
+            "mode",
+            "max",
+        )
+    )
 
-        keras.callbacks.ModelCheckpoint(
+    callback_list = []
 
-            filepath=str(
-                checkpoint_path
-            ),
+    # ========================================================
+    # CHECKPOINT
+    # ========================================================
 
-            monitor="val_loss",
+    if checkpoint_cfg.get(
+        "enabled",
+        True,
+    ):
 
-            mode="min",
+        callback_list.append(
+            keras.callbacks.ModelCheckpoint(
+                filepath=str(
+                    checkpoint_path
+                ),
+                monitor=monitor,
+                mode=mode,
+                save_best_only=bool(
+                    checkpoint_cfg.get(
+                        "save_best_only",
+                        True,
+                    )
+                ),
+                verbose=1,
+            )
+        )
 
-            save_best_only=True,
+    # ========================================================
+    # EARLY STOPPING
+    # ========================================================
 
-            verbose=1,
-        ),
+    if early_cfg.get(
+        "enabled",
+        True,
+    ):
 
-        # ----------------------------------------------------
-        # EARLY STOPPING
-        # ----------------------------------------------------
+        callback_list.append(
+            keras.callbacks.EarlyStopping(
+                monitor=monitor,
+                mode=mode,
+                patience=patience,
+                restore_best_weights=bool(
+                    early_cfg.get(
+                        "restore_best_weights",
+                        True,
+                    )
+                ),
+                verbose=1,
+            )
+        )
 
-        keras.callbacks.EarlyStopping(
+    # ========================================================
+    # REDUCE LR
+    # ========================================================
 
-            monitor="val_loss",
+    if reduce_cfg.get(
+        "enabled",
+        True,
+    ):
 
-            mode="min",
+        callback_list.append(
+            keras.callbacks.ReduceLROnPlateau(
+                monitor=str(
+                    reduce_cfg.get(
+                        "monitor",
+                        "val_loss",
+                    )
+                ),
+                mode="min",
+                factor=float(
+                    reduce_cfg.get(
+                        "factor",
+                        0.5,
+                    )
+                ),
+                patience=lr_patience,
+                min_lr=float(
+                    reduce_cfg.get(
+                        "min_lr",
+                        1e-7,
+                    )
+                ),
+                verbose=1,
+            )
+        )
 
-            patience=patience,
+    # ========================================================
+    # HISTORY
+    # ========================================================
 
-            restore_best_weights=True,
-
-            verbose=1,
-        ),
-
-        # ----------------------------------------------------
-        # LEARNING RATE REDUCTION
-        # ----------------------------------------------------
-
-        keras.callbacks.ReduceLROnPlateau(
-
-            monitor="val_loss",
-
-            mode="min",
-
-            factor=0.3,
-
-            patience=lr_patience,
-
-            min_lr=1e-7,
-
-            verbose=1,
-        ),
-
-        # ----------------------------------------------------
-        # TRAINING HISTORY
-        # ----------------------------------------------------
-
+    callback_list.append(
         keras.callbacks.CSVLogger(
-
             str(
                 output_dir
                 / "history.csv"
             )
-        ),
-    ]
+        )
+    )
+
+    return callback_list
 
 
 # ============================================================
@@ -725,7 +1066,10 @@ def decode_predictions(
     ordinal_regression: bool,
 ):
     """
-    Convert raw model output to predictions.
+    Convert raw model output into:
+
+        predictions
+        probabilities
     """
 
     raw = np.asarray(
@@ -775,7 +1119,8 @@ def prediction_sanity_check(
     ordinal_regression=False,
 ):
     """
-    Check whether model is collapsing to one class.
+    Run prediction on one batch and print
+    prediction distribution.
     """
 
     images, labels = next(
@@ -847,8 +1192,8 @@ def prediction_sanity_check(
     if len(unique) == 1:
 
         logger.warning(
-            "WARNING: Model predicts only one "
-            "class in this batch."
+            "WARNING: model predicts only "
+            "one class in this batch."
         )
 
     logger.info(
@@ -868,7 +1213,7 @@ def evaluate_model(
     output_dir: Path | None = None,
 ):
     """
-    Evaluate model on untouched test dataset.
+    Evaluate model on the complete test dataset.
     """
 
     y_true = []
@@ -913,6 +1258,11 @@ def evaluate_model(
         y_prob
     )
 
+    if len(y_true) == 0:
+        raise RuntimeError(
+            "Test dataset produced zero samples."
+        )
+
     # ========================================================
     # METRICS
     # ========================================================
@@ -924,21 +1274,17 @@ def evaluate_model(
             / "test_evaluation"
         )
 
-        metrics = (
-            save_evaluation_report(
-                y_true,
-                y_pred,
-                y_prob,
-                num_classes,
-                str(evaluation_dir),
-            )
+        metrics = save_evaluation_report(
+            y_true,
+            y_pred,
+            y_prob,
+            num_classes,
+            str(evaluation_dir),
         )
 
     else:
 
-        from src.metrics import (
-            compute_metrics,
-        )
+        from src.metrics import compute_metrics
 
         metrics = compute_metrics(
             y_true,
@@ -947,16 +1293,19 @@ def evaluate_model(
         )
 
     # ========================================================
-    # PRINT
+    # PRINT RESULTS
     # ========================================================
 
     print()
+
     print(
         "========================================"
     )
+
     print(
         "FINAL TEST RESULTS"
     )
+
     print(
         "========================================"
     )
@@ -1022,7 +1371,7 @@ def evaluate_model(
 
 
 # ============================================================
-# SAVE JSON
+# SAVE RESULTS
 # ============================================================
 
 def save_results(
@@ -1030,7 +1379,7 @@ def save_results(
     output_dir: Path,
 ):
     """
-    Save evaluation results to JSON.
+    Save final test metrics as JSON.
     """
 
     path = (
@@ -1045,7 +1394,16 @@ def save_results(
         if key == "classification_report":
             continue
 
-        serializable[key] = value
+        if isinstance(
+            value,
+            np.ndarray,
+        ):
+            serializable[key] = (
+                value.tolist()
+            )
+
+        else:
+            serializable[key] = value
 
     with open(
         path,
@@ -1068,7 +1426,7 @@ def save_results(
 
 
 # ============================================================
-# BUILD DATASETS
+# DATASET CREATION
 # ============================================================
 
 def create_datasets(
@@ -1077,48 +1435,97 @@ def create_datasets(
     num_classes: int,
 ):
     """
-    Create train/validation/test datasets.
+    Create train, validation and test datasets.
+
+    Uses:
+
+        train
+        val
+        test
+
+    from v77.
+
+    The 'valid' directory is intentionally NOT used.
     """
 
+    dataset_cfg = config.get(
+        "dataset",
+        {},
+    )
+
+    preprocessing_cfg = config.get(
+        "preprocessing",
+        {},
+    )
+
+    augmentation_cfg = config.get(
+        "augmentation",
+        {},
+    )
+
     image_size = int(
-        config.get(
+        dataset_cfg.get(
             "image_size",
             224,
         )
     )
 
     batch_size = int(
-        config.get(
+        dataset_cfg.get(
             "batch_size",
-            16,
+            8,
         )
     )
 
-    preprocess_cfg = {
+    train_split = str(
+        dataset_cfg.get(
+            "train_split",
+            "train",
+        )
+    )
 
+    val_split = str(
+        dataset_cfg.get(
+            "val_split",
+            "val",
+        )
+    )
+
+    test_split = str(
+        dataset_cfg.get(
+            "test_split",
+            "test",
+        )
+    )
+
+    # ========================================================
+    # PREPROCESSING
+    # ========================================================
+
+    preprocess_cfg = {
         "use_roi": bool(
-            config.get(
+            preprocessing_cfg.get(
                 "use_roi_detection",
                 False,
             )
         ),
 
         "use_clahe": bool(
-            config.get(
+            preprocessing_cfg.get(
                 "use_clahe",
                 False,
             )
         ),
 
         "use_specular": bool(
-            config.get(
+            preprocessing_cfg.get(
                 "use_specular_reduction",
                 False,
             )
         ),
 
         "color_norm": bool(
-            config.get(
+            preprocessing_cfg.get(
                 "color_normalize",
                 False,
             )
@@ -1131,28 +1538,50 @@ def create_datasets(
     )
 
     # ========================================================
+    # AUGMENTATION
+    # ========================================================
+
+    augmentation_enabled = bool(
+        augmentation_cfg.get(
+            "enabled",
+            True,
+        )
+    )
+
+    logger.info(
+        "Training augmentation enabled: %s",
+        augmentation_enabled,
+    )
+
+    # ========================================================
+    # DATASET ROOT CHECK
+    # ========================================================
+
+    logger.info(
+        "Checking dataset root: %s",
+        dataset_root,
+    )
+
+    if not dataset_root.exists():
+
+        raise FileNotFoundError(
+            "Dataset root does not exist:\n"
+            f"{dataset_root}\n\n"
+            "Expected V77 dataset at:\n"
+            "data/training/versions/v77"
+        )
+
+    # ========================================================
     # TRAIN
     # ========================================================
 
     train_data = DentalCariesDataset(
-
         str(dataset_root),
-
-        "train",
-
+        train_split,
         image_size=image_size,
-
         batch_size=batch_size,
-
-        augment=bool(
-            config.get(
-                "augmentation",
-                True,
-            )
-        ),
-
+        augment=augmentation_enabled,
         preprocess_cfg=preprocess_cfg,
-
         num_classes=num_classes,
     )
 
@@ -1161,19 +1590,12 @@ def create_datasets(
     # ========================================================
 
     val_data = DentalCariesDataset(
-
         str(dataset_root),
-
-        "val",
-
+        val_split,
         image_size=image_size,
-
         batch_size=batch_size,
-
         augment=False,
-
         preprocess_cfg=preprocess_cfg,
-
         num_classes=num_classes,
     )
 
@@ -1182,24 +1604,17 @@ def create_datasets(
     # ========================================================
 
     test_data = DentalCariesDataset(
-
         str(dataset_root),
-
-        "test",
-
+        test_split,
         image_size=image_size,
-
         batch_size=batch_size,
-
         augment=False,
-
         preprocess_cfg=preprocess_cfg,
-
         num_classes=num_classes,
     )
 
     # ========================================================
-    # VALIDATE CLASS DIRECTORIES
+    # VALIDATE CLASSES
     # ========================================================
 
     train_data.validate_classes(
@@ -1215,7 +1630,7 @@ def create_datasets(
     )
 
     # ========================================================
-    # PRINT DISTRIBUTIONS
+    # DISTRIBUTIONS
     # ========================================================
 
     train_data.print_distribution(
@@ -1234,32 +1649,25 @@ def create_datasets(
     # TF DATASETS
     # ========================================================
 
-    train_ds = (
-        train_data.as_tf_dataset(
-            shuffle=True
-        )
+    train_ds = train_data.as_tf_dataset(
+        shuffle=True
     )
 
-    val_ds = (
-        val_data.as_tf_dataset(
-            shuffle=False
-        )
+    val_ds = val_data.as_tf_dataset(
+        shuffle=False
     )
 
-    test_ds = (
-        test_data.as_tf_dataset(
-            shuffle=False
-        )
+    test_ds = test_data.as_tf_dataset(
+        shuffle=False
     )
 
     # ========================================================
-    # IMPORTANT SCALE FIX
+    # INPUT SCALE
     # ========================================================
 
     logger.info(
-        "Ensuring dataset images are "
-        "float32 [0,255] for MobileNetV3 "
-        "(no double scaling)."
+        "Ensuring dataset uses MobileNetV3 "
+        "input range [0,255]."
     )
 
     train_ds = (
@@ -1304,6 +1712,105 @@ def create_datasets(
 
 
 # ============================================================
+# BUILD MODEL
+# ============================================================
+
+def create_model(
+    config: dict,
+    num_classes: int,
+):
+    """
+    Build MobileNetV3Small + CBAM.
+    """
+
+    model_cfg = config.get(
+        "model",
+        {},
+    )
+
+    image_size = int(
+        config.get(
+            "dataset",
+            {},
+        ).get(
+            "image_size",
+            224,
+        )
+    )
+
+    dropout = float(
+        model_cfg.get(
+            "dropout",
+            0.30,
+        )
+    )
+
+    attention_type = model_cfg.get(
+        "attention_type",
+        model_cfg.get(
+            "attention",
+            config.get(
+                "use_attention",
+                "cbam",
+            ),
+        ),
+    )
+
+    pretrained = bool(
+        model_cfg.get(
+            "pretrained",
+            True,
+        )
+    )
+
+    ordinal_regression = bool(
+        model_cfg.get(
+            "ordinal_regression",
+            False,
+        )
+    )
+
+    logger.info(
+        "Building model:"
+    )
+
+    logger.info(
+        "  Backbone: MobileNetV3Small"
+    )
+
+    logger.info(
+        "  Attention: %s",
+        attention_type,
+    )
+
+    logger.info(
+        "  Dropout: %.2f",
+        dropout,
+    )
+
+    logger.info(
+        "  Pretrained: %s",
+        pretrained,
+    )
+
+    logger.info(
+        "  Ordinal regression: %s",
+        ordinal_regression,
+    )
+
+    model = build_model(
+        num_classes=num_classes,
+        image_size=image_size,
+        attention_type=attention_type,
+        dropout=dropout,
+        pretrained=pretrained,
+        ordinal_regression=ordinal_regression,
+    )
+
+    return model
+
+
+# ============================================================
 # MAIN
 # ============================================================
 
@@ -1315,7 +1822,7 @@ def main():
 
     parser = argparse.ArgumentParser(
         description=(
-            "Train ICDAS 0-4 classifier."
+            "Train ICDAS 0-4 classifier — V6 CLEAN."
         )
     )
 
@@ -1324,6 +1831,7 @@ def main():
         default=(
             "ml/configs/default.yaml"
         ),
+        help="Path to YAML configuration.",
     )
 
     args = parser.parse_args()
@@ -1340,22 +1848,8 @@ def main():
         config
     )
 
-    num_classes = int(
-        config.get(
-            "num_classes",
-            EXPECTED_NUM_CLASSES,
-        )
-    )
-
-    ordinal_regression = bool(
-        config.get(
-            "ordinal_regression",
-            False,
-        )
-    )
-
     # ========================================================
-    # PROJECT PATHS
+    # PROJECT ROOT
     # ========================================================
 
     project_root = (
@@ -1365,42 +1859,95 @@ def main():
         .parent
     )
 
-    dataset_root = (
-        project_root
-        / config.get("dataset_root", "data/icdas")
+    # ========================================================
+    # DATASET ROOT
+    # ========================================================
+
+    dataset_root = get_dataset_root(
+        config,
+        project_root,
     )
 
-    models_root = (
-        project_root
-        / "models"
-        / "icdas"
-        / "current"
-    )
+    # ========================================================
+    # OUTPUT DIRECTORY
+    # ========================================================
 
-    experiment_name = config.get(
-        "experiment_name",
-        "icdas_mobilenet_cbam_5class",
+    output_dir = get_output_directory(
+        config,
+        project_root,
     )
-
-    output_dir = (
-        models_root
-        / experiment_name
-    )
-    if config.get("output_dir"):
-        output_dir = project_root / str(config["output_dir"])
 
     output_dir.mkdir(
         parents=True,
         exist_ok=True,
     )
 
-    models_root.mkdir(
-        parents=True,
-        exist_ok=True,
+    # ========================================================
+    # BASIC CONFIG VALUES
+    # ========================================================
+
+    dataset_cfg = config.get(
+        "dataset",
+        {},
+    )
+
+    model_cfg = config.get(
+        "model",
+        {},
+    )
+
+    stage1_cfg = config.get(
+        "stage1",
+        {},
+    )
+
+    stage2_cfg = config.get(
+        "stage2",
+        {},
+    )
+
+    num_classes = int(
+        dataset_cfg.get(
+            "num_classes",
+            model_cfg.get(
+                "num_classes",
+                EXPECTED_NUM_CLASSES,
+            ),
+        )
+    )
+
+    ordinal_regression = bool(
+        model_cfg.get(
+            "ordinal_regression",
+            False,
+        )
     )
 
     # ========================================================
-    # LOG
+    # SEED
+    # ========================================================
+
+    seed = int(
+        config.get(
+            "seed",
+            42,
+        )
+    )
+
+    np.random.seed(
+        seed
+    )
+
+    tf.random.set_seed(
+        seed
+    )
+
+    keras.utils.set_random_seed(
+        seed
+    )
+
+    # ========================================================
+    # HEADER
     # ========================================================
 
     logger.info(
@@ -1408,7 +1955,7 @@ def main():
     )
 
     logger.info(
-        "ICDAS TRAINING"
+        "ICDAS 0-4 TRAINING — V6 CLEAN"
     )
 
     logger.info(
@@ -1435,19 +1982,51 @@ def main():
     )
 
     logger.info(
-        "Number of classes: %d",
-        num_classes,
+        "Loss: SparseCategoricalCrossentropy"
+    )
+
+    logger.info(
+        "Class weighting: DISABLED"
+    )
+
+    logger.info(
+        "Keras class_weight: DISABLED"
+    )
+
+    logger.info(
+        "Focal loss: DISABLED"
+    )
+
+    logger.info(
+        "Ordinal regression: %s",
+        ordinal_regression,
+    )
+
+    logger.info(
+        "Dataset configuration: %s",
+        dataset_cfg,
+    )
+
+    logger.info(
+        "========================================"
     )
 
     # ========================================================
-    # CLASS WEIGHTS
+    # SAFETY CHECK — DATASET
     # ========================================================
 
-    class_weights = (
-        compute_class_weights_from_dataset(
-            dataset_root,
-            num_classes,
+    if not dataset_root.exists():
+
+        raise FileNotFoundError(
+            "\nV77 DATASET NOT FOUND.\n\n"
+            f"Expected:\n{dataset_root}\n\n"
+            "Your YAML should contain:\n"
+            "dataset:\n"
+            '  root: "data/training/versions/v77"\n'
         )
+
+    logger.info(
+        "V77 dataset root exists."
     )
 
     # ========================================================
@@ -1484,109 +2063,263 @@ def main():
     )
 
     # ========================================================
-    # STAGE 1
+    # BUILD MODEL
     # ========================================================
 
-    logger.info(
-        "========================================"
-    )
-
-    logger.info(
-        "STAGE 1"
-    )
-
-    logger.info(
-        "Training classifier head."
-    )
-
-    logger.info(
-        "========================================"
-    )
-
-    model = build_model(
-
-        num_classes=num_classes,
-
-        image_size=int(
-            config.get(
-                "image_size",
-                224,
-            )
-        ),
-
-        attention_type=config.get(
-            "use_attention",
-            "cbam",
-        ),
-
-        dropout=float(
-            config.get(
-                "dropout",
-                0.3,
-            )
-        ),
-
-        pretrained=True,
-
-        ordinal_regression=ordinal_regression,
+    model = create_model(
+        config,
+        num_classes,
     )
 
     model.summary()
 
     # ========================================================
-    # COMPILE
+    # STAGE 1
     # ========================================================
 
-    model = compile_model(
-
-        model,
-
-        config,
-
-        learning_rate=float(
-            config.get(
-                "learning_rate",
-                1e-4,
-            )
-        ),
-    )
-
-    # ========================================================
-    # STAGE 1 TRAINING
-    # ========================================================
-
-    stage1_epochs = int(
-        config.get(
-            "head_epochs",
-            15,
+    stage1_enabled = bool(
+        stage1_cfg.get(
+            "enabled",
+            True,
         )
     )
 
-    logger.info(
-        "Stage 1 epochs: %d",
-        stage1_epochs,
-    )
+    if stage1_enabled:
 
-    model.fit(
+        logger.info(
+            "========================================"
+        )
 
-        train_ds,
+        logger.info(
+            "STAGE 1"
+        )
 
-        validation_data=val_ds,
+        logger.info(
+            "Training classification head."
+        )
 
-        epochs=stage1_epochs,
+        logger.info(
+            "========================================"
+        )
 
-        callbacks=get_callbacks(
-            output_dir,
+        # ----------------------------------------------------
+        # COMPILE STAGE 1
+        # ----------------------------------------------------
+
+        stage1_lr = float(
+            stage1_cfg.get(
+                "learning_rate",
+                config.get(
+                    "optimizer",
+                    {},
+                ).get(
+                    "learning_rate",
+                    1e-4,
+                ),
+            )
+        )
+
+        model = compile_model(
+            model,
             config,
-        ),
+            learning_rate=stage1_lr,
+        )
 
-        class_weight=class_weights,
+        # ----------------------------------------------------
+        # EPOCHS
+        # ----------------------------------------------------
 
-        verbose=1,
-    )
+        stage1_epochs = int(
+            stage1_cfg.get(
+                "epochs",
+                20,
+            )
+        )
+
+        logger.info(
+            "Stage 1 epochs: %d",
+            stage1_epochs,
+        )
+
+        # ----------------------------------------------------
+        # TRAIN
+        # ----------------------------------------------------
+
+        model.fit(
+            train_ds,
+            validation_data=val_ds,
+            epochs=stage1_epochs,
+            callbacks=get_callbacks(
+                output_dir,
+                config,
+            ),
+            verbose=1,
+        )
+
+        # ----------------------------------------------------
+        # CHECKPOINT
+        # ----------------------------------------------------
+
+        best_path = (
+            output_dir
+            / "best.keras"
+        )
+
+        if not best_path.exists():
+
+            raise FileNotFoundError(
+                "Best Stage 1 model was not created:\n"
+                f"{best_path}"
+            )
+
+        logger.info(
+            "Best Stage 1 checkpoint: %s",
+            best_path,
+        )
+
+        # ----------------------------------------------------
+        # LOAD BEST STAGE 1
+        # ----------------------------------------------------
+
+        model = keras.models.load_model(
+            str(best_path),
+            compile=False,
+            custom_objects=(
+                get_custom_objects()
+            ),
+        )
+
+        # ----------------------------------------------------
+        # STAGE 1 SANITY
+        # ----------------------------------------------------
+
+        logger.info(
+            "Stage 1 prediction sanity check."
+        )
+
+        prediction_sanity_check(
+            model,
+            val_ds,
+            ordinal_regression,
+        )
+
+    else:
+
+        logger.info(
+            "Stage 1 disabled."
+        )
+
+        best_path = (
+            output_dir
+            / "best.keras"
+        )
 
     # ========================================================
-    # BEST MODEL CHECK
+    # STAGE 2
+    # ========================================================
+
+    stage2_enabled = bool(
+        stage2_cfg.get(
+            "enabled",
+            True,
+        )
+    )
+
+    if stage2_enabled:
+
+        logger.info(
+            "========================================"
+        )
+
+        logger.info(
+            "STAGE 2"
+        )
+
+        logger.info(
+            "Fine-tuning top MobileNetV3 layers."
+        )
+
+        logger.info(
+            "========================================"
+        )
+
+        # ----------------------------------------------------
+        # UNFREEZE
+        # ----------------------------------------------------
+
+        unfreeze_layers = int(
+            stage2_cfg.get(
+                "unfreeze_layers",
+                20,
+            )
+        )
+
+        logger.info(
+            "Requested MobileNet layers to unfreeze: %d",
+            unfreeze_layers,
+        )
+
+        unfreeze_top_layers(
+            model,
+            num_layers=unfreeze_layers,
+        )
+
+        # ----------------------------------------------------
+        # RECOMPILE
+        # ----------------------------------------------------
+
+        stage2_lr = float(
+            stage2_cfg.get(
+                "learning_rate",
+                1e-5,
+            )
+        )
+
+        model = compile_model(
+            model,
+            config,
+            learning_rate=stage2_lr,
+        )
+
+        # ----------------------------------------------------
+        # EPOCHS
+        # ----------------------------------------------------
+
+        stage2_epochs = int(
+            stage2_cfg.get(
+                "epochs",
+                30,
+            )
+        )
+
+        logger.info(
+            "Stage 2 epochs: %d",
+            stage2_epochs,
+        )
+
+        # ----------------------------------------------------
+        # TRAIN
+        # ----------------------------------------------------
+
+        model.fit(
+            train_ds,
+            validation_data=val_ds,
+            epochs=stage2_epochs,
+            callbacks=get_callbacks(
+                output_dir,
+                config,
+            ),
+            verbose=1,
+        )
+
+    else:
+
+        logger.info(
+            "Stage 2 disabled."
+        )
+
+    # ========================================================
+    # FINAL BEST CHECKPOINT
     # ========================================================
 
     best_path = (
@@ -1597,133 +2330,24 @@ def main():
     if not best_path.exists():
 
         raise FileNotFoundError(
-            f"Best model was not created: "
+            "Final best model was not created:\n"
             f"{best_path}"
         )
 
-    logger.info(
-        "Best Stage 1 model: %s",
-        best_path,
-    )
-
     # ========================================================
-    # LOAD BEST STAGE 1 MODEL
+    # LOAD FINAL BEST
     # ========================================================
 
     model = keras.models.load_model(
-
         str(best_path),
-
         compile=False,
-
         custom_objects=(
             get_custom_objects()
         ),
     )
 
     # ========================================================
-    # SANITY CHECK AFTER STAGE 1
-    # ========================================================
-
-    prediction_sanity_check(
-        model,
-        val_ds,
-        ordinal_regression,
-    )
-
-    # ========================================================
-    # STAGE 2
-    # ========================================================
-
-    logger.info(
-        "========================================"
-    )
-
-    logger.info(
-        "STAGE 2"
-    )
-
-    logger.info(
-        "Fine-tuning top MobileNetV3 layers."
-    )
-
-    logger.info(
-        "========================================"
-    )
-
-    unfreeze_top_layers(
-
-        model,
-
-        num_layers=int(
-            config.get(
-                "fine_tune_layers",
-                20,
-            )
-        ),
-    )
-
-    model = compile_model(
-
-        model,
-
-        config,
-
-        learning_rate=float(
-            config.get(
-                "fine_tune_learning_rate",
-                1e-5,
-            )
-        ),
-    )
-
-    stage2_epochs = int(
-        config.get(
-            "fine_tune_epochs",
-            25,
-        )
-    )
-
-    logger.info(
-        "Stage 2 epochs: %d",
-        stage2_epochs,
-    )
-
-    model.fit(
-
-        train_ds,
-
-        validation_data=val_ds,
-
-        epochs=stage2_epochs,
-
-        callbacks=get_callbacks(
-            output_dir,
-            config,
-        ),
-
-        class_weight=class_weights,
-
-        verbose=1,
-    )
-
-    # ========================================================
-    # LOAD FINAL BEST MODEL
-    # ========================================================
-
-    model = keras.models.load_model(
-
-        str(best_path),
-
-        compile=False,
-
-        custom_objects=(
-            get_custom_objects()
-        ),
-    )
-
-    # ========================================================
-    # FINAL SANITY CHECK
+    # FINAL SANITY
     # ========================================================
 
     logger.info(
@@ -1740,22 +2364,62 @@ def main():
     # SAVE DEPLOYMENT MODEL
     # ========================================================
 
-    overwrite_root = bool(
-        config.get("overwrite_root_checkpoints", False)
-    )
     deploy_path = (
         output_dir
         / "final.keras"
     )
+
     model.save(
         str(deploy_path)
     )
-    root_best_path = None
-    if overwrite_root:
-        root_deploy = models_root / "deploy.keras"
-        root_best_path = models_root / "best.keras"
-        shutil.copy2(deploy_path, root_deploy)
-        shutil.copy2(best_path, root_best_path)
+
+    # ========================================================
+    # OPTIONAL ROOT CHECKPOINTS
+    # ========================================================
+
+    overwrite_root_checkpoints = bool(
+        config.get(
+            "overwrite_root_checkpoints",
+            False,
+        )
+    )
+
+    if overwrite_root_checkpoints:
+
+        models_root = (
+            project_root
+            / "models"
+            / "icdas"
+            / "current"
+        )
+
+        root_deploy = (
+            models_root
+            / "deploy.keras"
+        )
+
+        root_best_path = (
+            models_root
+            / "best.keras"
+        )
+
+        shutil.copy2(
+            deploy_path,
+            root_deploy,
+        )
+
+        shutil.copy2(
+            best_path,
+            root_best_path,
+        )
+
+        logger.info(
+            "Root deployment checkpoint updated."
+        )
+
+    # ========================================================
+    # MODEL SAVED
+    # ========================================================
 
     logger.info(
         "========================================"
@@ -1766,13 +2430,12 @@ def main():
     )
 
     logger.info(
-        "Experiment best: %s",
-        best_path,
+        "========================================"
     )
 
     logger.info(
-        "Root best: %s",
-        root_best_path,
+        "Best: %s",
+        best_path,
     )
 
     logger.info(
@@ -1780,24 +2443,27 @@ def main():
         deploy_path,
     )
 
-    logger.info(
-        "========================================"
-    )
-
     # ========================================================
     # FINAL TEST
     # ========================================================
 
+    logger.info(
+        "========================================"
+    )
+
+    logger.info(
+        "FINAL TEST EVALUATION"
+    )
+
+    logger.info(
+        "========================================"
+    )
+
     results = evaluate_model(
-
         model,
-
         test_ds,
-
         num_classes,
-
         ordinal_regression=ordinal_regression,
-
         output_dir=output_dir,
     )
 
@@ -1819,13 +2485,27 @@ def main():
     )
 
     logger.info(
-        "TRAINING COMPLETE"
+        "V6 CLEAN TRAINING COMPLETE"
     )
 
     logger.info(
         "========================================"
+    )
 
+    logger.info(
+        "Best model: %s",
+        best_path,
+    )
 
+    logger.info(
+        "Deployment model: %s",
+        deploy_path,
+    )
+
+    logger.info(
+        "Test results: %s",
+        output_dir
+        / "test_results.json",
     )
 
 

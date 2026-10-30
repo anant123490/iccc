@@ -429,6 +429,7 @@ async def health():
         icdas_classifier=str(
             st.get("icdas_status") or "NOT_TRAINED / NOT_DEPLOYED"
         ),
+        icdas_train_enabled=bool(get_settings().allow_icdas_train),
     )
 
 

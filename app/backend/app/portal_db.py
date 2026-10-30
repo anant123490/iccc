@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from datetime import datetime
+import uuid
 
 from sqlalchemy import Boolean, CheckConstraint, DateTime, Float, ForeignKey, Integer, String, Text
 from sqlalchemy.orm import Mapped, mapped_column, relationship
@@ -121,8 +122,21 @@ class TrainingImage(Base):
     __tablename__ = "training_images"
 
     id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
+    # ``id`` remains the internal database key. ``image_id`` is the stable,
+    # pseudonymous identifier used by manifests and model provenance.
+    image_id: Mapped[str] = mapped_column(
+        String(64), unique=True, index=True, default=lambda: uuid.uuid4().hex
+    )
+    patient_id: Mapped[str | None] = mapped_column(String(64), nullable=True, index=True)
     filename: Mapped[str] = mapped_column(String(256))
     path: Mapped[str] = mapped_column(String(512))
+    upload_timestamp: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow)
+    dataset_version: Mapped[str | None] = mapped_column(String(64), nullable=True, index=True)
+    annotation_status: Mapped[str] = mapped_column(String(32), default="UNLABELED")
+    split_name: Mapped[str] = mapped_column(String(16), default="UNASSIGNED", index=True)
+    crop_count: Mapped[int] = mapped_column(Integer, default=0)
+    review_status: Mapped[str] = mapped_column(String(32), default="PENDING")
+    detector_version: Mapped[str] = mapped_column(String(64), default="Tooth Detector V2")
     overlay_path: Mapped[str | None] = mapped_column(String(512), nullable=True)
     n_crops: Mapped[int] = mapped_column(Integer, default=0)
     content_hash: Mapped[str | None] = mapped_column(String(64), nullable=True, index=True)
@@ -148,9 +162,13 @@ class TrainingLabel(Base):
     )
 
     id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
+    crop_id: Mapped[str] = mapped_column(
+        String(64), unique=True, index=True, default=lambda: uuid.uuid4().hex
+    )
     image_id: Mapped[int] = mapped_column(ForeignKey("training_images.id"), index=True)
     crop_path: Mapped[str] = mapped_column(String(512))
     grade: Mapped[int | None] = mapped_column(Integer, nullable=True)
+    annotation_status: Mapped[str] = mapped_column(String(32), default="UNLABELED")
     x1: Mapped[int] = mapped_column(Integer, default=0)
     y1: Mapped[int] = mapped_column(Integer, default=0)
     x2: Mapped[int] = mapped_column(Integer, default=0)
@@ -165,6 +183,20 @@ class TrainingLabel(Base):
     active: Mapped[bool] = mapped_column(Boolean, default=True)
     skipped: Mapped[bool] = mapped_column(Boolean, default=False)
     image: Mapped[TrainingImage] = relationship(back_populates="labels")
+
+
+class TrainingAuditEvent(Base):
+    """Append-only annotation and reset audit trail; survives dataset resets."""
+
+    __tablename__ = "training_audit_events"
+
+    id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
+    event_type: Mapped[str] = mapped_column(String(48), index=True)
+    entity_type: Mapped[str] = mapped_column(String(48), index=True)
+    entity_id: Mapped[str] = mapped_column(String(128), index=True)
+    actor: Mapped[str] = mapped_column(String(128), default="admin")
+    details_json: Mapped[str] = mapped_column(Text, default="{}")
+    created_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow, index=True)
 
 
 class DatasetVersion(Base):

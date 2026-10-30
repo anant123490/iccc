@@ -181,6 +181,10 @@ def _show_reset_summary(out: dict) -> None:
     e.metric("unlabeled", out.get("unlabeled", 0))
     f.metric("dataset", out.get("dataset", "NOT READY"))
     g.metric("training", out.get("training", "DISABLED"))
+    if out.get("recovery_archive"):
+        st.info(f"Recovery archive: `{out['recovery_archive']}`")
+    if out.get("audit_event_id"):
+        st.caption(f"Reset audit event: {out['audit_event_id']}")
 
 
 def _dataset_management() -> None:
@@ -193,14 +197,26 @@ def _dataset_management() -> None:
         "ICDAS labels, and built dataset versions. Model weights, source code, and "
         "patient records are not deleted. Training is not started."
     )
+    plan = {}
+    full_plan = {}
     try:
         plan = client.get("/api/v1/admin/training/reset/plan", params={"scope": "dataset"})
+        full_plan = client.get("/api/v1/admin/training/reset/plan", params={"scope": "full"})
         with st.expander("Reset plan (what will be deleted)"):
+            st.markdown("**Clear Training Dataset**")
             st.write("Paths:", [p.get("path") for p in plan.get("paths") or []])
             st.write("Database tables:", plan.get("database_tables"))
+            st.write("Affected row/file counts:", plan.get("affected_counts") or {})
+            st.markdown("**Full Training Project Reset**")
+            st.write("Database tables:", full_plan.get("database_tables"))
+            st.write("Affected row/file counts:", full_plan.get("affected_counts") or {})
+            st.write("Recovery archive directory:", full_plan.get("recovery_archive_directory"))
             st.caption("Preserved: " + ", ".join((plan.get("will_not_delete") or [])[:8]) + " …")
     except requests.RequestException as exc:
         _show_backend_error(exc)
+    running_jobs = int((full_plan.get("affected_counts") or {}).get("running_training_jobs") or 0)
+    if running_jobs:
+        st.warning("Reset is unavailable while an ICDAS training job is running. Wait for it to finish.")
 
     phrase = RESET_CONFIRMATION_TEXT
     c1, c2 = st.columns(2)
@@ -215,7 +231,7 @@ def _dataset_management() -> None:
         if st.button(
             "Clear Training Dataset",
             type="primary",
-            disabled=not reset_confirmation_ok(ok_ds, typed_ds),
+            disabled=running_jobs > 0 or not reset_confirmation_ok(ok_ds, typed_ds),
             key="reset_ds_btn",
         ):
             try:
@@ -243,7 +259,7 @@ def _dataset_management() -> None:
         if st.button(
             "Full Training Project Reset",
             type="primary",
-            disabled=not reset_confirmation_ok(ok_full, typed_full),
+            disabled=running_jobs > 0 or not reset_confirmation_ok(ok_full, typed_full),
             key="reset_full_btn",
         ):
             try:
@@ -333,12 +349,30 @@ try:
             accept_multiple_files=True,
             key=f"training_files_{st.session_state.training_uploader_nonce}",
         )
+        manifest_file = st.file_uploader(
+            "Optional CSV manifest: filename, patient_id, image_id (image_id may be blank)",
+            type=["csv"],
+            key=f"training_manifest_{st.session_state.training_uploader_nonce}",
+            help="Patient IDs must be pseudonymous codes such as PAT001. CSV filenames must exactly match this upload batch.",
+        )
         pending = list(files or [])
         if pending:
             st.caption(f"{len(pending)} file(s) selected for this batch (not uploaded yet).")
         if st.button("Upload and run Tooth Detector V2", disabled=not pending):
             # Copy bytes now so the request does not depend on the widget after reset.
-            body = [("files", (f.name, f.getvalue(), "image/jpeg")) for f in pending]
+            body = [
+                (
+                    "files",
+                    (
+                        f.name,
+                        f.getvalue(),
+                        "image/png" if f.name.lower().endswith(".png") else "image/jpeg",
+                    ),
+                )
+                for f in pending
+            ]
+            if manifest_file is not None:
+                body.append(("patient_manifest", (manifest_file.name, manifest_file.getvalue(), "text/csv")))
             names = [f.name for f in pending]
             try:
                 with st.spinner("Hashing, duplicate check, Tooth Detector V2…"):
@@ -429,23 +463,28 @@ try:
             st.info("Upload UNIQUE training images first.")
             _workflow_nav("review_empty", "Training upload", None, "")
         else:
+            patient_options = sorted({im.get("patient_id") for im in uniques if im.get("patient_id")})
+            selected_patient = st.selectbox("Filter by pseudonymous patient ID", ["All patients", *patient_options])
+            filtered_uniques = [
+                im for im in uniques if selected_patient == "All patients" or im.get("patient_id") == selected_patient
+            ]
             labels = [
-                f"{im['training_image_id']}: {im['filename']} "
+                f"{im['image_id']}: {im['filename']} · {im.get('patient_id') or 'patient ID missing'} "
                 f"({'Deactivated' if not im.get('is_active', True) else ('verified' if im.get('boxes_verified') else 'needs review')})"
-                for im in uniques
+                for im in filtered_uniques
             ]
             default_i = 0
-            for i, im in enumerate(uniques):
+            for i, im in enumerate(filtered_uniques):
                 if im.get("is_active", True) and not im.get("boxes_verified"):
                     default_i = i
                     break
             choice = st.selectbox(
                 "UNIQUE image",
-                range(len(uniques)),
-                index=min(default_i, len(uniques) - 1),
+                range(len(filtered_uniques)),
+                index=min(default_i, len(filtered_uniques) - 1),
                 format_func=lambda i: labels[i],
             )
-            image_id = uniques[int(choice)]["training_image_id"]
+            image_id = filtered_uniques[int(choice)]["training_image_id"]
             detail = client.get(f"/api/v1/admin/training/images/{image_id}")
             is_act = bool(detail.get("is_active", True))
             status_str = "Active" if is_act else "Deactivated"
@@ -453,7 +492,8 @@ try:
             hdr_col1, hdr_col2 = st.columns([3, 1])
             with hdr_col1:
                 st.markdown(
-                    f"**Photo ID #{image_id}** · Filename: `{detail.get('filename')}` · Status: **{status_str}**"
+                    f"**Image {detail.get('image_id')}** · Patient `{detail.get('patient_id') or 'unassigned'}` · "
+                    f"Filename: `{detail.get('filename')}` · Status: **{status_str}**"
                 )
             with hdr_col2:
                 if is_act:
@@ -482,6 +522,29 @@ try:
                 else:
                     st.button("Deactivated", disabled=True, key=f"btn_deactivated_{image_id}")
 
+            with st.form(f"training_identity_{image_id}"):
+                patient_value = st.text_input(
+                    "Pseudonymous patient ID",
+                    value=detail.get("patient_id") or "",
+                    key=f"training_patient_id_{image_id}",
+                )
+                image_value = st.text_input(
+                    "Image ID",
+                    value=detail.get("image_id") or "",
+                    key=f"training_image_id_{image_id}",
+                )
+                identity_saved = st.form_submit_button("Save image identity")
+                if identity_saved:
+                    try:
+                        client.put(
+                            f"/api/v1/admin/training/images/{image_id}/identity",
+                            json={"patient_id": patient_value, "image_id": image_value},
+                        )
+                        st.success("Pseudonymous image identity saved.")
+                        st.rerun()
+                    except requests.RequestException as exc:
+                        _show_backend_error(exc)
+
             c1, c2 = st.columns(2)
             with c1:
                 b64_image(detail.get("original_base64"), "Original", width=420)
@@ -509,7 +572,10 @@ try:
                         {"label_id": lid, "x1": int(x1), "y1": int(y1), "x2": int(x2), "y2": int(y2)}
                     )
                 b64_image(box.get("crop_base64"), width=120)
-                st.caption(box.get("crop_status_caption") or "")
+                st.caption(
+                    f"Detector confidence: {float(box.get('confidence') or 0.0):.3f} · "
+                    f"{box.get('crop_status_caption') or ''}"
+                )
             st.subheader("Add missing tooth box")
             a1, a2, a3, a4 = st.columns(4)
             nx1 = a1.number_input("new x1", value=0, key="nx1")
@@ -551,7 +617,41 @@ try:
 
     elif page == "Labeling":
         st.header("ICDAS labeling")
+        crop_rows = client.get("/api/v1/admin/training/crops").get("crops") or []
+        patients = sorted(
+            {
+                row.get("patient_id")
+                for row in crop_rows
+                if row.get("patient_id") and row.get("active") and row.get("box_verified")
+            }
+        )
+        fcols = st.columns(4)
+        patient_filter = fcols[0].selectbox("Patient", ["All", *patients], key="label_patient_filter")
+        split_filter = fcols[1].selectbox(
+            "Split", ["All", "UNASSIGNED", "train", "val", "test"], key="label_split_filter"
+        )
+        status_filter = fcols[2].selectbox(
+            "Annotation status",
+            ["All", "UNLABELED", "LABELED", "UNCERTAIN", "UNGRADABLE"],
+            key="label_status_filter",
+        )
+        grade_filter = fcols[3].selectbox(
+            "ICDAS grade", ["All", 0, 1, 2, 3, 4], key="label_grade_filter"
+        )
+        filter_signature = (patient_filter, split_filter, status_filter, grade_filter)
+        if st.session_state.get("label_filter_signature") != filter_signature:
+            st.session_state.label_filter_signature = filter_signature
+            st.session_state.label_id = None
+            st.session_state.label_resume = False
         params = {}
+        if patient_filter != "All":
+            params["patient_id"] = patient_filter
+        if split_filter != "All":
+            params["split_name"] = split_filter
+        if status_filter != "All":
+            params["annotation_status"] = status_filter
+        if grade_filter != "All":
+            params["grade"] = int(grade_filter)
         if st.session_state.get("label_resume"):
             params["resume"] = True
             st.session_state.label_resume = False
@@ -577,7 +677,7 @@ try:
         if queue.get("imbalance_message"):
             st.warning(queue["imbalance_message"])
         st.caption(
-            "Click 0–4 to autosave. Leave/Skip if you are not sure. "
+            "Click 0–4 to autosave. Mark uncertain when the grade is unclear; mark ungradable when the crop cannot be assessed. "
             "A photo may have only 0, 1 and 4 — Next stays enabled."
         )
         cur = queue.get("current")
@@ -608,7 +708,7 @@ try:
             status = (
                 f"ICDAS {cur.get('grade')}"
                 if cur.get("grade") is not None
-                else ("Skipped" if cur.get("skipped") else "Unlabeled")
+                else (cur.get("annotation_status") or "UNLABELED")
             )
             st.write("Current:", status)
             cap = cur.get("crop_status_caption") or ""
@@ -619,6 +719,21 @@ try:
             else:
                 st.caption(cap)
             b64_image(cur.get("crop_base64"), width=420)
+            status_cols = st.columns(2)
+            if status_cols[0].button("Mark uncertain", key=f"mark_uncertain_{cur['label_id']}"):
+                client.post(
+                    "/api/v1/admin/training/labels/status",
+                    json={"label_id": cur["label_id"], "status": "UNCERTAIN"},
+                )
+                st.session_state.label_id = queue.get("next_label_id") or cur["label_id"]
+                st.rerun()
+            if status_cols[1].button("Mark ungradable", key=f"mark_ungradable_{cur['label_id']}"):
+                client.post(
+                    "/api/v1/admin/training/labels/status",
+                    json={"label_id": cur["label_id"], "status": "UNGRADABLE"},
+                )
+                st.session_state.label_id = queue.get("next_label_id") or cur["label_id"]
+                st.rerun()
             gcols = st.columns(5)
             for g in range(5):
                 if gcols[g].button(str(g), key=f"gradebtn{g}"):
@@ -647,6 +762,20 @@ try:
         r1[2].metric("Duplicate photos", dup_n)
         r1[3].metric("Verified crops", crops.get("verified", 0))
         r1[4].metric("Labeled crops", crops.get("labeled", 0))
+        st.metric(
+            "Distinct pseudonymous patients",
+            f"{photos.get('patients', 0)} / {photos.get('target_patients', 100)} target",
+        )
+        if summary.get("patient_count_warning"):
+            st.warning(summary["patient_count_warning"])
+        if summary.get("identity_warning"):
+            st.warning(summary["identity_warning"])
+        if summary.get("review_warning"):
+            st.warning(summary["review_warning"])
+        if summary.get("annotation_warning"):
+            st.warning(summary["annotation_warning"])
+        if summary.get("patient_split_warning"):
+            st.warning(summary["patient_split_warning"])
         r2 = st.columns(6)
         r2[0].metric("Unlabeled crops", crops.get("unlabeled", 0))
         for g in range(5):
@@ -666,9 +795,23 @@ try:
             st.info(summary["min_crops_message"])
         if summary.get("missing_classes_message"):
             st.warning(summary["missing_classes_message"])
+        latest_dataset = summary.get("latest_dataset") or {}
+        latest_stats = latest_dataset.get("statistics") or {}
+        if latest_stats.get("split_summary"):
+            st.subheader("Latest persisted patient-level split")
+            st.dataframe(
+                [
+                    {"split": split, **details}
+                    for split, details in latest_stats["split_summary"].items()
+                ],
+                use_container_width=True,
+            )
+            st.json(latest_stats.get("validation") or {})
         st.caption(
-            "BUILD DATASET uses all previous plus new verified labels, excludes duplicates, "
-            "splits by original photo (seed 42, 70/15/15). Never overwrites v1, v2, … "
+            "BUILD DATASET uses the verified labels, excludes duplicates, and assigns every image/crop from one patient to the same split "
+            f"(seed 42, target 70/15/15). The 100-patient target is approximate; training requires at least "
+            f"{summary.get('min_patients_for_training', 90)} distinct patients under the configured gate. "
+            "Never overwrites v1, v2, … "
             "This does not start training."
         )
         if st.button("BUILD DATASET", disabled=not ready):
@@ -686,6 +829,9 @@ try:
             )
         st.subheader("Versions (never overwritten)")
         st.dataframe(summary.get("versions") or [], use_container_width=True)
+        with st.expander("Recent annotation and training audit history"):
+            audit = client.get("/api/v1/admin/training/audit", params={"limit": 200})
+            st.dataframe(audit.get("events") or [], use_container_width=True)
         nxt = "Training" if summary.get("latest_dataset") else None
         _workflow_nav("dataset", "Labeling", nxt, "CONTINUE TO TRAINING")
 
@@ -696,12 +842,20 @@ try:
         enabled = bool(summary.get("icdas_train_enabled"))
         latest = summary.get("latest_dataset") or {}
         stats = latest.get("statistics") or {}
+        patient_count = int(stats.get("total_patients") or 0)
+        validation = stats.get("validation") or {}
+        validation_issues = validation.get("issues") or []
+        missing_train_classes = validation.get("missing_classes_in_train") or []
+        missing_test_classes = validation.get("missing_classes_in_test") or []
+        validation_ok = bool(validation.get("ok")) and not validation_issues
         cc = stats.get("class_counts_overall") or summary.get("class_counts") or {}
         st.subheader("Training readiness")
         st.write(f"Dataset: **{latest.get('name') or '(none built yet)'}**")
         photos = summary.get("photos") or {}
         crops = summary.get("crops") or {}
+        min_patients = int(summary.get("min_patients_for_training", 90) or 90)
         st.write(f"Total source photos (unique): {photos.get('unique', 0)}")
+        st.write(f"Distinct patients in this dataset: {patient_count} / {min_patients} configured minimum (about 100 targeted)")
         st.write(f"Total verified tooth crops: {crops.get('verified', 0)}")
         st.write(f"Total labeled crops: {crops.get('labeled', 0)}")
         st.write(f"Eligible unique crops: {crops.get('eligible', 0)}")
@@ -717,8 +871,15 @@ try:
             f"Validation: {latest.get('n_valid', stats.get('n_valid', 0))} · "
             f"Test: {latest.get('n_test', stats.get('n_test', 0))}"
         )
-        leak = (stats.get("validation") or {}).get("issues") or []
-        st.write(f"Duplicate leakage issues: {len(leak)}")
+        st.write(f"Patient/image/crop leakage and manifest issues: {len(validation_issues)}")
+        split_summary = stats.get("split_summary") or {}
+        if split_summary:
+            st.dataframe(
+                [{"split": split, **details} for split, details in split_summary.items()],
+                use_container_width=True,
+            )
+        if validation_issues:
+            st.error("Dataset validation failed: " + "; ".join(str(item) for item in validation_issues[:5]))
         st.write(f"Dataset status: **{summary.get('status')}**")
         classes_ok = bool(summary.get("classes_ready"))
         crop_conflicts = int((summary.get("crops") or {}).get("conflicts") or 0)
@@ -733,21 +894,49 @@ try:
                 or "Training requires genuine labeled examples of ICDAS 0, 1, 2, 3, and 4. "
                 "Do not assign a missing class to a tooth that does not show it."
             )
+        if patient_count < min_patients:
+            st.warning(
+                f"Training is blocked until the dataset contains at least {min_patients} distinct patients; "
+                f"it currently has {patient_count}."
+            )
+        if not validation_ok:
+            st.warning("Training is blocked until patient-level split and leakage checks pass.")
+        if missing_train_classes:
+            st.warning("Train split is missing ICDAS class(es): " + ", ".join(map(str, missing_train_classes)))
+        if missing_test_classes:
+            st.warning("Held-out test split is missing ICDAS class(es): " + ", ".join(map(str, missing_test_classes)))
+        st.write(f"ICDAS training switch: **{'ENABLED' if enabled else 'DISABLED'}**")
         if not enabled:
             st.error("ICDAS training is disabled. Set ICDAS_ALLOW_TRAIN=1 on the backend to enable training.")
         st.warning("Uploading, labeling, and BUILD DATASET never start training by themselves.")
         if st.button(
             "TRAIN ICDAS MODEL",
-            disabled=not enabled or not latest or not classes_ok or crop_conflicts > 0,
+            disabled=(
+                not enabled
+                or not latest
+                or not classes_ok
+                or crop_conflicts > 0
+                or patient_count < min_patients
+                or not validation_ok
+            ),
         ):
             out = client.post("/api/v1/admin/train", json={})
             st.session_state.job = out
+            st.session_state.job_status = out
             st.json(out)
         if st.button("Refresh status"):
             st.session_state.job_status = client.get("/api/v1/admin/train/status")
         status = st.session_state.get("job_status") or st.session_state.get("job")
         if status:
+            job_enabled = status.get("icdas_train_enabled")
+            if job_enabled is None:
+                job_enabled = enabled
             st.write(status.get("status"), status.get("message"))
+            if status.get("status") == "blocked" and enabled:
+                st.info(
+                    "This is a previous job from when training was disabled. "
+                    "The backend currently has ICDAS training enabled; use TRAIN ICDAS MODEL to start a new run."
+                )
             running = status.get("status") == "running"
             st.progress(
                 0.4

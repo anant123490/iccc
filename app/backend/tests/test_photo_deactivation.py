@@ -68,6 +68,7 @@ def _create_sample_training_photo(
         img_path_str = f"/fake/path/{filename}"
 
     img = TrainingImage(
+        patient_id=f"PAT{db.query(TrainingImage).count() + 1:04d}",
         filename=filename,
         path=img_path_str,
         overlay_path=img_path_str,
@@ -146,6 +147,8 @@ def test_deactivated_photo_labels_excluded_from_new_build(db_session, monkeypatc
     # Create active photos with enough crops for minimum build
     img1 = _create_sample_training_photo(db_session, "p1.jpg", "h1", [0, 1, 2, 3, 4], tmp_path)
     img2 = _create_sample_training_photo(db_session, "p2.jpg", "h2", [0, 1, 2, 3, 4], tmp_path)
+    img3 = _create_sample_training_photo(db_session, "p3.jpg", "h3", [0, 1, 2, 3, 4], tmp_path)
+    img4 = _create_sample_training_photo(db_session, "p4.jpg", "h4", [0, 1, 2, 3, 4], tmp_path)
 
     # Deactivate img2
     deactivate_training_image(db_session, img2.id)
@@ -165,6 +168,7 @@ def test_deactivated_photo_labels_excluded_from_new_build(db_session, monkeypatc
         if row.get("source_image_id") == str(img2.id) and row.get("status") == "INCLUDED"
     ]
     assert len(included_img2) == 0
+    assert img3.id != img1.id and img4.id != img1.id
 
 
 def test_existing_dataset_versions_remain_untouched(db_session, tmp_path):
@@ -251,12 +255,12 @@ async def test_deactivate_api_endpoint(db_session, tmp_path):
     img = _create_sample_training_photo(db_session, "api_photo.jpg", "h_api", [0], tmp_path)
     img_id = img.id
 
-    from app.database import get_db
+    from app.portal_routes import get_db as route_get_db
 
     def _override_get_db():
         yield db_session
 
-    app.dependency_overrides[get_db] = _override_get_db
+    app.dependency_overrides[route_get_db] = _override_get_db
 
     try:
         async with AsyncClient(transport=transport, base_url="http://test") as ac:

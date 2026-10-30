@@ -20,6 +20,7 @@ class HealthResponse(BaseModel):
     disclaimer: str = DISCLAIMER
     tooth_detector_v2: str = "UNAVAILABLE"
     icdas_classifier: str = "NOT_TRAINED / NOT_DEPLOYED"
+    icdas_train_enabled: bool = False
 
 
 class ModelInfoResponse(BaseModel):

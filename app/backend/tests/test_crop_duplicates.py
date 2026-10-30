@@ -149,6 +149,9 @@ def test_build_dataset_has_unique_crop_hashes(monkeypatch, tmp_path):
         _add_crop(db, dirs, img, grade=g, idx=i)
     img2 = _add_image(db, dirs, name="dupphoto.jpg")
     _add_crop(db, dirs, img2, grade=0, idx=0, pixel_seed=img.id * 100 + 0)
+    img3 = _add_image(db, dirs, name="c.jpg")
+    for i, grade in enumerate((0, 1, 2, 3, 4)):
+        _add_crop(db, dirs, img3, grade=grade, idx=i)
     jobs_before = db.query(TrainingJob).count()
     out = build_dataset_version(db)
     assert db.query(TrainingJob).count() == jobs_before
@@ -170,6 +173,10 @@ def test_build_does_not_overwrite_existing_version(monkeypatch, tmp_path):
     img = _add_image(db, dirs, name="a.jpg")
     for g in range(5):
         _add_crop(db, dirs, img, grade=g, idx=g)
+    for patient_idx in (2, 3):
+        extra = _add_image(db, dirs, name=f"patient{patient_idx}.jpg")
+        for g in range(5):
+            _add_crop(db, dirs, extra, grade=g, idx=g)
     v1 = build_dataset_version(db)
     v1_path = Path(v1["path"])
     marker = v1_path / "keep_me.txt"
@@ -202,6 +209,8 @@ def test_train_blocked_on_unresolved_crop_conflict(monkeypatch, tmp_path):
     img = _add_image(db, dirs)
     for i, g in enumerate((0, 1, 2, 3, 4)):
         _add_crop(db, dirs, img, grade=g, idx=i)
+    _add_image(db, dirs, name="patient2.jpg")
+    _add_image(db, dirs, name="patient3.jpg")
     build_dataset_version(db)
     img2 = _add_image(db, dirs, name="c.jpg")
     _add_crop(db, dirs, img2, grade=1, idx=0, pixel_seed=999)

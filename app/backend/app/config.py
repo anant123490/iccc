@@ -5,7 +5,7 @@ Application configuration for ICDAS 0-4.
 from functools import lru_cache
 from pathlib import Path
 
-from pydantic import Field, field_validator
+from pydantic import AliasChoices, Field, field_validator
 from pydantic_settings import (
     BaseSettings,
     SettingsConfigDict,
@@ -137,7 +137,18 @@ class Settings(BaseSettings):
 
     allow_icdas_train: bool = Field(
         default=False,
-        validation_alias="ICDAS_ALLOW_TRAIN",
+        validation_alias=AliasChoices(
+            "ALLOW_TRAIN",
+            "ICDAS_ALLOW_TRAIN",
+        ),
+    )
+
+    # A configurable safety floor, not a claim about the size of the dataset.
+    # See docs/REBUILD_DATASET_WORKFLOW.md for the rationale and limitations.
+    min_training_patients: int = Field(
+        default=90,
+        ge=3,
+        validation_alias="ICDAS_MIN_TRAINING_PATIENTS",
     )
 
     max_upload_mb: int = 10

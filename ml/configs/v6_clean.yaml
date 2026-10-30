@@ -1,0 +1,283 @@
+# ============================================================
+# ICDAS 0-4 — MobileNetV3Small + CBAM
+# V6 CLEAN BASELINE
+# ============================================================
+
+seed: 42
+
+
+# ============================================================
+# DATASET
+# ============================================================
+dataset:
+
+  # ACTUAL V77 DATASET LOCATION
+  root: "data/training/versions/v77"
+
+  image_size: 224
+  batch_size: 8
+
+  train_split: "train"
+  val_split: "val"
+  test_split: "test"
+
+  num_classes: 5
+
+  # V77 is reasonably balanced.
+  # Do NOT use class weights in V6.
+  use_class_weights: false
+
+
+# ============================================================
+# PREPROCESSING
+# ============================================================
+preprocessing:
+
+  image_size: 224
+
+  # Clean baseline:
+  # Keep the original tooth appearance as much as possible.
+  # ICDAS classification depends on subtle color/texture
+  # differences.
+
+  use_roi_detection: false
+
+  use_specular_reduction: false
+
+  use_clahe: false
+
+  color_normalize: false
+
+  # Images remain in [0,255].
+  # MobileNetV3 preprocessing is handled by the model.
+  scale_to_unit: false
+
+
+# ============================================================
+# AUGMENTATION
+# ============================================================
+augmentation:
+
+  enabled: true
+
+  # Mild geometric augmentation
+  shift_limit: 0.03
+  scale_limit: 0.05
+  rotate_limit: 8
+
+  # Horizontal flip
+  horizontal_flip_probability: 0.5
+
+  # Mild lighting changes
+  brightness_limit: 0.08
+  contrast_limit: 0.08
+
+  # Very small color changes
+  hue_shift_limit: 2
+  saturation_shift_limit: 5
+  value_shift_limit: 5
+
+  # Disabled because subtle ICDAS features should not
+  # be unnecessarily destroyed.
+  blur_probability: 0.0
+
+  perspective_probability: 0.0
+
+  coarse_dropout_probability: 0.0
+
+
+# ============================================================
+# MODEL
+# ============================================================
+model:
+
+  name: "mobilenetv3small_cbam"
+
+  backbone: "MobileNetV3Small"
+
+  input_shape:
+    - 224
+    - 224
+    - 3
+
+  pretrained: true
+
+  # Moderate regularization
+  dropout: 0.30
+
+  dense_units: 256
+
+  l2_regularization: 0.0001
+
+  # ICDAS 0,1,2,3,4
+  num_classes: 5
+
+  # V6 is a clean softmax baseline.
+  # Ordinal regression can be tested later.
+  ordinal_regression: false
+
+
+# ============================================================
+# LOSS
+# ============================================================
+loss:
+
+  # CLEAN BASELINE
+  #
+  # No focal loss.
+  # No ordinal loss.
+  # No class weighting.
+  #
+  # This lets us determine how well the architecture performs
+  # without additional loss modifications.
+
+  name: "sparse_categorical_crossentropy"
+
+  label_smoothing: 0.0
+
+
+# ============================================================
+# OPTIMIZER
+# ============================================================
+optimizer:
+
+  name: "adam"
+
+  # Stage 1 learning rate
+  learning_rate: 0.0001
+
+  weight_decay: 0.0001
+
+
+# ============================================================
+# STAGE 1
+# Train classification head with frozen MobileNet backbone
+# ============================================================
+stage1:
+
+  enabled: true
+
+  epochs: 20
+
+  learning_rate: 0.0001
+
+  freeze_backbone: true
+
+
+# ============================================================
+# STAGE 2
+# Fine-tune upper MobileNet layers
+# ============================================================
+stage2:
+
+  enabled: true
+
+  epochs: 30
+
+  learning_rate: 0.00001
+
+  # Unfreeze top 20 MobileNet layers
+  unfreeze_layers: 20
+
+  # Keep BatchNorm frozen
+  freeze_batchnorm: true
+
+
+# ============================================================
+# CALLBACKS
+# ============================================================
+callbacks:
+
+  # ICDAS is ordinal, so QWK is useful for model selection.
+  monitor: "val_qwk"
+
+  mode: "max"
+
+
+  # ----------------------------------------------------------
+  # Early stopping
+  # ----------------------------------------------------------
+  early_stopping:
+
+    enabled: true
+
+    patience: 8
+
+    restore_best_weights: true
+
+
+  # ----------------------------------------------------------
+  # Reduce learning rate
+  # ----------------------------------------------------------
+  reduce_lr:
+
+    enabled: true
+
+    monitor: "val_loss"
+
+    factor: 0.5
+
+    patience: 3
+
+    min_lr: 0.0000001
+
+
+  # ----------------------------------------------------------
+  # Model checkpoint
+  # ----------------------------------------------------------
+  checkpoint:
+
+    enabled: true
+
+    save_best_only: true
+
+
+# ============================================================
+# OUTPUT
+# ============================================================
+output:
+
+  # V6 is kept separate from V5.
+  directory: "models/icdas/current/icdas_mobilenet_cbam_5class_v6_clean"
+
+  best_model_name: "best.keras"
+
+  save_final_model: true
+
+
+# ============================================================
+# EVALUATION
+# ============================================================
+evaluation:
+
+  num_classes: 5
+
+  class_names:
+    - "ICDAS 0"
+    - "ICDAS 1"
+    - "ICDAS 2"
+    - "ICDAS 3"
+    - "ICDAS 4"
+
+  metrics:
+    - accuracy
+    - macro_f1
+    - weighted_f1
+    - qwk
+
+  confusion_matrix: true
+
+
+# ============================================================
+# ICDAS SCOPE
+# ============================================================
+icdas:
+
+  min_grade: 0
+
+  max_grade: 4
+
+  # ICDAS 5 and 6 are NOT part of this project.
+  exclude_grades:
+    - 5
+    - 6

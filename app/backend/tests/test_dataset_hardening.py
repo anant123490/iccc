@@ -13,7 +13,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
 from app.database import Base
-from app.portal_db import DatasetVersion, TrainingImage, TrainingJob, TrainingLabel
+from app.portal_db import DatasetVersion, TrainingAuditEvent, TrainingImage, TrainingJob, TrainingLabel
 from app.portal_routes import LabelIn
 from app.tooth_detector import box_iou_xyxy, validate_xyxy_box
 from app.training_workflow import (
@@ -22,10 +22,16 @@ from app.training_workflow import (
     build_dataset_version,
     dataset_inventory,
     labeling_queue,
+    parse_import_manifest,
     save_icdas_label,
     save_training_boxes,
+    set_crop_annotation_status,
+    split_patients,
     split_source_images,
+    training_audit_listing,
+    validate_patient_id,
     validate_dataset_for_train,
+    verify_training_boxes,
 )
 from app.crop_identity import apply_crop_identity
 
@@ -79,10 +85,11 @@ def _session(tmp_path: Path):
     return sessionmaker(bind=engine)()
 
 
-def _add_image(db, dirs, *, unique=True, verified=True, name="p.jpg") -> TrainingImage:
+def _add_image(db, dirs, *, unique=True, verified=True, name="p.jpg", patient_id=None) -> TrainingImage:
     dest = dirs["uploads"] / name
     _write_jpg(dest)
     img = TrainingImage(
+        patient_id=patient_id or f"PAT{db.query(TrainingImage).count() + 1:04d}",
         filename=name,
         path=str(dest),
         n_crops=0,
@@ -146,6 +153,8 @@ def test_inventory_min_crops_gate(monkeypatch, tmp_path):
     db = _session(tmp_path)
     assert dataset_inventory(db)["dataset_ready"] is False
     img = _add_image(db, dirs)
+    _add_image(db, dirs, name="patient2.jpg")
+    _add_image(db, dirs, name="patient3.jpg")
     for g in range(4):
         _add_crop(db, dirs, img, grade=g, idx=g)
     inv4 = dataset_inventory(db)
@@ -167,6 +176,8 @@ def test_inventory_ready_to_build_when_icdas_3_and_4_missing(monkeypatch, tmp_pa
     dirs = _patch_wf(monkeypatch, tmp_path)
     db = _session(tmp_path)
     img = _add_image(db, dirs)
+    _add_image(db, dirs, name="patient2.jpg")
+    _add_image(db, dirs, name="patient3.jpg")
     for idx, g in enumerate([0, 0, 0, 1, 1]):
         _add_crop(db, dirs, img, grade=g, idx=idx)
     inv = dataset_inventory(db)
@@ -280,9 +291,15 @@ def test_build_dataset_min_split_version_no_train(monkeypatch, tmp_path):
     dirs = _patch_wf(monkeypatch, tmp_path)
     db = _session(tmp_path)
     img = _five_class_photo(db, dirs, name="a.jpg")
+    img_a2 = _add_image(db, dirs, name="a_retake.jpg", patient_id=img.patient_id)
+    for g in range(5):
+        _add_crop(db, dirs, img_a2, grade=g, idx=g)
     img_b = _add_image(db, dirs, name="b.jpg")
     for g in range(5):
         _add_crop(db, dirs, img_b, grade=g, idx=g)
+    img_c = _add_image(db, dirs, name="c.jpg")
+    for g in range(5):
+        _add_crop(db, dirs, img_c, grade=g, idx=g)
     jobs_before = db.query(TrainingJob).count()
     v1 = build_dataset_version(db)
     assert v1["name"] == "v1"
@@ -299,6 +316,10 @@ def test_build_dataset_min_split_version_no_train(monkeypatch, tmp_path):
     assert Path(v1["path"]) != Path(v2["path"])
     stats = v2["statistics"]
     assert stats["split_seed"] == 42
+    assignment_file = Path(v2["path"]) / "split_assignments.json"
+    assignments = __import__("json").loads(assignment_file.read_text(encoding="utf-8"))
+    image_assignments = assignments["image_assignments"]
+    assert image_assignments[img.image_id]["split"] == image_assignments[img_a2.image_id]["split"]
     leaks = (stats.get("validation") or {}).get("issues") or []
     assert not any("leaked" in str(x) for x in leaks)
     splits = split_source_images([img.id, img_b.id], seed=42)
@@ -310,6 +331,8 @@ def test_build_rejects_below_minimum(monkeypatch, tmp_path):
     dirs = _patch_wf(monkeypatch, tmp_path)
     db = _session(tmp_path)
     img = _add_image(db, dirs)
+    _add_image(db, dirs, name="patient2.jpg")
+    _add_image(db, dirs, name="patient3.jpg")
     for g in range(4):
         _add_crop(db, dirs, img, grade=g, idx=g)
     with pytest.raises(ValueError, match="Need at least 5"):
@@ -320,6 +343,8 @@ def test_inventory_ready_to_build_when_some_icdas_classes_missing(monkeypatch, t
     dirs = _patch_wf(monkeypatch, tmp_path)
     db = _session(tmp_path)
     img = _add_image(db, dirs)
+    _add_image(db, dirs, name="patient2.jpg")
+    _add_image(db, dirs, name="patient3.jpg")
     for i, grade in enumerate((0, 0, 0, 1, 1)):
         _add_crop(db, dirs, img, grade=grade, idx=i)
     inv = dataset_inventory(db)
@@ -338,6 +363,8 @@ def test_build_allows_missing_classes_train_gate_does_not(monkeypatch, tmp_path)
     dirs = _patch_wf(monkeypatch, tmp_path)
     db = _session(tmp_path)
     img = _add_image(db, dirs)
+    _add_image(db, dirs, name="patient2.jpg")
+    _add_image(db, dirs, name="patient3.jpg")
     for i, grade in enumerate((0, 0, 0, 1, 1)):
         _add_crop(db, dirs, img, grade=grade, idx=i)
     jobs_before = db.query(TrainingJob).count()
@@ -348,3 +375,127 @@ def test_build_allows_missing_classes_train_gate_does_not(monkeypatch, tmp_path)
     assert db.query(DatasetVersion).count() == 1
     with pytest.raises(ValueError, match="All ICDAS classes 0–4 must exist"):
         validate_dataset_for_train(db, None)
+
+
+def test_patient_split_is_reproducible_and_70_15_15():
+    patient_ids = [f"PAT{i:03d}" for i in range(100)]
+    first = split_patients(patient_ids, seed=42)
+    second = split_patients(list(reversed(patient_ids)), seed=42)
+    assert first == second
+    assert {name: len(values) for name, values in first.items()} == {"train": 70, "val": 15, "test": 15}
+    assert not (set(first["train"]) & set(first["val"]))
+    assert not (set(first["train"]) & set(first["test"]))
+    assert not (set(first["val"]) & set(first["test"]))
+
+
+def test_pseudonymous_identity_manifest_validation():
+    assert validate_patient_id("PAT001") == "PAT001"
+    for unsafe in ("John Doe", "johnsmith", "12345678901", "a@b.com"):
+        with pytest.raises(ValueError):
+            validate_patient_id(unsafe)
+    manifest = "filename,patient_id,image_id\na.jpg,PAT001,IMG001\nb.jpg,PAT001,IMG002\n"
+    mapped = parse_import_manifest(manifest, ["a.jpg", "b.jpg"])
+    assert mapped["a.jpg"] == {"patient_id": "PAT001", "image_id": "IMG001"}
+    with pytest.raises(ValueError, match="exactly match"):
+        parse_import_manifest(manifest, ["a.jpg", "c.jpg"])
+
+
+def test_uncertain_and_ungradable_statuses_are_audited_and_not_graded(monkeypatch, tmp_path):
+    dirs = _patch_wf(monkeypatch, tmp_path)
+    db = _session(tmp_path)
+    image = _add_image(db, dirs)
+    uncertain = _add_crop(db, dirs, image, grade=None, idx=0)
+    ungradable = _add_crop(db, dirs, image, grade=None, idx=1)
+    set_crop_annotation_status(db, uncertain.id, "UNCERTAIN")
+    set_crop_annotation_status(db, ungradable.id, "UNGRADABLE")
+    assert uncertain.grade is None and ungradable.grade is None
+    assert {row.event_type for row in db.query(TrainingAuditEvent).all()} == {
+        "annotation_uncertain",
+        "annotation_ungradable",
+    }
+    history = training_audit_listing(db)
+    assert history["count"] == 2
+    assert history["events"][0]["details"]["new"]["annotation_status"] in {
+        "UNCERTAIN",
+        "UNGRADABLE",
+    }
+
+
+def test_box_verification_preserves_ungradable_but_recrop_clears_it(monkeypatch, tmp_path):
+    dirs = _patch_wf(monkeypatch, tmp_path)
+    db = _session(tmp_path)
+    image = _add_image(db, dirs)
+    label = _add_crop(db, dirs, image, grade=None, idx=0)
+    set_crop_annotation_status(db, label.id, "UNGRADABLE")
+    verify_training_boxes(db, image.id)
+    assert label.annotation_status == "UNGRADABLE"
+
+    save_training_boxes(
+        db,
+        image.id,
+        [{"label_id": label.id, "x1": 12, "y1": 12, "x2": 70, "y2": 72}],
+        [],
+    )
+    assert label.grade is None
+    assert label.annotation_status == "UNLABELED"
+
+
+@pytest.mark.parametrize(("minimum", "blocked"), [(90, True), (89, False)])
+def test_training_patient_gate_is_configurable(monkeypatch, tmp_path, minimum, blocked):
+    import csv
+    from app.config import get_settings
+
+    monkeypatch.setenv("ICDAS_MIN_TRAINING_PATIENTS", str(minimum))
+    get_settings.cache_clear()
+
+    root = tmp_path / "v1"
+    root.mkdir()
+    manifest = root / "manifest.csv"
+    fields = [
+        "split", "grade", "status", "patient_id", "image_id", "source_image_id", "crop_id",
+        "crop_hash", "content_hash", "annotation_status",
+    ]
+    rows = []
+    for patient_no in range(89):
+        split = "train" if patient_no < 60 else "val" if patient_no < 75 else "test"
+        grades = range(5) if patient_no in {0, 75} else (0,)
+        for grade in grades:
+            rows.append(
+                {
+                    "split": split,
+                    "grade": grade,
+                    "status": "INCLUDED",
+                    "patient_id": f"PAT{patient_no:03d}",
+                    "image_id": f"IMG{patient_no:03d}",
+                    "source_image_id": str(patient_no + 1),
+                    "crop_id": f"CROP{patient_no:03d}_{grade}",
+                    "crop_hash": f"hash_{patient_no}_{grade}",
+                    "content_hash": f"imagehash_{patient_no}",
+                    "annotation_status": "LABELED",
+                }
+            )
+    with manifest.open("w", encoding="utf-8", newline="") as handle:
+        writer = csv.DictWriter(handle, fieldnames=fields)
+        writer.writeheader()
+        writer.writerows(rows)
+    db = _session(tmp_path)
+    db.add(
+        DatasetVersion(
+            name="v1",
+            path=str(root),
+            status="READY",
+            n_train=64,
+            n_valid=15,
+            n_test=19,
+            statistics_json='{"total_patients": 89, "n_train": 64}',
+        )
+    )
+    db.commit()
+    try:
+        if blocked:
+            with pytest.raises(ValueError, match=f"at least {minimum} distinct patients"):
+                validate_dataset_for_train(db, "v1")
+        else:
+            assert validate_dataset_for_train(db, "v1").name == "v1"
+    finally:
+        get_settings.cache_clear()

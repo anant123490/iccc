@@ -13,6 +13,7 @@ TRAIN_UPLOADS = TRAINING_ROOT / "uploads"
 TRAIN_DETECTED = TRAINING_ROOT / "detected"
 TRAIN_LABELED = TRAINING_ROOT / "labeled"
 TRAIN_VERSIONS = TRAINING_ROOT / "versions"
+TRAIN_BACKUPS = TRAINING_ROOT / "backups"
 REPORTS_PATIENT = PROJECT_ROOT / "reports" / "patient"
 HEATMAPS = PROJECT_ROOT / "reports" / "heatmaps"
 MODELS_DET = PROJECT_ROOT / "models" / "detection"
@@ -29,6 +30,7 @@ def ensure_dirs() -> None:
         TRAIN_DETECTED,
         TRAIN_LABELED,
         TRAIN_VERSIONS,
+        TRAIN_BACKUPS,
         REPORTS_PATIENT,
         HEATMAPS,
     ):

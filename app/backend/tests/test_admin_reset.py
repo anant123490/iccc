@@ -17,6 +17,7 @@ from app.portal_db import (
     DatasetVersion,
     ModelVersion,
     Patient,
+    TrainingAuditEvent,
     TrainingImage,
     TrainingJob,
     TrainingLabel,
@@ -48,6 +49,7 @@ def _patch_training_dirs(monkeypatch, tmp_path: Path):
     detected = root / "detected"
     labeled = root / "labeled"
     versions = root / "versions"
+    backups = root / "backups"
     for d in (uploads, detected, labeled, versions):
         d.mkdir(parents=True)
     monkeypatch.setattr(tr, "TRAINING_ROOT", root)
@@ -55,12 +57,14 @@ def _patch_training_dirs(monkeypatch, tmp_path: Path):
     monkeypatch.setattr(tr, "TRAIN_DETECTED", detected)
     monkeypatch.setattr(tr, "TRAIN_LABELED", labeled)
     monkeypatch.setattr(tr, "TRAIN_VERSIONS", versions)
+    monkeypatch.setattr(tr, "TRAIN_BACKUPS", backups)
     return {
         "root": root,
         "uploads": uploads,
         "detected": detected,
         "labeled": labeled,
         "versions": versions,
+        "backups": backups,
     }
 
 
@@ -146,6 +150,22 @@ def test_reset_plan_does_not_include_models_or_source():
         assert "data" in item["path"].replace("\\", "/") or "training" in item["path"]
 
 
+def test_reset_plan_reports_scope_specific_counts(monkeypatch, tmp_path):
+    dirs = _patch_training_dirs(monkeypatch, tmp_path)
+    db = _session(tmp_path)
+    _seed_training(db, dirs)
+    dataset = reset_plan("dataset", db)["affected_counts"]
+    full = reset_plan("full", db)["affected_counts"]
+    assert dataset["training_images"] == 1
+    assert dataset["tooth_crops"] == 1
+    assert dataset["annotations"] == 1
+    assert dataset["dataset_records"] == 1
+    assert dataset["training_jobs"] == 0
+    assert full["training_jobs"] == 1
+    assert dataset["running_training_jobs"] == full["running_training_jobs"] == 0
+    assert dataset["files"] == 4
+
+
 def test_refuses_path_outside_training_root(monkeypatch, tmp_path):
     _patch_training_dirs(monkeypatch, tmp_path)
     outside = tmp_path / "models" / "detection" / "best.pt"
@@ -192,6 +212,34 @@ def test_dataset_reset_clears_files_labels_metrics(monkeypatch, tmp_path):
     assert out["dataset_ready"] is False
     assert out["training"] == "DISABLED"
     assert out["launched"] is False
+    archive = Path(out["recovery_archive"])
+    assert archive.exists()
+    assert archive.parent == dirs["backups"]
+    import zipfile
+    import json
+
+    with zipfile.ZipFile(archive) as zf:
+        members = set(zf.namelist())
+        assert members == {
+            "reset_snapshot.json",
+            "uploads/photo.jpg",
+            "detected/1/tooth_001.jpg",
+            "labeled/0/a.jpg",
+            "versions/v1/manifest.csv",
+        }
+        assert zf.testzip() is None
+        snapshot = json.loads(zf.read("reset_snapshot.json"))
+    assert snapshot["scope"] == "dataset"
+    assert snapshot["counts"]["training_images"] == 1
+    assert len(snapshot["tables"]["training_images"]) == 1
+    assert len(snapshot["tables"]["training_labels"]) == 1
+    assert len(snapshot["tables"]["dataset_versions"]) == 1
+    assert snapshot["tables"]["training_jobs"] == []
+    assert "training_audit_events" not in snapshot["tables"]
+    audit = db.query(TrainingAuditEvent).filter_by(event_type="training_reset").one()
+    assert audit.id == out["audit_event_id"]
+    assert archive.name in audit.details_json
+    assert db.query(TrainingAuditEvent).count() == 1
     inv = dataset_inventory(db)
     assert inv["dataset_ready"] is False
     assert inv["status"] == "NOT READY"
@@ -217,6 +265,37 @@ def test_reset_is_idempotent(monkeypatch, tmp_path):
     again = execute_training_reset(db, "full", True, PHRASE)
     assert again["uploads"] == 0
     assert again["ok"] is True
+    assert Path(again["recovery_archive"]).exists()
+
+
+def test_reset_stops_if_recovery_archive_cannot_be_created(monkeypatch, tmp_path):
+    dirs = _patch_training_dirs(monkeypatch, tmp_path)
+    db = _session(tmp_path)
+    _seed_training(db, dirs)
+    import app.training_reset as tr
+
+    def fail_archive(*_args, **_kwargs):
+        raise OSError("archive disk full")
+
+    monkeypatch.setattr(tr, "_create_recovery_archive", fail_archive)
+    with pytest.raises(OSError, match="archive disk full"):
+        execute_training_reset(db, "dataset", True, PHRASE)
+    assert db.query(TrainingImage).count() == 1
+    assert db.query(TrainingLabel).count() == 1
+    assert (dirs["uploads"] / "photo.jpg").exists()
+
+
+def test_reset_is_blocked_during_training_job(monkeypatch, tmp_path):
+    dirs = _patch_training_dirs(monkeypatch, tmp_path)
+    db = _session(tmp_path)
+    _seed_training(db, dirs, with_job=False)
+    db.add(TrainingJob(status="running", message="active"))
+    db.commit()
+    with pytest.raises(ValueError, match="training job to finish"):
+        execute_training_reset(db, "dataset", True, PHRASE)
+    assert db.query(TrainingImage).count() == 1
+    assert (dirs["uploads"] / "photo.jpg").exists()
+    assert not dirs["backups"].exists()
 
 
 def test_upload_and_labeling_work_after_reset(monkeypatch, tmp_path):
@@ -279,24 +358,36 @@ def test_admin_navigation_and_uploader_state_after_reset():
 
 
 @pytest.mark.asyncio
-async def test_http_reset_requires_auth_and_confirmation():
+async def test_http_reset_requires_auth_and_confirmation(monkeypatch, tmp_path):
+    _patch_training_dirs(monkeypatch, tmp_path)
     transport = ASGITransport(app=app)
-    async with AsyncClient(transport=transport, base_url="http://test") as client:
-        denied = await client.post(
-            "/api/v1/admin/training/reset",
-            json={"scope": "dataset", "confirm": True, "confirmation_text": PHRASE},
-        )
-        assert denied.status_code == 401
-        login = await client.post("/api/v1/admin/login", json={"password": "changeme"})
-        token = login.json()["token"]
-        headers = {"Authorization": f"Bearer {token}"}
-        bad = await client.post(
-            "/api/v1/admin/training/reset",
-            json={"scope": "dataset", "confirm": False, "confirmation_text": PHRASE},
-            headers=headers,
-        )
-        assert bad.status_code == 400
-        assert "confirm" in (bad.json().get("detail") or "").lower()
-        plan = await client.get("/api/v1/admin/training/reset/plan", headers=headers)
-        assert plan.status_code == 200
-        assert "training_images" in plan.json()["database_tables"]
+    db = _session(tmp_path)
+    from app.portal_routes import get_db as route_get_db
+
+    def _override_db():
+        yield db
+
+    app.dependency_overrides[route_get_db] = _override_db
+    try:
+        async with AsyncClient(transport=transport, base_url="http://test") as client:
+            denied = await client.post(
+                "/api/v1/admin/training/reset",
+                json={"scope": "dataset", "confirm": True, "confirmation_text": PHRASE},
+            )
+            assert denied.status_code == 401
+            login = await client.post("/api/v1/admin/login", json={"password": "changeme"})
+            token = login.json()["token"]
+            headers = {"Authorization": f"Bearer {token}"}
+            bad = await client.post(
+                "/api/v1/admin/training/reset",
+                json={"scope": "dataset", "confirm": False, "confirmation_text": PHRASE},
+                headers=headers,
+            )
+            assert bad.status_code == 400
+            assert "confirm" in (bad.json().get("detail") or "").lower()
+            plan = await client.get("/api/v1/admin/training/reset/plan", headers=headers)
+            assert plan.status_code == 200
+            assert "training_images" in plan.json()["database_tables"]
+    finally:
+        app.dependency_overrides.clear()
+        db.close()

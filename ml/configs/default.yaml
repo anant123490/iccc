@@ -1,8 +1,8 @@
 # ============================================================
-# ICDAS 0-4 CONFIGURATION
+# ICDAS 0-4 CLASSIFIER — V6
 # ============================================================
 
-experiment_name: "icdas_mobilenet_cbam_5class_v4"
+experiment_name: "icdas_mobilenet_cbam_5class_v6"
 
 # ============================================================
 # CLASSES
@@ -10,30 +10,21 @@ experiment_name: "icdas_mobilenet_cbam_5class_v4"
 
 num_classes: 5
 
-# 0 = Sound
-# 1 = First visual change
-# 2 = Distinct visual change
-# 3 = Localized enamel breakdown
-# 4 = Underlying dark shadow / dentin involvement
+# ICDAS classes:
+# 0, 1, 2, 3, 4
+#
+# ICDAS 5 and 6 are intentionally OUT OF SCOPE.
+# Do NOT remap 5/6.
 
 # ============================================================
-# IMAGE
+# IMAGE / DATASET
 # ============================================================
 
 image_size: 224
 
-# ============================================================
-# DATASET
-# ============================================================
-
 batch_size: 8
 
-# Folder layout: data/icdas/{train,val,test}/{0,1,2,3,4}
-dataset_root: "data/icdas"
-
-# Never copy a new checkpoint over models/icdas/current/deploy.keras
-# until a 5-class softmax model has been evaluated and approved.
-overwrite_root_checkpoints: false
+dataset_root: "data/training/versions/v77"
 
 # ============================================================
 # MODEL
@@ -51,15 +42,13 @@ pretrained: true
 # CLASSIFICATION
 # ============================================================
 
-# Production head: 5-class softmax (ICDAS 0-4).
-# Ordinal regression remains implemented but is not the default.
-
+# V6 is a controlled softmax baseline.
 ordinal_regression: false
 
 loss: "sparse_categorical_crossentropy"
 
 # ============================================================
-# OPTIMIZER
+# OPTIMIZATION
 # ============================================================
 
 learning_rate: 0.0001
@@ -69,14 +58,10 @@ fine_tune_learning_rate: 0.00001
 weight_decay: 0.0001
 
 # ============================================================
-# STAGE 1
+# TRAINING
 # ============================================================
 
 head_epochs: 20
-
-# ============================================================
-# STAGE 2
-# ============================================================
 
 fine_tune_epochs: 30
 
@@ -91,8 +76,10 @@ augmentation: true
 # ============================================================
 # PREPROCESSING
 # ============================================================
-# IMPORTANT:
-# These must remain identical between training and inference.
+
+# Keep these OFF for the controlled V6 experiment.
+# We do not want ROI/CLAHE/specular/color normalization
+# to change the visual ICDAS cues during this experiment.
 
 use_roi_detection: false
 
@@ -116,10 +103,16 @@ reduce_lr_patience: 3
 
 confidence_threshold: 0.55
 
-# ============================================================
-# MODEL INPUT CONTRACT
-# ============================================================
-# MobileNetV3 with ImageNet weights uses its built-in
-# preprocessing and therefore expects pixel values in [0,255].
+# MobileNetV3Small with built-in preprocessing expects
+# image values in [0,255].
 
 mobilenet_input_range: "0-255"
+
+# ============================================================
+# CHECKPOINT
+# ============================================================
+
+# Do not overwrite the root deployment checkpoint during
+# experimentation.
+
+overwrite_root_checkpoints: false

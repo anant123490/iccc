@@ -86,6 +86,16 @@ class BoxesIn(BaseModel):
     deleted_ids: list[int] = Field(default_factory=list)
 
 
+class TrainingIdentityIn(BaseModel):
+    patient_id: str = Field(..., min_length=2, max_length=64)
+    image_id: Optional[str] = Field(default=None, max_length=64)
+
+
+class CropStatusIn(BaseModel):
+    label_id: int
+    status: str
+
+
 class TrainingResetIn(BaseModel):
     scope: str = Field(..., description="dataset or full")
     confirm: bool = False
@@ -323,6 +333,7 @@ def api_admin_create_patient(
 @router.post("/admin/training/images")
 async def api_training_upload(
     files: list[UploadFile] = File(...),
+    patient_manifest: Optional[UploadFile] = File(default=None),
     db: Session = Depends(get_db),
     _: None = Depends(require_admin),
 ):
@@ -330,7 +341,13 @@ async def api_training_upload(
     for f in files:
         blobs.append((f.filename or "image.jpg", await f.read()))
     try:
-        items = add_training_images(db, blobs)
+        identity_map = None
+        if patient_manifest is not None:
+            from .training_workflow import parse_import_manifest
+
+            text = (await patient_manifest.read()).decode("utf-8-sig")
+            identity_map = parse_import_manifest(text, [name for name, _ in blobs])
+        items = add_training_images(db, blobs, identity_map)
     except (RuntimeError, ValueError) as exc:
         raise HTTPException(400 if isinstance(exc, ValueError) else 503, str(exc)) from exc
     dups = [
@@ -345,6 +362,23 @@ async def api_training_upload(
         "unique_count": sum(1 for i in items if i.get("duplicate_status") == "UNIQUE"),
         "note": "Duplicate files are kept on disk but excluded from the ICDAS dataset.",
     }
+
+
+@router.put("/admin/training/images/{image_id}/identity")
+def api_training_identity(
+    image_id: int,
+    body: TrainingIdentityIn,
+    db: Session = Depends(get_db),
+    _: None = Depends(require_admin),
+):
+    from .training_workflow import update_training_identity
+
+    try:
+        return update_training_identity(db, image_id, body.patient_id, body.image_id)
+    except KeyError:
+        raise HTTPException(404, "Training image not found.")
+    except ValueError as exc:
+        raise HTTPException(400, str(exc)) from exc
 
 
 @router.get("/admin/training/images")
@@ -427,10 +461,56 @@ def api_label_queue(
     image_id: Optional[int] = None,
     label_id: Optional[int] = None,
     resume: bool = False,
+    patient_id: Optional[str] = None,
+    split_name: Optional[str] = None,
+    grade: Optional[int] = None,
+    annotation_status: Optional[str] = None,
     db: Session = Depends(get_db),
     _: None = Depends(require_admin),
 ):
-    return unlabeled_queue(db, image_id=image_id, label_id=label_id, resume=resume)
+    return unlabeled_queue(
+        db,
+        image_id=image_id,
+        label_id=label_id,
+        resume=resume,
+        patient_id=patient_id,
+        split_name=split_name,
+        grade=grade,
+        annotation_status=annotation_status,
+    )
+
+
+@router.get("/admin/training/crops")
+def api_training_crops(
+    patient_id: Optional[str] = None,
+    split_name: Optional[str] = None,
+    grade: Optional[int] = None,
+    annotation_status: Optional[str] = None,
+    db: Session = Depends(get_db),
+    _: None = Depends(require_admin),
+):
+    from .training_workflow import training_crop_listing
+
+    if grade is not None and not 0 <= grade <= 4:
+        raise HTTPException(400, "grade must be ICDAS 0–4.")
+    return training_crop_listing(
+        db,
+        patient_id=patient_id,
+        split_name=split_name,
+        grade=grade,
+        annotation_status=annotation_status,
+    )
+
+
+@router.get("/admin/training/audit")
+def api_training_audit(
+    limit: int = 200,
+    db: Session = Depends(get_db),
+    _: None = Depends(require_admin),
+):
+    from .training_workflow import training_audit_listing
+
+    return training_audit_listing(db, limit=limit)
 
 
 @router.post("/admin/training/labels")
@@ -451,6 +531,22 @@ class SkipIn(BaseModel):
     label_id: int
 
 
+@router.post("/admin/training/labels/status")
+def api_crop_status(
+    body: CropStatusIn,
+    db: Session = Depends(get_db),
+    _: None = Depends(require_admin),
+):
+    from .training_workflow import set_crop_annotation_status
+
+    try:
+        return set_crop_annotation_status(db, body.label_id, body.status)
+    except KeyError:
+        raise HTTPException(404, "Label not found.")
+    except ValueError as exc:
+        raise HTTPException(400, str(exc)) from exc
+
+
 @router.post("/admin/training/labels/skip")
 def api_skip_label(
     body: SkipIn,
@@ -468,10 +564,11 @@ def api_skip_label(
 @router.get("/admin/training/reset/plan")
 def api_training_reset_plan(
     scope: str = "dataset",
+    db: Session = Depends(get_db),
     _: None = Depends(require_admin),
 ):
     try:
-        return reset_plan(scope)
+        return reset_plan(scope, db)
     except ValueError as exc:
         raise HTTPException(400, str(exc)) from exc
 

@@ -50,3 +50,7 @@ INDIVIDUAL TOOTH IMAGE
 ICDAS 5 and 6 stay in `data/icdas/excluded/`. Never fold them into class 4.
 
 Details: `data/icdas/README.md`.
+
+## Admin training dataset
+
+The Admin portal also has a separate rebuild flow for full-mouth images, Tooth Detector V2 box review, clinician ICDAS labeling, patient-level splitting, and versioned training. Follow [REBUILD_DATASET_WORKFLOW.md](REBUILD_DATASET_WORKFLOW.md) for its import format, reset protections, readiness gates, and training steps. That workflow writes under `data/training/` and does not alter the legacy `data/icdas/` folders described above.

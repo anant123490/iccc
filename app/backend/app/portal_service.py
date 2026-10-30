@@ -760,14 +760,43 @@ def admin_kpis(db: Session) -> dict:
     }
 
 
-def add_training_images(db: Session, files: list[tuple[str, bytes]]) -> list[dict]:
-    from .training_workflow import ingest_training_image
+def add_training_images(
+    db: Session,
+    files: list[tuple[str, bytes]],
+    identity_map: dict[str, dict[str, str]] | None = None,
+) -> list[dict]:
+    from .training_workflow import ingest_training_image, validate_image_id
 
     ensure_dirs()
     out = []
     duplicates = []
+    identity_map = identity_map or {}
+    filenames = [Path(filename).name for filename, _ in files]
+    if len({name.casefold() for name in filenames}) != len(filenames):
+        raise ValueError("Uploaded filenames must be unique within a batch.")
+    requested_ids = [
+        validate_image_id(identity_map[name.casefold()]["image_id"])
+        for name in filenames
+        if identity_map.get(name.casefold(), {}).get("image_id")
+    ]
+    if len(requested_ids) != len(set(requested_ids)):
+        raise ValueError("Image IDs must be unique within an upload batch.")
+    existing_ids = {
+        row[0]
+        for row in db.query(TrainingImage.image_id).filter(TrainingImage.image_id.in_(requested_ids)).all()
+    } if requested_ids else set()
+    if existing_ids:
+        raise ValueError("These image IDs already exist: " + ", ".join(sorted(existing_ids)[:5]))
     for filename, data in files:
-        item = ingest_training_image(db, filename, data, _decode_upload)
+        metadata = identity_map.get(Path(filename).name.casefold(), {})
+        item = ingest_training_image(
+            db,
+            filename,
+            data,
+            _decode_upload,
+            patient_id=metadata.get("patient_id") or None,
+            image_id=metadata.get("image_id") or None,
+        )
         out.append(item)
         if item.get("duplicate_status") in {"EXACT_DUPLICATE", "LIKELY_DUPLICATE", "INVALID"}:
             duplicates.append(item)
@@ -779,10 +808,23 @@ def unlabeled_queue(
     image_id: int | None = None,
     label_id: int | None = None,
     resume: bool = False,
+    patient_id: str | None = None,
+    split_name: str | None = None,
+    grade: int | None = None,
+    annotation_status: str | None = None,
 ) -> dict:
     from .training_workflow import labeling_queue
 
-    return labeling_queue(db, image_id=image_id, label_id=label_id, resume=resume)
+    return labeling_queue(
+        db,
+        image_id=image_id,
+        label_id=label_id,
+        resume=resume,
+        patient_id=patient_id,
+        split_name=split_name,
+        grade=grade,
+        annotation_status=annotation_status,
+    )
 
 
 def skip_label(db: Session, label_id: int) -> dict:
@@ -819,18 +861,25 @@ def training_status(db: Session, job_id: int | None) -> dict:
     q = db.query(TrainingJob).order_by(TrainingJob.id.desc())
     job = q.filter(TrainingJob.id == job_id).first() if job_id else q.first()
     if job is None:
-        return {"status": "idle", "message": "No training jobs.", "log": ""}
+        return {
+            "status": "idle",
+            "message": "No training jobs.",
+            "log": "",
+            "icdas_train_enabled": bool(get_settings().allow_icdas_train),
+        }
     log = job.log_text or ""
     if "log=" in log:
         p = log.split("log=", 1)[-1].strip()
         if Path(p).exists():
             log = Path(p).read_text(encoding="utf-8", errors="replace")[-8000:]
+    enabled = bool(get_settings().allow_icdas_train)
     return {
         "job_id": job.id,
         "status": job.status,
         "message": job.message,
         "log": log,
         "updated_at": job.updated_at.isoformat() if job.updated_at else None,
+        "icdas_train_enabled": enabled,
     }
 
 

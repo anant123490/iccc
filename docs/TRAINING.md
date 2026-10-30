@@ -1,5 +1,7 @@
 # Training Instructions
 
+For the Admin portal’s patient-level dataset import, review, split, reset, and model-promotion workflow, see [REBUILD_DATASET_WORKFLOW.md](REBUILD_DATASET_WORKFLOW.md).
+
 ## ICDAS (blocked until pixels exist)
 
 Edit `ml/configs/default.yaml`:
