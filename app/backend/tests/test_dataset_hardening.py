@@ -13,7 +13,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
 from app.database import Base
-from app.portal_db import DatasetVersion, TrainingAuditEvent, TrainingImage, TrainingJob, TrainingLabel
+from app.portal_db import DatasetVersion, LabelingProgress, TrainingAuditEvent, TrainingImage, TrainingJob, TrainingLabel
 from app.portal_routes import LabelIn
 from app.tooth_detector import box_iou_xyxy, validate_xyxy_box
 from app.training_workflow import (
@@ -21,8 +21,11 @@ from app.training_workflow import (
     STATUS_UNIQUE,
     build_dataset_version,
     dataset_inventory,
+    label_history_listing,
     labeling_queue,
     parse_import_manifest,
+    preview_dataset_split,
+    patient_assignment_inventory,
     save_icdas_label,
     save_training_boxes,
     set_crop_annotation_status,
@@ -32,6 +35,7 @@ from app.training_workflow import (
     validate_patient_id,
     validate_dataset_for_train,
     verify_training_boxes,
+    undo_icdas_label,
 )
 from app.crop_identity import apply_crop_identity
 
@@ -73,6 +77,7 @@ def _patch_wf(monkeypatch, tmp_path: Path) -> dict:
     monkeypatch.setattr(tw, "TRAIN_DETECTED", dirs["detected"])
     monkeypatch.setattr(tw, "TRAIN_LABELED", dirs["labeled"])
     monkeypatch.setattr(tw, "TRAIN_VERSIONS", dirs["versions"])
+    monkeypatch.setattr(tw, "ICDAS_DATASETS", dirs["versions"])
     return dirs
 
 
@@ -146,6 +151,14 @@ def _five_class_photo(db, dirs, name="all.jpg") -> TrainingImage:
         _add_crop(db, dirs, img, grade=g, idx=g)
     db.commit()
     return img
+
+
+def _build_confirmed(db, plan=None):
+    plan = dict(plan or {})
+    plan.setdefault("allow_exclusions", True)
+    preview = preview_dataset_split(db, plan)
+    assert preview["can_build"], preview["build_blockers"]
+    return build_dataset_version(db, plan, preview["fingerprint"])
 
 
 def test_inventory_min_crops_gate(monkeypatch, tmp_path):
@@ -231,6 +244,38 @@ def test_save_label_rejects_invalid_and_unverified(monkeypatch, tmp_path):
     assert current.get("label_id") != ghost.id
 
 
+def test_review_track_overwrite_history_and_undo_preserve_initial_cursor(monkeypatch, tmp_path):
+    dirs = _patch_wf(monkeypatch, tmp_path)
+    db = _session(tmp_path)
+    image = _add_image(db, dirs)
+    first = _add_crop(db, dirs, image, grade=0, idx=0)
+    selected = _add_crop(db, dirs, image, grade=1, idx=1)
+    _add_crop(db, dirs, image, grade=2, idx=2)
+
+    initial = labeling_queue(db, mode="beginning")
+    initial_cursor = db.query(LabelingProgress).filter(LabelingProgress.track == "initial").one()
+    initial_label_id = initial_cursor.label_id
+    review = labeling_queue(db, mode="review", label_id=selected.id)
+    assert review["current"]["label_id"] == selected.id
+    db.refresh(initial_cursor)
+    assert initial_cursor.label_id == initial_label_id == initial["current"]["label_id"]
+
+    confirmation = save_icdas_label(db, selected.id, 4, track="review")
+    assert confirmation["needs_confirmation"] is True
+    saved = save_icdas_label(db, selected.id, 4, confirm_overwrite=True, track="review")
+    assert saved["saved"] is True and selected.grade == 4
+    history = label_history_listing(db, selected.id)
+    assert history["count"] == 1
+    assert any((event["details"].get("old") or {}).get("grade") == 1 for event in history["events"])
+
+    restored = undo_icdas_label(db, selected.id)
+    assert restored["grade"] == 1
+    db.refresh(selected)
+    assert selected.grade == 1
+    db.refresh(initial_cursor)
+    assert initial_cursor.label_id == initial_label_id
+
+
 def test_invalid_box_rejected_and_edit_delete_add(monkeypatch, tmp_path):
     dirs = _patch_wf(monkeypatch, tmp_path)
     db = _session(tmp_path)
@@ -301,16 +346,16 @@ def test_build_dataset_min_split_version_no_train(monkeypatch, tmp_path):
     for g in range(5):
         _add_crop(db, dirs, img_c, grade=g, idx=g)
     jobs_before = db.query(TrainingJob).count()
-    v1 = build_dataset_version(db)
-    assert v1["name"] == "v1"
+    v1 = _build_confirmed(db)
+    assert v1["name"] == "dataset_v001"
     assert Path(v1["path"]).exists()
     assert (Path(v1["path"]) / "manifest.csv").exists()
     assert db.query(TrainingJob).count() == jobs_before
     with pytest.raises(ValueError, match="duplicate version"):
-        build_dataset_version(db)
+        _build_confirmed(db)
     _add_crop(db, dirs, img, grade=0, idx=99)
-    v2 = build_dataset_version(db)
-    assert v2["name"] == "v2"
+    v2 = _build_confirmed(db)
+    assert v2["name"] == "dataset_v002"
     assert Path(v1["path"]).exists()
     assert Path(v2["path"]).exists()
     assert Path(v1["path"]) != Path(v2["path"])
@@ -368,13 +413,228 @@ def test_build_allows_missing_classes_train_gate_does_not(monkeypatch, tmp_path)
     for i, grade in enumerate((0, 0, 0, 1, 1)):
         _add_crop(db, dirs, img, grade=grade, idx=i)
     jobs_before = db.query(TrainingJob).count()
-    out = build_dataset_version(db)
-    assert out["name"] == "v1"
+    out = _build_confirmed(db)
+    assert out["name"] == "dataset_v001"
     assert Path(out["path"]).exists()
     assert db.query(TrainingJob).count() == jobs_before
     assert db.query(DatasetVersion).count() == 1
     with pytest.raises(ValueError, match="All ICDAS classes 0–4 must exist"):
         validate_dataset_for_train(db, None)
+
+
+def test_patient_assignment_exports_verified_tooth_crops_and_loads_in_training_pipeline(monkeypatch, tmp_path):
+    import csv
+    import sys
+
+    dirs = _patch_wf(monkeypatch, tmp_path)
+    db = _session(tmp_path)
+    images = []
+    for patient_no in range(1, 4):
+        image = _add_image(
+            db,
+            dirs,
+            name=f"source_{patient_no}.jpg",
+            patient_id=f"PAT{patient_no:03d}",
+            verified=False,
+        )
+        for grade in range(5):
+            _add_crop(db, dirs, image, grade=None, verified=False, idx=grade)
+        verify_training_boxes(db, image.id)
+        for grade, crop in enumerate(sorted(image.labels, key=lambda item: item.index_in_image)):
+            save_icdas_label(db, crop.id, grade)
+        images.append(image)
+
+    plan = {
+        "strategy": "manual",
+        "seed": 42,
+        "allow_exclusions": True,
+        "allow_reassign_locked": True,
+        "assignments": {str(image.id): split for image, split in zip(images, ("train", "val", "test"))},
+    }
+    preview = preview_dataset_split(db, plan)
+    assert preview["can_build"], preview["build_blockers"]
+    assert [preview["split_summary"][split]["patient_count"] for split in ("train", "val", "test")] == [1, 1, 1]
+    assert [preview["split_summary"][split]["verified_crop_count"] for split in ("train", "val", "test")] == [5, 5, 5]
+
+    result = build_dataset_version(db, plan, preview["fingerprint"])
+    root = Path(result["path"])
+    assert root.name == "dataset_v001"
+    assert (root / "train" / "images").is_dir()
+    assert (root / "validation" / "images").is_dir()
+    assert (root / "test" / "images").is_dir()
+    assert (root / "manifest.json").is_file()
+    assert (root / "split_report.md").is_file()
+    assert not (root / "val").exists()
+    assert all(
+        not any(child.is_dir() and child.name in {"0", "1", "2", "3", "4"} for child in (root / split).iterdir())
+        for split in ("train", "validation", "test")
+    )
+
+    with (root / "manifest.csv").open(encoding="utf-8", newline="") as handle:
+        manifest = list(csv.DictReader(handle))
+    included = [row for row in manifest if row["status"] == "INCLUDED"]
+    assert len(included) == 15
+    assert all(row["patient_id"] and row["source_photo_id"] and row["crop_id"] for row in included)
+    assert all((root / row["dest"]).is_file() for row in included)
+
+    for image, split in zip(images, ("train", "val", "test")):
+        db.refresh(image)
+        assert image.split_name == split
+        assert image.dataset_version == result["name"]
+        label_file = root / ("validation" if split == "val" else split) / "labels.csv"
+        with label_file.open(encoding="utf-8", newline="") as handle:
+            labels = list(csv.DictReader(handle))
+        assert len(labels) == 5
+        assert {int(row["icdas_score"]) for row in labels} == set(range(5))
+        assert all(row["source_photo_id"] == image.image_id for row in labels)
+
+    project_root = Path(__file__).resolve().parents[3]
+    ml_root = str(project_root / "ml")
+    if ml_root not in sys.path:
+        sys.path.insert(0, ml_root)
+    from src.dataset import DentalCariesDataset, validate_dataset_layout
+
+    layout = validate_dataset_layout(str(root))
+    assert set(layout) == {"train", "val", "test"}
+    assert layout["val"] == {grade: 1 for grade in range(5)}
+    loaded = DentalCariesDataset(str(root), "val")
+    loaded.validate_classes()
+    sample, grade = loaded._load_sample(loaded.df.iloc[0])
+    assert sample.shape == (224, 224, 3)
+    assert 0 <= grade <= 4
+
+
+def test_exclusion_acknowledgment_keeps_missing_unverified_and_unlabeled_out_of_training(monkeypatch, tmp_path):
+    import csv
+
+    dirs = _patch_wf(monkeypatch, tmp_path)
+    db = _session(tmp_path)
+    patients = []
+    for patient_no in range(1, 4):
+        image = _add_image(db, dirs, name=f"patient_{patient_no}.jpg", patient_id=f"PAT{patient_no:03d}")
+        for grade in range(5):
+            _add_crop(db, dirs, image, grade=grade, idx=grade)
+        patients.append(image)
+    unverified = _add_crop(db, dirs, patients[0], grade=4, idx=8, verified=False)
+    unlabeled = _add_crop(db, dirs, patients[1], grade=None, idx=8)
+    missing = _add_image(db, dirs, name="missing_identity.jpg", patient_id=None)
+    missing.patient_id = None
+    db.commit()
+    missing_crop = _add_crop(db, dirs, missing, grade=1, idx=0)
+
+    plan = {"strategy": "percentage", "allow_reassign_locked": True, "allow_exclusions": False}
+    unacknowledged = preview_dataset_split(db, plan)
+    assert not unacknowledged["can_build"]
+    assert unacknowledged["requires_exclusion_acknowledgment"]
+    assert any("unverified" in warning.lower() for warning in unacknowledged["warnings"])
+    assert any("no patient id" in warning.lower() for warning in unacknowledged["warnings"])
+
+    plan["allow_exclusions"] = True
+    preview = preview_dataset_split(db, plan)
+    assert preview["can_build"], preview["build_blockers"]
+    result = build_dataset_version(db, plan, preview["fingerprint"])
+    root = Path(result["path"])
+    with (root / "manifest.csv").open(encoding="utf-8", newline="") as handle:
+        rows = list(csv.DictReader(handle))
+    by_label = {int(row["label_id"]): row for row in rows if row.get("label_id")}
+    assert by_label[unverified.id]["status"] == "UNVERIFIED_BOX"
+    assert by_label[unlabeled.id]["status"] == "UNLABELED"
+    assert by_label[missing_crop.id]["status"] == "UNASSIGNED_PATIENT"
+    for split in ("train", "validation", "test"):
+        with (root / split / "labels.csv").open(encoding="utf-8", newline="") as handle:
+            rows = list(csv.DictReader(handle))
+        ids = {int(row["label_id"]) for row in rows}
+        assert unverified.id not in ids and unlabeled.id not in ids and missing_crop.id not in ids
+    assert db.query(TrainingImage).filter(TrainingImage.id == missing.id).one().split_name == "UNASSIGNED"
+
+
+def test_approximate_patient_groups_are_visible_in_preview_and_export(monkeypatch, tmp_path):
+    import csv
+    import json
+
+    dirs = _patch_wf(monkeypatch, tmp_path)
+    db = _session(tmp_path)
+    images = []
+    for patient_no in range(1, 4):
+        image = _add_image(db, dirs, name=f"approx_{patient_no}.jpg", patient_id=f"PAT{patient_no:04d}")
+        for grade in range(5):
+            _add_crop(db, dirs, image, grade=grade, idx=grade)
+        images.append(image)
+    db.add(
+        TrainingAuditEvent(
+            event_type="patient_photo_group_review",
+            entity_type="training_images",
+            entity_id=str(images[0].id),
+            actor="admin",
+            details_json=json.dumps(
+                {
+                    "assigned_patient_id": "PAT0001",
+                    "confidence": "approximate_not_verified",
+                    "method": "user_authorized_documented_approximation",
+                    "evidence": "No verified patient reference; grouped using the documented approximation.",
+                }
+            ),
+        )
+    )
+    db.commit()
+
+    plan = {"strategy": "percentage", "seed": 42, "allow_exclusions": True}
+    preview = preview_dataset_split(db, plan)
+    assert preview["can_build"], preview["build_blockers"]
+    assert preview["approximate_patient_group_count"] == 1
+    assert any("not identity-verified" in warning for warning in preview["warnings"])
+
+    result = build_dataset_version(db, plan, preview["fingerprint"])
+    root = Path(result["path"])
+    with (root / "manifest.csv").open(encoding="utf-8", newline="") as handle:
+        rows = list(csv.DictReader(handle))
+    approx_rows = [row for row in rows if row["patient_id"] == "PAT0001" and row["status"] == "INCLUDED"]
+    assert len(approx_rows) == 5
+    assert {row["patient_identity_status"] for row in approx_rows} == {"APPROXIMATE_NOT_VERIFIED"}
+    manifest = json.loads((root / "split_assignments.json").read_text(encoding="utf-8"))
+    assert manifest["assignments"]["PAT0001"]["identity_provenance"]["status"] == "APPROXIMATE_NOT_VERIFIED"
+    assert "not identity-verified" in (root / "split_report.md").read_text(encoding="utf-8")
+
+
+def test_stratified_patient_split_keeps_classes_and_one_split_each():
+    counts = {}
+    for index in range(100):
+        grade = index % 5
+        counts[f"PAT{index:03d}"] = {str(g): int(g == grade) for g in range(5)}
+    first = split_patients(list(counts), seed=42, patient_class_counts=counts)
+    second = split_patients(list(reversed(counts)), seed=42, patient_class_counts=counts)
+    assert first == second
+    assert {name: len(values) for name, values in first.items()} == {"train": 70, "val": 15, "test": 15}
+    seen = []
+    for values in first.values():
+        seen.extend(values)
+    assert len(seen) == len(set(seen)) == 100
+    for split, expected in (("train", 14), ("val", 3), ("test", 3)):
+        by_class = {g: 0 for g in range(5)}
+        for pid in first[split]:
+            grade = next(int(g) for g, n in counts[pid].items() if n)
+            by_class[grade] += 1
+        assert by_class == {g: expected for g in range(5)}
+
+
+def test_small_patient_count_is_reported_as_inexact():
+    from app.training_workflow import split_fraction_limitations
+
+    notes = split_fraction_limitations(3)
+    assert notes
+    assert any("not exactly" in note for note in notes)
+    assert split_fraction_limitations(100) == []
+
+
+def test_default_minimum_training_patients_is_three(monkeypatch):
+    from app.config import get_settings
+
+    monkeypatch.delenv("ICDAS_MIN_TRAINING_PATIENTS", raising=False)
+    get_settings.cache_clear()
+    try:
+        assert get_settings().min_training_patients == 3
+    finally:
+        get_settings.cache_clear()
 
 
 def test_patient_split_is_reproducible_and_70_15_15():
@@ -453,13 +713,18 @@ def test_training_patient_gate_is_configurable(monkeypatch, tmp_path, minimum, b
     manifest = root / "manifest.csv"
     fields = [
         "split", "grade", "status", "patient_id", "image_id", "source_image_id", "crop_id",
-        "crop_hash", "content_hash", "annotation_status",
+        "crop_hash", "content_hash", "annotation_status", "dest",
     ]
     rows = []
     for patient_no in range(89):
         split = "train" if patient_no < 60 else "val" if patient_no < 75 else "test"
-        grades = range(5) if patient_no in {0, 75} else (0,)
+        grades = range(5) if patient_no in {0, 60, 75} else (0,)
         for grade in grades:
+            split_folder = "validation" if split == "val" else split
+            destination = f"{split_folder}/images/{patient_no}_{grade}.jpg"
+            crop_path = root / destination
+            crop_path.parent.mkdir(parents=True, exist_ok=True)
+            crop_path.write_bytes(b"test crop")
             rows.append(
                 {
                     "split": split,
@@ -472,6 +737,7 @@ def test_training_patient_gate_is_configurable(monkeypatch, tmp_path, minimum, b
                     "crop_hash": f"hash_{patient_no}_{grade}",
                     "content_hash": f"imagehash_{patient_no}",
                     "annotation_status": "LABELED",
+                    "dest": destination,
                 }
             )
     with manifest.open("w", encoding="utf-8", newline="") as handle:

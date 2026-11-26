@@ -89,6 +89,19 @@ class Settings(BaseSettings):
         / "deploy.keras"
     )
 
+    # Explicit local-only fallback for demonstrations. This does not register
+    # or activate a model and is considered only when no production checkpoint
+    # resolves through the existing deployment settings.
+    local_demo_mode: bool = Field(
+        default=False,
+        validation_alias=AliasChoices("ICDAS_LOCAL_DEMO_MODE", "LOCAL_DEMO_MODE"),
+    )
+
+    demo_model_path: str = Field(
+        default="",
+        validation_alias=AliasChoices("ICDAS_DEMO_MODEL_PATH", "DEMO_MODEL_PATH"),
+    )
+
     # --------------------------------------------------------
     # ICDAS
     # --------------------------------------------------------
@@ -143,10 +156,10 @@ class Settings(BaseSettings):
         ),
     )
 
-    # A configurable safety floor, not a claim about the size of the dataset.
-    # See docs/REBUILD_DATASET_WORKFLOW.md for the rationale and limitations.
+    # Three real patients are needed to populate train, validation, and test.
+    # Small datasets remain usable with explicit reliability warnings.
     min_training_patients: int = Field(
-        default=90,
+        default=3,
         ge=3,
         validation_alias="ICDAS_MIN_TRAINING_PATIENTS",
     )

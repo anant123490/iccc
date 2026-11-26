@@ -9,6 +9,7 @@ from .config import PROJECT_ROOT
 DATA = PROJECT_ROOT / "data"
 PATIENT_ROOT = DATA / "patient"
 TRAINING_ROOT = DATA / "training"
+ICDAS_DATASETS = DATA / "icdas" / "datasets"
 TRAIN_UPLOADS = TRAINING_ROOT / "uploads"
 TRAIN_DETECTED = TRAINING_ROOT / "detected"
 TRAIN_LABELED = TRAINING_ROOT / "labeled"
@@ -30,6 +31,7 @@ def ensure_dirs() -> None:
         TRAIN_DETECTED,
         TRAIN_LABELED,
         TRAIN_VERSIONS,
+        ICDAS_DATASETS,
         TRAIN_BACKUPS,
         REPORTS_PATIENT,
         HEATMAPS,

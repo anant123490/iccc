@@ -238,10 +238,12 @@ def groq_payload_from_structured(structured: dict, language: str = "en") -> dict
     return {
         "language": lang,
         "patient": {
-            "patient_id": patient.get("patient_id") or patient.get("public_id"),
-            "name": patient.get("name"),
-            "age": patient.get("age"),
-            "visit_date": patient.get("visit_date"),
+            # No patient identifiers or demographics are needed to explain
+            # classifier output. Keep external report generation anonymous.
+            "patient_id": "REDACTED",
+            "name": None,
+            "age": None,
+            "visit_date": None,
         },
         "image_quality": quality_out,
         "summary": {
@@ -485,6 +487,7 @@ def generate_screening_report(structured: dict, language: str = "en") -> dict:
             "Groq will not invent ICDAS grades or tooth findings."
         )
     fallback = _local_screening_report(structured, language=language)
+    fallback["report_provider"] = "Local fallback"
     client = _get_client()
     if client is None:
         return fallback
@@ -511,6 +514,7 @@ def generate_screening_report(structured: dict, language: str = "en") -> dict:
             logger.warning("Groq markdown missing or grades not preserved; using local report.")
             return fallback
         out = _split_markdown_sections(markdown)
+        out["report_provider"] = "Groq"
         return out
     except Exception as exc:
         logger.exception("Groq screening report failed: %s", exc)

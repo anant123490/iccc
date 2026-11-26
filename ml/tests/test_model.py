@@ -10,6 +10,9 @@ from src.losses import ordinal_loss, ordinal_predict, ordinal_to_class_probabili
 from src.model import build_model
 from src.preprocessing import preprocess_image
 from src.attention import CBAM
+from src.dataset import discover_images_from_folders
+from src.metrics import compute_metrics
+from train import WholeValidationMetrics, get_callbacks
 
 
 def test_build_model_softmax_production():
@@ -87,3 +90,88 @@ def test_cbam_layer():
     cbam = CBAM()
     out = cbam(x)
     assert out.shape == x.shape
+
+
+def test_split_scoped_discovery_does_not_read_test_labels(tmp_path):
+    train_dir = tmp_path / "train"
+    test_dir = tmp_path / "test"
+    train_dir.mkdir()
+    test_dir.mkdir()
+    (train_dir / "train.jpg").touch()
+    (test_dir / "test.jpg").touch()
+    (train_dir / "labels.csv").write_text(
+        "filename,icdas_score\ntrain.jpg,0\n",
+        encoding="utf-8",
+    )
+    # This invalid held-out label proves train-only discovery never opens it.
+    (test_dir / "labels.csv").write_text(
+        "filename,icdas_score\ntest.jpg,99\n",
+        encoding="utf-8",
+    )
+
+    found = discover_images_from_folders(
+        str(tmp_path),
+        splits=("train",),
+    )
+
+    assert found["split"].tolist() == ["train"]
+    assert found["icdas_score"].tolist() == [0]
+
+
+def test_whole_validation_metrics_aggregate_all_batches():
+    labels = tf.constant([0, 1, 2, 3, 4], dtype=tf.int32)
+    encoded_predictions = tf.constant([[0], [2], [1], [3], [4]], dtype=tf.int32)
+    validation = tf.data.Dataset.from_tensor_slices(
+        (encoded_predictions, labels)
+    ).batch(2)
+
+    class FixedPredictionModel:
+        def __call__(self, images, training=False):
+            assert training is False
+            return tf.one_hot(tf.cast(images[:, 0], tf.int32), depth=5)
+
+    callback = WholeValidationMetrics(validation, num_classes=5)
+    callback.set_model(FixedPredictionModel())
+    logs = {}
+    callback.on_epoch_end(0, logs)
+
+    expected = compute_metrics(
+        labels.numpy(),
+        np.array([0, 2, 1, 3, 4]),
+        num_classes=5,
+    )
+    assert logs["val_qwk_global"] == pytest.approx(expected["quadratic_kappa"])
+    assert logs["val_accuracy_global"] == pytest.approx(expected["accuracy"])
+    assert logs["val_macro_f1_global"] == pytest.approx(expected["macro_f1"])
+
+
+def test_stage_two_checkpoint_starts_from_stage_one_validation_best(tmp_path):
+    validation = tf.data.Dataset.from_tensor_slices(
+        (tf.zeros((5, 1)), tf.range(5, dtype=tf.int32))
+    ).batch(5)
+    config = {
+        "dataset": {"num_classes": 5},
+        "callbacks": {
+            "monitor": "val_qwk_global",
+            "mode": "max",
+            "whole_validation_metrics": True,
+            "checkpoint": {"enabled": True, "save_best_only": True},
+            "early_stopping": {"enabled": True, "patience": 12},
+            "reduce_lr": {"enabled": False},
+        },
+    }
+
+    callbacks = get_callbacks(
+        tmp_path,
+        config,
+        validation_dataset=validation,
+        initial_best=0.31,
+        append_history=True,
+    )
+    checkpoint = next(
+        callback for callback in callbacks
+        if isinstance(callback, tf.keras.callbacks.ModelCheckpoint)
+    )
+    assert isinstance(callbacks[0], WholeValidationMetrics)
+    assert checkpoint.monitor == "val_qwk_global"
+    assert checkpoint.best == pytest.approx(0.31)

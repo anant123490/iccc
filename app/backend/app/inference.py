@@ -310,30 +310,17 @@ class InferenceEngine:
         )
 
         # ----------------------------------------------------
-        # Explicitly register CBAM
+        # Use the same CBAM implementation that builds the trainable model.
+        # ``src.attention`` is a legacy implementation with different child
+        # layers/weights and cannot restore checkpoints built by ``src.model``.
         # ----------------------------------------------------
 
         custom_objects = {}
 
         try:
-            from src.attention import (
-                CBAM,
-                ChannelAttention,
-                SpatialAttention,
-                SEBlock,
-            )
+            from src.model import get_custom_objects
 
-            custom_objects.update(
-                {
-                    "CBAM": CBAM,
-                    "ChannelAttention":
-                        ChannelAttention,
-                    "SpatialAttention":
-                        SpatialAttention,
-                    "SEBlock":
-                        SEBlock,
-                }
-            )
+            custom_objects.update(get_custom_objects())
 
         except Exception as exc:
             raise RuntimeError(
@@ -1459,6 +1446,18 @@ class InferenceEngine:
                         ),
                     )
                 )
+
+            # Keras 3 may retain a single model output as a one-element list
+            # when this gradient model is called. The production classifier
+            # has one five-class output, so normalize that wrapper here.
+            if isinstance(predictions, (list, tuple)):
+                if len(predictions) != 1:
+                    raise ValueError(
+                        "Grad-CAM expected one ICDAS classifier output."
+                    )
+                predictions = predictions[0]
+
+            predictions = tf.convert_to_tensor(predictions)
 
             n_outputs = int(
                 predictions.shape[-1]

@@ -29,7 +29,7 @@ Crops from the current detector:
 
 ```text
 python tools/run_tooth_cropping.py
-→ data/tooth_crops/generated/     (~5,676 files; not ICDAS GT)
+→ data/tooth_crops/generated/     (regenerable detector crops; currently cleared; not ICDAS GT)
 ```
 
 ## 2. ICDAS classification
@@ -45,7 +45,7 @@ INDIVIDUAL TOOTH IMAGE
     → only then models/icdas/current/deploy.keras
 ```
 
-**Blocked today:** `annotations/annotations.csv` has ~643 rows; class folders have **no pixels**. Do not train. Do not auto-label detector crops. Do not replace historical `deploy.keras`.
+**Blocked today:** the prior annotation manifest and classifier outputs were cleared. New clinician-confirmed ICDAS 0–4 images and labels are required before training. Do not auto-label detector crops.
 
 ICDAS 5 and 6 stay in `data/icdas/excluded/`. Never fold them into class 4.
 
@@ -53,4 +53,4 @@ Details: `data/icdas/README.md`.
 
 ## Admin training dataset
 
-The Admin portal also has a separate rebuild flow for full-mouth images, Tooth Detector V2 box review, clinician ICDAS labeling, patient-level splitting, and versioned training. Follow [REBUILD_DATASET_WORKFLOW.md](REBUILD_DATASET_WORKFLOW.md) for its import format, reset protections, readiness gates, and training steps. That workflow writes under `data/training/` and does not alter the legacy `data/icdas/` folders described above.
+The Admin portal also has a separate rebuild flow for full-mouth images, Tooth Detector V2 box review, clinician ICDAS labeling, patient-level splitting, and versioned training. Follow [REBUILD_DATASET_WORKFLOW.md](REBUILD_DATASET_WORKFLOW.md) for its import format, reset protections, readiness gates, and training steps. That workflow writes under `data/training/` and does not alter the legacy `data/icdas/` folders described above. Its previous uploads, crops, labels, versions, and training jobs have been cleared.

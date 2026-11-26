@@ -28,6 +28,7 @@ from app.training_workflow import (
 from test_dataset_hardening import (
     _add_crop,
     _add_image,
+    _build_confirmed,
     _patch_wf,
     _session,
 )
@@ -153,7 +154,7 @@ def test_build_dataset_has_unique_crop_hashes(monkeypatch, tmp_path):
     for i, grade in enumerate((0, 1, 2, 3, 4)):
         _add_crop(db, dirs, img3, grade=grade, idx=i)
     jobs_before = db.query(TrainingJob).count()
-    out = build_dataset_version(db)
+    out = _build_confirmed(db)
     assert db.query(TrainingJob).count() == jobs_before
     man = Path(out["path"]) / "manifest.csv"
     included = []
@@ -177,13 +178,13 @@ def test_build_does_not_overwrite_existing_version(monkeypatch, tmp_path):
         extra = _add_image(db, dirs, name=f"patient{patient_idx}.jpg")
         for g in range(5):
             _add_crop(db, dirs, extra, grade=g, idx=g)
-    v1 = build_dataset_version(db)
+    v1 = _build_confirmed(db)
     v1_path = Path(v1["path"])
     marker = v1_path / "keep_me.txt"
     marker.write_text("v1-intact", encoding="utf-8")
     _add_crop(db, dirs, img, grade=0, idx=20)
-    v2 = build_dataset_version(db)
-    assert v1["name"] == "v1" and v2["name"] == "v2"
+    v2 = _build_confirmed(db)
+    assert v1["name"] == "dataset_v001" and v2["name"] == "dataset_v002"
     assert marker.read_text(encoding="utf-8") == "v1-intact"
     assert db.query(DatasetVersion).count() == 2
 
@@ -211,7 +212,7 @@ def test_train_blocked_on_unresolved_crop_conflict(monkeypatch, tmp_path):
         _add_crop(db, dirs, img, grade=g, idx=i)
     _add_image(db, dirs, name="patient2.jpg")
     _add_image(db, dirs, name="patient3.jpg")
-    build_dataset_version(db)
+    _build_confirmed(db)
     img2 = _add_image(db, dirs, name="c.jpg")
     _add_crop(db, dirs, img2, grade=1, idx=0, pixel_seed=999)
     _add_crop(db, dirs, img2, grade=3, idx=1, pixel_seed=999)

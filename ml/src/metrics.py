@@ -14,6 +14,7 @@ import seaborn as sns
 from sklearn.metrics import (
     accuracy_score,
     auc,
+    balanced_accuracy_score,
     classification_report,
     cohen_kappa_score,
     confusion_matrix,
@@ -55,6 +56,7 @@ def compute_metrics(
         }
     return {
         "accuracy": float(accuracy_score(y_true, y_pred)),
+        "balanced_accuracy": float(balanced_accuracy_score(y_true, y_pred)),
         "precision": float(precision_w),
         "recall": float(recall_w),
         "macro_f1": float(f1_m),

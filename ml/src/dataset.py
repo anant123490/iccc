@@ -29,6 +29,7 @@ class DatasetValidationError(ValueError):
 def discover_images_from_folders(
     root: str,
     num_classes: int = NUM_CLASSES,
+    splits: Optional[Tuple[str, ...]] = None,
 ) -> pd.DataFrame:
     """
     Discover images from:
@@ -46,9 +47,56 @@ def discover_images_from_folders(
     root_path = Path(root)
     allowed = {str(i) for i in range(num_classes)}
 
-    for split in SPLITS:
+    selected_splits = SPLITS if splits is None else tuple(splits)
+    invalid_splits = sorted(set(selected_splits) - set(SPLITS))
+    if invalid_splits:
+        raise ValueError(f"Unsupported dataset split(s): {invalid_splits}")
+
+    for split in selected_splits:
         split_dir = root_path / split
+        if split == "val" and not split_dir.exists() and (root_path / "validation").exists():
+            split_dir = root_path / "validation"
         if not split_dir.exists():
+            continue
+
+        labels_path = split_dir / "labels.csv"
+        if labels_path.is_file():
+            try:
+                labels = pd.read_csv(labels_path)
+            except Exception as exc:
+                raise DatasetValidationError(f"Could not read {labels_path}: {exc}") from exc
+            if not {"filename", "icdas_score"}.issubset(labels.columns):
+                raise DatasetValidationError(
+                    f"{labels_path} must include filename and icdas_score columns."
+                )
+            for row in labels.to_dict(orient="records"):
+                try:
+                    label = int(row["icdas_score"])
+                except (TypeError, ValueError) as exc:
+                    raise DatasetValidationError(
+                        f"Invalid ICDAS label {row.get('icdas_score')!r} in {labels_path}."
+                    ) from exc
+                if label < 0 or label >= num_classes:
+                    raise DatasetValidationError(
+                        f"Unsupported ICDAS label {label} in {labels_path}; this pipeline supports 0–4 only."
+                    )
+                filename = str(row.get("filename") or "").strip()
+                if not filename:
+                    raise DatasetValidationError(f"Empty filename in {labels_path}.")
+                image_path = Path(filename)
+                if not image_path.is_absolute():
+                    image_path = split_dir / image_path
+                if not image_path.is_file():
+                    raise DatasetValidationError(f"Missing tooth crop referenced by {labels_path}: {image_path}")
+                records.append(
+                    {
+                        "filename": str(image_path.relative_to(root_path))
+                        if image_path.is_relative_to(root_path)
+                        else str(image_path),
+                        "icdas_score": label,
+                        "split": split,
+                    }
+                )
             continue
 
         extra_dirs = []
@@ -100,6 +148,24 @@ def validate_dataset_layout(
 
     allowed = {str(i) for i in range(num_classes)}
     report: Dict[str, Dict[int, int]] = {}
+
+    if any(
+        (root_path / folder / "labels.csv").is_file()
+        for folder in ("train", "val", "validation", "test")
+    ):
+        data = discover_images_from_folders(str(root_path), num_classes=num_classes)
+        found_splits = set(data["split"].tolist()) if not data.empty else set()
+        for split in SPLITS:
+            if split not in found_splits:
+                if require_all_splits:
+                    raise DatasetValidationError(f"No tooth crops found in split '{split}'.")
+                continue
+            counts = {c: int((data.loc[data["split"] == split, "icdas_score"] == c).sum()) for c in range(num_classes)}
+            missing = [c for c, count in counts.items() if count == 0]
+            if require_all_classes and missing:
+                raise DatasetValidationError(f"Missing images for classes {missing} in split '{split}'.")
+            report[split] = counts
+        return report
 
     for split in SPLITS:
         split_dir = root_path / split
@@ -191,7 +257,11 @@ class DentalCariesDataset:
             else get_val_augmentation(image_size)
         )
 
-        all_data = discover_images_from_folders(str(self.root), num_classes=num_classes)
+        all_data = discover_images_from_folders(
+            str(self.root),
+            num_classes=num_classes,
+            splits=(split,),
+        )
         if len(all_data) == 0:
             raise FileNotFoundError(f"No images found inside {self.root}")
 

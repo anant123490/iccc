@@ -50,13 +50,15 @@ def _patch_training_dirs(monkeypatch, tmp_path: Path):
     labeled = root / "labeled"
     versions = root / "versions"
     backups = root / "backups"
-    for d in (uploads, detected, labeled, versions):
+    icdas_datasets = tmp_path / "icdas_datasets"
+    for d in (uploads, detected, labeled, versions, icdas_datasets):
         d.mkdir(parents=True)
     monkeypatch.setattr(tr, "TRAINING_ROOT", root)
     monkeypatch.setattr(tr, "TRAIN_UPLOADS", uploads)
     monkeypatch.setattr(tr, "TRAIN_DETECTED", detected)
     monkeypatch.setattr(tr, "TRAIN_LABELED", labeled)
     monkeypatch.setattr(tr, "TRAIN_VERSIONS", versions)
+    monkeypatch.setattr(tr, "ICDAS_DATASETS", icdas_datasets)
     monkeypatch.setattr(tr, "TRAIN_BACKUPS", backups)
     return {
         "root": root,
@@ -64,6 +66,7 @@ def _patch_training_dirs(monkeypatch, tmp_path: Path):
         "detected": detected,
         "labeled": labeled,
         "versions": versions,
+        "icdas_datasets": icdas_datasets,
         "backups": backups,
     }
 

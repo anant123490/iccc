@@ -5,7 +5,7 @@ from __future__ import annotations
 from datetime import datetime
 import uuid
 
-from sqlalchemy import Boolean, CheckConstraint, DateTime, Float, ForeignKey, Integer, String, Text
+from sqlalchemy import Boolean, CheckConstraint, DateTime, Float, ForeignKey, Index, Integer, String, Text
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from .database import Base
@@ -13,6 +13,9 @@ from .database import Base
 
 class Patient(Base):
     __tablename__ = "patients"
+    __table_args__ = (
+        Index("ux_patients_anonymous_sequence", "anonymous_sequence", unique=True),
+    )
 
     id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
     public_id: Mapped[str] = mapped_column(String(32), unique=True, index=True)
@@ -20,8 +23,11 @@ class Patient(Base):
     age: Mapped[int | None] = mapped_column(Integer, nullable=True)
     gender: Mapped[str | None] = mapped_column(String(32), nullable=True)
     phone: Mapped[str | None] = mapped_column(String(64), nullable=True)
+    is_anonymous: Mapped[bool] = mapped_column(Boolean, default=False, nullable=False)
+    anonymous_sequence: Mapped[int | None] = mapped_column(Integer, nullable=True)
     created_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow, index=True)
     visits: Mapped[list["Visit"]] = relationship(back_populates="patient")
+    training_images: Mapped[list["TrainingImage"]] = relationship(back_populates="patient_record")
 
 
 class Visit(Base):
@@ -128,12 +134,22 @@ class TrainingImage(Base):
         String(64), unique=True, index=True, default=lambda: uuid.uuid4().hex
     )
     patient_id: Mapped[str | None] = mapped_column(String(64), nullable=True, index=True)
+    patient_record_id: Mapped[int | None] = mapped_column(
+        ForeignKey("patients.id"), nullable=True, index=True
+    )
     filename: Mapped[str] = mapped_column(String(256))
+    original_filename: Mapped[str | None] = mapped_column(String(256), nullable=True)
     path: Mapped[str] = mapped_column(String(512))
     upload_timestamp: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow)
     dataset_version: Mapped[str | None] = mapped_column(String(64), nullable=True, index=True)
+    upload_batch_id: Mapped[str | None] = mapped_column(String(64), nullable=True, index=True)
+    processing_status: Mapped[str] = mapped_column(String(24), default="COMPLETED", nullable=False, index=True)
+    processing_error: Mapped[str | None] = mapped_column(Text, nullable=True)
+    processing_attempts: Mapped[int] = mapped_column(Integer, default=0, nullable=False)
+    processing_updated_at: Mapped[datetime | None] = mapped_column(DateTime, nullable=True)
     annotation_status: Mapped[str] = mapped_column(String(32), default="UNLABELED")
     split_name: Mapped[str] = mapped_column(String(16), default="UNASSIGNED", index=True)
+    split_locked: Mapped[bool] = mapped_column(Boolean, default=False)
     crop_count: Mapped[int] = mapped_column(Integer, default=0)
     review_status: Mapped[str] = mapped_column(String(32), default="PENDING")
     detector_version: Mapped[str] = mapped_column(String(64), default="Tooth Detector V2")
@@ -150,6 +166,7 @@ class TrainingImage(Base):
     labels: Mapped[list["TrainingLabel"]] = relationship(
         back_populates="image", cascade="all, delete-orphan"
     )
+    patient_record: Mapped[Patient | None] = relationship(back_populates="training_images")
 
 
 class TrainingLabel(Base):
@@ -183,6 +200,28 @@ class TrainingLabel(Base):
     active: Mapped[bool] = mapped_column(Boolean, default=True)
     skipped: Mapped[bool] = mapped_column(Boolean, default=False)
     image: Mapped[TrainingImage] = relationship(back_populates="labels")
+
+    @property
+    def patient_id(self) -> str | None:
+        """Expose the source photo's current patient ID without duplicating it."""
+        return self.image.patient_id if self.image is not None else None
+
+    @property
+    def patient_record_id(self) -> int | None:
+        """The crop inherits its patient row through its source TrainingImage."""
+        return self.image.patient_record_id if self.image is not None else None
+
+
+class LabelingProgress(Base):
+    """Persisted labelling cursors. Tracks do not share a position."""
+
+    __tablename__ = "labeling_progress"
+
+    id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
+    track: Mapped[str] = mapped_column(String(32), unique=True, index=True)
+    label_id: Mapped[int | None] = mapped_column(Integer, nullable=True)
+    image_id: Mapped[int | None] = mapped_column(Integer, nullable=True)
+    updated_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow)
 
 
 class TrainingAuditEvent(Base):

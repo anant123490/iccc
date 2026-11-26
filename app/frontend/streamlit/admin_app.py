@@ -3,6 +3,9 @@
 from __future__ import annotations
 
 import sys
+import hashlib
+import importlib
+import re
 from pathlib import Path
 
 import requests
@@ -12,11 +15,19 @@ ROOT = Path(__file__).resolve().parent
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
+from shared import admin_workflow as _shared_workflow
+from shared import charts as _shared_charts
+from shared import components as _shared_components
+from shared import theme as _shared_theme
+
+for _shared_module in (_shared_theme, _shared_components, _shared_charts, _shared_workflow):
+    importlib.reload(_shared_module)
+
 from shared.admin_reset import RESET_CONFIRMATION_TEXT, reset_confirmation_ok
 from shared.admin_workflow import NAV_GEN_KEY, NAV_PAGE_KEY, apply_pending_nav, render_stepper, set_admin_nav
 from shared.auth import DEFAULT_BACKEND, PortalClient
 from shared.charts import icdas_charts
-from shared.components import b64_image, kpi, show_disclaimer
+from shared.components import b64_image, kpi, page_heading, show_disclaimer, sidebar_brand
 from shared.theme import apply
 from shared.upload_state import clear_admin_training_ui_state, next_training_uploader_nonce
 
@@ -28,6 +39,7 @@ DISCLAIMER = (
     "Patient images and training images are stored separately. AI is not a diagnosis."
 )
 
+sidebar_brand("Administrator workspace")
 backend = st.sidebar.text_input("Backend URL", DEFAULT_BACKEND)
 if "admin_token" not in st.session_state:
     st.session_state.admin_token = None
@@ -35,8 +47,8 @@ if "admin_token" not in st.session_state:
 show_disclaimer(DISCLAIMER)
 
 if not st.session_state.admin_token:
-    st.header("Admin login")
-    pw = st.text_input("Password", type="password", help="ICDAS_ADMIN_PASSWORD (default changeme)")
+    page_heading("Admin sign in", "Access patient records, photo review, labeling, dataset preparation, and model controls.", "Secure administrator access")
+    pw = st.text_input("Password", type="password", help="Enter your administrator password.")
     if st.button("Sign in"):
         try:
             r = requests.post(f"{backend.rstrip('/')}/api/v1/admin/login", json={"password": pw}, timeout=30)
@@ -55,6 +67,23 @@ client = PortalClient(backend, token=st.session_state.admin_token)
 if st.sidebar.button("Sign out"):
     st.session_state.admin_token = None
     st.rerun()
+
+st.sidebar.markdown("### System status")
+try:
+    runtime_status = requests.get(f"{backend.rstrip('/')}/api/v1/portal/health", timeout=8).json()
+    st.sidebar.markdown(
+        '<div class="ccc-status">'
+        f"Detector · {runtime_status.get('detector_status', 'unknown')}<br>"
+        f"ICDAS · {runtime_status.get('icdas_status', 'unknown')}"
+        "</div>",
+        unsafe_allow_html=True,
+    )
+    if runtime_status.get("icdas_demo_mode"):
+        st.sidebar.warning("ICDAS model · DEMO ONLY")
+    else:
+        st.sidebar.caption(f"ICDAS model · {runtime_status.get('icdas_status', 'unknown')}")
+except requests.RequestException:
+    st.sidebar.error("Backend unavailable")
 
 NAV_PAGES = [
     "Dashboard",
@@ -81,39 +110,30 @@ def _progress_card(inv: dict) -> None:
     photos = inv.get("photos") or {}
     crops = inv.get("crops") or {}
     labels = inv.get("icdas_labels") or inv.get("class_counts") or {}
-    st.subheader("Current Training Dataset Progress")
+    st.markdown("### Current training dataset progress")
     a, b, c = st.columns(3)
     with a:
-        st.markdown("**Photos**")
-        st.write(
-            f"Uploaded: {photos.get('uploaded', 0)}  \n"
-            f"Unique: {photos.get('unique', 0)}  \n"
-            f"Completed: {photos.get('completed', 0)}  \n"
-            f"Remaining: {photos.get('remaining', 0)}"
+        st.metric("Unique source photos", photos.get("unique", 0))
+        st.caption(
+            f"{photos.get('completed', 0)} completed · "
+            f"{photos.get('remaining', 0)} still processing"
         )
     with b:
-        st.markdown("**Tooth crops**")
-        st.write(
-            f"Detected: {crops.get('detected', 0)}  \n"
-            f"Verified: {crops.get('verified', 0)}  \n"
-            f"Labeled: {crops.get('labeled', 0)}  \n"
-            f"Eligible: {crops.get('eligible', crops.get('labeled', 0))}  \n"
-            f"Unlabeled: {crops.get('unlabeled', 0)}"
-        )
+        st.metric("Verified tooth crops", crops.get("verified", 0))
         st.caption(
-            f"Skipped (Leave): {crops.get('skipped', 0)} · "
-            f"Unique crops: {crops.get('unique', 0)} · "
-            f"Exact dup: {crops.get('exact_duplicates', 0)} · "
-            f"Possible dup: {crops.get('possible_duplicates', 0)} · "
-            f"Conflicts: {crops.get('conflicts', 0)}"
+            f"{crops.get('labeled', 0)} labeled · {crops.get('unlabeled', 0)} remaining · "
+            f"{crops.get('eligible', crops.get('labeled', 0))} eligible"
         )
     with c:
-        st.markdown("**ICDAS labels (verified manual)**")
-        for g in range(5):
-            st.write(f"{g} → {int(labels.get(str(g), 0) or 0)}")
-        st.write(f"**Total labeled: {crops.get('labeled', 0)}**")
+        st.metric("Labeled crops", crops.get("labeled", 0))
+        grade_items = "".join(
+            f'<span class="ccc-grade-count">{g}<b>{int(labels.get(str(g), 0) or 0)}</b></span>'
+            for g in range(5)
+        )
+        st.markdown(f'<div class="ccc-grade-strip">{grade_items}</div>', unsafe_allow_html=True)
+        st.caption("Saved ICDAS grade distribution")
     if inv.get("imbalance_message"):
-        st.warning(inv["imbalance_message"])
+        st.warning(_safe_notice(inv["imbalance_message"], "The ICDAS grade distribution is imbalanced."))
 
 
 def _dentist_error_message(exc: BaseException) -> str:
@@ -122,24 +142,17 @@ def _dentist_error_message(exc: BaseException) -> str:
     if isinstance(exc, requests.Timeout):
         return "The backend took too long to respond."
     if isinstance(exc, requests.HTTPError) and exc.response is not None:
-        resp = exc.response
-        detail = None
-        try:
-            body = resp.json()
-            if isinstance(body, dict):
-                detail = body.get("detail")
-            elif isinstance(body, str):
-                detail = body
-        except ValueError:
-            detail = resp.text
-        if isinstance(detail, list):
-            detail = "; ".join(str(x) for x in detail[:8])
-        text = str(detail or resp.text or exc)
-        if "Traceback" in text or 'File "' in text:
-            return f"Backend error ({resp.status_code}). Make sure FastAPI is running on port 8000."
-        if len(text) > 600:
-            text = text[:600] + "…"
-        return text
+        status = exc.response.status_code
+        if status == 401:
+            return "Your admin session expired. Sign in again."
+        if status == 404:
+            return "The requested item could not be found. Refresh and try again."
+        if status == 409:
+            return "The requested change conflicts with current data. Refresh and review the item."
+        if status == 400:
+            return "The request could not be completed. Review the selected values and try again."
+        if status >= 500:
+            return "The backend could not complete this request. Try again or contact support."
     return "Backend unavailable. Make sure FastAPI is running on port 8000."
 
 
@@ -147,6 +160,122 @@ def _show_backend_error(exc: BaseException) -> None:
     st.error(_dentist_error_message(exc))
     if isinstance(exc, requests.HTTPError) and exc.response is not None and exc.response.status_code == 401:
         st.session_state.admin_token = None
+
+
+def _friendly_upload_issue(value) -> str:
+    """Turn backend processing details into an operator-safe, useful status."""
+    if not value:
+        return ""
+    message = str(value).casefold()
+    if "size" in message or "large" in message:
+        return "Photo exceeds the upload size limit."
+    if "format" in message or "extension" in message or "unsupported" in message:
+        return "Photo format is not supported. Use JPG or PNG."
+    if "image" in message or "decode" in message or "read" in message:
+        return "Photo could not be read. Choose a clear JPG or PNG and retry."
+    return "Detection did not finish. Review the photo and retry processing."
+
+
+def _safe_notice(value, fallback: str = "A system issue needs review. Try again or contact your administrator.") -> str:
+    text = str(value or "").strip()
+    lowered = text.casefold()
+    if any(token in lowered for token in ("traceback", "filenotfounderror", "stack trace", "site-packages", "line ")):
+        return fallback
+    path_pattern = r"(?i)(?:[A-Z]:\\[^\r\n,;]+|\\\\[^\s,;]+|\b(?:models|data|reports|storage|app)[\\/][^\s,;]+)"
+    text = re.sub(path_pattern, "a local file", text)
+    return text[:320] or fallback
+
+
+def _upload_rejection_rows(items: list[dict]) -> list[dict]:
+    return [
+        {
+            "Filename": str(item.get("filename") or item.get("name") or f"Photo {index + 1}"),
+            "Issue": _friendly_upload_issue(item.get("reason") or item.get("error") or item.get("message"))
+            or "Photo was not added. Check the file and try again.",
+        }
+        for index, raw_item in enumerate(items)
+        for item in [raw_item if isinstance(raw_item, dict) else {"error": raw_item}]
+    ]
+
+
+def _grade_distribution_text(counts: dict | None) -> str:
+    counts = counts or {}
+    return " · ".join(f"{grade}: {int(counts.get(str(grade), 0) or 0)}" for grade in range(5))
+
+
+def _split_summary_rows(summary: dict | None) -> list[dict]:
+    rows = []
+    for split, details in (summary or {}).items():
+        rows.append(
+            {
+                "Split": "Validation" if str(split).lower() in {"val", "valid", "validation"} else str(split).title(),
+                "Patients": details.get("patient_count", 0),
+                "Original photos": details.get("image_count", details.get("photo_count", 0)),
+                "Tooth crops": details.get("tooth_crop_count", details.get("crop_count", 0)),
+                "Labeled crops": details.get("labeled_crop_count", 0),
+                "Verified crops": details.get("verified_crop_count", 0),
+                **{
+                    f"Grade {grade}": (details.get("icdas_grade_distribution") or details.get("grade_counts") or {}).get(str(grade), 0)
+                    for grade in range(5)
+                },
+                "Actual patients %": details.get("actual_patient_percent", 0),
+                "Target patients %": details.get("target_patient_percent", 0),
+                "Deviation (pp)": details.get("deviation_percentage_points", 0),
+            }
+        )
+    return rows
+
+
+def _audit_display_rows(events: list[dict]) -> list[dict]:
+    return [
+        {
+            "When": str(event.get("created_at") or "")[:16].replace("T", " "),
+            "Action": str(event.get("event_type") or "Activity").replace("_", " ").title(),
+            "Record type": str(event.get("entity_type") or "").replace("_", " ").title(),
+            "Record ID": str(event.get("entity_id") or "")[:14],
+            "Actor": event.get("actor") or "Admin",
+        }
+        for event in events
+        if isinstance(event, dict)
+    ]
+
+
+def _label_history_display_rows(events: list[dict]) -> list[dict]:
+    rows = []
+    for event in events:
+        if not isinstance(event, dict):
+            continue
+        details = event.get("details") or {}
+        old = details.get("old") or {}
+        new = details.get("new") or {}
+        previous = old.get("grade")
+        updated = new.get("grade")
+        rows.append(
+            {
+                "When": str(event.get("created_at") or "")[:16].replace("T", " "),
+                "Action": str(event.get("event_type") or "Label update").replace("_", " ").title(),
+                "Previous grade": previous if previous is not None else "—",
+                "Saved grade": updated if updated is not None else "—",
+                "Status": str(new.get("annotation_status") or old.get("annotation_status") or "Saved").replace("_", " ").title(),
+                "Actor": event.get("actor") or "Admin",
+            }
+        )
+    return rows
+
+
+def _dataset_version_rows(versions: list[dict]) -> list[dict]:
+    return [
+        {
+            "Dataset version": row.get("name") or "—",
+            "Status": row.get("status") or "—",
+            "Train patients": row.get("n_train", 0),
+            "Validation patients": row.get("n_valid", 0),
+            "Test patients": row.get("n_test", 0),
+            "Created": str(row.get("created_at") or "")[:16].replace("T", " "),
+        }
+        for row in versions
+        if isinstance(row, dict)
+    ]
 
 
 def _workflow_nav(page_key: str, back: str | None, nxt: str | None, nxt_label: str) -> None:
@@ -182,20 +311,29 @@ def _show_reset_summary(out: dict) -> None:
     f.metric("dataset", out.get("dataset", "NOT READY"))
     g.metric("training", out.get("training", "DISABLED"))
     if out.get("recovery_archive"):
-        st.info(f"Recovery archive: `{out['recovery_archive']}`")
+        st.info("A recovery archive was created.")
     if out.get("audit_event_id"):
         st.caption(f"Reset audit event: {out['audit_event_id']}")
 
 
 def _dataset_management() -> None:
+    if not st.session_state.get("admin_reset_controls_open"):
+        st.markdown("### Advanced data controls")
+        st.caption("Reset actions permanently remove selected training images, crops, labels, and dataset versions. Patient records and model weights are preserved.")
+        if st.button("Review training data reset options", key="open_admin_reset_controls"):
+            st.session_state.admin_reset_controls_open = True
+            st.rerun()
+        return
+    if st.button("Hide reset options", key="hide_admin_reset_controls"):
+        st.session_state.admin_reset_controls_open = False
+        st.rerun()
     st.markdown("---")
-    st.subheader("Dataset Management")
+    st.subheader("Training data reset")
     if st.session_state.get("reset_summary"):
         _show_reset_summary(st.session_state.reset_summary)
-    st.error(
-        "Destructive. This permanently deletes Admin training photographs, crops, "
-        "ICDAS labels, and built dataset versions. Model weights, source code, and "
-        "patient records are not deleted. Training is not started."
+    st.warning(
+        "Advanced destructive controls. Clearing training data permanently deletes Admin training photographs, crops, "
+        "ICDAS labels, and built dataset versions. Model weights, source code, and patient records are preserved."
     )
     plan = {}
     full_plan = {}
@@ -204,13 +342,16 @@ def _dataset_management() -> None:
         full_plan = client.get("/api/v1/admin/training/reset/plan", params={"scope": "full"})
         with st.expander("Reset plan (what will be deleted)"):
             st.markdown("**Clear Training Dataset**")
-            st.write("Paths:", [p.get("path") for p in plan.get("paths") or []])
-            st.write("Database tables:", plan.get("database_tables"))
-            st.write("Affected row/file counts:", plan.get("affected_counts") or {})
+            st.table([
+                {"Record type": str(key).replace("_", " ").title(), "Rows / files": value}
+                for key, value in (plan.get("affected_counts") or {}).items()
+            ])
             st.markdown("**Full Training Project Reset**")
-            st.write("Database tables:", full_plan.get("database_tables"))
-            st.write("Affected row/file counts:", full_plan.get("affected_counts") or {})
-            st.write("Recovery archive directory:", full_plan.get("recovery_archive_directory"))
+            st.table([
+                {"Record type": str(key).replace("_", " ").title(), "Rows / files": value}
+                for key, value in (full_plan.get("affected_counts") or {}).items()
+            ])
+            st.write("A recovery archive will be created before removal.")
             st.caption("Preserved: " + ", ".join((plan.get("will_not_delete") or [])[:8]) + " …")
     except requests.RequestException as exc:
         _show_backend_error(exc)
@@ -280,18 +421,14 @@ def _dataset_management() -> None:
 
 try:
     if page == "Dashboard":
-        st.header("Admin dashboard")
+        page_heading("Admin dashboard", "Live overview of patients, uploaded photographs, labeled crops, and dataset readiness.", "Clinical operations")
         kpis = client.get("/api/v1/admin/kpis")
         cols = st.columns(4)
         keys = [
             ("patients", "Patients"),
-            ("visits", "Visits"),
-            ("images", "Images"),
-            ("training_images", "Training images"),
-            ("icdas_crops", "ICDAS crops"),
+            ("training_images", "Training photos"),
             ("labeled_crops", "Labeled crops"),
             ("dataset_versions", "Dataset versions"),
-            ("current_models", "Models"),
         ]
         for i, (k, label) in enumerate(keys):
             with cols[i % 4]:
@@ -300,6 +437,8 @@ try:
         inv = kpis.get("training_progress") or client.get("/api/v1/admin/dataset")
         render_stepper("Dashboard", inv)
         _progress_card(inv)
+        grade_counts = inv.get("icdas_labels") or inv.get("class_counts") or {}
+        icdas_charts(grade_counts)
         st.button(
             "Go to training workflow",
             type="primary",
@@ -310,16 +449,23 @@ try:
         _dataset_management()
 
     elif page == "Patients":
-        st.header("Patient management")
+        page_heading("Patient management", "Find registered patients and review their saved visit summaries.", "Patient records")
         q = st.text_input("Search name or Patient ID")
         rows = client.get("/api/v1/admin/patients", params={"q": q} if q else None)
         for p in rows.get("patients") or []:
             with st.expander(f"{p['public_id']} · {p['name']}"):
-                st.write(p)
+                patient_cols = st.columns(3)
+                patient_cols[0].markdown(f"**Patient ID**  \n{p.get('public_id') or '—'}")
+                patient_cols[1].markdown(f"**Age**  \n{p.get('age') if p.get('age') is not None else 'Not provided'}")
+                patient_cols[2].markdown(f"**Created**  \n{str(p.get('created_at') or '—')[:10]}")
                 hist = client.get(f"/api/v1/patients/{p['public_id']}/history")
                 for v in hist.get("visits") or []:
                     c1, c2 = st.columns([3, 1])
-                    c1.write(v)
+                    c1.markdown(
+                        f"**Visit {v.get('visit_id')}** · {v.get('visit_date') or 'Date unavailable'}  \n"
+                        f"{int(v.get('n_teeth_analyzed') or 0)} tooth crops analyzed · "
+                        f"Highest saved grade: {v.get('highest_icdas') if v.get('highest_icdas') is not None else '—'}"
+                    )
                     if c2.button("Soft-delete visit", key=f"del{v['visit_id']}"):
                         client.delete(f"/api/v1/visits/{v['visit_id']}")
                         st.success("Visit marked deleted.")
@@ -333,33 +479,113 @@ try:
                 st.success("Created.")
 
     elif page == "Training upload":
-        st.header("Training image upload")
+        page_heading("Bulk photo upload", "Add source photographs, track detector processing, and group photos under the correct patient.", "Training photo library")
         st.info(
-            "These files never mix with patient visit photos. Stored under data/training/uploads/. "
-            "Duplicates are flagged and kept, but excluded from the ICDAS dataset. "
-            "Tooth Detector V2 runs only on UNIQUE images. "
-            "The file picker clears after a successful upload so you can choose a new batch; "
-            "already-stored photos are not deleted or re-sent."
+            "Originals are kept in the training photo store and SHA-256 duplicates are flagged. "
+            "Detector V2 runs in the background for unique photos. You can keep uploads Unknown until detection "
+            "finishes, then explicitly group source photos under an anonymous Patient ID below."
         )
+
+        with st.expander("Register a new patient before upload"):
+            with st.form("training_upload_register_patient"):
+                new_patient_name = st.text_input("Patient name")
+                new_patient_age = st.number_input("Age", min_value=0, max_value=120, value=0)
+                new_patient_gender = st.selectbox("Gender (optional)", ["", "F", "M", "Other"])
+                register_submit = st.form_submit_button("Register patient")
+            if register_submit:
+                if not new_patient_name.strip():
+                    st.error("Enter a patient name to register the record.")
+                else:
+                    try:
+                        created = client.post(
+                            "/api/v1/admin/patients",
+                            json={
+                                "name": new_patient_name.strip(),
+                                "age": int(new_patient_age) if new_patient_age else None,
+                                "gender": new_patient_gender or None,
+                            },
+                        )
+                        registered_id = (created.get("patient") or {}).get("public_id")
+                        if not registered_id:
+                            raise ValueError("The patient record was not returned by the backend.")
+                        st.session_state["training_upload_patient_id"] = registered_id
+                        st.success(f"Patient registered. Assigned database ID: {registered_id}")
+                        st.rerun()
+                    except (requests.RequestException, ValueError) as exc:
+                        _show_backend_error(exc)
+
+        patient_search = st.text_input("Find a registered patient", key="training_upload_patient_search")
+        patient_query = {"q": patient_search} if patient_search.strip() else None
+        patient_records = client.get(
+            "/api/v1/admin/patients",
+            params={**(patient_query or {}), "limit": 1000},
+        ).get("patients") or []
+        patient_by_id = {str(row["public_id"]): row for row in patient_records if row.get("public_id")}
+        patient_ids = list(patient_by_id)
+        preferred_id = st.session_state.get("training_upload_patient_id")
+        if preferred_id and preferred_id not in patient_ids:
+            preferred = client.get(
+                "/api/v1/admin/patients",
+                params={"q": preferred_id, "limit": 1000},
+            ).get("patients") or []
+            if any(str(row.get("public_id")) == str(preferred_id) for row in preferred):
+                patient_by_id[str(preferred_id)] = next(row for row in preferred if str(row.get("public_id")) == str(preferred_id))
+                patient_ids.insert(0, str(preferred_id))
+
+        assignment_mode = st.radio(
+            "Patient linking",
+            [
+                "Leave Unassigned and group after detection",
+                "One registered patient for every photo",
+                "CSV patient mapping per photo",
+            ],
+            horizontal=True,
+            key="training_upload_link_mode",
+        )
+        selected_patient_id = None
+        if assignment_mode == "One registered patient for every photo":
+            if patient_ids:
+                patient_options = [""] + patient_ids
+                default_patient = patient_options.index(preferred_id) if preferred_id in patient_options else 0
+                selected_patient_id = st.selectbox(
+                    "Patient for this batch",
+                    patient_options,
+                    index=default_patient,
+                    format_func=lambda value: "Select a patient" if not value else (
+                        f"{value} · {patient_by_id.get(value, {}).get('name', '')}"
+                    ),
+                    key="training_upload_selected_patient",
+                )
+            else:
+                st.warning("No registered patients matched. Register a patient or search again before uploading.")
+
         if "training_uploader_nonce" not in st.session_state:
             st.session_state.training_uploader_nonce = 0
         files = st.file_uploader(
-            "1–100+ JPG/PNG (new batch only)",
+            "Select up to 250 JPG/PNG photographs (maximum 12 MB each, 512 MB per batch)",
             type=["jpg", "jpeg", "png"],
             accept_multiple_files=True,
             key=f"training_files_{st.session_state.training_uploader_nonce}",
         )
-        manifest_file = st.file_uploader(
-            "Optional CSV manifest: filename, patient_id, image_id (image_id may be blank)",
-            type=["csv"],
-            key=f"training_manifest_{st.session_state.training_uploader_nonce}",
-            help="Patient IDs must be pseudonymous codes such as PAT001. CSV filenames must exactly match this upload batch.",
-        )
+        manifest_file = None
+        if assignment_mode == "CSV patient mapping per photo":
+            manifest_file = st.file_uploader(
+                "CSV mapping: filename, patient_id, image_id (image_id optional)",
+                type=["csv"],
+                key=f"training_manifest_{st.session_state.training_uploader_nonce}",
+                help="Any nonblank patient_id must be a registered database Patient ID. Blank patient_id values stay Unknown / Unassigned. The CSV must cover every selected filename exactly once.",
+            )
         pending = list(files or [])
         if pending:
             st.caption(f"{len(pending)} file(s) selected for this batch (not uploaded yet).")
-        if st.button("Upload and run Tooth Detector V2", disabled=not pending):
-            # Copy bytes now so the request does not depend on the widget after reset.
+        can_upload = bool(pending) and len(pending) <= 250 and (
+            True
+            if assignment_mode == "Leave Unassigned and group after detection"
+            else bool(selected_patient_id)
+            if assignment_mode == "One registered patient for every photo"
+            else manifest_file is not None
+        )
+        if st.button("Upload photos and queue detector", type="primary", disabled=not can_upload):
             body = [
                 (
                     "files",
@@ -373,61 +599,482 @@ try:
             ]
             if manifest_file is not None:
                 body.append(("patient_manifest", (manifest_file.name, manifest_file.getvalue(), "text/csv")))
-            names = [f.name for f in pending]
+            form_data = {"patient_id": selected_patient_id} if selected_patient_id else None
             try:
-                with st.spinner("Hashing, duplicate check, Tooth Detector V2…"):
+                with st.spinner(f"Uploading and saving {len(pending)} photo(s)…"):
                     r = requests.post(
                         f"{backend.rstrip('/')}/api/v1/admin/training/images",
                         files=body,
+                        data=form_data,
                         headers={"Authorization": f"Bearer {st.session_state.admin_token}"},
                         timeout=600,
                     )
                     r.raise_for_status()
-                    st.session_state.train_up = r.json()
-                st.session_state.last_upload_names = names
+                    result = r.json()
+                st.session_state.training_upload_last_batch = result.get("upload_batch_id")
+                st.session_state.training_upload_last_response = result
                 st.session_state.training_uploader_nonce = next_training_uploader_nonce(
                     st.session_state.training_uploader_nonce
                 )
+                st.success(
+                    f"Saved {result.get('count', 0)} photo(s). "
+                    f"{result.get('queued_count', 0)} unique photo(s) queued for Tooth Detector V2."
+                )
+                if result.get("rejected"):
+                    st.warning(f"{len(result['rejected'])} photo(s) could not be staged; see the upload response below.")
+                    st.dataframe(_upload_rejection_rows(result["rejected"]), use_container_width=True, hide_index=True)
+                st.caption(f"Upload batch: {result.get('upload_batch_id')}")
                 st.rerun()
             except requests.RequestException as exc:
                 _show_backend_error(exc)
-        last_names = st.session_state.get("last_upload_names") or []
-        if last_names:
+        last_response = st.session_state.get("training_upload_last_response") or {}
+        if last_response:
             st.success(
-                "Last batch sent: "
-                + ", ".join(last_names[:12])
-                + ("…" if len(last_names) > 12 else "")
-                + ". File picker is empty — choose the next photos when ready."
+                f"Batch {last_response.get('upload_batch_id')}: "
+                f"{last_response.get('count', 0)} photo(s) saved, "
+                f"{last_response.get('queued_count', 0)} queued for detection, "
+                f"{last_response.get('duplicate_count', 0)} SHA/perceptual duplicate(s)."
             )
-        if st.session_state.get("train_up"):
-            result = st.session_state.train_up
-            st.caption(
-                f"Stored {result.get('count')} files · "
-                f"{result.get('unique_count')} UNIQUE · "
-                f"{len(result.get('duplicates') or [])} flagged"
-            )
-            st.success(
-                f"{result.get('count')} photos uploaded · "
-                f"{result.get('unique_count')} unique · "
-                f"{len(result.get('duplicates') or [])} duplicates/invalid"
-            )
+            if last_response.get("rejected"):
+                st.dataframe(_upload_rejection_rows(last_response["rejected"]), use_container_width=True, hide_index=True)
         listing = client.get("/api/v1/admin/training/images")
-        st.subheader("Duplicate status (all uploads)")
-        st.write(listing.get("status_counts") or {})
-        flagged = [
-            im
-            for im in listing.get("images") or []
-            if im.get("duplicate_status") != "UNIQUE"
+        st.markdown("### Photo processing status")
+        status_rows = [
+            {"Check": check, "Status": status, "Photos": count}
+            for check, values in (
+                ("Duplicate review", listing.get("status_counts") or {}),
+                ("Tooth detection", listing.get("processing_status_counts") or {}),
+            )
+            for status, count in values.items()
         ]
-        if flagged:
-            st.warning("Flagged images are not deleted. They are excluded from dataset build.")
-            st.dataframe(flagged, use_container_width=True)
-        for im in (st.session_state.get("train_up") or {}).get("images") or []:
-            st.subheader(f"{im.get('filename')} · {im.get('duplicate_status')}")
-            st.caption(im.get("note"))
-            b64_image(im.get("overlay_base64") or im.get("original_base64"), "Preview", width=480)
-            if im.get("duplicate_status") == "UNIQUE":
-                st.caption(f"{im.get('n_crops')} detector crops — review boxes next.")
+        if status_rows:
+            st.dataframe(status_rows, use_container_width=True, hide_index=True)
+        else:
+            st.caption("No upload statuses to show yet.")
+
+        @st.fragment(run_every="3s")
+        def upload_history_panel():
+            history = client.get("/api/v1/admin/training/uploads")
+            batches = history.get("batches") or []
+            history_images = history.get("images") or []
+            if not batches:
+                st.info("Upload history will appear here after your first batch.")
+                return
+            st.dataframe(
+                [
+                    {
+                        "Upload date": str(batch.get("uploaded_at") or "")[:16].replace("T", " "),
+                        "Batch": str(batch.get("upload_batch_id") or "")[:12],
+                        "Photos": batch.get("total", 0),
+                        "Detected": batch.get("completed", 0),
+                        "Queued": batch.get("queued", 0),
+                        "Failed": batch.get("failed", 0),
+                        "Tooth crops": batch.get("tooth_crops", 0),
+                        "Status": batch.get("status", "Unknown"),
+                    }
+                    for batch in batches[:30]
+                ],
+                use_container_width=True,
+                hide_index=True,
+            )
+            selectable_batches = [str(batch.get("upload_batch_id")) for batch in batches if batch.get("upload_batch_id")]
+            selected_batch = st.selectbox(
+                "Batch details",
+                selectable_batches,
+                index=0,
+                key="training_upload_history_batch",
+            )
+            batch_rows = [row for row in history_images if str(row.get("upload_batch_id")) == selected_batch]
+            st.dataframe(
+                [
+                    {
+                        "Photo ID": f"PHOTO-{int(row.get('training_image_id') or 0):03d}",
+                        "Original filename": row.get("filename"),
+                        "Patient ID": row.get("patient_id") or "Unassigned",
+                        "Detection": row.get("processing_status"),
+                        "Attempts": row.get("processing_attempts"),
+                        "Tooth crops": row.get("n_crops"),
+                        "Duplicate check": row.get("duplicate_status"),
+                        "Next step": _friendly_upload_issue(row.get("processing_error")),
+                    }
+                    for row in batch_rows
+                ],
+                use_container_width=True,
+                hide_index=True,
+            )
+            selected_summary = next(
+                (batch for batch in batches if str(batch.get("upload_batch_id")) == selected_batch),
+                {},
+            )
+            st.progress(
+                min(
+                    1.0,
+                    (selected_summary.get("completed", 0) + selected_summary.get("duplicates", 0) + selected_summary.get("invalid", 0))
+                    / max(1, selected_summary.get("total", 0)),
+                ),
+                text=(
+                    f"{selected_summary.get('completed', 0) + selected_summary.get('duplicates', 0) + selected_summary.get('invalid', 0) + selected_summary.get('failed', 0)}"
+                    f"/{selected_summary.get('total', 0)} terminal · "
+                    f"{selected_summary.get('processing', 0)} processing · {selected_summary.get('queued', 0)} queued · "
+                    f"{selected_summary.get('failed', 0)} failed"
+                ),
+            )
+            if selected_summary.get("failed") or selected_summary.get("queued"):
+                if st.button("Resume failed / queued photos", key=f"resume_upload_{selected_batch}"):
+                    try:
+                        resumed = client.post(f"/api/v1/admin/training/uploads/{selected_batch}/resume")
+                        st.success(f"Resumed {resumed.get('resumed_count', 0)} photo(s).")
+                        st.rerun()
+                    except requests.RequestException as exc:
+                        _show_backend_error(exc)
+
+        upload_history_panel()
+
+        st.divider()
+        st.subheader("Anonymous Patient ID assignment")
+        st.caption(
+            "Group photos only when you know they belong to the same patient. Crops inherit the source photo's "
+            "patient ID. Unknown photos remain Unassigned and cannot enter a confirmed dataset version."
+        )
+        try:
+            group_inventory = client.get("/api/v1/admin/training/patient-groups")
+            group_photos = group_inventory.get("photos") or []
+            group_patients = group_inventory.get("anonymous_patients") or []
+            for row in group_photos:
+                row.setdefault(
+                    "photo_id",
+                    f"PHOTO-{int(row.get('training_image_id') or 0):03d}",
+                )
+            st.caption(
+                "Photo IDs are stable labels for the photo database records (for example, PHOTO-001). "
+                "Only detector-complete photos can be assigned."
+            )
+            photo_search = st.text_input(
+                "Search photos by Photo ID or filename",
+                key="anonymous_group_photo_search",
+            ).strip().casefold()
+            visible_group_photos = [
+                row for row in group_photos
+                if not photo_search
+                or photo_search in str(row.get("photo_id") or "").casefold()
+                or photo_search in str(row.get("filename") or "").casefold()
+            ]
+            table_rows = [
+                {
+                    "Photo ID": row.get("photo_id"),
+                    "Original filename": row.get("filename"),
+                    "Current Patient ID": row.get("patient_id") or "Unassigned",
+                    "Detection status": row.get("processing_status"),
+                    "Detected tooth crops": row.get("crop_count", 0),
+                }
+                for row in visible_group_photos
+            ]
+            st.dataframe(table_rows, use_container_width=True, hide_index=True)
+            if visible_group_photos:
+                with st.expander("Copy Photo IDs from the filtered table"):
+                    st.caption("Select and copy the Photo IDs below.")
+                    st.text_area(
+                        "Photo IDs",
+                        value="\n".join(str(row["photo_id"]) for row in visible_group_photos),
+                        height=120,
+                        disabled=True,
+                        key="copy_filtered_photo_ids",
+                    )
+            if not group_photos:
+                st.info("No uploaded photos are available for patient grouping yet.")
+            elif not any(row.get("assignment_ready") for row in group_photos):
+                st.info("No detector-complete photos are ready for patient grouping yet.")
+
+            st.subheader("Patient Photo Grouping Review")
+            st.caption(
+                "A group is eligible for automatic anonymous-ID assignment only when the database photo's exact SHA-256 "
+                "matches the source manifest and the linked image manifest has one explicit patient reference. "
+                "Filename-only clues and ambiguous or unmatched records stay unassigned until you use manual assignment."
+            )
+            review_inventory = client.get("/api/v1/admin/training/patient-groups/review")
+            review_suggestions = review_inventory.get("suggestions") or []
+            review_summary = review_inventory.get("summary") or {}
+            summary_cols = st.columns(4)
+            summary_cols[0].metric("Confident source groups", review_summary.get("confident_groups", 0))
+            summary_cols[1].metric("Photos with verified references", review_summary.get("confident_photos", 0))
+            summary_cols[2].metric("Ambiguous references", review_summary.get("ambiguous_photos", 0))
+            summary_cols[3].metric("Unmatched photos", review_summary.get("unmatched_photos", 0))
+            missing_refs = int(review_summary.get("missing_reference_photos", 0) or 0)
+            if missing_refs:
+                st.info(f"{missing_refs} exact-hash source match(es) have no verified patient reference and require manual review.")
+            if not review_inventory.get("source_metadata_available"):
+                st.warning("One or both source manifests are unavailable. No automatic patient grouping will be applied.")
+            if review_suggestions:
+                st.dataframe(
+                    [
+                        {
+                            "Photo ID": row.get("photo_id"),
+                            "Filename": row.get("filename"),
+                            "Source patient reference": row.get("source_patient_reference") or "Not available",
+                            "Possible references": ", ".join(row.get("possible_patient_references") or []) or "None",
+                            "Suggested grouping": row.get("suggested_group"),
+                            "Evidence / reason": row.get("evidence"),
+                            "Confidence": row.get("confidence"),
+                            "Match status": row.get("source_metadata_status"),
+                            "Proposed Patient ID": row.get("proposed_patient_id") or "Review required",
+                            "Current Patient ID": row.get("current_patient_id") or "Unassigned",
+                            "Review": str(row.get("review_decision") or "pending").title(),
+                        }
+                        for row in review_suggestions
+                    ],
+                    use_container_width=True,
+                    hide_index=True,
+                )
+                option_labels = {
+                    row["photo_id"]: f"{row['photo_id']} — {row.get('filename') or 'filename unavailable'}"
+                    for row in review_suggestions
+                }
+                selected_review_ids = st.multiselect(
+                    "Select suggested photos to assign",
+                    list(option_labels),
+                    format_func=lambda value: option_labels[value],
+                    key="patient_group_review_selected_photos",
+                )
+                if st.button(
+                    "Use selected Photo IDs in assignment form",
+                    disabled=not selected_review_ids,
+                    key="patient_group_review_prefill_assignment",
+                ):
+                    st.session_state["anonymous_group_photo_ids_text"] = ", ".join(selected_review_ids)
+                    st.rerun()
+
+                review_groups = {}
+                for row in review_suggestions:
+                    if row.get("suggestion_key"):
+                        review_groups.setdefault(row.get("suggestion_key"), []).append(row)
+                for suggestion_key, rows in review_groups.items():
+                    group_photo_ids = [row["photo_id"] for row in rows]
+                    group_label = " + ".join(group_photo_ids)
+                    decision = str(rows[0].get("review_decision") or "pending").title()
+                    review_token = hashlib.sha256(suggestion_key.encode("utf-8")).hexdigest()[:12]
+                    with st.expander(f"Review suggested group: {group_label} — {decision}"):
+                        st.write(rows[0].get("evidence"))
+                        is_confident = all(row.get("auto_group_eligible") for row in rows)
+                        has_conflict = any(row.get("assignment_conflict") for row in rows)
+                        not_ready = any(not row.get("assignment_ready") for row in rows)
+                        if is_confident:
+                            proposed_id = rows[0].get("proposed_patient_id")
+                            if has_conflict:
+                                st.warning("Patient assignment conflict found. Resolve it in the manual assignment form; this group will not overwrite existing Patient IDs.")
+                            elif proposed_id:
+                                st.info(f"Confirming this verified source group will assign all listed photos to **{proposed_id}**.")
+                        else:
+                            st.warning("This is a filename clue only. Confirmation records the review and pre-fills manual assignment; it will not create or assign a Patient ID.")
+                        confirm_col, reject_col = st.columns(2)
+                        if confirm_col.button(
+                            "Confirm source group and assign ID" if is_confident else "Keep clue for manual review",
+                            disabled=(has_conflict or not_ready) if is_confident else False,
+                            key=f"confirm_photo_suggestion_{review_token}",
+                        ):
+                            try:
+                                result = client.post(
+                                    "/api/v1/admin/training/patient-groups/review",
+                                    json={
+                                        "suggestion_key": suggestion_key,
+                                        "photo_ids": group_photo_ids,
+                                        "decision": "confirm",
+                                    },
+                                )
+                                if result.get("assigned_patient_id"):
+                                    st.success(
+                                        f"Assigned {len(group_photo_ids)} photo(s) to {result['assigned_patient_id']} "
+                                        "using the verified source reference. Evidence and assignment were audited."
+                                    )
+                                else:
+                                    st.session_state["anonymous_group_photo_ids_text"] = ", ".join(group_photo_ids)
+                                    st.info("Review saved. This clue did not assign a patient ID; verify the grouping and use the manual assignment form below if appropriate.")
+                                st.rerun()
+                            except requests.RequestException as exc:
+                                _show_backend_error(exc)
+                        if reject_col.button(
+                            "Reject this suggested group",
+                            key=f"reject_photo_suggestion_{review_token}",
+                        ):
+                            try:
+                                client.post(
+                                    "/api/v1/admin/training/patient-groups/review",
+                                    json={
+                                        "suggestion_key": suggestion_key,
+                                        "photo_ids": group_photo_ids,
+                                        "decision": "reject",
+                                    },
+                                )
+                                st.rerun()
+                            except requests.RequestException as exc:
+                                _show_backend_error(exc)
+            else:
+                st.info("No active training photos are available for source-manifest review.")
+
+            photo_ids_text = st.text_area(
+                "Photo IDs to assign",
+                placeholder="PHOTO-001, PHOTO-002\nPHOTO-003",
+                help="Enter Photo IDs separated by commas, spaces, or new lines. The preview reports invalid or missing IDs.",
+                key="anonymous_group_photo_ids_text",
+            )
+            group_action = st.radio(
+                "Assignment action",
+                ["Create a new anonymous ID", "Use an existing anonymous ID", "Leave Unassigned"],
+                horizontal=True,
+                key="anonymous_group_action",
+            )
+            target_patient_id = None
+            if group_action == "Use an existing anonymous ID":
+                group_ids = [str(row["public_id"]) for row in group_patients]
+                if group_ids:
+                    target_patient_id = st.selectbox(
+                        "Existing anonymous Patient ID",
+                        group_ids,
+                        format_func=lambda value: (
+                            f"{value} · "
+                            f"{next((row.get('photo_count', 0) for row in group_patients if row.get('public_id') == value), 0)} photos"
+                        ),
+                        key="anonymous_group_target_patient",
+                    )
+                else:
+                    st.info("No anonymous groups exist yet. Choose Create a new anonymous ID first.")
+
+            action_value = {
+                "Create a new anonymous ID": "create",
+                "Use an existing anonymous ID": "existing",
+                "Leave Unassigned": "unassigned",
+            }[group_action]
+            assignment_plan = {
+                "photo_ids": photo_ids_text,
+                "action": action_value,
+                "target_patient_id": target_patient_id if action_value == "existing" else None,
+            }
+            if st.button(
+                "Preview bulk assignment",
+                type="primary",
+                disabled=not photo_ids_text.strip(),
+                key="anonymous_group_preview_button",
+            ):
+                try:
+                    st.session_state.anonymous_group_preview = client.post(
+                        "/api/v1/admin/training/patient-groups/preview",
+                        json=assignment_plan,
+                    )
+                    st.session_state.anonymous_group_preview_plan = assignment_plan
+                except requests.RequestException as exc:
+                    st.session_state.pop("anonymous_group_preview", None)
+                    st.session_state.pop("anonymous_group_preview_plan", None)
+                    _show_backend_error(exc)
+
+            preview = st.session_state.get("anonymous_group_preview")
+            if preview and st.session_state.get("anonymous_group_preview_plan") == assignment_plan:
+                st.subheader("Preview before saving")
+                st.metric("Photos selected", preview.get("photo_count", 0))
+                if preview.get("requested_photo_ids"):
+                    st.caption("Photo IDs entered: " + ", ".join(preview["requested_photo_ids"]))
+                assignable_photo_ids = [
+                    row.get("photo_id") for row in preview.get("photos") or []
+                    if row.get("photo_id") and row.get("status") != "CONFLICT"
+                ]
+                if preview.get("can_assign") and assignable_photo_ids:
+                    st.caption("Photo IDs in this assignment: " + ", ".join(assignable_photo_ids))
+                if preview.get("photos"):
+                    st.dataframe(
+                        [
+                            {
+                                "Photo ID": row.get("photo_id"),
+                                "Original filename": row.get("filename"),
+                                "Current Patient ID": row.get("current_patient_id") or "Unassigned",
+                                "New Patient ID": row.get("new_patient_id") or "Unassigned",
+                                "Detection status": row.get("processing_status"),
+                                "Detected tooth crops": row.get("crop_count", 0),
+                                "Preview status": row.get("status"),
+                            }
+                            for row in preview["photos"]
+                        ],
+                        use_container_width=True,
+                        hide_index=True,
+                    )
+                if preview.get("target_patient_id"):
+                    st.info(f"Target Patient ID: {preview['target_patient_id']}")
+                for title, key in (
+                    ("Invalid Photo IDs", "invalid_photo_ids"),
+                    ("Photo IDs entered more than once", "duplicate_photo_ids"),
+                    ("Photo IDs not found in the database", "nonexistent_photo_ids"),
+                ):
+                    values = preview.get(key) or []
+                    if values:
+                        st.error(f"{title}: " + ", ".join(values))
+                if preview.get("reassignment_required"):
+                    st.warning(
+                        "Reassignment is required for: "
+                        + ", ".join(preview["reassignment_required"])
+                    )
+                for conflict in preview.get("assignment_conflicts") or []:
+                    st.error(
+                        f"{conflict.get('photo_id')}: "
+                        + "; ".join(conflict.get("reasons") or [])
+                    )
+                for blocker in preview.get("blockers") or []:
+                    st.error(blocker)
+
+                confirmed_reassignment = False
+                if preview.get("reassignment_required"):
+                    reassignment_key = hashlib.sha256(
+                        f"{assignment_plan}|{preview.get('target_patient_id')}".encode("utf-8")
+                    ).hexdigest()[:16]
+                    confirmed_reassignment = st.checkbox(
+                        "Confirm reassignment. The selected photos and their crops move together; ICDAS labels and verification history stay attached.",
+                        key=f"anonymous_group_confirm_reassignment_{reassignment_key}",
+                    )
+                apply_disabled = (
+                    not preview.get("can_assign")
+                    or (bool(preview.get("reassignment_required")) and not confirmed_reassignment)
+                )
+                if st.button(
+                    "Apply patient grouping",
+                    type="primary",
+                    disabled=apply_disabled,
+                    key="anonymous_group_apply",
+                ):
+                    try:
+                        result = client.post(
+                            "/api/v1/admin/training/patient-groups/assign",
+                            json={
+                                "photo_ids": photo_ids_text,
+                                "action": action_value,
+                                "target_patient_id": target_patient_id if action_value == "existing" else None,
+                                "expected_patient_id": preview.get("target_patient_id") if action_value == "create" else None,
+                                "confirm_reassignment": confirmed_reassignment,
+                            },
+                        )
+                        st.session_state.pop("anonymous_group_preview", None)
+                        st.session_state.pop("anonymous_group_preview_plan", None)
+                        st.success(
+                            f"Processed {result.get('assigned_count', 0)} selected photo(s) for "
+                            f"{result.get('patient_id') or 'Unknown / Unassigned'}; "
+                            f"{result.get('changed_count', 0)} relationship(s) updated."
+                        )
+                        st.rerun()
+                    except requests.RequestException as exc:
+                        _show_backend_error(exc)
+            with st.expander("Patient grouping audit history"):
+                audit = client.get("/api/v1/admin/training/patient-groups/audit").get("events") or []
+                st.dataframe(
+                    [
+                        {
+                            "When (UTC)": row.get("created_at"),
+                            "Who": row.get("actor"),
+                            "Action": (row.get("details") or {}).get("action"),
+                            "Target Patient ID": (row.get("details") or {}).get("target_patient_id") or "Unassigned",
+                            "Changed photos": len((row.get("details") or {}).get("changes") or []),
+                        }
+                        for row in audit
+                    ],
+                    use_container_width=True,
+                )
+        except requests.RequestException as exc:
+            _show_backend_error(exc)
+
         inv = client.get("/api/v1/admin/dataset")
         photos = inv.get("photos") or {}
         st.subheader("Library totals (not deleted when you upload a new batch)")
@@ -441,9 +1088,17 @@ try:
         _workflow_nav("upload", None, "Box review", "CONTINUE TO BOX REVIEW")
 
     elif page == "Box review":
-        st.header("Review teeth")
+        page_heading("Review detected teeth", "Inspect each unique photograph and verify detector boxes before ICDAS labeling.", "Box review")
         inv = client.get("/api/v1/admin/dataset")
         render_stepper(page, inv)
+        verification_progress = inv.get("verification_progress") or {}
+        st.progress(
+            float(verification_progress.get("percent") or 0) / 100,
+            text=(
+                f"Box verification: {verification_progress.get('reviewed_photos', 0)} / "
+                f"{verification_progress.get('total_photos', 0)} unique photos reviewed"
+            ),
+        )
         st.info(
             "Check the overlay, then verify. A photo does not need every ICDAS grade. "
             "You assign 0–4 later, one tooth at a time."
@@ -453,6 +1108,7 @@ try:
             im
             for im in listing.get("images") or []
             if im.get("duplicate_status") == "UNIQUE"
+            and im.get("processing_status", "COMPLETED") == "COMPLETED"
         ]
         pending = [im for im in uniques if not im.get("boxes_verified")]
         st.caption(
@@ -460,14 +1116,45 @@ try:
             f"{len(uniques) - len(pending)} verified"
         )
         if not uniques:
-            st.info("Upload UNIQUE training images first.")
+            processing = listing.get("processing_status_counts") or {}
+            if processing.get("QUEUED") or processing.get("PROCESSING"):
+                st.info("Tooth Detector V2 is still processing uploads. Refresh this page when the upload history shows completion.")
+            elif processing.get("FAILED"):
+                st.warning("Some uploads need retry. Open Training upload, review the error, and resume the failed batch.")
+            else:
+                st.info("Upload a photo and wait for Detector V2 to finish before reviewing tooth boxes.")
             _workflow_nav("review_empty", "Training upload", None, "")
         else:
+            filter_cols = st.columns(3)
             patient_options = sorted({im.get("patient_id") for im in uniques if im.get("patient_id")})
-            selected_patient = st.selectbox("Filter by pseudonymous patient ID", ["All patients", *patient_options])
+            selected_patient = filter_cols[0].selectbox(
+                "Filter by pseudonymous patient ID", ["All patients", *patient_options]
+            )
+            review_filter = filter_cols[1].selectbox(
+                "Review status", ["All", "Needs review", "Verified", "Deactivated"]
+            )
+            image_search = filter_cols[2].text_input("Search photo or image ID").strip().casefold()
             filtered_uniques = [
-                im for im in uniques if selected_patient == "All patients" or im.get("patient_id") == selected_patient
+                im
+                for im in uniques
+                if (selected_patient == "All patients" or im.get("patient_id") == selected_patient)
+                and (
+                    review_filter == "All"
+                    or (review_filter == "Needs review" and im.get("is_active", True) and not im.get("boxes_verified"))
+                    or (review_filter == "Verified" and im.get("is_active", True) and im.get("boxes_verified"))
+                    or (review_filter == "Deactivated" and not im.get("is_active", True))
+                )
+                and (
+                    not image_search
+                    or image_search in str(im.get("filename") or "").casefold()
+                    or image_search in str(im.get("image_id") or "").casefold()
+                    or image_search in str(im.get("patient_id") or "").casefold()
+                )
             ]
+            if not filtered_uniques:
+                st.info("No photos match the current search and filters.")
+                _workflow_nav("review_filtered_empty", "Training upload", None, "")
+                st.stop()
             labels = [
                 f"{im['image_id']}: {im['filename']} · {im.get('patient_id') or 'patient ID missing'} "
                 f"({'Deactivated' if not im.get('is_active', True) else ('verified' if im.get('boxes_verified') else 'needs review')})"
@@ -522,18 +1209,32 @@ try:
                 else:
                     st.button("Deactivated", disabled=True, key=f"btn_deactivated_{image_id}")
 
+            known_patients = client.get("/api/v1/admin/patients", params={"limit": 1000}).get("patients") or []
+            patient_options = [str(patient.get("public_id")) for patient in known_patients if patient.get("public_id")]
+            patient_rows = {str(patient.get("public_id")): patient for patient in known_patients}
             with st.form(f"training_identity_{image_id}"):
-                patient_value = st.text_input(
-                    "Pseudonymous patient ID",
-                    value=detail.get("patient_id") or "",
-                    key=f"training_patient_id_{image_id}",
-                )
+                if patient_options:
+                    current_patient_id = str(detail.get("patient_id") or "")
+                    select_options = [""] + patient_options
+                    patient_index = select_options.index(current_patient_id) if current_patient_id in select_options else 0
+                    patient_value = st.selectbox(
+                        "Registered patient",
+                        select_options,
+                        index=patient_index,
+                        format_func=lambda value: (
+                            "Select a patient" if not value else f"{value} · {patient_rows.get(value, {}).get('name', '')}"
+                        ),
+                        key=f"training_patient_id_{image_id}",
+                    )
+                else:
+                    patient_value = ""
+                    st.warning("Register a patient before saving a photo identity.")
                 image_value = st.text_input(
                     "Image ID",
                     value=detail.get("image_id") or "",
                     key=f"training_image_id_{image_id}",
                 )
-                identity_saved = st.form_submit_button("Save image identity")
+                identity_saved = st.form_submit_button("Save image identity", disabled=not patient_value)
                 if identity_saved:
                     try:
                         client.put(
@@ -616,142 +1317,493 @@ try:
             _workflow_nav("review", "Training upload", nxt, "CONTINUE TO ICDAS LABELING")
 
     elif page == "Labeling":
-        st.header("ICDAS labeling")
-        crop_rows = client.get("/api/v1/admin/training/crops").get("crops") or []
-        patients = sorted(
-            {
-                row.get("patient_id")
-                for row in crop_rows
-                if row.get("patient_id") and row.get("active") and row.get("box_verified")
-            }
-        )
+        page_heading("ICDAS labeling", "Search by photo, resume at the first unlabeled crop, or review a saved grade.", "Annotation workspace")
+        try:
+            photo_inventory = client.get("/api/v1/admin/training/labeling/photos")
+        except requests.RequestException as exc:
+            st.error("Could not load photo labeling progress. Refresh and try again.")
+            _show_backend_error(exc)
+            photo_inventory = {"photos": []}
+
+        resume_position = photo_inventory.get("saved_resume_position")
+        if resume_position:
+            st.info(
+                "Saved resume position: "
+                f"{resume_position['photo_id']} · Crop ID {resume_position['crop_id']} "
+                f"(updated {resume_position.get('updated_at') or 'time unavailable'})."
+            )
+        last_saved = photo_inventory.get("last_saved_label")
+        if last_saved:
+            st.caption(
+                "Most recent saved grade in the audit history: "
+                f"{last_saved['photo_id']} · Crop ID {last_saved['crop_id']} · "
+                f"ICDAS {last_saved['grade']} · {last_saved.get('saved_at') or 'time unavailable'}."
+            )
+
+        all_photo_rows = photo_inventory.get("photos") or []
+        patients = sorted({row["patient_id"] for row in all_photo_rows if row.get("patient_id")})
+        patient_options = ["All", "Unassigned", *patients]
+        status_options = [
+            "All",
+            "FULLY LABELED",
+            "PARTIALLY LABELED",
+            "NOT LABELED",
+            "NEEDS BOX VERIFICATION",
+            "NO ELIGIBLE CROPS",
+            "EXCLUDED DUPLICATE",
+            "PROCESSING",
+            "INACTIVE",
+        ]
+        if st.session_state.get("label_patient_filter") not in patient_options:
+            st.session_state["label_patient_filter"] = "All"
+        if st.session_state.get("label_split_filter") not in ["All", "UNASSIGNED", "train", "val", "test"]:
+            st.session_state["label_split_filter"] = "All"
+        if st.session_state.get("label_status_filter") not in status_options:
+            st.session_state["label_status_filter"] = "All"
+        if st.session_state.get("label_grade_filter") not in ["All", 0, 1, 2, 3, 4]:
+            st.session_state["label_grade_filter"] = "All"
+
         fcols = st.columns(4)
-        patient_filter = fcols[0].selectbox("Patient", ["All", *patients], key="label_patient_filter")
+        patient_filter = fcols[0].selectbox("Patient", patient_options, key="label_patient_filter")
         split_filter = fcols[1].selectbox(
             "Split", ["All", "UNASSIGNED", "train", "val", "test"], key="label_split_filter"
         )
-        status_filter = fcols[2].selectbox(
-            "Annotation status",
-            ["All", "UNLABELED", "LABELED", "UNCERTAIN", "UNGRADABLE"],
-            key="label_status_filter",
-        )
-        grade_filter = fcols[3].selectbox(
-            "ICDAS grade", ["All", 0, 1, 2, 3, 4], key="label_grade_filter"
-        )
-        filter_signature = (patient_filter, split_filter, status_filter, grade_filter)
-        if st.session_state.get("label_filter_signature") != filter_signature:
-            st.session_state.label_filter_signature = filter_signature
-            st.session_state.label_id = None
-            st.session_state.label_resume = False
-        params = {}
-        if patient_filter != "All":
-            params["patient_id"] = patient_filter
-        if split_filter != "All":
-            params["split_name"] = split_filter
-        if status_filter != "All":
-            params["annotation_status"] = status_filter
-        if grade_filter != "All":
-            params["grade"] = int(grade_filter)
-        if st.session_state.get("label_resume"):
-            params["resume"] = True
-            st.session_state.label_resume = False
-        elif st.session_state.get("label_id"):
-            params["label_id"] = st.session_state.label_id
-        queue = client.get("/api/v1/admin/training/queue", params=params or None)
-        render_stepper(page, queue)
-        n_lab = int(queue.get("n_labeled") or 0)
-        n_crop = int(queue.get("n_crops") or 0)
-        pct = (n_lab / n_crop) if n_crop else 0.0
-        st.progress(pct, text=f"Overall: {n_lab:,} / {n_crop:,} teeth labeled ({pct:.1%})")
-        photos = queue.get("photos") or {}
-        st.caption(
-            f"Photos completed {photos.get('completed', 0)} / {photos.get('box_verified', 0)} "
-            f"(remaining {photos.get('remaining', 0)}) · "
-            f"Unlabeled crops {queue.get('n_unlabeled', 0)} · Skipped {queue.get('n_skipped', 0)}"
-        )
-        counts = queue.get("icdas_labels") or queue.get("class_counts") or {}
-        ccols = st.columns(6)
-        for g in range(5):
-            ccols[g].metric(f"ICDAS {g}", int(counts.get(str(g), 0) or 0))
-        ccols[5].metric("Total labeled", n_lab)
-        if queue.get("imbalance_message"):
-            st.warning(queue["imbalance_message"])
-        st.caption(
-            "Click 0–4 to autosave. Mark uncertain when the grade is unclear; mark ungradable when the crop cannot be assessed. "
-            "A photo may have only 0, 1 and 4 — Next stays enabled."
-        )
-        cur = queue.get("current")
-        nav = st.columns(4)
-        if nav[0].button("Previous", disabled=queue.get("prev_label_id") is None):
-            st.session_state.label_id = queue.get("prev_label_id")
-            st.rerun()
-        if nav[1].button("Next", disabled=not queue.get("next_enabled")):
-            st.session_state.label_id = queue.get("next_label_id")
-            st.rerun()
-        if nav[2].button("Leave / Skip", disabled=not cur):
-            if cur:
-                client.post("/api/v1/admin/training/labels/skip", json={"label_id": cur["label_id"]})
-                st.session_state.label_id = queue.get("next_label_id") or cur["label_id"]
-                st.rerun()
-        if nav[3].button("Resume unlabeled"):
-            st.session_state.label_id = None
-            st.session_state.label_resume = True
-            st.rerun()
-        if not cur:
-            st.info("Verify tooth boxes on UNIQUE images before labeling.")
+        status_filter = fcols[2].selectbox("Photo labeling status", status_options, key="label_status_filter")
+        grade_filter = fcols[3].selectbox("ICDAS grade", ["All", 0, 1, 2, 3, 4], key="label_grade_filter")
+        search = st.text_input(
+            "Search Photo ID, photo/reference number, or original filename",
+            key="label_crop_search",
+        ).strip().casefold()
+
+        filtered_photos = []
+        for row in all_photo_rows:
+            if patient_filter == "Unassigned" and row.get("patient_id"):
+                continue
+            if patient_filter not in {"All", "Unassigned"} and row.get("patient_id") != patient_filter:
+                continue
+            if split_filter != "All" and row.get("split_name") != split_filter:
+                continue
+            if status_filter != "All" and row.get("labeling_status") != status_filter:
+                continue
+            if grade_filter != "All" and not int((row.get("grade_counts") or {}).get(str(grade_filter), 0)):
+                continue
+            searchable = " ".join(
+                str(row.get(key) or "")
+                for key in ("photo_id", "photo_number", "reference_number", "original_filename", "patient_id")
+            ).casefold()
+            if search and search not in searchable:
+                continue
+            filtered_photos.append(row)
+
+        if filtered_photos:
+            display_rows = []
+            for row in filtered_photos:
+                filename_display = (
+                    row.get("original_filename")
+                    if row.get("original_filename_available")
+                    else f"(legacy name unavailable) {row.get('filename') or ''}"
+                )
+                display_rows.append(
+                    {
+                        "Photo ID": row["photo_id"],
+                        "Photo number": row.get("photo_number"),
+                        "Reference number": row.get("reference_number"),
+                        "Original filename / stored filename": filename_display,
+                        "Patient ID": row.get("patient_id") or "Unassigned",
+                        "Status": row.get("labeling_status"),
+                        "Eligible crops": row.get("eligible_crops", 0),
+                        "Labeled": row.get("labeled_crops", 0),
+                        "Remaining unlabeled": row.get("remaining_unlabeled_crops", 0),
+                        "Uncertain": row.get("uncertain_crops", 0),
+                        "Ungradable": row.get("ungradable_crops", 0),
+                        **{f"ICDAS {grade}": (row.get("grade_counts") or {}).get(str(grade), 0) for grade in range(5)},
+                    }
+                )
+            st.dataframe(display_rows, use_container_width=True, hide_index=True)
+            st.caption("Older uploads may not have retained their original filename; their stored safe filename is shown in that case.")
         else:
-            st.write(
-                f"**Tooth {cur.get('global_index')} / {cur.get('global_total')}** · "
-                f"Photo {cur.get('photo_index')} / {cur.get('photo_total')} · "
-                f"{cur.get('filename')} · crop {cur.get('tooth_on_photo')}/{cur.get('teeth_on_photo')}"
+            st.info("No photos match the current search and filters.")
+
+        option_ids = [int(row["training_image_id"]) for row in filtered_photos]
+        if st.session_state.get("label_selected_photo") not in [None, *option_ids]:
+            st.session_state["label_selected_photo"] = None
+        if not st.session_state.get("label_resume_photo_initialized"):
+            saved_photo_id = int(resume_position["training_image_id"]) if resume_position else None
+            if saved_photo_id in option_ids:
+                st.session_state["label_selected_photo"] = saved_photo_id
+            st.session_state["label_resume_photo_initialized"] = True
+        selected_photo = st.selectbox(
+            "Choose Photo",
+            [None, *option_ids],
+            format_func=lambda value: "Choose a photo"
+            if value is None
+            else next(
+                f"{row['photo_id']} · Ref {row.get('reference_number') or row.get('photo_number')} · "
+                f"{row.get('original_filename')} · {row.get('patient_id') or 'Unassigned'} · "
+                f"{row.get('labeled_crops', 0)}/{row.get('eligible_crops', 0)} labeled · {row.get('labeling_status')}"
+                for row in filtered_photos
+                if int(row["training_image_id"]) == int(value)
+            ),
+            key="label_selected_photo",
+        )
+
+        selection_signature = selected_photo
+        if st.session_state.get("label_selected_photo_signature") != selection_signature:
+            st.session_state.label_selected_photo_signature = selection_signature
+            st.session_state.label_id = None
+            st.session_state.label_review_crop_id = None
+            st.session_state.label_work_mode = "resume"
+            st.session_state.pop("pending_label_overwrite", None)
+        if selected_photo is None:
+            st.info("Choose a photo from the table or search by Photo ID, reference number, or filename.")
+        else:
+            selected_summary = next(
+                row for row in all_photo_rows if int(row["training_image_id"]) == int(selected_photo)
             )
-            status = (
-                f"ICDAS {cur.get('grade')}"
-                if cur.get("grade") is not None
-                else (cur.get("annotation_status") or "UNLABELED")
+            selected_filename = selected_summary.get("original_filename") or selected_summary.get("filename") or "Filename unavailable"
+            if not selected_summary.get("original_filename_available"):
+                selected_filename += " (stored filename; original name unavailable)"
+            st.markdown(
+                f"**{selected_summary['photo_id']}** · Reference `{selected_summary.get('reference_number') or selected_summary.get('photo_number')}` · "
+                f"{selected_filename} · Patient: {selected_summary.get('patient_id') or 'Unassigned'}"
             )
-            st.write("Current:", status)
-            cap = cur.get("crop_status_caption") or ""
-            if (cur.get("crop_duplicate_status") or "UNIQUE") == "CONFLICT":
-                st.error(cap or "Duplicate crop has conflicting ICDAS labels. Manual review required.")
-            elif (cur.get("crop_duplicate_status") or "UNIQUE") != "UNIQUE":
-                st.warning(cap)
-            else:
-                st.caption(cap)
-            b64_image(cur.get("crop_base64"), width=420)
-            status_cols = st.columns(2)
-            if status_cols[0].button("Mark uncertain", key=f"mark_uncertain_{cur['label_id']}"):
-                client.post(
-                    "/api/v1/admin/training/labels/status",
-                    json={"label_id": cur["label_id"], "status": "UNCERTAIN"},
-                )
-                st.session_state.label_id = queue.get("next_label_id") or cur["label_id"]
-                st.rerun()
-            if status_cols[1].button("Mark ungradable", key=f"mark_ungradable_{cur['label_id']}"):
-                client.post(
-                    "/api/v1/admin/training/labels/status",
-                    json={"label_id": cur["label_id"], "status": "UNGRADABLE"},
-                )
-                st.session_state.label_id = queue.get("next_label_id") or cur["label_id"]
-                st.rerun()
+            mcols = st.columns(5)
+            mcols[0].metric("Eligible crops", selected_summary.get("eligible_crops", 0))
+            mcols[1].metric("Already labeled", selected_summary.get("labeled_crops", 0))
+            mcols[2].metric("Remaining unlabeled", selected_summary.get("remaining_unlabeled_crops", 0))
+            mcols[3].metric("Uncertain", selected_summary.get("uncertain_crops", 0))
+            mcols[4].metric("Ungradable", selected_summary.get("ungradable_crops", 0))
             gcols = st.columns(5)
-            for g in range(5):
-                if gcols[g].button(str(g), key=f"gradebtn{g}"):
-                    client.post(
-                        "/api/v1/admin/training/labels",
-                        json={"label_id": cur["label_id"], "grade": g},
-                    )
-                    st.session_state.label_id = queue.get("next_label_id") or cur["label_id"]
+            for grade in range(5):
+                gcols[grade].metric(
+                    f"ICDAS {grade}", int((selected_summary.get("grade_counts") or {}).get(str(grade), 0))
+                )
+            eligible_total = int(selected_summary.get("eligible_crops", 0) or 0)
+            labeled_total = int(selected_summary.get("labeled_crops", 0) or 0)
+            st.progress(
+                (labeled_total / eligible_total) if eligible_total else 0.0,
+                text=f"Selected photo progress: {labeled_total} / {eligible_total} eligible crops labeled",
+            )
+            if selected_summary.get("labeling_status") == "FULLY LABELED":
+                st.success("All crops labeled. You can review existing labels below.")
+            elif not selected_summary.get("remaining_unlabeled_crops") and selected_summary.get("eligible_crops"):
+                st.info("No unlabeled crops remain. Review uncertain or ungradable crops below if needed.")
+            elif selected_summary.get("labeling_status") in {"NEEDS BOX VERIFICATION", "NO ELIGIBLE CROPS", "EXCLUDED DUPLICATE"}:
+                st.warning(
+                    f"This photo has no eligible labeling crops ({selected_summary.get('labeling_status')}). "
+                    "Complete box verification on a unique photo first."
+                )
+
+            try:
+                photo_crop_response = client.get(
+                    "/api/v1/admin/training/crops", params={"training_image_id": selected_photo}
+                )
+                crops_for_photo = photo_crop_response.get("crops") or []
+            except requests.RequestException as exc:
+                st.error(f"Could not load crops for {selected_summary['photo_id']}. Refresh and try again.")
+                _show_backend_error(exc)
+                crops_for_photo = []
+            eligible_crops = [
+                row
+                for row in crops_for_photo
+                if row.get("active") and row.get("box_verified") and row.get("label_id") is not None
+            ]
+            if crops_for_photo:
+                st.dataframe(
+                    [
+                        {
+                            "Crop ID": row.get("crop_id"),
+                            "Crop number": index + 1,
+                            "ICDAS": row.get("grade") if row.get("grade") is not None else row.get("annotation_status"),
+                            "Verified": bool(row.get("box_verified")),
+                            "Label record": row.get("label_id"),
+                        }
+                        for index, row in enumerate(crops_for_photo)
+                    ],
+                    use_container_width=True,
+                    hide_index=True,
+                )
+
+            mode = st.session_state.get("label_work_mode", "resume")
+            action_cols = st.columns(2)
+            if action_cols[0].button("Resume from first unlabeled crop", key="label_resume_first"):
+                st.session_state.label_work_mode = "resume"
+                st.session_state.label_id = None
+                st.session_state.pop("pending_label_overwrite", None)
+                st.rerun()
+            if action_cols[1].button("Review all crops", key="label_review_all"):
+                st.session_state.label_work_mode = "review"
+                if eligible_crops:
+                    st.session_state.label_review_crop_id = eligible_crops[0].get("crop_id")
+                st.session_state.pop("pending_label_overwrite", None)
+                st.rerun()
+
+            jump_cols = st.columns([3, 1])
+            crop_id_text = jump_cols[0].text_input("Jump to Crop ID", key="label_jump_crop_input").strip()
+            if jump_cols[1].button("Jump to crop", key="label_jump_crop_button"):
+                match = next(
+                    (row for row in crops_for_photo if str(row.get("crop_id") or "").casefold() == crop_id_text.casefold()),
+                    None,
+                )
+                if match is None:
+                    st.error("That Crop ID does not belong to the selected photo.")
+                elif not match.get("active") or not match.get("box_verified"):
+                    st.error("That crop is inactive or unverified and cannot be labeled.")
+                else:
+                    st.session_state.label_work_mode = "review"
+                    st.session_state.label_review_crop_id = match.get("crop_id")
+                    st.session_state.pop("pending_label_overwrite", None)
                     st.rerun()
+
+            crop_options = [row.get("crop_id") for row in eligible_crops]
+            if st.session_state.get("label_review_crop_id") not in crop_options:
+                st.session_state.label_review_crop_id = crop_options[0] if mode == "review" and crop_options else None
+            crop_by_public_id = {str(row.get("crop_id")): row for row in eligible_crops}
+            if st.session_state.get("label_review_crop_selector") != st.session_state.get("label_review_crop_id"):
+                st.session_state["label_review_crop_selector"] = st.session_state.get("label_review_crop_id")
+            selected_crop_public_id = st.selectbox(
+                "Review crop",
+                [None, *crop_options],
+                format_func=lambda value: "Choose a crop"
+                if value is None
+                else next(
+                    f"{value} · ICDAS {crop_by_public_id[str(value)].get('grade') if crop_by_public_id[str(value)].get('grade') is not None else crop_by_public_id[str(value)].get('annotation_status')}"
+                    for _ in [0]
+                ),
+                key="label_review_crop_selector",
+            )
+            st.session_state.label_review_crop_id = selected_crop_public_id
+            if selected_crop_public_id:
+                st.session_state.label_work_mode = "review"
+            selected_crop_row = crop_by_public_id.get(str(selected_crop_public_id)) if selected_crop_public_id else None
+            queue_params = {
+                "image_id": int(selected_photo),
+                "mode": "first_unlabeled" if st.session_state.get("label_work_mode") == "resume" else "photo",
+                "track": "initial" if st.session_state.get("label_work_mode") == "resume" else "review",
+            }
+            if queue_params["mode"] == "photo" and selected_crop_row:
+                queue_params["label_id"] = int(selected_crop_row["label_id"])
+            queue = client.get("/api/v1/admin/training/queue", params=queue_params)
+            render_stepper(page, queue)
+            cur = queue.get("current")
+            if st.session_state.get("labeling_flash"):
+                st.success(st.session_state.pop("labeling_flash"))
+            if cur:
+                st.caption(
+                    f"Crop {cur.get('tooth_on_photo')}/{cur.get('teeth_on_photo')} · "
+                    f"Crop ID {cur.get('crop_id')} · Label record {cur.get('label_id')} · "
+                    f"{selected_filename}"
+                )
+
+                def _select_label(label_id):
+                    row = next((item for item in eligible_crops if int(item.get("label_id") or -1) == int(label_id or -2)), None)
+                    if row:
+                        st.session_state.label_review_crop_id = row.get("crop_id")
+                    st.session_state.label_work_mode = "review"
+                    st.session_state.label_id = int(label_id) if label_id else None
+                    st.session_state.pop("pending_label_overwrite", None)
+                    st.rerun()
+
+                def _advance_after_annotation():
+                    if st.session_state.get("label_work_mode") == "review":
+                        next_id = queue.get("next_label_id")
+                        next_row = next(
+                            (item for item in eligible_crops if int(item.get("label_id") or -1) == int(next_id or -2)),
+                            None,
+                        )
+                        if next_row:
+                            st.session_state.label_review_crop_id = next_row.get("crop_id")
+                        else:
+                            st.session_state.label_work_mode = "resume"
+                            st.session_state.label_review_crop_id = None
+                    st.session_state.label_id = None
+                    st.session_state.pop("pending_label_overwrite", None)
+                    st.rerun()
+
+                nav = st.columns(3)
+                previous_id = queue.get("prev_label_id")
+                if nav[0].button("Previous crop", disabled=previous_id is None, key="label_previous_crop"):
+                    _select_label(previous_id)
+                ordered_crops = sorted(
+                    eligible_crops,
+                    key=lambda row: (int(row.get("index_in_image") or 0), int(row.get("label_id") or 0)),
+                )
+                current_index = next(
+                    (index for index, row in enumerate(ordered_crops) if int(row.get("label_id") or -1) == int(cur["label_id"])),
+                    -1,
+                )
+                next_unlabeled = next(
+                    (
+                        row for row in ordered_crops[current_index + 1 :]
+                        if row.get("grade") is None and (row.get("annotation_status") or "UNLABELED").upper() == "UNLABELED"
+                    ),
+                    None,
+                )
+                if nav[1].button("Next unlabeled crop", disabled=next_unlabeled is None, key="label_next_unlabeled"):
+                    _select_label(next_unlabeled["label_id"])
+                current_annotation_status = (cur.get("annotation_status") or "UNLABELED").upper()
+                skip_disabled = cur.get("grade") is not None or current_annotation_status == "UNCERTAIN"
+                if nav[2].button("Skip as uncertain", disabled=skip_disabled, key="label_skip_uncertain"):
+                    try:
+                        client.post("/api/v1/admin/training/labels/skip", json={"label_id": cur["label_id"]})
+                        st.session_state.labeling_flash = f"Crop {cur.get('crop_id')} saved as uncertain; no grade was assigned."
+                        _advance_after_annotation()
+                    except requests.RequestException as exc:
+                        st.error("The uncertainty status was not saved. Try again.")
+                        _show_backend_error(exc)
+                if skip_disabled:
+                    if cur.get("grade") is not None:
+                        st.caption("This crop already has a saved grade. It is protected from being cleared by Skip as uncertain.")
+                    else:
+                        st.caption("This crop is already marked uncertain.")
+
+                grade_text = (
+                    f"ICDAS {cur['grade']}"
+                    if cur.get("grade") is not None
+                    else (cur.get("annotation_status") or "UNLABELED")
+                )
+                st.write("Current:", grade_text)
+                cap = cur.get("crop_status_caption") or ""
+                if (cur.get("crop_duplicate_status") or "UNIQUE") == "CONFLICT":
+                    st.error(cap or "Duplicate crop has conflicting ICDAS labels. Manual review required.")
+                elif (cur.get("crop_duplicate_status") or "UNIQUE") != "UNIQUE":
+                    st.warning(cap)
+                else:
+                    st.caption(cap)
+                b64_image(cur.get("crop_base64"), width=420)
+                history = client.get(f"/api/v1/admin/training/labels/{cur['label_id']}/history")
+                history_events = history.get("events") or []
+                if history_events:
+                    with st.expander("Label history and previous values"):
+                        st.dataframe(_label_history_display_rows(history_events), use_container_width=True, hide_index=True)
+                        can_restore = any(
+                            (event.get("details") or {}).get("old", {}).get("grade") is not None
+                            for event in history_events
+                        )
+                        if st.button("Restore previous grade", disabled=not can_restore, key=f"undo_label_{cur['label_id']}"):
+                            client.post(f"/api/v1/admin/training/labels/{cur['label_id']}/undo")
+                            st.session_state.pop("pending_label_overwrite", None)
+                            st.session_state.labeling_flash = f"Restored the previous label for crop {cur.get('crop_id')}."
+                            st.rerun()
+
+                status_cols = st.columns(2)
+                if status_cols[0].button(
+                    "Mark uncertain",
+                    disabled=cur.get("grade") is not None or current_annotation_status == "UNCERTAIN",
+                    key=f"mark_uncertain_{cur['label_id']}",
+                ):
+                    try:
+                        client.post(
+                            "/api/v1/admin/training/labels/status",
+                            json={"label_id": cur["label_id"], "status": "UNCERTAIN"},
+                        )
+                        st.session_state.labeling_flash = f"Crop {cur.get('crop_id')} marked uncertain without a grade."
+                        _advance_after_annotation()
+                    except requests.RequestException as exc:
+                        st.error("The uncertainty status was not saved. Try again.")
+                        _show_backend_error(exc)
+                if status_cols[1].button(
+                    "Mark ungradable",
+                    disabled=cur.get("grade") is not None or current_annotation_status == "UNGRADABLE",
+                    key=f"mark_ungradable_{cur['label_id']}",
+                ):
+                    try:
+                        client.post(
+                            "/api/v1/admin/training/labels/status",
+                            json={"label_id": cur["label_id"], "status": "UNGRADABLE"},
+                        )
+                        st.session_state.labeling_flash = f"Crop {cur.get('crop_id')} marked ungradable without a grade."
+                        _advance_after_annotation()
+                    except requests.RequestException as exc:
+                        st.error("The ungradable status was not saved. Try again.")
+                        _show_backend_error(exc)
+
+                st.caption("Click an ICDAS grade to save it immediately. A different saved grade requires confirmation.")
+                grade_cols = st.columns(5)
+                for grade in range(5):
+                    if grade_cols[grade].button(
+                        str(grade),
+                        key=f"gradebtn{grade}_{cur['label_id']}",
+                        disabled=cur.get("grade") is not None and int(cur["grade"]) == grade,
+                    ):
+                        try:
+                            out = client.post(
+                                "/api/v1/admin/training/labels",
+                                json={
+                                    "label_id": cur["label_id"],
+                                    "grade": grade,
+                                    "track": queue_params["track"],
+                                },
+                            )
+                            if out.get("needs_confirmation"):
+                                st.session_state.pending_label_overwrite = {
+                                    "label_id": cur["label_id"],
+                                    "previous_grade": out.get("previous_grade"),
+                                    "grade": grade,
+                                    "track": queue_params["track"],
+                                }
+                                st.rerun()
+                            st.session_state.labeling_flash = f"Saved ICDAS {grade} for crop {cur.get('crop_id')}. Progress refreshed."
+                            _advance_after_annotation()
+                        except requests.RequestException as exc:
+                            st.error("The label was not saved. Review the crop and try again.")
+                            _show_backend_error(exc)
+
+                pending_overwrite = st.session_state.get("pending_label_overwrite")
+                if pending_overwrite and pending_overwrite.get("label_id") == cur["label_id"]:
+                    st.warning(
+                        f"This crop is already labeled ICDAS {pending_overwrite['previous_grade']}. "
+                        f"Confirm replacing it with ICDAS {pending_overwrite['grade']}."
+                    )
+                    confirm_cols = st.columns(2)
+                    if confirm_cols[0].button("Confirm relabel", type="primary", key=f"confirm_label_{cur['label_id']}"):
+                        try:
+                            client.post(
+                                "/api/v1/admin/training/labels",
+                                json={
+                                    "label_id": cur["label_id"],
+                                    "grade": pending_overwrite["grade"],
+                                    "confirm_overwrite": True,
+                                    "track": pending_overwrite["track"],
+                                },
+                            )
+                            st.session_state.pop("pending_label_overwrite", None)
+                            st.session_state.labeling_flash = f"Updated label for crop {cur.get('crop_id')}; history was retained."
+                            _advance_after_annotation()
+                        except requests.RequestException as exc:
+                            st.error("The revised label was not saved. Try again.")
+                            _show_backend_error(exc)
+                    if confirm_cols[1].button("Keep current label", key=f"cancel_label_{cur['label_id']}"):
+                        st.session_state.pop("pending_label_overwrite", None)
+                        st.rerun()
+            else:
+                if st.session_state.get("label_work_mode") == "resume":
+                    if selected_summary.get("eligible_crops") and selected_summary.get("labeled_crops") == selected_summary.get("eligible_crops"):
+                        st.success("All crops labeled. Use Review all crops or Jump to Crop ID to inspect existing labels.")
+                    elif not selected_summary.get("remaining_unlabeled_crops"):
+                        st.info("No unlabeled crops remain. Use Review all crops to inspect uncertain or ungradable crops.")
+                    else:
+                        st.warning("No eligible crop is currently available. Verify tooth boxes on this photo first.")
+                else:
+                    st.info("This photo has no verified crops available for review.")
         _workflow_nav("label", "Box review", "Dataset", "CONTINUE TO DATASET")
 
     elif page == "Dataset":
-        st.header("Dataset")
+        page_heading("Dataset management", "Review patient-level assignments, validate readiness, and create immutable dataset versions.", "Training data")
         summary = client.get("/api/v1/admin/dataset")
         render_stepper(page, summary)
         photos = summary.get("photos") or {}
         crops = summary.get("crops") or {}
         labels = summary.get("icdas_labels") or summary.get("class_counts") or {}
+        workflow_status = summary.get("workflow_status") or {}
+        st.subheader("ICDAS workflow status")
+        status_cols = st.columns(6)
+        for col, title, key in zip(
+            status_cols,
+            ["Labeling enabled", "Dataset available", "Labels completed", "Dataset ready", "Classifier trained", "Classifier deployed"],
+            ["labeling_enabled", "dataset_available", "labeling_completed", "dataset_ready_for_training", "model_trained", "model_deployed"],
+        ):
+            col.metric(title, "Yes" if workflow_status.get(key) else "No")
         dup_n = int(photos.get("exact_duplicates", 0) or 0) + int(
             photos.get("likely_duplicates", 0) or 0
         )
@@ -767,15 +1819,15 @@ try:
             f"{photos.get('patients', 0)} / {photos.get('target_patients', 100)} target",
         )
         if summary.get("patient_count_warning"):
-            st.warning(summary["patient_count_warning"])
+            st.warning(_safe_notice(summary["patient_count_warning"], "More patient groups are needed."))
         if summary.get("identity_warning"):
-            st.warning(summary["identity_warning"])
+            st.warning(_safe_notice(summary["identity_warning"], "Some photos need patient identity review."))
         if summary.get("review_warning"):
-            st.warning(summary["review_warning"])
+            st.warning(_safe_notice(summary["review_warning"], "Some tooth detections need review."))
         if summary.get("annotation_warning"):
-            st.warning(summary["annotation_warning"])
+            st.warning(_safe_notice(summary["annotation_warning"], "Some eligible crops still need labels or verification."))
         if summary.get("patient_split_warning"):
-            st.warning(summary["patient_split_warning"])
+            st.warning(_safe_notice(summary["patient_split_warning"], "Patient-level split integrity needs review."))
         r2 = st.columns(6)
         r2[0].metric("Unlabeled crops", crops.get("unlabeled", 0))
         for g in range(5):
@@ -788,64 +1840,288 @@ try:
         r3[4].metric("Eligible training crops", crops.get("eligible", 0))
         _progress_card(summary)
         if summary.get("crop_conflict_message"):
-            st.error(summary["crop_conflict_message"])
+            st.error(_safe_notice(summary["crop_conflict_message"], "Crop integrity conflicts need review."))
         ready = bool(summary.get("dataset_ready"))
         st.metric("Dataset readiness", summary.get("status") or ("READY TO BUILD" if ready else "NOT READY"))
         if summary.get("min_crops_message"):
-            st.info(summary["min_crops_message"])
+            st.info(_safe_notice(summary["min_crops_message"], "More eligible crops are needed before training."))
         if summary.get("missing_classes_message"):
-            st.warning(summary["missing_classes_message"])
+            st.warning(_safe_notice(summary["missing_classes_message"], "One or more ICDAS grades are missing."))
         latest_dataset = summary.get("latest_dataset") or {}
         latest_stats = latest_dataset.get("statistics") or {}
         if latest_stats.get("split_summary"):
             st.subheader("Latest persisted patient-level split")
-            st.dataframe(
-                [
-                    {"split": split, **details}
-                    for split, details in latest_stats["split_summary"].items()
-                ],
-                use_container_width=True,
-            )
-            st.json(latest_stats.get("validation") or {})
+            st.dataframe(_split_summary_rows(latest_stats["split_summary"]), use_container_width=True, hide_index=True)
+            validation_result = latest_stats.get("validation") or {}
+            if validation_result:
+                st.caption(
+                    "Integrity validation: "
+                    + ("passed" if validation_result.get("ok") else "needs review")
+                    + f" · patient leakage: {validation_result.get('patient_leakage_count', 0)}"
+                )
+            for note in latest_stats.get("split_limitations") or []:
+                st.warning(_safe_notice(note, "Review the documented split limitations."))
         st.caption(
-            "BUILD DATASET uses the verified labels, excludes duplicates, and assigns every image/crop from one patient to the same split "
-            f"(seed 42, target 70/15/15). The 100-patient target is approximate; training requires at least "
-            f"{summary.get('min_patients_for_training', 90)} distinct patients under the configured gate. "
-            "Never overwrites v1, v2, … "
-            "This does not start training."
+            "Patient assignments come from the database. All of a patient's photos and crops stay in one split; only verified ICDAS tooth crops enter classifier folders. Exporting does not start training."
         )
-        if st.button("BUILD DATASET", disabled=not ready):
-            try:
-                out = client.post("/api/v1/admin/dataset/build", json={})
-                st.success(out.get("name"))
-                st.json(out.get("statistics") or out)
-            except requests.RequestException as exc:
-                _show_backend_error(exc)
-        if not ready:
-            st.caption(
-                summary.get("min_crops_message")
-                or f"Build stays off until at least {summary.get('min_dataset_crops', 5)} "
-                "verified labeled UNIQUE crops exist."
+        with st.expander("Patient-wise assignment and export", expanded=True):
+            inventory = client.get("/api/v1/admin/dataset/patients")
+            patient_rows = inventory.get("patients") or []
+            split_filter_cols = st.columns(3)
+            patient_search = split_filter_cols[0].text_input("Search patients", key="split_patient_search").strip().casefold()
+            existing_assignment_filter = split_filter_cols[1].selectbox(
+                "Current assignment", ["All", "UNASSIGNED", "train", "val", "test"], key="split_current_filter"
             )
+            strategy_name = split_filter_cols[2].selectbox(
+                "Assignment strategy",
+                ["Automatic percentages", "Manual patient assignment", "Hybrid manual + automatic", "Bulk assign selected patients"],
+                key="patient_split_strategy",
+            )
+            strategy_key = {
+                "Automatic percentages": "percentage",
+                "Manual patient assignment": "manual",
+                "Hybrid manual + automatic": "hybrid",
+                "Bulk assign selected patients": "bulk",
+            }[strategy_name]
+            visible_patients = [
+                row for row in patient_rows
+                if (existing_assignment_filter == "All" or row.get("current_assignment") == existing_assignment_filter)
+                and (
+                    not patient_search
+                    or patient_search in " ".join(
+                        str(row.get(key) or "")
+                        for key in ("patient_id", "patient_key", "assignment_status")
+                    ).casefold()
+                )
+            ]
+            editor_rows = []
+            for row in visible_patients:
+                current = row.get("current_assignment")
+                initial_assignment = current if strategy_key == "manual" and current in {"train", "val", "test"} else "Unassigned"
+                editor_rows.append(
+                    {
+                        "Select": False,
+                        "Patient ID": row.get("patient_id") or f"Missing ID · photo group {row['patient_key']}",
+                        "Original photos": int(row.get("photo_count") or 0),
+                        "Detected crops": int(row.get("crop_count") or 0),
+                        "Labelled crops": int(row.get("labeled_crop_count") or 0),
+                        "Verified crops": int(row.get("verified_crop_count") or 0),
+                        "ICDAS 0": int((row.get("grade_counts") or {}).get("0", 0)),
+                        "ICDAS 1": int((row.get("grade_counts") or {}).get("1", 0)),
+                        "ICDAS 2": int((row.get("grade_counts") or {}).get("2", 0)),
+                        "ICDAS 3": int((row.get("grade_counts") or {}).get("3", 0)),
+                        "ICDAS 4": int((row.get("grade_counts") or {}).get("4", 0)),
+                        "Current assignment": current or "UNASSIGNED",
+                        "Assignment": initial_assignment,
+                        "Assignment status": row.get("assignment_status") or "",
+                        "Patient key": row["patient_key"],
+                    }
+                )
+            visible_patient_keys = [row["patient_key"] for row in visible_patients]
+            editor_key_hash = hashlib.sha1(",".join(visible_patient_keys).encode("utf-8")).hexdigest()[:12]
+            edited_rows = st.data_editor(
+                editor_rows,
+                hide_index=True,
+                num_rows="fixed",
+                use_container_width=True,
+                key=f"patient_assignment_editor_{strategy_key}_{editor_key_hash}",
+                disabled=[
+                    "Patient ID", "Original photos", "Detected crops", "Labelled crops", "Verified crops",
+                    "ICDAS 0", "ICDAS 1", "ICDAS 2", "ICDAS 3", "ICDAS 4", "Current assignment",
+                    "Assignment status", "Patient key",
+                ],
+                column_config={
+                    "Select": st.column_config.CheckboxColumn("Select"),
+                    "Patient ID": st.column_config.TextColumn("Patient ID"),
+                    "Assignment": st.column_config.SelectboxColumn(
+                        "Assignment", options=["Unassigned", "train", "val", "test"], required=True
+                    ),
+                },
+            )
+            if hasattr(edited_rows, "to_dict"):
+                edited_rows = edited_rows.to_dict(orient="records")
+            records_by_key = {row["patient_key"]: row for row in visible_patients}
+            selected_photo_ids = sorted(
+                {
+                    int(image_id)
+                    for row in edited_rows
+                    if row.get("Select") and row.get("Patient key") in records_by_key
+                    for image_id in records_by_key[row["Patient key"]].get("training_image_ids") or []
+                }
+            )
+            manual_assignments = {}
+            for row in edited_rows:
+                key = row.get("Patient key")
+                assignment = row.get("Assignment")
+                if key not in records_by_key or assignment not in {"train", "val", "test"}:
+                    continue
+                for image_id in records_by_key[key].get("training_image_ids") or []:
+                    manual_assignments[str(int(image_id))] = assignment
+
+            plan = {
+                "strategy": strategy_key,
+                "seed": int(st.number_input("Random seed", min_value=0, value=42, step=1, key="split_seed")),
+                "allow_reassign_locked": True,
+            }
+            if strategy_key == "percentage":
+                ratio_cols = st.columns(3)
+                plan["train_pct"] = float(ratio_cols[0].number_input("Train target %", min_value=0.0, max_value=100.0, value=70.0, key="split_train_pct"))
+                plan["val_pct"] = float(ratio_cols[1].number_input("Validation target %", min_value=0.0, max_value=100.0, value=15.0, key="split_val_pct"))
+                plan["test_pct"] = float(ratio_cols[2].number_input("Test target %", min_value=0.0, max_value=100.0, value=15.0, key="split_test_pct"))
+            elif strategy_key in {"manual", "hybrid"}:
+                if strategy_key == "manual":
+                    edited_by_key = {row.get("Patient key"): row for row in edited_rows}
+                    for patient in patient_rows:
+                        edited = edited_by_key.get(patient["patient_key"])
+                        assignment = (
+                            edited.get("Assignment")
+                            if edited is not None
+                            else patient.get("current_assignment")
+                        )
+                        if assignment in {"train", "val", "test"}:
+                            for image_id in patient.get("training_image_ids") or []:
+                                manual_assignments[str(int(image_id))] = assignment
+                plan["assignments"] = manual_assignments
+                st.caption("Manual mode uses each patient's selected split. Hybrid mode keeps those explicit assignments and allocates the rest automatically.")
+            elif strategy_key == "bulk":
+                plan["selected_image_ids"] = selected_photo_ids
+                plan["bulk_split"] = st.selectbox("Bulk assign selected patients to", ["train", "val", "test"], key="bulk_split_target")
+                st.caption("Selecting one patient assigns all of that patient's source photos and crops together.")
+
+            if strategy_key in {"hybrid", "bulk"}:
+                ratio_cols = st.columns(3)
+                plan["train_pct"] = float(ratio_cols[0].number_input("Train target %", min_value=0.0, max_value=100.0, value=70.0, key="split_train_pct_hybrid"))
+                plan["val_pct"] = float(ratio_cols[1].number_input("Validation target %", min_value=0.0, max_value=100.0, value=15.0, key="split_val_pct_hybrid"))
+                plan["test_pct"] = float(ratio_cols[2].number_input("Test target %", min_value=0.0, max_value=100.0, value=15.0, key="split_test_pct_hybrid"))
+
+            plan["allow_exclusions"] = st.checkbox(
+                "I understand only unique, box-verified ICDAS 0–4 crops are exported; missing-ID, unassigned, duplicate, unverified, unlabeled, and ungradable records are excluded.",
+                value=False,
+                key="acknowledge_dataset_exclusions",
+            )
+            action_cols = st.columns(2)
+            refresh_preview = action_cols[0].button("Refresh preview", type="primary", key="preview_patient_splits")
+            if (
+                refresh_preview
+                or st.session_state.get("split_preview_plan") != plan
+                or st.session_state.get("split_preview") is None
+            ):
+                try:
+                    preview = client.post("/api/v1/admin/dataset/preview-split", json={"plan": plan})
+                    st.session_state.split_preview = preview
+                    st.session_state.split_preview_plan = plan
+                except requests.RequestException as exc:
+                    _show_backend_error(exc)
+
+            preview = st.session_state.get("split_preview")
+            preview_plan = st.session_state.get("split_preview_plan")
+            if preview and preview_plan == plan:
+                st.subheader("Preview before confirmation")
+                split_rows = []
+                for split, details in (preview.get("split_summary") or {}).items():
+                    split_rows.append(
+                        {
+                            "Split": "Validation" if split == "val" else split.title(),
+                            "Patients": details.get("patient_count", 0),
+                            "Original photos": details.get("image_count", 0),
+                            "Detected crops": details.get("tooth_crop_count", 0),
+                            "Labelled crops": details.get("labeled_crop_count", 0),
+                            "Verified crops": details.get("verified_crop_count", 0),
+                            **{f"ICDAS {grade}": (details.get("icdas_grade_distribution") or {}).get(str(grade), 0) for grade in range(5)},
+                            "Actual patients %": details.get("actual_patient_percent", 0),
+                            "Target %": details.get("target_patient_percent", 0),
+                            "Deviation (pp)": details.get("deviation_percentage_points", 0),
+                        }
+                    )
+                st.dataframe(split_rows, use_container_width=True, hide_index=True)
+                st.dataframe(
+                    [
+                        {
+                            "Patient ID": row.get("patient_id") or f"Missing ID · {row.get('patient_key')}",
+                            "Original photos": row.get("photo_count", 0),
+                            "Detected crops": row.get("crop_count", 0),
+                            "Labelled crops": row.get("labeled_crop_count", 0),
+                            "Verified crops": row.get("verified_crop_count", 0),
+                            "ICDAS grade distribution": _grade_distribution_text(row.get("grade_counts")),
+                            "Current assignment": row.get("current_assignment"),
+                            "Preview assignment": row.get("planned_assignment"),
+                            "Status": row.get("assignment_status"),
+                        }
+                        for row in preview.get("patient_assignments") or []
+                    ],
+                    use_container_width=True,
+                    hide_index=True,
+                )
+                preview_cols = st.columns(5)
+                preview_cols[0].metric("Unassigned patients", len(preview.get("unassigned_patients") or []))
+                preview_cols[1].metric("Missing-ID photos", len(preview.get("missing_patient_ids") or []))
+                preview_cols[2].metric("Unlabelled crops", preview.get("unlabeled_crop_count", 0))
+                preview_cols[3].metric("Unverified crops", preview.get("unverified_crop_count", 0))
+                preview_cols[4].metric("Duplicate photos", preview.get("duplicate_photo_count", 0))
+                if preview.get("patient_conflicts"):
+                    st.error("Saved patient assignment conflicts: " + ", ".join(preview["patient_conflicts"][:10]))
+                for warning in preview.get("warnings") or []:
+                    st.warning(_safe_notice(warning, "Review the dataset preview warning."))
+                for issue in preview.get("build_blockers") or []:
+                    st.error(_safe_notice(issue, "A dataset integrity blocker needs review."))
+                if preview.get("can_build") and st.button(
+                    "Confirm and export this dataset version", type="primary", key="confirm_patient_split_build"
+                ):
+                    try:
+                        out = client.post(
+                            "/api/v1/admin/dataset/build",
+                            json={"plan": preview_plan, "expected_fingerprint": preview.get("fingerprint")},
+                        )
+                        st.session_state.pop("split_preview", None)
+                        st.session_state.pop("split_preview_plan", None)
+                        st.success(f"Created dataset version {out.get('name')}.")
+                        split_summary = (out.get("statistics") or {}).get("split_summary") or {}
+                        if split_summary:
+                            st.dataframe(
+                                _split_summary_rows(split_summary),
+                                use_container_width=True,
+                                hide_index=True,
+                            )
+                        st.rerun()
+                    except requests.RequestException as exc:
+                        st.session_state.pop("split_preview", None)
+                        _show_backend_error(exc)
+                elif not preview.get("can_build"):
+                    st.caption("Resolve the hard blockers or acknowledge the listed exclusions, then preview again.")
         st.subheader("Versions (never overwritten)")
-        st.dataframe(summary.get("versions") or [], use_container_width=True)
+        st.dataframe(_dataset_version_rows(summary.get("versions") or []), use_container_width=True, hide_index=True)
         with st.expander("Recent annotation and training audit history"):
             audit = client.get("/api/v1/admin/training/audit", params={"limit": 200})
-            st.dataframe(audit.get("events") or [], use_container_width=True)
+            st.dataframe(_audit_display_rows(audit.get("events") or []), use_container_width=True, hide_index=True)
         nxt = "Training" if summary.get("latest_dataset") else None
         _workflow_nav("dataset", "Labeling", nxt, "CONTINUE TO TRAINING")
 
     elif page == "Training":
-        st.header("Train ICDAS model")
+        page_heading("Train ICDAS model", "Select a confirmed dataset version and review the training safeguards before starting a run.", "Model training")
         summary = client.get("/api/v1/admin/dataset")
         render_stepper(page, summary)
         enabled = bool(summary.get("icdas_train_enabled"))
-        latest = summary.get("latest_dataset") or {}
+        small_data_warning = (summary.get("workflow_status") or {}).get("small_dataset_warning")
+        if small_data_warning:
+            st.warning(_safe_notice(small_data_warning, "This dataset has a small number of patient groups."))
+        versions = summary.get("versions") or []
+        version_names = [str(version.get("name")) for version in versions if version.get("name")]
+        if version_names:
+            selected_name = st.selectbox(
+                "Confirmed dataset version",
+                version_names,
+                index=0,
+                key="training_dataset_version",
+            )
+            latest = next((version for version in versions if version.get("name") == selected_name), {})
+        else:
+            latest = summary.get("latest_dataset") or {}
         stats = latest.get("statistics") or {}
         patient_count = int(stats.get("total_patients") or 0)
         validation = stats.get("validation") or {}
         validation_issues = validation.get("issues") or []
         missing_train_classes = validation.get("missing_classes_in_train") or []
+        missing_validation_classes = validation.get("missing_classes_in_validation") or []
         missing_test_classes = validation.get("missing_classes_in_test") or []
         validation_ok = bool(validation.get("ok")) and not validation_issues
         cc = stats.get("class_counts_overall") or summary.get("class_counts") or {}
@@ -853,9 +2129,9 @@ try:
         st.write(f"Dataset: **{latest.get('name') or '(none built yet)'}**")
         photos = summary.get("photos") or {}
         crops = summary.get("crops") or {}
-        min_patients = int(summary.get("min_patients_for_training", 90) or 90)
+        min_patients = int(summary.get("min_patients_for_training", 3) or 3)
         st.write(f"Total source photos (unique): {photos.get('unique', 0)}")
-        st.write(f"Distinct patients in this dataset: {patient_count} / {min_patients} configured minimum (about 100 targeted)")
+        st.write(f"Distinct patients in this dataset: {patient_count} / {min_patients} needed to populate three splits")
         st.write(f"Total verified tooth crops: {crops.get('verified', 0)}")
         st.write(f"Total labeled crops: {crops.get('labeled', 0)}")
         st.write(f"Eligible unique crops: {crops.get('eligible', 0)}")
@@ -875,13 +2151,16 @@ try:
         split_summary = stats.get("split_summary") or {}
         if split_summary:
             st.dataframe(
-                [{"split": split, **details} for split, details in split_summary.items()],
+                _split_summary_rows(split_summary),
                 use_container_width=True,
+                hide_index=True,
             )
         if validation_issues:
-            st.error("Dataset validation failed: " + "; ".join(str(item) for item in validation_issues[:5]))
+            st.error(f"Dataset validation found {len(validation_issues)} issue(s). Resolve them in Dataset Management.")
         st.write(f"Dataset status: **{summary.get('status')}**")
-        classes_ok = bool(summary.get("classes_ready"))
+        classes_ok = not (missing_train_classes or missing_validation_classes or missing_test_classes)
+        if not stats:
+            classes_ok = bool(summary.get("classes_ready"))
         crop_conflicts = int((summary.get("crops") or {}).get("conflicts") or 0)
         if summary.get("crop_conflict_message") or crop_conflicts:
             st.error(
@@ -896,13 +2175,15 @@ try:
             )
         if patient_count < min_patients:
             st.warning(
-                f"Training is blocked until the dataset contains at least {min_patients} distinct patients; "
+                f"Three non-empty patient-level splits require at least {min_patients} distinct patients; "
                 f"it currently has {patient_count}."
             )
         if not validation_ok:
             st.warning("Training is blocked until patient-level split and leakage checks pass.")
         if missing_train_classes:
             st.warning("Train split is missing ICDAS class(es): " + ", ".join(map(str, missing_train_classes)))
+        if missing_validation_classes:
+            st.warning("Validation split is missing ICDAS class(es): " + ", ".join(map(str, missing_validation_classes)))
         if missing_test_classes:
             st.warning("Held-out test split is missing ICDAS class(es): " + ", ".join(map(str, missing_test_classes)))
         st.write(f"ICDAS training switch: **{'ENABLED' if enabled else 'DISABLED'}**")
@@ -920,10 +2201,10 @@ try:
                 or not validation_ok
             ),
         ):
-            out = client.post("/api/v1/admin/train", json={})
+            out = client.post("/api/v1/admin/train", json={"dataset_name": latest.get("name")})
             st.session_state.job = out
             st.session_state.job_status = out
-            st.json(out)
+            st.success("Training request recorded.")
         if st.button("Refresh status"):
             st.session_state.job_status = client.get("/api/v1/admin/train/status")
         status = st.session_state.get("job_status") or st.session_state.get("job")
@@ -931,7 +2212,9 @@ try:
             job_enabled = status.get("icdas_train_enabled")
             if job_enabled is None:
                 job_enabled = enabled
-            st.write(status.get("status"), status.get("message"))
+            st.write(f"Status: **{str(status.get('status', 'unknown')).upper()}**")
+            if status.get("status") in {"failed", "blocked"}:
+                st.warning("The training job did not complete. Review dataset readiness and backend configuration.")
             if status.get("status") == "blocked" and enabled:
                 st.info(
                     "This is a previous job from when training was disabled. "
@@ -943,34 +2226,68 @@ try:
                 if running
                 else (1.0 if status.get("status") in {"blocked", "completed", "failed"} else 0.0)
             )
-            st.text_area("Logs", status.get("log") or "", height=240)
+            st.caption("Detailed technical logs remain on the backend.")
         _workflow_nav("train", "Dataset", None, "")
 
     elif page == "Model registry":
-        st.header("Model registry")
+        page_heading("Model registry", "Review saved candidates, active status, validation evidence, and rollback options.", "Model governance")
         st.caption(
             "SET ACTIVE only changes which local ICDAS keras the backend loads. "
-            "It is not cloud deployment. Versioned folders under models/icdas/vN/ stay intact."
+            "It is not cloud deployment. Previously saved model versions remain available for review."
         )
         models = client.get("/api/v1/admin/models").get("models") or []
         for m in models:
             with st.expander(f"{m['name']} · {'ACTIVE' if m['is_active'] else 'stored'}"):
-                st.write(m)
-                if m.get("metrics"):
-                    st.json(m["metrics"])
+                metrics = m.get("metrics") or {}
+                st.write(f"Type: **{m.get('kind', 'model')}** · Dataset: **{m.get('dataset_version') or 'not recorded'}**")
+                validation_only = metrics.get("evaluation_scope") == "validation_only"
+                if validation_only:
+                    st.warning("Validation-only DEMO candidate. It has not passed the production promotion gate.")
+                    vm = metrics.get("validation_metrics") or {}
+                    cols = st.columns(4)
+                    cols[0].metric("Validation accuracy", f"{100 * float(vm.get('accuracy', 0)):.1f}%")
+                    cols[1].metric("Macro F1", f"{float(vm.get('macro_f1', 0)):.3f}")
+                    cols[2].metric("Balanced accuracy", f"{100 * float(vm.get('balanced_accuracy', 0)):.1f}%")
+                    cols[3].metric("QWK", f"{float(vm.get('quadratic_kappa', 0)):.3f}")
+                elif metrics:
+                    cols = st.columns(4)
+                    for col, key in zip(cols, ("accuracy", "macro_f1", "weighted_f1", "balanced_accuracy")):
+                        if metrics.get(key) is not None:
+                            col.metric(key.replace("_", " ").title(), f"{float(metrics[key]):.3f}")
                 b1, b2 = st.columns(2)
-                if b1.button("SET ACTIVE (local inference)", key=f"d{m['id']}"):
-                    st.write(client.post(f"/api/v1/admin/models/{m['id']}/set-active", json={}))
+                if b1.button("SET ACTIVE (local inference)", key=f"d{m['id']}", disabled=validation_only):
+                    try:
+                        client.post(f"/api/v1/admin/models/{m['id']}/set-active", json={})
+                        st.success("Model is active for local inference.")
+                        st.rerun()
+                    except requests.RequestException as exc:
+                        _show_backend_error(exc)
                 if b2.button("Clear active flag", key=f"r{m['id']}"):
-                    st.write(client.post(f"/api/v1/admin/models/{m['id']}/rollback", json={}))
+                    try:
+                        client.post(f"/api/v1/admin/models/{m['id']}/rollback", json={})
+                        st.success("Model deactivated.")
+                        st.rerun()
+                    except requests.RequestException as exc:
+                        _show_backend_error(exc)
 
     elif page == "Evaluation":
-        st.header("Evaluation")
+        page_heading("Evaluation", "Inspect recorded detector and classifier evaluation results with their provenance notes.", "Model quality")
         data = client.get("/api/v1/admin/evaluation")
         st.subheader("Tooth Detector V2")
-        st.json(data.get("tooth_detector_v2") or {})
+        detector_metrics = data.get("tooth_detector_v2") or {}
+        st.write("Status: **Available**" if detector_metrics else "No detector metrics are available.")
+        for key, label in (("map50", "mAP@50"), ("precision", "Precision"), ("recall", "Recall")):
+            if detector_metrics.get(key) is not None:
+                st.metric(label, f"{float(detector_metrics[key]):.3f}")
         st.subheader("ICDAS historical metrics")
-        st.json(data.get("icdas_historical") or {})
+        icdas_metrics = data.get("icdas_historical") or {}
+        if icdas_metrics:
+            st.caption("Previously saved model evaluation metrics; confirm their dataset provenance before use.")
+            for key, label in (("accuracy", "Accuracy"), ("macro_f1", "Macro F1"), ("weighted_f1", "Weighted F1"), ("quadratic_kappa", "QWK")):
+                if icdas_metrics.get(key) is not None:
+                    st.metric(label, f"{float(icdas_metrics[key]):.3f}")
+        else:
+            st.info("No historical ICDAS metrics are available.")
         st.caption(
             (data.get("note") or "")
             + " ICDAS metrics after a future train live on the model registry. "
@@ -978,7 +2295,7 @@ try:
         )
 
     elif page == "Real-world test":
-        st.header("Real-world test")
+        page_heading("Real-world test", "Run an image through the current inference path and inspect the resulting crops.", "Inference check")
         st.info("Runs detector + ICDAS. Labels are not saved.")
         f = st.file_uploader("Unseen image", type=["jpg", "jpeg", "png"])
         if st.button("Run test") and f:
@@ -995,7 +2312,8 @@ try:
                 _show_backend_error(exc)
                 out = None
             if out:
-                st.write("Quality", out.get("quality"))
+                quality = out.get("quality") or {}
+                st.info(f"Image quality: {quality.get('verdict', 'review')} · {quality.get('message', '')}")
                 a, b = st.columns(2)
                 with a:
                     b64_image(out.get("original_base64"), "Original", width=400)

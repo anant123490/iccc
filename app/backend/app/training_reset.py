@@ -21,6 +21,7 @@ from .portal_db import (
     TrainingLabel,
 )
 from .storage_paths import (
+    ICDAS_DATASETS,
     MODELS_DET,
     MODELS_ICDAS,
     PATIENT_ROOT,
@@ -45,6 +46,7 @@ def reset_dir_specs() -> tuple[tuple[str, Path, str], ...]:
         ("detected", TRAIN_DETECTED, "detector overlays and generated tooth crops"),
         ("labeled", TRAIN_LABELED, "ICDAS 0–4 labeled crop copies"),
         ("versions", TRAIN_VERSIONS, "dataset manifests and train/val/test splits"),
+        ("icdas_datasets", ICDAS_DATASETS, "confirmed ICDAS classifier crop datasets"),
     )
 
 
@@ -53,14 +55,7 @@ def _resolved(path: Path) -> Path:
 
 
 def _is_allowed_reset_dir(path: Path) -> bool:
-    root = _resolved(TRAINING_ROOT)
     target = _resolved(path)
-    if target == root:
-        return False
-    try:
-        target.relative_to(root)
-    except ValueError:
-        return False
     allowed = {_resolved(p) for _, p, _ in reset_dir_specs()}
     return target in allowed
 

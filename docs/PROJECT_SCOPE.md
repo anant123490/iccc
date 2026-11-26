@@ -19,7 +19,7 @@ Patient Registration
 
 - ICDAS grades **0, 1, 2, 3, 4** only (five classes).
 - Whole-tooth boxes (no lesion `d`/`D` as teeth).
-- Reuse of existing detector, crops, and MobileNetV3+CBAM training code.
+- Reuse of the existing detector and crop-generation code, and the MobileNetV3+CBAM training code.
 
 ## Out of scope
 
@@ -29,4 +29,4 @@ Patient Registration
 
 ## Historical paths to keep
 
-`fdi_detection_dataset/` is a **folder name only** (RGB intraoral photos + tooth detector data). It is not an FDI labeling project. Do not delete detector weights, Batch 01 labels, or `data/tooth_crops/generated/` just because FDI is out of scope.
+`fdi_detection_dataset/` is a **folder name only** (RGB intraoral photos + tooth detector data). It is not an FDI labeling project. Generated crops in `data/tooth_crops/generated/` are regenerable; preserve the source photos, detector weights, and Batch 01 labels.

@@ -151,6 +151,8 @@ def create_patient(db: Session, payload: dict) -> Patient:
     public_id = (payload.get("public_id") or "").strip() or _public_id()
     existing = db.query(Patient).filter(Patient.public_id == public_id).first()
     if existing:
+        if existing.is_anonymous:
+            raise ValueError("This Patient ID is reserved for an anonymous dataset group.")
         return existing
     patient = Patient(
         public_id=public_id,
@@ -298,6 +300,44 @@ def attach_detection_warnings(quality: dict, n_kept: int, items=None, image_shap
 
 
 def run_detection_for_image(db: Session, image: UploadedImage) -> dict:
+    existing = (
+        db.query(ToothDetection)
+        .filter(ToothDetection.image_id == image.id)
+        .order_by(ToothDetection.index_in_image.asc())
+        .all()
+    )
+    if existing:
+        # Analyze is safe to retry: reuse saved boxes/crops instead of
+        # redetecting and deleting prediction/crop history on every click.
+        rgb = _read_rgb(image.path)
+        if rgb is None:
+            raise RuntimeError("Stored image could not be read.")
+        quality = json.loads(image.quality_json) if image.quality_json else assess_image_quality(rgb)
+        overlay = _read_rgb(image.overlay_path) if image.overlay_path else None
+        crops = []
+        for det in existing:
+            crop_rgb = _read_rgb(det.crop.path) if det.crop and det.crop.path else None
+            if crop_rgb is None:
+                continue
+            crops.append(
+                {
+                    "index": det.index_in_image,
+                    "confidence": float(det.confidence),
+                    "box": {"x1": det.x1, "y1": det.y1, "x2": det.x2, "y2": det.y2},
+                    "crop_base64": _b64_rgb(crop_rgb),
+                }
+            )
+        return {
+            "image_id": image.id,
+            "teeth_detected": len(existing),
+            "raw_boxes": len(existing),
+            "mean_confidence": round(sum(float(d.confidence) for d in existing) / len(existing), 4),
+            "quality": quality,
+            "original_base64": _b64_rgb(rgb),
+            "overlay_base64": _b64_rgb(overlay if overlay is not None else rgb),
+            "crops": crops,
+            "disclaimer": DISCLAIMER,
+        }
     if not detector_available():
         raise RuntimeError(detector_error() or "Tooth Detector V2 unavailable.")
     rgb = _read_rgb(image.path)
@@ -384,6 +424,7 @@ def classify_visit_crops(
 
         raise RuntimeError(runtime.icdas_error or ICDAS_NOT_DEPLOYED)
     teeth = []
+    prediction_modes: set[str] = set()
     for image in visit.images:
         for det in image.detections:
             crop = det.crop
@@ -392,11 +433,33 @@ def classify_visit_crops(
             rgb = _read_rgb(crop.path)
             if rgb is None:
                 continue
-            pred = runtime.predict_crop_rgb(rgb)
-            grade = int(pred["icdas_grade"])
+            row = db.query(ICDASPrediction).filter(ICDASPrediction.crop_id == crop.id).first()
+            cached = row is not None
             heatmap_b64 = overlay_b64 = None
             hm_path = ov_path = None
-            if include_heatmaps:
+            if cached:
+                try:
+                    probabilities = json.loads(row.probabilities_json or "{}")
+                except (TypeError, json.JSONDecodeError):
+                    probabilities = {}
+                prediction_mode = probabilities.pop(
+                    "__prediction_mode", "SAVED_RESULT_MODEL_VERSION_UNAVAILABLE"
+                )
+                pred = {
+                    "icdas_grade": int(row.grade),
+                    "confidence": float(row.confidence),
+                    "probabilities": probabilities,
+                    "low_confidence": float(row.confidence) < 55,
+                }
+                if row.heatmap_path and Path(row.heatmap_path).exists():
+                    heatmap_b64 = base64.b64encode(Path(row.heatmap_path).read_bytes()).decode("ascii")
+                if row.overlay_path and Path(row.overlay_path).exists():
+                    overlay_b64 = base64.b64encode(Path(row.overlay_path).read_bytes()).decode("ascii")
+            else:
+                pred = runtime.predict_crop_rgb(rgb)
+                prediction_mode = runtime.prediction_mode
+            grade = int(pred["icdas_grade"])
+            if include_heatmaps and not cached:
                 try:
                     exp = runtime.explain_crop(pred)
                     heatmap_b64 = exp.get("heatmap")
@@ -410,10 +473,7 @@ def classify_visit_crops(
                         ov_path.write_bytes(base64.b64decode(overlay_b64))
                 except Exception as exc:
                     logger.exception("Grad-CAM failed for crop %s: %s", crop.id, exc)
-            if persist:
-                row = (
-                    db.query(ICDASPrediction).filter(ICDASPrediction.crop_id == crop.id).first()
-                )
+            if persist and not cached:
                 if row is None:
                     row = ICDASPrediction(
                         crop_id=crop.id, grade=grade, confidence=0.0, probabilities_json="{}"
@@ -421,10 +481,13 @@ def classify_visit_crops(
                     db.add(row)
                 row.grade = grade
                 row.confidence = float(pred["confidence"])
-                row.probabilities_json = json.dumps(pred["probabilities"])
+                row.probabilities_json = json.dumps(
+                    {**pred["probabilities"], "__prediction_mode": prediction_mode}
+                )
                 row.heatmap_path = str(hm_path) if hm_path else None
                 row.overlay_path = str(ov_path) if ov_path else None
             stage = patient_stage(grade, language)
+            prediction_modes.add(prediction_mode)
             teeth.append(
                 {
                     "crop_id": crop.id,
@@ -441,6 +504,7 @@ def classify_visit_crops(
                     "heatmap_base64": heatmap_b64,
                     "overlay_base64": overlay_b64,
                     "low_confidence": pred.get("low_confidence", False),
+                    "prediction_mode": prediction_mode,
                 }
             )
     if persist:
@@ -468,6 +532,10 @@ def classify_visit_crops(
         "mean_confidence": summary["average_confidence"],
         "summary": summary,
         "teeth": teeth,
+        "prediction_mode": (
+            next(iter(prediction_modes)) if len(prediction_modes) == 1
+            else ("MIXED" if prediction_modes else runtime.prediction_mode)
+        ),
         "disclaimer": DISCLAIMER,
     }
 
@@ -487,6 +555,13 @@ def analysis_from_stored(visit: Visit, language: str = "en") -> dict | None:
                 hm = base64.b64encode(Path(row.heatmap_path).read_bytes()).decode("ascii")
             if row.overlay_path and Path(row.overlay_path).exists():
                 ov = base64.b64encode(Path(row.overlay_path).read_bytes()).decode("ascii")
+            try:
+                probabilities = json.loads(row.probabilities_json or "{}")
+            except (TypeError, json.JSONDecodeError):
+                probabilities = {}
+            prediction_mode = probabilities.pop(
+                "__prediction_mode", "SAVED_RESULT_MODEL_VERSION_UNAVAILABLE"
+            )
             stage = patient_stage(int(row.grade), language)
             teeth.append(
                 {
@@ -497,13 +572,14 @@ def analysis_from_stored(visit: Visit, language: str = "en") -> dict | None:
                     "detection_confidence": det.confidence,
                     "icdas_grade": int(row.grade),
                     "confidence": float(row.confidence),
-                    "probabilities": json.loads(row.probabilities_json or "{}"),
+                    "probabilities": probabilities,
                     **stage,
                     "label": stage["current_stage"],
                     "crop_base64": _b64_rgb(rgb),
                     "heatmap_base64": hm,
                     "overlay_base64": ov,
                     "low_confidence": float(row.confidence) < 55,
+                    "prediction_mode": prediction_mode,
                 }
             )
     if not teeth:
@@ -527,6 +603,11 @@ def analysis_from_stored(visit: Visit, language: str = "en") -> dict | None:
         "mean_confidence": summary["average_confidence"],
         "summary": summary,
         "teeth": teeth,
+        "prediction_mode": (
+            teeth[0]["prediction_mode"]
+            if len({t["prediction_mode"] for t in teeth}) == 1
+            else "MIXED"
+        ),
         "disclaimer": DISCLAIMER,
     }
 
@@ -649,7 +730,7 @@ Visit: {p.get("visit_date")}</p></div>
 
 def visit_history(db: Session, public_id: str) -> dict:
     patient = db.query(Patient).filter(Patient.public_id == public_id).first()
-    if patient is None:
+    if patient is None or patient.is_anonymous:
         raise KeyError(public_id)
     visits = (
         db.query(Visit)
@@ -763,43 +844,29 @@ def admin_kpis(db: Session) -> dict:
 def add_training_images(
     db: Session,
     files: list[tuple[str, bytes]],
-    identity_map: dict[str, dict[str, str]] | None = None,
+    identity_map: dict[str, dict[str, str | None]],
+    upload_batch_id: str,
 ) -> list[dict]:
-    from .training_workflow import ingest_training_image, validate_image_id
+    from .training_workflow import stage_training_image, validate_training_upload_identities
 
     ensure_dirs()
     out = []
-    duplicates = []
-    identity_map = identity_map or {}
     filenames = [Path(filename).name for filename, _ in files]
-    if len({name.casefold() for name in filenames}) != len(filenames):
-        raise ValueError("Uploaded filenames must be unique within a batch.")
-    requested_ids = [
-        validate_image_id(identity_map[name.casefold()]["image_id"])
-        for name in filenames
-        if identity_map.get(name.casefold(), {}).get("image_id")
-    ]
-    if len(requested_ids) != len(set(requested_ids)):
-        raise ValueError("Image IDs must be unique within an upload batch.")
-    existing_ids = {
-        row[0]
-        for row in db.query(TrainingImage.image_id).filter(TrainingImage.image_id.in_(requested_ids)).all()
-    } if requested_ids else set()
-    if existing_ids:
-        raise ValueError("These image IDs already exist: " + ", ".join(sorted(existing_ids)[:5]))
+    identity_map = validate_training_upload_identities(db, filenames, identity_map)
     for filename, data in files:
         metadata = identity_map.get(Path(filename).name.casefold(), {})
-        item = ingest_training_image(
+        if len(data) > MAX_BYTES:
+            raise ValueError(f"{Path(filename).name}: file exceeds size limit ({MAX_BYTES // (1024 * 1024)} MB).")
+        item = stage_training_image(
             db,
             filename,
             data,
             _decode_upload,
-            patient_id=metadata.get("patient_id") or None,
+            patient_id=metadata["patient_id"],
             image_id=metadata.get("image_id") or None,
+            upload_batch_id=upload_batch_id,
         )
         out.append(item)
-        if item.get("duplicate_status") in {"EXACT_DUPLICATE", "LIKELY_DUPLICATE", "INVALID"}:
-            duplicates.append(item)
     return out
 
 
@@ -812,6 +879,8 @@ def unlabeled_queue(
     split_name: str | None = None,
     grade: int | None = None,
     annotation_status: str | None = None,
+    mode: str | None = None,
+    track: str | None = None,
 ) -> dict:
     from .training_workflow import labeling_queue
 
@@ -824,6 +893,8 @@ def unlabeled_queue(
         split_name=split_name,
         grade=grade,
         annotation_status=annotation_status,
+        mode=mode,
+        track=track,
     )
 
 
@@ -833,10 +904,23 @@ def skip_label(db: Session, label_id: int) -> dict:
     return skip_icdas_label(db, label_id)
 
 
-def save_label(db: Session, label_id: int, grade: int) -> dict:
+def save_label(
+    db: Session,
+    label_id: int,
+    grade: int,
+    *,
+    confirm_overwrite: bool = False,
+    track: str = "initial",
+) -> dict:
     from .training_workflow import save_icdas_label
 
-    return save_icdas_label(db, label_id, grade)
+    return save_icdas_label(
+        db,
+        label_id,
+        grade,
+        confirm_overwrite=confirm_overwrite,
+        track=track,
+    )
 
 
 def dataset_summary(db: Session) -> dict:
@@ -963,6 +1047,7 @@ def real_world_test(data: bytes, filename: str, engine=None, db: Session | None 
                     "crop_base64": _b64_rgb(crop_rgb),
                     "heatmap_base64": heat,
                     "overlay_base64": overlay,
+                    "prediction_mode": runtime.prediction_mode,
                 }
             )
     visit_id = None
@@ -992,6 +1077,7 @@ def real_world_test(data: bytes, filename: str, engine=None, db: Session | None 
         "training_dataset_updated": False,
         "test_only": True,
         "visit_id": visit_id,
+        "prediction_mode": runtime.prediction_mode if runtime.icdas_ok() else "NOT_DEPLOYED",
         "disclaimer": DISCLAIMER,
     }
 
@@ -1007,12 +1093,15 @@ def generate_report_for_visit(
 
         raise RuntimeError(ICDAS_NOT_DEPLOYED)
     structured = structured_for_groq(visit.patient, visit, analysis)
+    structured["prediction_mode"] = analysis.get("prediction_mode") or "SAVED_RESULT_MODEL_VERSION_UNAVAILABLE"
     groq_out = generate_screening_report(structured, language=language)
     rec = save_clinical_report(db, visit, language, structured, groq_out)
     html = Path(rec.html_path).read_text(encoding="utf-8") if rec.html_path else ""
     return {
         "visit_id": visit.id,
         "language": language,
+        "prediction_mode": structured["prediction_mode"],
+        "report_provider": groq_out.get("report_provider", "Local fallback"),
         "structured": structured,
         **groq_out,
         "html": html,

@@ -11,7 +11,7 @@ This is **not** a replacement for professional dental diagnosis.
 - Patient-facing loop (concept): registration / visit → RGB photo → quality check → whole-tooth detection → crops → ICDAS → Grad-CAM → report
 - **Tooth detector (Batch 01):** YOLO11n, 46/6/8 images, **767** verified tooth boxes, weights at `models/detection/tooth_detector_batch01/weights/best.pt`
 - **420** original RGB intraoral photographs
-- **5,676** generated tooth crops (not ICDAS labels)
+- Previous 5,676 detector-generated crops and their 420 overlays were cleared; the 420 source photographs remain
 - FastAPI (`app/backend/`) and Streamlit (`app/frontend/`)
 - MobileNetV3 + CBAM training code for **5-class softmax**
 
@@ -19,11 +19,11 @@ Approximate Batch 01 held-out detection: Precision 0.700, Recall 0.726, F1 0.712
 
 ## What is currently blocked
 
-- ICDAS **pixels** for the 643-row annotation table are missing from `data/icdas/train|val|test`
+- The previous ICDAS annotations and classifier artifacts were cleared; new clinician-confirmed 0–4 images and labels are needed
 - **Do not train** a new ICDAS model yet
-- **Do not auto-label** the 5,676 crops
-- On-disk `deploy.keras` is **stale 4-output ordinal**, not the intended softmax production model
-- `models/icdas/current/` is empty — there is **no** valid production ICDAS classifier
+- Detector crops are not ICDAS ground truth; require clinician labels before training
+- No ICDAS checkpoint is present; the stale 4-output ordinal weights were removed
+- No valid production ICDAS classifier is currently available
 
 ## Where things live
 
@@ -34,9 +34,10 @@ Approximate Batch 01 held-out detection: Precision 0.700, Recall 0.726, F1 0.712
 | New tooth boxes | `data/detection/annotations/` |
 | Generated tooth crops | `data/tooth_crops/generated/` |
 | New ICDAS tooth images | `data/icdas/raw/` then `data/icdas/train\|val\|test/0–4/` |
-| ICDAS labels | `data/icdas/annotations/annotations.csv` |
+| Confirmed Admin training exports | `data/icdas/datasets/dataset_v001/` — patient-wise database assignments with tooth-crop `labels.csv` files; versions are immutable |
+| ICDAS labels | Rebuild `data/icdas/annotations/annotations.csv` from new clinician-confirmed data |
 | Valid detection model | `models/detection/tooth_detector_batch01/weights/best.pt` |
-| ICDAS models | Historical/stale: `models/icdas/historical/` — current: empty |
+| ICDAS models | No ICDAS weights remain; `models/icdas/current/` is reserved for a future evaluated model |
 | Out of scope | FDI (`archive/out_of_scope/fdi/`), ICDAS 5–6 (`data/icdas/excluded/`) |
 | How to add Batch 02 | See `data/detection/README.md` then `python tools/train_tooth_detector_new_batch.py --batch 02` |
 | How to add ICDAS data | See `data/icdas/README.md` — clinician-confirmed 0–4 only |

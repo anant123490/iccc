@@ -25,7 +25,7 @@ python ml/train.py --config ml/configs/default.yaml
 
 Do not train until `data/icdas/train|val|test` contain clinician-confirmed pixels.
 
-Crops used for labeling live in `data/tooth_crops/generated/`. They are not ICDAS GT until labeled.
+The cropper writes new crops to `data/tooth_crops/generated/`; the previous crop outputs were cleared. Crops are not ICDAS ground truth until clinician-labeled.
 
 ## Legacy box cropper
 

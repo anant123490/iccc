@@ -6,6 +6,8 @@ Historical stale ordinal checkpoints are never used for production inference.
 from __future__ import annotations
 
 import logging
+import sys
+from functools import lru_cache
 from pathlib import Path
 
 import numpy as np
@@ -30,6 +32,41 @@ def is_blocked_icdas_checkpoint(path: Path | str) -> bool:
     return "stale_ordinal" in text or "stale_ordinal_4output" in text
 
 
+@lru_cache(maxsize=16)
+def _has_five_class_softmax(path_text: str, modified_ns: int, file_size: int) -> bool:
+    """Load a candidate once and verify it has a five-output softmax head."""
+    del modified_ns, file_size  # cache-key inputs invalidate the result on file changes
+    try:
+        ml_root = str(PROJECT_ROOT / "ml")
+        if ml_root not in sys.path:
+            sys.path.insert(0, ml_root)
+        from src.model import get_custom_objects
+        import tensorflow as tf
+
+        model = tf.keras.models.load_model(
+            path_text,
+            compile=False,
+            custom_objects=get_custom_objects(),
+        )
+        output_shape = model.output_shape
+        if isinstance(output_shape, list) or not output_shape or output_shape[-1] != 5:
+            return False
+        activation = getattr(getattr(model.layers[-1], "activation", None), "__name__", None)
+        return activation == "softmax"
+    except Exception:
+        logger.exception("ICDAS checkpoint is not a loadable five-class softmax model: %s", path_text)
+        return False
+
+
+def is_valid_icdas_checkpoint(path: Path | str) -> bool:
+    candidate = Path(path)
+    if not candidate.is_file() or candidate.stat().st_size <= 1000 or is_blocked_icdas_checkpoint(candidate):
+        return False
+    resolved = str(candidate.resolve())
+    stat = candidate.stat()
+    return _has_five_class_softmax(resolved, stat.st_mtime_ns, stat.st_size)
+
+
 def resolve_icdas_checkpoint() -> Path | None:
     """Return an approved 5-class softmax checkpoint, or None.
 
@@ -51,9 +88,23 @@ def resolve_icdas_checkpoint() -> Path | None:
         if is_blocked_icdas_checkpoint(p):
             logger.warning("Ignoring blocked stale ICDAS checkpoint: %s", p)
             continue
-        if p.exists() and p.is_file() and p.stat().st_size > 1000:
+        if p.exists() and is_valid_icdas_checkpoint(p):
             return p
     return None
+
+
+def resolve_demo_icdas_checkpoint() -> Path | None:
+    """Resolve an explicitly configured local demo model; never a promotion."""
+    settings = get_settings()
+    if not settings.local_demo_mode or not settings.demo_model_path.strip():
+        return None
+    path = Path(settings.demo_model_path.strip()).expanduser()
+    if not path.is_absolute():
+        path = PROJECT_ROOT / path
+    if is_blocked_icdas_checkpoint(path) or not is_valid_icdas_checkpoint(path):
+        logger.error("Configured ICDAS demo checkpoint is unavailable or invalid.")
+        return None
+    return path.resolve()
 
 
 class PortalRuntime:
@@ -64,6 +115,8 @@ class PortalRuntime:
         self.icdas_error: str | None = ICDAS_NOT_DEPLOYED
         self.icdas_kind: str = "NOT_TRAINED / NOT_DEPLOYED"
         self.icdas_path: str | None = None
+        self.icdas_demo: bool = False
+        self.prediction_mode: str = "NOT_DEPLOYED"
         self.groq_ready: bool = False
 
     def detector_ok(self) -> bool:
@@ -79,12 +132,16 @@ class PortalRuntime:
         return {
             "detector_v2": self.detector_ok(),
             "detector_status": "AVAILABLE" if self.detector_ok() else "UNAVAILABLE",
-            "detector_path": str(TOOTH_V2_WEIGHTS) if TOOTH_V2_WEIGHTS.exists() else None,
             "detector_error": self.detector_error or detector_error(),
             "icdas_loaded": self.icdas_ok(),
-            "icdas_status": "DEPLOYED" if self.icdas_ok() else "NOT_TRAINED / NOT_DEPLOYED",
+            "icdas_status": (
+                "DEMO MODE — not production active"
+                if self.icdas_ok() and self.icdas_demo
+                else ("DEPLOYED" if self.icdas_ok() else "NOT_TRAINED / NOT_DEPLOYED")
+            ),
             "icdas_kind": self.icdas_kind,
-            "icdas_path": self.icdas_path,
+            "prediction_mode": self.prediction_mode,
+            "icdas_demo_mode": self.icdas_demo,
             "icdas_error": None if self.icdas_ok() else (self.icdas_error or ICDAS_NOT_DEPLOYED),
             "groq_configured": groq_configured(),
             "disclaimer": (
@@ -143,6 +200,10 @@ def load_portal_runtime() -> PortalRuntime:
         logger.exception("Tooth Detector V2 failed to load")
 
     ckpt = resolve_icdas_checkpoint()
+    demo_mode = False
+    if ckpt is None:
+        ckpt = resolve_demo_icdas_checkpoint()
+        demo_mode = ckpt is not None
     if ckpt is None:
         rt.engine = None
         rt.icdas_kind = "NOT_TRAINED / NOT_DEPLOYED"
@@ -151,6 +212,7 @@ def load_portal_runtime() -> PortalRuntime:
         logger.warning(ICDAS_NOT_DEPLOYED)
     else:
         rt.icdas_path = str(ckpt)
+        rt.icdas_demo = demo_mode
         try:
             from .inference import InferenceEngine
 
@@ -163,10 +225,13 @@ def load_portal_runtime() -> PortalRuntime:
                 confidence_threshold=settings.confidence_threshold,
             )
             rt.icdas_kind = "softmax_5class"
+            rt.prediction_mode = "DEMO" if demo_mode else "PRODUCTION"
             rt.icdas_error = None
         except Exception as exc:
             rt.engine = None
             rt.icdas_kind = "NOT_TRAINED / NOT_DEPLOYED"
+            rt.icdas_demo = False
+            rt.prediction_mode = "NOT_DEPLOYED"
             rt.icdas_error = ICDAS_NOT_DEPLOYED + f" ({exc})"
             logger.exception("Approved ICDAS softmax model failed to load")
 

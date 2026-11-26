@@ -26,7 +26,7 @@ data/icdas/
 └── annotations/annotations.csv
 ```
 
-`annotations.csv` currently has ~643 rows; **image pixels are missing**. Restore files into the class folders; do not invent labels.
+The previous annotation manifest and model-generated predictions were removed. No clinician-confirmed ICDAS images or labels currently remain. Rebuild only from new 0–4 annotations.
 
 ICDAS 5 and 6 are never remapped to 4.
 

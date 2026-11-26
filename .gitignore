@@ -12,10 +12,32 @@ venv/
 .py_embed/
 .env
 **/.env
+.env.*
+**/.env.*
+!.env.example
+!**/.env.example
+*.pem
+*.key
+*.p12
+*.pfx
+credentials.json
+**/credentials.json
 *.keras
 *.h5
 *.tflite
 *.onnx
+*.pt
+*.pth
+*.ckpt
+*.safetensors
+*.pb
+*.weights
+*.hdf5
+*.npy
+*.npz
+*.pkl
+*.pickle
+*.parquet
 
 # Node
 node_modules/
@@ -86,7 +108,27 @@ wandb/
 app/backend/uploads/
 app/backend/*.db
 *.db
-!icdas_predictions.db
+*.sqlite
+*.sqlite3
+*.db-*
+*.sqlite-*
+*.sqlite3-*
+data/icdas/datasets/
+data/icdas/excluded/
+data/patient/
+data/icdas/labeling_v2/source_manifest.csv
+data/icdas/labeling_v2/**/source_manifest.csv
+fdi_detection_dataset/
+data/training/
+data/detection/
+data/tooth_crops/generated/
+uploads/
+**/uploads/
+storage/patients/
+app/backend/storage/
+safety_backups/
+models/icdas/candidates/
+models/detection/**/weights/
 
 # Docker
 .docker/

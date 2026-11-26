@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+from html import escape
+
 WORKFLOW_PAGES = [
     ("Training upload", "Upload Photos", "upload"),
     ("Box review", "Review Teeth", "review"),
@@ -62,15 +64,15 @@ def render_stepper(current_page: str, inventory: dict) -> None:
         done = bool(step.get("done"))
         here = page == current_page
         mark = "CURRENT" if here else ("✓" if done else "")
-        bg = "#0ea5e9" if here else ("#16a34a" if done else "#e2e8f0")
-        color = "white" if here or done else "#334155"
+        state_class = "ccc-workflow-current" if here else ("ccc-workflow-done" if done else "ccc-workflow-pending")
         parts.append(
-            f'<div style="flex:1;min-width:110px;text-align:center;padding:10px 6px;'
-            f'border-radius:12px;background:{bg};color:{color};font-weight:600;font-size:0.85rem;">'
-            f"{title}<br><span style='font-size:0.75rem'>{mark or step.get('status', '')}</span></div>"
+            f'<div class="ccc-workflow-step {state_class}">'
+            f'<span class="ccc-workflow-title">{escape(title)}</span>'
+            f'<span class="ccc-workflow-state">{escape(str(mark or step.get("status", "Pending")))}</span>'
+            "</div>"
         )
     st.markdown(
-        "<div style='display:flex;gap:8px;flex-wrap:wrap;margin:8px 0 16px 0'>"
+        "<div class='ccc-workflow-strip'>"
         + "".join(parts)
         + "</div>",
         unsafe_allow_html=True,

@@ -10,9 +10,9 @@ Controlled baseline experiment for ICDAS 0-4 classification.
 V6 changes
 ----------
 1. Standard SparseCategoricalCrossentropy.
-2. No Keras class_weight.
-3. No custom class weights.
-4. Mild augmentation is controlled by dataset.py.
+2. Optional training-only Keras class weights from train-split counts.
+3. No focal loss by default.
+4. Mild augmentation is controlled by dataset.py and applied only to train.
 5. Images remain in [0,255] before MobileNetV3 preprocessing.
 6. QWK is used for checkpoint selection.
 7. Two-stage training is retained.
@@ -93,7 +93,7 @@ from src.losses import (
     QuadraticWeightedKappa,
 )
 
-from src.metrics import save_evaluation_report
+from src.metrics import compute_metrics, save_evaluation_report
 
 from src.model import (
     build_model,
@@ -669,11 +669,13 @@ def compile_model(
     """
     Compile V6 model.
 
-    V6 baseline intentionally uses:
+    The baseline uses:
 
         SparseCategoricalCrossentropy
 
-    and does NOT use:
+    Optional class weights are passed to ``model.fit`` from train-split counts;
+    they are not applied to validation or held-out data. This function does not
+    use:
 
         class weights
         Keras class_weight
@@ -855,6 +857,13 @@ def compile_model(
         weight_decay=weight_decay,
     )
 
+    jit_compile = bool(
+        config.get(
+            "jit_compile",
+            False,
+        )
+    )
+
     # ========================================================
     # COMPILE
     # ========================================================
@@ -867,6 +876,7 @@ def compile_model(
                 num_classes=num_classes
             )
         ],
+        jit_compile=jit_compile,
     )
 
     logger.info(
@@ -879,6 +889,11 @@ def compile_model(
         weight_decay,
     )
 
+    logger.info(
+        "XLA JIT compilation: %s",
+        jit_compile,
+    )
+
     return model
 
 
@@ -886,9 +901,42 @@ def compile_model(
 # CALLBACKS
 # ============================================================
 
+class WholeValidationMetrics(keras.callbacks.Callback):
+    """Compute checkpoint metrics over the complete validation split."""
+
+    def __init__(self, dataset, num_classes: int):
+        super().__init__()
+        self.dataset = dataset
+        self.num_classes = num_classes
+
+    def on_epoch_end(self, epoch, logs=None):
+        del epoch
+        y_true = []
+        y_pred = []
+        for images, labels in self.dataset:
+            scores = self.model(images, training=False)
+            if hasattr(scores, "numpy"):
+                scores = scores.numpy()
+            y_true.extend(labels.numpy().tolist())
+            y_pred.extend(np.argmax(np.asarray(scores), axis=1).tolist())
+        metrics = compute_metrics(
+            np.asarray(y_true),
+            np.asarray(y_pred),
+            num_classes=self.num_classes,
+        )
+        if logs is not None:
+            logs["val_qwk_global"] = metrics["quadratic_kappa"]
+            logs["val_accuracy_global"] = metrics["accuracy"]
+            logs["val_balanced_accuracy_global"] = metrics["balanced_accuracy"]
+            logs["val_macro_f1_global"] = metrics["macro_f1"]
+            logs["val_weighted_f1_global"] = metrics["weighted_f1"]
+
 def get_callbacks(
     output_dir: Path,
     config: dict,
+    validation_dataset=None,
+    initial_best: float | None = None,
+    append_history: bool = False,
 ):
     """
     Create callbacks.
@@ -956,6 +1004,16 @@ def get_callbacks(
 
     callback_list = []
 
+    if callbacks_cfg.get("whole_validation_metrics", False):
+        if validation_dataset is None:
+            raise ValueError("Whole-split validation metrics require validation_dataset.")
+        callback_list.append(
+            WholeValidationMetrics(
+                validation_dataset,
+                num_classes=int(config.get("dataset", {}).get("num_classes", EXPECTED_NUM_CLASSES)),
+            )
+        )
+
     # ========================================================
     # CHECKPOINT
     # ========================================================
@@ -977,6 +1035,11 @@ def get_callbacks(
                         "save_best_only",
                         True,
                     )
+                ),
+                initial_value_threshold=(
+                    initial_best
+                    if initial_best is not None
+                    else checkpoint_cfg.get("initial_value_threshold")
                 ),
                 verbose=1,
             )
@@ -1050,7 +1113,8 @@ def get_callbacks(
             str(
                 output_dir
                 / "history.csv"
-            )
+            ),
+            append=append_history,
         )
     )
 
@@ -1127,10 +1191,12 @@ def prediction_sanity_check(
         iter(dataset)
     )
 
-    raw = model.predict(
+    raw = model(
         images,
-        verbose=0,
+        training=False,
     )
+    if hasattr(raw, "numpy"):
+        raw = raw.numpy()
 
     predictions, probabilities = (
         decode_predictions(
@@ -1222,10 +1288,15 @@ def evaluate_model(
 
     for images, labels in dataset:
 
-        raw_output = model.predict(
+        # Use a direct eager call for final inference. Keras' predict wrapper
+        # may select an XLA path on CUDA even when jit_compile is disabled,
+        # which can require the optional ptxas executable at evaluation time.
+        raw_output = model(
             images,
-            verbose=0,
+            training=False,
         )
+        if hasattr(raw_output, "numpy"):
+            raw_output = raw_output.numpy()
 
         predictions, probabilities = (
             decode_predictions(
@@ -1600,21 +1671,7 @@ def create_datasets(
     )
 
     # ========================================================
-    # TEST
-    # ========================================================
-
-    test_data = DentalCariesDataset(
-        str(dataset_root),
-        test_split,
-        image_size=image_size,
-        batch_size=batch_size,
-        augment=False,
-        preprocess_cfg=preprocess_cfg,
-        num_classes=num_classes,
-    )
-
-    # ========================================================
-    # VALIDATE CLASSES
+    # VALIDATE TRAIN / VALIDATION ONLY
     # ========================================================
 
     train_data.validate_classes(
@@ -1625,12 +1682,13 @@ def create_datasets(
         num_classes
     )
 
-    test_data.validate_classes(
-        num_classes
-    )
+    class_weights = None
+    if bool(dataset_cfg.get("use_class_weights", False)):
+        class_weights = train_data.get_class_weights(num_classes)
+        logger.info("Training-only class weights: %s", class_weights)
 
     # ========================================================
-    # DISTRIBUTIONS
+    # TRAIN / VALIDATION DISTRIBUTIONS
     # ========================================================
 
     train_data.print_distribution(
@@ -1641,12 +1699,8 @@ def create_datasets(
         num_classes
     )
 
-    test_data.print_distribution(
-        num_classes
-    )
-
     # ========================================================
-    # TF DATASETS
+    # TRAIN / VALIDATION TF DATASETS
     # ========================================================
 
     train_ds = train_data.as_tf_dataset(
@@ -1657,12 +1711,8 @@ def create_datasets(
         shuffle=False
     )
 
-    test_ds = test_data.as_tf_dataset(
-        shuffle=False
-    )
-
     # ========================================================
-    # INPUT SCALE
+    # INPUT SCALE: TRAIN / VALIDATION
     # ========================================================
 
     logger.info(
@@ -1682,14 +1732,8 @@ def create_datasets(
         )
     )
 
-    test_ds = (
-        convert_dataset_to_mobilenet_range(
-            test_ds
-        )
-    )
-
     # ========================================================
-    # PREFETCH
+    # PREFETCH: TRAIN / VALIDATION
     # ========================================================
 
     train_ds = train_ds.prefetch(
@@ -1700,14 +1744,27 @@ def create_datasets(
         tf.data.AUTOTUNE
     )
 
-    test_ds = test_ds.prefetch(
-        tf.data.AUTOTUNE
-    )
+    def build_test_dataset():
+        """Load the held-out test set only after the best checkpoint is chosen."""
+        test_data = DentalCariesDataset(
+            str(dataset_root),
+            test_split,
+            image_size=image_size,
+            batch_size=batch_size,
+            augment=False,
+            preprocess_cfg=preprocess_cfg,
+            num_classes=num_classes,
+        )
+        test_data.validate_classes(num_classes)
+        test_ds = test_data.as_tf_dataset(shuffle=False)
+        test_ds = convert_dataset_to_mobilenet_range(test_ds)
+        return test_ds.prefetch(tf.data.AUTOTUNE)
 
     return (
         train_ds,
         val_ds,
-        test_ds,
+        build_test_dataset,
+        class_weights,
     )
 
 
@@ -1986,11 +2043,8 @@ def main():
     )
 
     logger.info(
-        "Class weighting: DISABLED"
-    )
-
-    logger.info(
-        "Keras class_weight: DISABLED"
+        "Training class weighting requested: %s",
+        bool(dataset_cfg.get("use_class_weights", False)),
     )
 
     logger.info(
@@ -2036,12 +2090,14 @@ def main():
     (
         train_ds,
         val_ds,
-        test_ds,
+        build_test_dataset,
+        class_weights,
     ) = create_datasets(
         dataset_root,
         config,
         num_classes,
     )
+    logger.info("Effective train-only class weights: %s", class_weights)
 
     # ========================================================
     # SANITY CHECK
@@ -2055,11 +2111,6 @@ def main():
     inspect_dataset(
         val_ds,
         "VALIDATION",
-    )
-
-    inspect_dataset(
-        test_ds,
-        "TEST",
     )
 
     # ========================================================
@@ -2083,6 +2134,9 @@ def main():
             True,
         )
     )
+    stage1_history = None
+    stage1_best_metric = None
+    stage1_epochs_ran = 0
 
     if stage1_enabled:
 
@@ -2145,15 +2199,29 @@ def main():
         # TRAIN
         # ----------------------------------------------------
 
-        model.fit(
+        stage1_history = model.fit(
             train_ds,
             validation_data=val_ds,
             epochs=stage1_epochs,
             callbacks=get_callbacks(
                 output_dir,
                 config,
+                validation_dataset=val_ds,
             ),
+            class_weight=class_weights,
             verbose=1,
+        )
+
+        stage1_epochs_ran = len(stage1_history.history.get("loss", []))
+        monitor_name = str(config.get("callbacks", {}).get("monitor", "val_qwk"))
+        monitored_values = stage1_history.history.get(monitor_name)
+        if monitored_values:
+            stage1_best_metric = float(max(monitored_values))
+        logger.info(
+            "Stage 1 epochs completed: %d; best %s: %s",
+            stage1_epochs_ran,
+            monitor_name,
+            stage1_best_metric,
         )
 
         # ----------------------------------------------------
@@ -2285,15 +2353,19 @@ def main():
         # EPOCHS
         # ----------------------------------------------------
 
-        stage2_epochs = int(
+        stage2_phase_epochs = int(
             stage2_cfg.get(
                 "epochs",
                 30,
             )
         )
 
+        stage2_epochs = stage1_epochs_ran + stage2_phase_epochs
+
         logger.info(
-            "Stage 2 epochs: %d",
+            "Stage 2 epochs: %d (global epoch range %d-%d)",
+            stage2_phase_epochs,
+            stage1_epochs_ran + 1,
             stage2_epochs,
         )
 
@@ -2305,10 +2377,15 @@ def main():
             train_ds,
             validation_data=val_ds,
             epochs=stage2_epochs,
+            initial_epoch=stage1_epochs_ran,
             callbacks=get_callbacks(
                 output_dir,
                 config,
+                validation_dataset=val_ds,
+                initial_best=stage1_best_metric,
+                append_history=stage1_history is not None,
             ),
+            class_weight=class_weights,
             verbose=1,
         )
 
@@ -2344,20 +2421,6 @@ def main():
         custom_objects=(
             get_custom_objects()
         ),
-    )
-
-    # ========================================================
-    # FINAL SANITY
-    # ========================================================
-
-    logger.info(
-        "Running final prediction sanity check."
-    )
-
-    prediction_sanity_check(
-        model,
-        test_ds,
-        ordinal_regression,
     )
 
     # ========================================================
@@ -2443,38 +2506,22 @@ def main():
         deploy_path,
     )
 
-    # ========================================================
-    # FINAL TEST
-    # ========================================================
-
-    logger.info(
-        "========================================"
-    )
-
-    logger.info(
-        "FINAL TEST EVALUATION"
-    )
-
-    logger.info(
-        "========================================"
-    )
-
-    results = evaluate_model(
-        model,
-        test_ds,
-        num_classes,
-        ordinal_regression=ordinal_regression,
-        output_dir=output_dir,
-    )
-
-    # ========================================================
-    # SAVE JSON
-    # ========================================================
-
-    save_results(
-        results,
-        output_dir,
-    )
+    if bool(config.get("evaluation", {}).get("run_test", True)):
+        logger.info("FINAL TEST EVALUATION")
+        # Test construction is deferred until this branch is explicitly enabled.
+        test_ds = build_test_dataset()
+        results = evaluate_model(
+            model,
+            test_ds,
+            num_classes,
+            ordinal_regression=ordinal_regression,
+            output_dir=output_dir,
+        )
+        save_results(results, output_dir)
+    else:
+        logger.info(
+            "Held-out test evaluation disabled by config; no test files opened."
+        )
 
     # ========================================================
     # FINISHED
@@ -2502,11 +2549,10 @@ def main():
         deploy_path,
     )
 
-    logger.info(
-        "Test results: %s",
-        output_dir
-        / "test_results.json",
-    )
+    if bool(config.get("evaluation", {}).get("run_test", True)):
+        logger.info("Test results: %s", output_dir / "test_results.json")
+    else:
+        logger.info("Test evaluation: intentionally skipped.")
 
 
 # ============================================================

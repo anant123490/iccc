@@ -143,6 +143,7 @@ def test_deactivated_photo_labels_excluded_from_new_build(db_session, monkeypatc
     vdir = tmp_path / "versions"
     vdir.mkdir()
     monkeypatch.setattr(tw, "TRAIN_VERSIONS", vdir)
+    monkeypatch.setattr(tw, "ICDAS_DATASETS", vdir)
 
     # Create active photos with enough crops for minimum build
     img1 = _create_sample_training_photo(db_session, "p1.jpg", "h1", [0, 1, 2, 3, 4], tmp_path)
@@ -154,10 +155,13 @@ def test_deactivated_photo_labels_excluded_from_new_build(db_session, monkeypatc
     deactivate_training_image(db_session, img2.id)
 
     # Build dataset
-    out = build_dataset_version(db_session)
-    assert out["name"] == "v1"
+    plan = {"allow_exclusions": True}
+    preview = tw.preview_dataset_split(db_session, plan)
+    assert preview["can_build"], preview["build_blockers"]
+    out = build_dataset_version(db_session, plan, preview["fingerprint"])
+    assert out["name"] == "dataset_v001"
 
-    man_file = vdir / "v1" / "manifest.csv"
+    man_file = vdir / "dataset_v001" / "manifest.csv"
     assert man_file.exists()
 
     with man_file.open(encoding="utf-8") as f:

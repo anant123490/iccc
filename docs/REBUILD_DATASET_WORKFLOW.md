@@ -22,24 +22,28 @@ Open the Admin app at `http://127.0.0.1:8503` and sign in with `ICDAS_ADMIN_PASS
 
 Reset is an explicit Admin action and is never run by startup, dataset building, or training. First inspect **Dashboard → Dataset Management → Reset plan**. It reports affected files and database row counts. A reset creates a ZIP recovery archive under `data/training/backups/` before deleting anything and writes a persistent `training_audit_events` entry.
 
-The dataset reset clears training uploads, detected crops/overlays, labeled copies, dataset versions, and their database records. The full reset also clears Admin training-job records. Patient visits, clinical predictions, model registry records, detector weights, ICDAS model weights, source code, and earlier recovery archives are outside the reset scope. The UI requires the exact confirmation sentence displayed there.
+The dataset reset clears training uploads, detected crops/overlays, labeled copies, confirmed ICDAS dataset exports, and their database records. The full reset also clears Admin training-job records. Patient visits, clinical predictions, model registry records, detector weights, ICDAS model weights, source code, and earlier recovery archives are outside the reset scope. The UI requires the exact confirmation sentence displayed there.
 
 Do not reset if the current images or labels are still needed. The archive is a recovery aid; keep a separate backup according to the project’s data-retention policy.
 
 ## Import patient photos
 
-Use **Training upload** for the new full-mouth photos. A CSV manifest is recommended for batches. The accepted columns are:
+Use **Admin → Training upload** for full-mouth photos. Each batch accepts up to 250 JPG/PNG files (12 MB each, 512 MB total). Select one registered patient for the whole batch, or use a CSV to map each file to its patient. Register a new patient from the upload page or **Patients** first; the database generates its patient ID.
+
+The CSV columns are:
 
 ```csv
 filename,patient_id,image_id
-mouth_001.jpg,PAT001,IMG0001
-mouth_002.jpg,PAT001,IMG0002
-mouth_003.jpg,PAT002,IMG0003
+mouth_001.jpg,<registered-patient-id>,IMG0001
+mouth_002.jpg,<registered-patient-id>,IMG0002
+mouth_003.jpg,<another-registered-patient-id>,IMG0003
 ```
 
-`filename` must match each selected upload filename exactly. `patient_id` must be a pseudonymous code such as `PAT001`; do not put patient names, phone numbers, or other direct identifiers in the CSV. `image_id` is optional and must be unique when supplied. Multiple images for one patient should use the same `patient_id` and different `image_id` values. If a CSV is omitted, assign patient IDs in **Box review** before building a dataset.
+`filename` must match each selected upload filename exactly. Every `patient_id` must already exist in the Patient table; the API rejects unregistered IDs and does not invent patient IDs. Never put patient names, phone numbers, or other direct identifiers in the CSV. `image_id` is optional and must be unique when supplied. Multiple images for one patient use the same registered ID.
 
-Uploads receive opaque storage filenames. Exact and near-duplicate images remain visible for review but are excluded from training. The existing Tooth Detector V2 proposes boxes for unique images. In **Box review**, inspect the overlay, adjust or delete incorrect boxes, add missed boxes, then verify. A verified box set is required before labels enter the dataset.
+Uploads receive opaque storage filenames and persist an SHA-256 content hash. Exact duplicates are kept and flagged; unique photos enter a background Tooth Detector V2 job. The upload history shows per-photo and per-batch progress, errors, crop counts, and retry attempts. Failed jobs retain their original photo and can be resumed. Review completed detections in **Box review**: inspect overlays, adjust or delete incorrect boxes, add missed boxes, then verify. Only after verification can crops enter ICDAS labeling.
+
+New photos are saved with `split_name=UNASSIGNED` and are never put into Train, Validation, or Test by the upload step. Assignments are made later, patient-wise, in **Dataset Management**.
 
 ## Clinician labeling
 
@@ -47,21 +51,38 @@ In **Labeling**, a clinician assigns ICDAS 0–4 to each verified tooth crop. `U
 
 Changing a box after it has a grade or review status clears that annotation because the crop changed. Box edits, labels, uncertainty, ungradable, crop rejection, identity edits, image deactivation, reset, training completion, and model promotion are recorded in the append-only audit table. Review recent events in **Dataset → Recent annotation and training audit history**. Rejected or skipped data remain excluded from training.
 
-## Build and validate a version
+## Assign patients, preview, and export a version
 
-The Admin dashboard reports patient, image, crop, annotation, duplicate, and review counts. Dataset building stays disabled until every unique active photo has a pseudonymous patient ID, the boxes are reviewed, and the active verified crops are labeled, marked uncertain, or marked ungradable. At least three distinct patients are needed to populate train, validation, and test splits.
+Open **Dataset Management** after box verification and ICDAS labeling. The patient-wise table is loaded from the Admin database and shows original photos, detected crops, labeled and verified crops, ICDAS 0–4 counts, current assignment, and data-quality status. Choose automatic 70/15/15 targets, manual assignment, hybrid assignment, or bulk assignment of selected patients.
 
-Build creates an immutable `vN` directory under `data/training/versions/`. It uses a deterministic seed (`42`) and a 70/15/15 target split by **patient**. All images and crops belonging to one patient stay together. Each version saves:
+The preview reports per-split counts and actual patient percentages, unassigned patients, missing patient IDs, unlabeled and unverified crops, duplicate photos, saved assignment conflicts, and percentage deviations. A warning acknowledgment is required when exclusions or target deviations are present. The safeguard is explicit: only active, unique, box-verified tooth crops with clinician-confirmed ICDAS 0–4 labels are copied into training folders. Missing-ID, unassigned, duplicate, uncertain, ungradable, unlabeled, unverified, and missing-file records remain in the manifests with exclusion reasons.
 
-- `manifest.csv` with patient/image/crop provenance and inclusion or exclusion reasons
-- `split_assignments.json` with patient and image assignments
-- `class_mapping.json` for ICDAS 0–4
-- `statistics.json` with split counts and validation results
-- the `train/`, `val/`, and `test/` class folders (`valid/` is a compatibility copy of `val/`)
+At least three identified patients and one patient in each split are required. One patient's photos, crops, labels, and verification records inherit the same assignment. Exact duplicate-photo hashes and detector canonical links are grouped before assignment. Confirming a preview writes assignments to the database and creates a new immutable version under `data/icdas/datasets/`; existing versions are never overwritten.
 
-Validation checks patient, image, source, crop, and content-hash leakage; duplicate crops; nonempty splits; ICDAS classes 0–4 in training; and support for all five classes in the held-out test split. A version with validation issues can be inspected, but backend training rejects it.
+```text
+data/icdas/datasets/dataset_v001/
+  train/
+    images/          # verified tooth crops only
+    labels.csv
+  validation/
+    images/
+    labels.csv
+  test/
+    images/
+    labels.csv
+  manifest.json
+  manifest.csv
+  split_assignments.json
+  class_mapping.json
+  statistics.json
+  split_report.md
+```
 
-The planning target is about 100 distinct patients. The default minimum training gate is 90 and can be changed with `ICDAS_MIN_TRAINING_PATIENTS` in the backend environment; it must be at least three so all three splits can be populated. The default of 90 preserves the original plan while allowing a modest shortfall from the approximate 100-patient target. It is an operational floor, not a statistical power calculation, evidence that 90 patients are present, or a guarantee of clinical performance. Choose a different value only from the study protocol and intended claims, and document that decision. Lowering the floor does not relax patient-level split isolation, class-support, duplicate-conflict, or manifest validation checks. Training remains blocked below the configured floor, when any class is absent from train or test, when duplicate-crop conflicts exist, or when validation fails. Building a dataset does not start training.
+Each split CSV stores the crop filename, ICDAS grade, pseudonymous `patient_id`, `source_photo_id`, `crop_id`, verification status, and hash provenance. Original full-mouth photos are never copied into classifier image folders. Database assignments and version manifests preserve the patient-to-split mapping used for each export.
+
+The existing MobileNetV3 + CBAM pipeline reads the split `labels.csv` files. Its logical validation split maps to the exported `validation/` folder; legacy class-directory datasets remain readable. Integrity checks compare patient, source-photo, original-image hash, and crop assignments across splits; reject duplicate included crops; verify exported image files and labels; and report missing ICDAS classes in train, validation, or test. Backend training requires all five classes in each split, at least five verified training crops, and the configured patient floor.
+
+The planning target is about 100 distinct patients. The default minimum is three real patients so train, validation, and test each have a patient group. Smaller datasets receive reliability warnings; this minimum is not a statistical power calculation or performance guarantee. `ICDAS_MIN_TRAINING_PATIENTS` may raise the floor for a study protocol. Building a dataset does not start training. Upload batch and detector status fields are added through an additive SQLite migration; the backend backs up a database before applying detected schema changes, and existing photo records are preserved.
 
 ## Train, evaluate, and promote
 

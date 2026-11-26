@@ -7,7 +7,7 @@ It is **not** the full-mouth detection dataset (`data/detection/` / `fdi_detecti
 Detector crops in `data/tooth_crops/generated/` are **not** ICDAS ground truth. Do not copy them here until a clinician confirms the grade.
 
 **Do not train a new ICDAS model until labeled pixels exist in `train/val/test/0–4`.**
-Do not auto-label the 5,676 generated crops.
+Do not auto-label regenerated detector crops.
 Do not use historical stale ordinal keras files as the production classifier.
 
 ICDAS **5** and **6** are out of scope. Never silently convert them to ICDAS 4. Keep them under `excluded/`.
@@ -16,11 +16,11 @@ ICDAS **5** and **6** are out of scope. Never silently convert them to ICDAS 4. 
 
 | Item | Status |
 |------|--------|
-| `annotations/annotations.csv` | ~643 rows preserved (classes include 1:145, 2:118, 3:121) |
+| `annotations/annotations.csv` | Previous manifest removed; rebuild only from new clinician-confirmed ICDAS 0–4 labels |
 | `train/val/test/0–4/` pixel files | **Missing** (folders exist, images are not on disk) |
 | Intended model | MobileNetV3-Small + CBAM, 5-class softmax, `ordinal_regression: false` |
 | On-disk keras | No approved production classifier. Stale ordinal files are not used at runtime. |
-| `models/icdas/current/` | Empty — no approved production classifier |
+| `models/icdas/current/` | No checkpoint is present; no ICDAS classifier is available for inference |
 
 ## 1. Where to put raw ICDAS images
 
@@ -93,7 +93,7 @@ python ml/scripts/sync_annotations.py
 python ml/scripts/validate_dataset.py --allow-empty
 ```
 
-`sync_annotations.py` rebuilds `annotations/annotations.csv` from folders **only when images exist**. It will not wipe the current 643-row CSV when folders are empty.
+`sync_annotations.py` rebuilds `annotations/annotations.csv` from new labeled folders. The prior 643-row manifest was removed; no old labels are restored automatically.
 
 ## 8. How to check class balance
 
@@ -131,7 +131,7 @@ A candidate may be copied to `models/icdas/current/deploy.keras` **only if**:
 4. ICDAS 5/6 were not remapped into class 4
 5. You explicitly set `overwrite_root_checkpoints: true` **or** copy the file by hand after review
 
-The historical stale ordinal checkpoint is **not** a production classifier and must not be loaded by FastAPI. Place an approved 5-class softmax model at `models/icdas/current/deploy.keras` after evaluation.
+The stale 4-output ordinal checkpoint files were removed. FastAPI still expects a future approved 5-class softmax at `models/icdas/current/deploy.keras`.
 
 ## Excluded grades
 
